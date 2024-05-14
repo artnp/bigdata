@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-time Search Engine</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #search-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        #search-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 5px;
+        }
+        .keyword-box {
+            display: inline-block;
+            background-color: #f1f1f1;
+            padding: 5px;
+            border-radius: 5px;
+            margin: 2px;
+        }
+        .keyword-box span {
+            margin-right: 5px;
+        }
+        .keyword-box .remove {
+            cursor: pointer;
+            color: red;
+        }
+        #results {
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+        .result-item {
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .highlight {
+            background-color: black;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Real-time Search Engine</h1>
+    <div id="search-container">
+        <input type="text" id="search-input" placeholder="Type a keyword and press Enter">
+    </div>
+    <div id="results"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchContainer = document.getElementById('search-container');
+            const searchInput = document.getElementById('search-input');
+            const resultsContainer = document.getElementById('results');
+
+            let data = [];
+            let keywords = [];
+
+            // Fetch the JSON data from the URL
+            fetch('https://artnp.github.io/editusstudio/x/model/bigdata.json')
+                .then(response => response.json())
+                .then(json => {
+                    data = json;
+                })
+                .catch(error => console.error('Error fetching data:', error));
+
+            // Function to render the results
+            function renderResults(results) {
+                resultsContainer.innerHTML = '';
+                if (results.length === 0) {
+                    resultsContainer.innerHTML = '<p>No results found</p>';
+                } else {
+                    results.forEach(item => {
+                        const div = document.createElement('div');
+                        div.className = 'result-item';
+                        div.innerHTML = highlightKeywords(item.data, keywords);
+                        resultsContainer.appendChild(div);
+                    });
+                }
+            }
+
+            // Function to highlight keywords in text
+            function highlightKeywords(text, keywords) {
+                let highlightedText = text;
+                keywords.forEach(keyword => {
+                    const regex = new RegExp(`(${keyword})`, 'gi');
+                    highlightedText = highlightedText.replace(regex, '<span class="highlight">$1</span>');
+                });
+                return highlightedText;
+            }
+
+            // Function to handle search
+            function handleSearch() {
+                if (keywords.length === 0) {
+                    resultsContainer.innerHTML = ''; // Clear results if no keywords
+                } else {
+                    const filteredResults = data.filter(item => {
+                        return keywords.every(keyword => item.data.toLowerCase().includes(keyword.toLowerCase()));
+                    });
+                    renderResults(filteredResults);
+                }
+            }
+
+            // Function to add a keyword box
+            function addKeywordBox(keyword) {
+                const keywordBox = document.createElement('div');
+                keywordBox.className = 'keyword-box';
+                keywordBox.innerHTML = `<span>${keyword}</span><span class="remove">x</span>`;
+
+                keywordBox.querySelector('.remove').addEventListener('click', () => {
+                    searchContainer.removeChild(keywordBox);
+                    keywords = keywords.filter(kw => kw !== keyword);
+                    handleSearch();
+                });
+
+                searchContainer.insertBefore(keywordBox, searchInput);
+            }
+
+            // Event listener for the search input
+            searchInput.addEventListener('keypress', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    const keyword = searchInput.value.trim();
+                    if (keyword && !keywords.includes(keyword)) {
+                        keywords.push(keyword);
+                        addKeywordBox(keyword);
+                        searchInput.value = '';
+                        handleSearch();
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
