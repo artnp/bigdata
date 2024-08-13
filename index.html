@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let keywords = [];
 
     // Fetch video IDs from the URL
-    fetch('https://artnp.github.io/editusstudio/x/reel.js')
+    fetch('https://artnp.github.io/bigdata/reel.js')
         .then(response => response.text())
         .then(data => {
             const regex = /"([^,]+),([^"]+)"/g;
@@ -118,8 +118,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Fetch the JSON data from both URLs and merge them
     Promise.all([
-        fetch('https://artnp.github.io/editusstudio/x/model/bigdata.json').then(response => response.json()),
-        fetch('https://artnp.github.io/editusstudio/x/model/bigdata2.json').then(response => response.json())
+        fetch('https://artnp.github.io/bigdata/bigdata.json').then(response => response.json()),
+        fetch('https://artnp.github.io/bigdata/bigdata2.json').then(response => response.json())
     ])
     .then(results => {
         data = results.flat(); // Flatten the array of arrays into a single array
