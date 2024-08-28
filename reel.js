@@ -761,5 +761,6 @@ const videoIds = [
 "S9S8u_wbwLc,ใช้นิ้วมือเป็นจิ๊กตัดแผ่นไม้ด้วยเลื่อยวงเดือน",
 "1ufv7GZn0cI,เลื่อยโซ่ผ่าไม้แผ่น",
 "ojYJAsljYlE,จับแขนเขี่ยขา",
-"trohPZYDGyI,แร่ไพไรต์ (Pyrite) ทำทองปลอม"
+"trohPZYDGyI,แร่ไพไรต์ (Pyrite) ทำทองปลอม",
+"VqNbjezA3Ys,ใช้เท้าเหยียบนวดแป้ง"
 ];
