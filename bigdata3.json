@@ -2182,5 +2182,8 @@
     },
     {
         "data": "Power-Law Distribution: การกระจายที่มีหลายขนาด เช่น ประชากรเมือง, รายได้จากภาพยนตร์"
+    },
+    {
+        "data": "Normal Distribution (Gaussian Distribution): การกระจายแบบปกติ เช่น อายุของมนุษย์ ความสูง น้ำหนัก"
     }
 ]
