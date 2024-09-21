@@ -10,7 +10,7 @@
             margin: 0;
         }
         .video-container {
-            height: calc(100% - 120px); /* Adjust height to account for the footer */
+            height: calc(100% - 120px);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -22,57 +22,89 @@
         }
         footer {
             height: 120px;
-            background-color: #000000; /* Example background color */
+            background-color: #000;
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        footer #ai_proof {
+            font-size: 2.5rem;
+            color: white;
+            margin: 0;
+            position: relative;
+            z-index: 1;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+            letter-spacing: 1px;
+            line-height: 1.2;
         }
         footer img {
             position: absolute;
             bottom: 10px;
             right: 10px;
-            opacity: 0.75;
+            opacity: 0.4;
+        }
+        footer img:hover {
+            opacity: 0.9;
         }
     </style>
 </head>
 <body>
+<script type="importmap">
+    {
+      "imports": {
+        "@google/generative-ai": "https://esm.run/@google/generative-ai"
+      }
+    }
+  </script>
+</head>
+<body>
 
 <div class="video-container">
-    <iframe id="youtube-video" allowfullscreen></iframe>
+  <iframe id="youtube-video" allowfullscreen></iframe>
 </div>
 
 <footer>
-    <p>Footer Content Here</p>
-    <img src="model.png" width="15%">
+  <p><div id="ai_proof"></div></p>
+  <img src="model.png" width="15%">
 </footer>
 
-<script>
-    function getVideoInfo(url) {
-        const queryString = url.split('html?')[1]; 
-        if (queryString) {
-            const [videoId, videoTitle] = queryString.split(','); // Split by the comma
-            return { videoId, videoTitle: decodeURIComponent(videoTitle) }; // Decode title if URL encoded
-        }
-        return { videoId: '', videoTitle: '' };
-    }
+<script type="module">
+  import { GoogleGenerativeAI } from '@google/generative-ai';
 
-    // Get the full URL
-    var url = window.location.href;
+  async function summarizeVideoTitle(videoTitle) {
+      const API_KEY = atob('QUl6YVN5RGVrNW9MNVQwdzBZSWd2Y3ZQV0RabWhNdnhmbzg0aUxB');
+      const genAI = new GoogleGenerativeAI(API_KEY);
+      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-    // Extract video ID and title
-    var { videoId, videoTitle } = getVideoInfo(url);
+      const prompt = `${videoTitle} (emoji emotion icon base on context) เพราะอะไร ตอบเป็นภาษาไทยทางการเสียงผู้หญิงกระชับสั้นๆบรรทัดเดียว`;
+      const result = await model.generateContent(prompt);
 
-    // Get the iframe element
-    var iframe = document.getElementById("youtube-video");
+      // Update the AI proof div with the generated response
+      document.getElementById('ai_proof').innerText = result.response.text();
+  }
 
-    // Set the iframe source to the YouTube embed link with the extracted video ID
-    if (videoId) {
-        console.log(videoId);
-        iframe.src = "https://www.youtube.com/embed/" + videoId;
-    } else {
-        console.log("No video ID found in the URL.");
-    }
+  function getVideoInfo(url) {
+      const queryString = url.split('html?')[1]; 
+      if (queryString) {
+          const [videoId, videoTitle] = queryString.split(',');
+          return { videoId, videoTitle: decodeURIComponent(videoTitle) };
+      }
+      return { videoId: '', videoTitle: '' };
+  }
+
+  // Get the full URL
+  var url = window.location.href;
+
+  // Extract video ID and title
+  var { videoId, videoTitle } = getVideoInfo(url);
+  var iframe = document.getElementById("youtube-video");
+
+  if (videoId) {
+      iframe.src = "https://www.youtube.com/embed/" + videoId;
+      summarizeVideoTitle(videoTitle);
+  }
 </script>
 </body>
 </html>
