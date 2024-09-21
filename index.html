@@ -8,35 +8,43 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai+Looped:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-html, body {
-    font-family: "IBM Plex Sans Thai Looped", sans-serif;
-    font-weight: 450;
-    font-style: normal;
-    height: 100%;
-    margin: 0;
-    display: flex; /* Enable Flexbox */
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-    background-color: hwb(0 3% 97%); /* A bright orange-yellow */
-    color: aliceblue;
-}
-
-.centered-item {
-    /* Add styles for the item you want to center */
-    text-align: center; /* Center text inside the item */
-    /* Additional styles as needed */
-}
-
-
+        html, body {
+            font-family: "IBM Plex Sans Thai Looped", sans-serif;
+            font-weight: 450;
+            font-style: normal;
+            height: 100%;
+            margin: 0;
+            display: flex; /* Enable Flexbox */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            background-color: hwb(0 3% 97%); /* A bright orange-yellow */
+            color: aliceblue;
+        }
+        #qr {
+            position: fixed;
+            top: 65%;
+            left: 60%;
+            transform: translate(-50%, -50%);
+            border-radius: 18px;
+            transition: transform 0.3s ease; /* Add transition for smooth scaling */
+        }
+        #qr:hover {
+            transform: translate(-50%, -50%) scale(1.04); /* Scale up slightly on hover */
+        }
+        .centered-item {
+            text-align: center; /* Center text inside the item */
+        }
     </style>
 </head>
 <body>
 
-<img src="big-data.png" width="50%"><br>
+<img src="big-data.png" width="50%">
+
 <div style="background-color: #808080; border-radius: 8px;">
-    ..Consume data like food_ 
+    ..Consume BIG data like dog's food 🐶     
 </div>
-</head>
-<body>
+
+<a href="https://line.me/ti/p/gqIluRmdJ_"><img id="qr" src="qr.jpg" width="9%"></a>
+
 </body>
 </html>
