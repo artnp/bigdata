@@ -1,159 +1,42 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Real-time Search Engine</title>
-    <style>body { font-family: Arial, sans-serif; margin: 20px; background-color: #121212; color: #ffffff; } #search-container { display: flex; flex-wrap: wrap; gap: 5px; border: 1px solid #444; padding: 10px; margin-bottom: 20px; background-color: #1e1e1e; border-radius: 8px; } #search-input { flex: 1; border: none; outline: none; font-size: x-large; padding: 10px; background-color: #333; color: #fff; border-radius: 4px; } .keyword-box { display: inline-block; background-color: #333; padding: 5px 10px; border-radius: 5px; font-size: x-large; margin: 2px; color: #fff; } .keyword-box span { margin-right: 5px; } .keyword-box .remove { cursor: pointer; color: #ff5252; } #results { border: 1px solid #444; padding: 10px; background-color: #1e1e1e; border-radius: 8px; } .result-item { padding: 10px 0; border-bottom: 1px solid #333; cursor: pointer; } .highlight { background-color: #00e1ff; color: #000000; font-weight: bold; animation: highlightFadeIn 0.3s ease-in-out; } @keyframes highlightFadeIn { from { background-color: transparent; color: #ffffff; } to { background-color: #19ac06; color: #000000; } } .result-item:hover { background-color: hsla(0, 2%, 22%, 0.712); }</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Big Data</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai+Looped:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+html, body {
+    font-family: "IBM Plex Sans Thai Looped", sans-serif;
+    font-weight: 450;
+    font-style: normal;
+    height: 100%;
+    margin: 0;
+    display: flex; /* Enable Flexbox */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    background-color: hwb(0 3% 97%); /* A bright orange-yellow */
+    color: aliceblue;
+}
+
+.centered-item {
+    /* Add styles for the item you want to center */
+    text-align: center; /* Center text inside the item */
+    /* Additional styles as needed */
+}
+
+
+    </style>
 </head>
 <body>
-    <h2><img src="https://cdn-icons-png.flaticon.com/128/1162/1162914.png" width="2%"> Deep Data Lap ></h2>
-    <div id="search-container">
-        <input type="text" id="search-input" placeholder=">> ใส่ทีละคำ" autocomplete="off">
-    </div><div id="results"></div>
-    <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const searchContainer = document.getElementById('search-container');
-    const searchInput = document.getElementById('search-input');
-    const resultsContainer = document.getElementById('results');
-    const keywordBoxes = []; 
-    let videoIds = [];
-    let data = [];
-    let keywords = [];
-    fetch('https://artnp.github.io/bigdata/reel.js')
-        .then(response => response.text())
-        .then(data => {
-            const regex = /"([^,]+),([^"]+)"/g;
-            let match;
-            while (match = regex.exec(data)) {
-                videoIds.push({ id: match[1], text: match[2] });
-            }
-            handleSearch();
-        })
-        .catch(error => console.error('Error fetching video IDs:', error));
-    Promise.all([
-        fetch('https://artnp.github.io/bigdata/bigdata.json').then(response => response.json()),
-        fetch('https://artnp.github.io/bigdata/bigdata2.json').then(response => response.json()),
-        fetch('https://artnp.github.io/bigdata/bigdata3.json').then(response => response.json()),
-    ])
-    .then(results => {
-        data = results.flat();
-        handleSearch();
-    })
-    .catch(error => console.error('Error fetching data:', error));
-    function renderResults(results) {
-        resultsContainer.innerHTML = '';
-        if (results.length === 0) {
-            resultsContainer.innerHTML = '<p>No results found</p>';
-        } else {
-            results.forEach(item => {
-                const div = document.createElement('div');
-                div.className = 'result-item';
 
-                if (item.id && item.text) {
-                    div.innerHTML = `${highlightKeywords(item.text, keywords)} \n<font color="grey">https://artnp.github.io/bigdata/u.html?${item.id},${item.text.replace(/\s+/g, '')}</font> <img src="https://cdn-icons-png.flaticon.com/128/2111/2111748.png" width="1%">`;
-                    
-                    div.addEventListener('mouseenter', () => {
-                        const popup = document.createElement('div');
-                        popup.className = 'popup';
-                        popup.innerHTML = `<iframe width="165" height="299" src="https://www.youtube.com/embed/${item.id}?modestbranding=1&showinfo=0&rel=0&controls=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>`;
-                        div.appendChild(popup);
-
-                        // Optional: Remove popup on mouse leave
-                        div.addEventListener('mouseleave', () => {
-                            div.removeChild(popup);
-                        });
-                    });
-                } else if (item.data) {
-                    div.innerHTML = highlightKeywords(item.data, keywords);
-                }
-
-                div.addEventListener('click', () => {
-                    copyTextToClipboard(getTextContent(div));
-                });
-
-                resultsContainer.appendChild(div);
-            });
-        }
-    }
-
-    function highlightKeywords(text, keywords) {
-        let highlightedText = text;
-        keywords.forEach(keyword => {
-            const regex = new RegExp(`(${keyword})`, 'gi');
-            highlightedText = highlightedText.replace(regex, '<span class="highlight">$1</span>');
-        });
-        return highlightedText;
-    }
-
-    function getTextContent(element) {
-        return element.textContent || element.innerText;
-    }
-
-    function handleSearch() {
-        if (keywords.length === 0) {
-            resultsContainer.innerHTML = ''; // Clear results if no keywords
-        } else {
-            const filteredResults = videoIds.filter(item => {
-                return keywords.every(keyword => item.text.toLowerCase().includes(keyword.toLowerCase()));
-            }).concat(data.filter(item => {
-                return keywords.every(keyword => item.data.toLowerCase().includes(keyword.toLowerCase()));
-            }));
-            renderResults(filteredResults);
-        }
-    }
-
-    function addKeywordBox(keyword) {
-        const keywordBox = document.createElement('div');
-        keywordBox.className = 'keyword-box';
-        keywordBox.innerHTML = `<span>${keyword}</span><span class="remove">x</span>`;
-        keywordBoxes.push(keywordBox); // Push keyword box to array
-
-        keywordBox.querySelector('.remove').addEventListener('click', () => {
-            keywordBox.style.display = 'none'; // Hide keyword box instead of removing
-            keywords = keywords.filter(kw => kw !== keyword);
-            handleSearch();
-        });
-
-        searchContainer.insertBefore(keywordBox, searchInput);
-    }
-
-    // Function to copy text to clipboard
-    function copyTextToClipboard(text) {
-        const tempTextArea = document.createElement('textarea');
-        tempTextArea.value = text;
-        document.body.appendChild(tempTextArea);
-        tempTextArea.select();
-        document.execCommand('copy');
-        document.body.removeChild(tempTextArea);
-    }
-
-    // Event listener for the search input
-    searchInput.addEventListener('keypress', (event) => {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-            const keyword = searchInput.value.trim();
-            if (keyword && !keywords.includes(keyword)) {
-                keywords.push(keyword);
-                addKeywordBox(keyword);
-                searchInput.value = '';
-                handleSearch();
-            }
-        }
-    });
-
-    // Event listener for clearing last keyword box on "Backspace" key press
-    searchInput.addEventListener('keydown', (event) => {
-        if (event.key === 'Backspace') {
-            event.preventDefault();
-            if (keywordBoxes.length > 0) {
-                const lastKeywordBox = keywordBoxes.pop(); // Remove last keyword box from array
-                lastKeywordBox.style.display = 'none'; // Hide the last keyword box
-                const removedKeyword = lastKeywordBox.querySelector('span').textContent;
-                keywords = keywords.filter(kw => kw !== removedKeyword);
-                handleSearch(); // Refresh search results
-            }
-        }
-    });
-});
-
-    </script>
+<img src="big-data.png" width="50%"><br>
+<div style="background-color: #808080; border-radius: 8px;">
+    ..Consume data like food_ 
+</div>
+</head>
+<body>
 </body>
 </html>
