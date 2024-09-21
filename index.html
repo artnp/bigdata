@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 div.className = 'result-item';
 
                 if (item.id && item.text) {
-                    div.innerHTML = `${highlightKeywords(item.text, keywords)} \n<font color="grey">https://artnp.github.io/bigdata/u.html?${item.id},${item.text}</font> <img src="https://cdn-icons-png.flaticon.com/128/2111/2111748.png" width="1%">`;
+                    div.innerHTML = `${highlightKeywords(item.text, keywords)} \n<font color="grey">https://artnp.github.io/bigdata/u.html?${item.id},${item.text.replace(/\s+/g, '')}</font> <img src="https://cdn-icons-png.flaticon.com/128/2111/2111748.png" width="1%">`;
                     
                     div.addEventListener('mouseenter', () => {
                         const popup = document.createElement('div');
