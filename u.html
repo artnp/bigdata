@@ -41,17 +41,43 @@ footer {
     overflow: hidden; /* Ensure content does not overflow */
 }
 
+.typing {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 0.55em solid #ffffff; /* Cursor effect */
+    animation: typing 1.5s steps(30, end), blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+    from {
+        width: 0; /* Start with no width */
+    }
+    to {
+        width: 100%; /* Expand to full width */
+    }
+}
+
+@keyframes blink-caret {
+    from, to {
+        border-color: transparent; /* Hidden cursor */
+    }
+    50% {
+        border-color: #ffffff; /* Show cursor */
+    }
+}
+
 footer #ai_proof {
     font-size: 2.5rem;
-    color: #ffffff; /* White text for contrast */
+    color: #ffffff;
     margin: 0;
     position: relative;
     z-index: 1;
-    text-shadow: 2px 2px 5px rgba(255, 105, 180, 0.7); /* A pink shadow for a fun pop */
+    text-shadow: 2px 2px 5px rgba(255, 105, 180, 0.7);
     letter-spacing: 1.5px;
     line-height: 1.2;
-    text-align: center; /* Center the text */
-    padding: 0 10px; /* Add padding to prevent overflow */
+    text-align: center;
+    padding: 0 10px;
 }
 
 /* Responsive styles */
@@ -112,11 +138,15 @@ window.addEventListener('load', adjustFontSize);
       const genAI = new GoogleGenerativeAI(API_KEY);
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-      const prompt = `${videoTitle} (emoji emotion icon base on context) ขยายความให้เข้สใจง่าย ตอบเป็นภาษาไทยทางการเสียงผู้หญิงกระชับสั้นๆบรรทัดเดียว`;
+      const aiProofDiv = document.getElementById('ai_proof');
+      aiProofDiv.innerHTML = '<span class="typing" style="background-color: black";>AI Proof...</span>'; // Add typing animation
+
+      const prompt = `${videoTitle} (emoji emotion icon base on context) ขยายความให้เข้าใจง่าย ตอบเป็นภาษาไทยทางการเสียงผู้หญิงกระชับสั้นๆบรรทัดเดียว`;
+      
       const result = await model.generateContent(prompt);
 
       // Update the AI proof div with the generated response
-      document.getElementById('ai_proof').innerText = result.response.text();
+      aiProofDiv.innerText = result.response.text(); // Replace with actual response
   }
 
   function getVideoInfo(url) {
@@ -127,6 +157,7 @@ window.addEventListener('load', adjustFontSize);
       }
       return { videoId: '', videoTitle: '' };
   }
+  
 
   // Get the full URL
   var url = window.location.href;
