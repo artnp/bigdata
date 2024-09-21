@@ -17,7 +17,7 @@
             background-color: #000000;
         }
         .video-container {
-            height: calc(100% - 120px);
+            height: calc(100% - 20%);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -28,13 +28,14 @@
             border: none;
         }
         footer {
-    height: 120px;
+    height: 20%;
     background-color: #ff9f1c; /* A bright orange-yellow */
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    overflow: hidden; /* Hide any overflow */
 }
 
 footer #ai_proof {
@@ -46,14 +47,18 @@ footer #ai_proof {
     text-shadow: 2px 2px 5px rgba(255, 105, 180, 0.7); /* A pink shadow for a fun pop */
     letter-spacing: 1.5px;
     line-height: 1.2;
+    text-align: center; /* Center the text */
+    max-width: 100%; /* Prevent overflow */
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Show ellipsis for overflow text */
 }
-
-        footer img {
+        /* footer img {
             position: absolute;
-            bottom: 10px;
-            right: 10px;
-            opacity: 0.1;
-        }
+            bottom: 5px;
+            left: 0px;
+            opacity: 0.8;
+        } */
     </style>
 </head>
 <body>
@@ -72,8 +77,7 @@ footer #ai_proof {
 </div>
 
 <footer>
-  <p><div id="ai_proof"></div></p>
-  <img src="model.png" width="15%">
+  <div id="ai_proof"></div>
 </footer>
 
 <script type="module">
