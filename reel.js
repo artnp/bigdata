@@ -837,4 +837,5 @@ const videoIds = [
 "4pgHM7OWatc?start=588&end=653,สถาบันเข้ายึดครองบิทคอยน์เพื่อป้องกันประชากรหลุดจากอำนาจเงินตรา",
 ",กราฟพุ่งสูงของเลยกกำลัง",
 ",กราฟพุ่งสูงของเลยกกำลัง",
+",https://youtu.be/6WMZ7J0wwMI?list=PLSQl0a2vh4HCusqEWppQKkzwVNLVCrV-p&t=233",
 ];
