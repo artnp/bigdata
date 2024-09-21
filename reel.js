@@ -839,4 +839,5 @@ const videoIds = [
 ",กราฟพุ่งสูงของเลยกกำลัง",
 ",https://youtu.be/6WMZ7J0wwMI?list=PLSQl0a2vh4HCusqEWppQKkzwVNLVCrV-p&t=233",
 ",1",
+"6WMZ7J0wwMI?start=215&end=302,กราฟพุ่งสูงของเลยกกำลัง",
 ];
