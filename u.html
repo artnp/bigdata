@@ -29,9 +29,8 @@
 </div>
 
 <script>
-    // Function to extract video ID and title from the URL
     function getVideoInfo(url) {
-        const queryString = url.split('?')[1]; // Get the part after the '?'
+        const queryString = url.split('html?')[1]; 
         if (queryString) {
             const [videoId, videoTitle] = queryString.split(','); // Split by the comma
             return { videoId, videoTitle: decodeURIComponent(videoTitle) }; // Decode title if URL encoded
@@ -50,14 +49,15 @@
 
     // Set the iframe source to the YouTube embed link with the extracted video ID
     if (videoId) {
-        iframe.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1";
+        console.log(videoId)
+        iframe.src = "https://www.youtube.com/embed/" + videoId;
     } else {
         console.log("No video ID found in the URL.");
     }
 
     // Log video ID and title
-    console.log("Video ID:", videoId);
-    console.log("Video Title:", videoTitle);
+    // console.log("Video ID:", videoId);
+    // console.log("Video Title:", videoTitle);
 
 </script>
 </body>
