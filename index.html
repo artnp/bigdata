@@ -1,108 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Real-time Search Engine</title>
-    <style>
-       body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #121212;
-            color: #ffffff;
-        }
-        #search-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
-            border: 1px solid #444;
-            padding: 10px;
-            margin-bottom: 20px;
-            background-color: #1e1e1e;
-            border-radius: 8px;
-        }
-        #search-input {
-            flex: 1;
-            border: none;
-            outline: none;
-            font-size: x-large;
-            padding: 10px;
-            background-color: #333;
-            color: #fff;
-            border-radius: 4px;
-        }
-        .keyword-box {
-            display: inline-block;
-            background-color: #333;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: x-large;
-            margin: 2px;
-            color: #fff;
-        }
-        .keyword-box span {
-            margin-right: 5px;
-        }
-        .keyword-box .remove {
-            cursor: pointer;
-            color: #ff5252;
-        }
-        #results {
-            border: 1px solid #444;
-            padding: 10px;
-            background-color: #1e1e1e;
-            border-radius: 8px;
-        }
-        .result-item {
-            padding: 10px 0;
-            border-bottom: 1px solid #333;
-        }
-        .highlight {
-            background-color: #00e1ff;
-            color: #000000;
-            font-weight: bold;
-            animation: highlightFadeIn 0.3s ease-in-out;
-        }
-        @keyframes highlightFadeIn {
-            from {
-                background-color: transparent;
-                color: #ffffff;
-            }
-            to {
-                background-color: #19ac06;
-                color: #000000;
-            }
-        }
-        h1 {
-            color: #ffffff;
-        }
-  .result-item {
-            cursor: pointer; /* Add cursor pointer for clickable effect */
-        }
-        .result-item:hover {
-            background-color: hsla(0, 2%, 22%, 0.712); /* Example background color change on hover */
-        }
-    </style>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Real-time Search Engine</title>
+    <style>body { font-family: Arial, sans-serif; margin: 20px; background-color: #121212; color: #ffffff; } #search-container { display: flex; flex-wrap: wrap; gap: 5px; border: 1px solid #444; padding: 10px; margin-bottom: 20px; background-color: #1e1e1e; border-radius: 8px; } #search-input { flex: 1; border: none; outline: none; font-size: x-large; padding: 10px; background-color: #333; color: #fff; border-radius: 4px; } .keyword-box { display: inline-block; background-color: #333; padding: 5px 10px; border-radius: 5px; font-size: x-large; margin: 2px; color: #fff; } .keyword-box span { margin-right: 5px; } .keyword-box .remove { cursor: pointer; color: #ff5252; } #results { border: 1px solid #444; padding: 10px; background-color: #1e1e1e; border-radius: 8px; } .result-item { padding: 10px 0; border-bottom: 1px solid #333; cursor: pointer; } .highlight { background-color: #00e1ff; color: #000000; font-weight: bold; animation: highlightFadeIn 0.3s ease-in-out; } @keyframes highlightFadeIn { from { background-color: transparent; color: #ffffff; } to { background-color: #19ac06; color: #000000; } } .result-item:hover { background-color: hsla(0, 2%, 22%, 0.712); }</style>
 </head>
 <body>
     <h2><img src="https://cdn-icons-png.flaticon.com/128/1162/1162914.png" width="2%"> Deep Data Lap ></h2>
     <div id="search-container">
         <input type="text" id="search-input" placeholder=">> ใส่ทีละคำ" autocomplete="off">
-    </div>
-    <div id="results"></div>
-
+    </div><div id="results"></div>
     <script>
 document.addEventListener('DOMContentLoaded', () => {
     const searchContainer = document.getElementById('search-container');
     const searchInput = document.getElementById('search-input');
     const resultsContainer = document.getElementById('results');
-    const keywordBoxes = []; // Array to store keyword box elements
-
+    const keywordBoxes = []; 
     let videoIds = [];
     let data = [];
     let keywords = [];
-
-    // Fetch video IDs from the URL
     fetch('https://artnp.github.io/bigdata/reel.js')
         .then(response => response.text())
         .then(data => {
@@ -111,24 +25,19 @@ document.addEventListener('DOMContentLoaded', () => {
             while (match = regex.exec(data)) {
                 videoIds.push({ id: match[1], text: match[2] });
             }
-            // After fetching, perform initial search
             handleSearch();
         })
         .catch(error => console.error('Error fetching video IDs:', error));
-
-    // Fetch the JSON data from both URLs and merge them
     Promise.all([
         fetch('https://artnp.github.io/bigdata/bigdata.json').then(response => response.json()),
-        fetch('https://artnp.github.io/bigdata/bigdata2.json').then(response => response.json())
+        fetch('https://artnp.github.io/bigdata/bigdata2.json').then(response => response.json()),
+        fetch('https://artnp.github.io/bigdata/bigdata3.json').then(response => response.json()),
     ])
     .then(results => {
-        data = results.flat(); // Flatten the array of arrays into a single array
-        // After fetching, perform initial search
+        data = results.flat();
         handleSearch();
     })
     .catch(error => console.error('Error fetching data:', error));
-
-    // Function to render the results
     function renderResults(results) {
         resultsContainer.innerHTML = '';
         if (results.length === 0) {
@@ -139,9 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 div.className = 'result-item';
 
                 if (item.id && item.text) {
-                    div.innerHTML = `${highlightKeywords(item.text, keywords)} \n<font color="grey">https://www.youtube.com/shorts/${item.id}</font> <img src="https://cdn-icons-png.flaticon.com/128/2111/2111748.png" width="1%">`;
+                    div.innerHTML = `${highlightKeywords(item.text, keywords)} \n<font color="grey">https://artnp.github.io/bigdata/u.html?${item.id},${item.text}</font> <img src="https://cdn-icons-png.flaticon.com/128/2111/2111748.png" width="1%">`;
                     
-                    // Add event listener for showing popup only on div with YouTube URL
                     div.addEventListener('mouseenter', () => {
                         const popup = document.createElement('div');
                         popup.className = 'popup';
@@ -166,7 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Function to highlight keywords in text
     function highlightKeywords(text, keywords) {
         let highlightedText = text;
         keywords.forEach(keyword => {
@@ -176,17 +83,14 @@ document.addEventListener('DOMContentLoaded', () => {
         return highlightedText;
     }
 
-    // Function to extract text content without HTML tags
     function getTextContent(element) {
         return element.textContent || element.innerText;
     }
 
-    // Function to handle search
     function handleSearch() {
         if (keywords.length === 0) {
             resultsContainer.innerHTML = ''; // Clear results if no keywords
         } else {
-            // Filter results from videoIds and data
             const filteredResults = videoIds.filter(item => {
                 return keywords.every(keyword => item.text.toLowerCase().includes(keyword.toLowerCase()));
             }).concat(data.filter(item => {
@@ -196,7 +100,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Function to add a keyword box
     function addKeywordBox(keyword) {
         const keywordBox = document.createElement('div');
         keywordBox.className = 'keyword-box';
