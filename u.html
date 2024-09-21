@@ -78,7 +78,7 @@
       const genAI = new GoogleGenerativeAI(API_KEY);
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-      const prompt = `${videoTitle} (emoji emotion icon base on context) เพราะอะไร ตอบเป็นภาษาไทยทางการเสียงผู้หญิงกระชับสั้นๆบรรทัดเดียว`;
+      const prompt = `${videoTitle} (emoji emotion icon base on context) ขยายความให้เข้สใจง่าย ตอบเป็นภาษาไทยทางการเสียงผู้หญิงกระชับสั้นๆบรรทัดเดียว`;
       const result = await model.generateContent(prompt);
 
       // Update the AI proof div with the generated response
