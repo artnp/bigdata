@@ -843,4 +843,5 @@ const videoIds = [
 "LhmULLpd3r0?start=1137&end=1300,แสงสีฟ้าทำลายทะลุเลนส์ดวงตา ยิ่งตอนกลางคืนยิ่งอันตราย",
 "LhmULLpd3r0?start=1916&end=1983,เก๋ากี้รักษาอาการโรคจอประสาทตาเสื่อม",
 "LqnvBsVi4ug?start=22&end=31,yed",
+"LqnvBsVi4ug?start=17&end=24,swing",
 ];
