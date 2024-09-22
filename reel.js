@@ -866,10 +866,4 @@ const videoIds = [
 "qldDLI8htrA,โน้มตัวถ่วงน้ำหนักมาล้อหน้ามอเตอร์ไซค์ แก้อาการล้อสั่นสบัด",
 "xGVcrSKvG-Q,เหล็กหนวดกุ้งดัดแต่งกิ่งต้นไม้",
 "0hgSCrpYCus,จิ๊กดัดแผ่นเหล็กเป็นกล้ามปู",
-"NCQl6W5XEfQ,undefined",
-"xGVcrSKvG-Q,undefined",
-",undefined",
-",undefined",
-",111",
-"xGVcrSKvG-Q,999",
 ];
