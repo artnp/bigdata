@@ -843,7 +843,5 @@ const videoIds = [
 "LhmULLpd3r0?start=1137&end=1300,แสงสีฟ้าทำลายทะลุเลนส์ดวงตา ยิ่งตอนกลางคืนยิ่งอันตราย",
 "LhmULLpd3r0?start=1916&end=1983,เก๋ากี้รักษาอาการโรคจอประสาทตาเสื่อม",
 "3DGFLzedCCQ?start=242&end=643,ราคาบิทคอยน์ขึ้นใหญ่/ลงใหญ่ตามดัชนี M2",
-"Y6wkaCRqYaAundefined,รถเบรคตามๆกันทำให้เกิดปัญหารถติด",
-"Y6wkaCRqYaAundefined,111,111",
-"Y6wkaCRqYaA,xx",
+"Y6wkaCRqYaA,รถเบรคตามๆกันทำให้เกิดปัญหารถติด",
 ];
