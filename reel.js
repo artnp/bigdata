@@ -884,12 +884,4 @@ const videoIds = [
 "Tt8zcCppKIo,ช่องแบนสำหรับไขเปิดประตูลูกบิดห้องน้ำฉุกเฉินจากด้านนอก",
 "G9PLyOFl3nQ,จุ่มแว๊กซ์ปิดหัวฝาขวดไวน์",
 "-X-0z6QaEZ0,ขบวนการไทยถีบปล้นรถไฟญี่ปุ่นโดยถีบของลงจากรถไฟ",
-"3?start=undefined,undefined",
-"wMSVwbhSLoo?start=3,undefined",
-"wMSVwbhSLoo?start=2,xxxx",
-"wMSVwbhSLoo?start=1,xxxxxx",
-"wMSVwbhSLoo?start=1&end=1,",
-"wMSVwbhSLoo?start=26&end=38,xxxxxxxx",
-"wMSVwbhSLoo?start=3&end=10,btc to the moon",
-"wMSVwbhSLoo?start=3&end=11,ตัวๆเปล่าน้องๆ % ต่อยๆ",
 ];
