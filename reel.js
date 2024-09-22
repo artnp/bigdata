@@ -849,4 +849,5 @@ const videoIds = [
 "OVfyuXLd1PE?start=460&end=515,เมื่อเข้าปีเลือกตั้งประธานาธิบดีสหรัฐ ตั้งแต่เดือนมากราคมถึงกันยายน ตลาดหุ้นS&P500จะพุ่งขึ้น50%",
 "OVfyuXLd1PE?start=597&end=641,เมื่อราคาทองพุ่งขึ้น14% ราคาบิทคอยน์จะพุ่งขึ้น90%",
 "-TpiL4J_yUA?start=2,asdasdas",
+"-TpiL4J_yUA?start=2&end=PLSQl0a2vh4HBvATVRLb7XhazoLvhAwTZX&,eat",
 ];
