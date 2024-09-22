@@ -850,4 +850,5 @@ const videoIds = [
 "OVfyuXLd1PE?start=597&end=641,เมื่อราคาทองพุ่งขึ้น14% ราคาบิทคอยน์จะพุ่งขึ้น90%",
 "-TpiL4J_yUA?start=2,asdasdas",
 "-TpiL4J_yUA?start=2&end=PLSQl0a2vh4HBvATVRLb7XhazoLvhAwTZX&,eat",
+"-TpiL4J_yUA?start=3&end=PLSQl0a2vh4HBvATVRLb7XhazoLvhAwTZX&,Exponent properties 1 ",
 ];
