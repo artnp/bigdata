@@ -952,4 +952,5 @@ const videoIds = [
 "ITCYkEAmDVs,ฟังเสียงดังทำให้ประสาทการรับเสียงแยกคลื่นเสียงในโคเคลียเสื่อมลง",
 "69C2QIHiduA?start=168&end=263,ประกาศใช้ npm init ใน Node.js",
 "69C2QIHiduA?start=268&end=438,ติดตั้งแพ็กเกจ npm ใช้ใน Node.js",
+"69C2QIHiduA?start=553&end=934,ติดตั้ง React ใน Node.js",
 ];
