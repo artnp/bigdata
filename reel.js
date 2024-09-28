@@ -1003,9 +1003,4 @@ const videoIds = [
 "HNpmnyeJ0Pw?start=2057&end=2154,ไข่ผำเป็นพืชที่โตเร็วที่สุดในโลก",
 "HNpmnyeJ0Pw?start=2273&end=2334,วิตามิน B12 ในไข่ผำ ทดแทนการกินเนื้อสัตว์",
 "HNpmnyeJ0Pw?start=3218&end=3268,ไข่ผำดูดซับก๊าซคาร์บอนไดออกไซด์เร็วกว่าป่า 3 เท่า",
-",313",
-"TvrGh3ReR0M?start=4,https://www.youtube.com/watch?v=TvrGh3ReR0M&t=4",
-"&end=20,xx",
-"QXSGV1GKnnQ&t=0&end=4,xxx",
-"QXSGV1GKnnQ&t=7&end=8,xyxyxyxy",
 ];
