@@ -1060,4 +1060,5 @@ const videoIds = [
 "B10own6a4HM,AI วาดนิ้วมือคนเกิน เพราะภาพมือเป็นสิ่งที่ซับซ้อน",
 "j4_JBL3BXCQ?start=51&end=111,css position relative อ้างอิงตำแหน่งจากตำแหน่งที่อยู่เดิม",
 "j4_JBL3BXCQ?start=133&end=260,css position absolute อ้างอิงตำแหน่งจากกรอบเฟรม",
+"j4_JBL3BXCQ?start=371&end=475,css position fixed กำหนเตำแหน่งอยู่ตายตัวคงที่",
 ];
