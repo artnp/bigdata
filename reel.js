@@ -1061,4 +1061,5 @@ const videoIds = [
 "j4_JBL3BXCQ?start=51&end=111,css position relative อ้างอิงตำแหน่งจากตำแหน่งที่อยู่เดิม",
 "j4_JBL3BXCQ?start=133&end=260,css position absolute อ้างอิงตำแหน่งจากกรอบเฟรม",
 "j4_JBL3BXCQ?start=371&end=475,css position fixed กำหนเตำแหน่งอยู่ตายตัวคงที่",
+"j4_JBL3BXCQ?start=483&end=526,css z-index กำหนดเลเยอร์วัตถุให้อยู่หน้าสุด-หลังสุด",
 ];
