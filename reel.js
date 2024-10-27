@@ -1173,4 +1173,5 @@ const videoIds = [
 "8FsSIQpr6RA,แว่นม้วนเก็บติดข้อมือ",
 "FyGIKD2fxIo?start=115&end=141,javascript ใส่เลขยกกำลัง",
 "8OlxYddevw8?start=424&end=448,ฉีสีใสแล้วขี้มีสีซีดเป็นอาการของตับล้มเหลว",
+"8OlxYddevw8?start=490&end=522,คันผิวหนังลอกเพราะตับขับพิษออกไม่ได้",
 ];
