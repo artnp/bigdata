@@ -1171,4 +1171,5 @@ const videoIds = [
 "LQB3JnG2I6Y,แมลงวันอกหักกินเหล้าย้อมใจ",
 "qMic0BC1BxU?start=728&end=955,ชักรอกเป็นปิรามิดลากของหนักโดยใช้แรงนิดเดียว",
 "8FsSIQpr6RA,แว่นม้วนเก็บติดข้อมือ",
+"FyGIKD2fxIo?start=115&end=141,javascript ใส่เลขยกกำลัง",
 ];
