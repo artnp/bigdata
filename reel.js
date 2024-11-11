@@ -1235,4 +1235,5 @@ const videoIds = [
 "35lP4cgo0A8?start=687&end=790,ปูแผ่นพลาสิกรองก่อนเทพื้นปูนกันติดไม้แบบ",
 "35lP4cgo0A8?start=1927&end=2034,ถักเหล็กเส้นรอดคานก่อนเทพื้นปูน",
 "9RXdgqJX3Ek?start=48&end=74,แสกน qr code วิธีแก้ไขจอฟ้าของ windows",
+"9RXdgqJX3Ek?start=177&end=224,windows จอฟ้าจากแรมสกปรกจากคราบออกไซด์",
 ];
