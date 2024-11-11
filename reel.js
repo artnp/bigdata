@@ -1237,4 +1237,5 @@ const videoIds = [
 "9RXdgqJX3Ek?start=48&end=74,แสกน qr code วิธีแก้ไขจอฟ้าของ windows",
 "9RXdgqJX3Ek?start=177&end=224,windows จอฟ้าจากแรมสกปรกจากคราบออกไซด์",
 "CJw8nUtaYdA,เก้าอี้ฝึกระยะลูกถีบ",
+"fDgPcEN9CEI,วางจิ๊กหนามติดโครงคร่าวระบุตำแหน่งที่จะเจาะช่องรูพนังเบา",
 ];
