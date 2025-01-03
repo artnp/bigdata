@@ -1423,4 +1423,5 @@ const videoIds = [
 "pooRnuj0D4g,พันเทปกาวบนถุงพลาสติกครอบเท้า เป็นรองเท้าบูท",
 "nBMWpqNugrw?start=174&end=212,นอนไม่พอทำให้เกิดโรคหัวใจล้มเหลว",
 "nBMWpqNugrw?start=320&end=346,ความเครียดทำให้ไม่มีอารมณ์ทางเพศ",
+"mr7SSdfgDsE,สถิติ CME GAP ทำนายราคา Bitcoin",
 ];
