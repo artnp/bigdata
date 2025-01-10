@@ -1461,4 +1461,5 @@ const videoIds = [
 "_DH0yO4D6WM?start=1332&end=1400,Ai agent จะทำการแลกเปลี่ยนการเงินกันเองผ่านการใช้ Bitcoin",
 "BlNSqTP-uvI?start=285&end=304,AI ถามตอบในทีวี",
 "5F_lzeh5D4I?start=224&end=352,ฝุ่น PM2.5 ทำให้เกิดมะเร็งในอวัยวะภายในต่างๆ",
+"T7ve0BiXC9M?start=89&end=127,ตัวเลข Non-Farm Payrolls ออกมาต่ำ จะส่งผลให้ FED พิจารณาลดดอกเบี้ยเพื่อกระตุ้นเศรษฐกิจ",
 ];
