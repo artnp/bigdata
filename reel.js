@@ -1459,4 +1459,5 @@ const videoIds = [
 "dJuWX8AD210,สารเคมีในสระว่ายน้ำ",
 "_DH0yO4D6WM?start=1645&end=1701,ทำนายราคา Bitcoin ปี 2050 จะมีราคา 85 ล้านดอลล่า",
 "_DH0yO4D6WM?start=1332&end=1400,Ai agent จะทำการแลกเปลี่ยนการเงินกันเองผ่านการใช้ Bitcoin",
+"BlNSqTP-uvI?start=285&end=304,AI ถามตอบในทีวี",
 ];
