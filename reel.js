@@ -1471,6 +1471,4 @@ const videoIds = [
 "boRkbCvBXfU?start=80&end=155,สาร I3C (Indole-3-Carbinol) ในดอกกละหล่ำ ต้านมะเร็งดีที่สุดในโลก",
 "boRkbCvBXfU?start=287&end=412,ไอระเหยพลาสติกส่งผลกระทบฮอร์โมนเอสโตรเจนจากดีให้กลายเป็นร้าย",
 "S6JMV6EqjKc?start=640&end=766,AI ประจำตัวออกแบบปรับตัวเองตามบริบทข้อมูลที่มี",
-"ฟกฟก,ฟก",
-"G3fdOqB6GUo?start=0&end=1,้เ่",
 ];
