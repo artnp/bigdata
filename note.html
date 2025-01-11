@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Video</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai+Looped:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+html, body {
+    font-family: "IBM Plex Sans Thai Looped", sans-serif;
+    font-weight: 450;
+    font-style: normal;
+    height: 100%;
+    margin: 0;
+    background-color: #000000;
+}
+
+.video-container {
+    height: calc(100% - 0%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.video-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+    </style>
+</head>
+<body>
+
+<div class="video-container">
+  <iframe id="youtube-video" allowfullscreen></iframe>
+</div>
+
+<script>
+// Function to extract video ID from the URL
+function getVideoInfo(url) {
+  const videoId = url.split('html?')[1] || '';
+  return { videoId };
+}
+
+// Function to refresh the iframe until autoplay is triggered
+function refreshVideoUntilAutoplay(iframe, videoId) {
+    var player;
+
+    // Initialize YouTube API player
+    var script = document.createElement('script');
+    script.src = "https://www.youtube.com/iframe_api";
+    document.head.appendChild(script);
+
+    window.onYouTubeIframeAPIReady = function() {
+        player = new YT.Player(iframe, {
+            videoId: videoId,
+            events: {
+                'onStateChange': function(event) {
+                    if (event.data === YT.PlayerState.PLAYING) {
+                        console.log('Video is playing');
+                        return; // Autoplay has started
+                    }
+                    if (event.data === YT.PlayerState.UNSTARTED) {
+                        console.log('Video not started yet, refreshing iframe...');
+                        iframe.src = iframe.src; // Force refresh
+                    }
+                }
+            }
+        });
+    };
+}
+  
+// Get the full URL
+var url = window.location.href;
+
+// Extract video ID and title
+var { videoId, videoTitle } = getVideoInfo(url);
+var iframe = document.getElementById("youtube-video");
+
+if (videoId) {
+    iframe.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1";  // Add autoplay parameter
+    refreshVideoUntilAutoplay(iframe, videoId);  // Refresh until autoplay starts
+}
+</script>
+
+</body>
+</html>
