@@ -1514,4 +1514,5 @@ const videoIds = [
 "eTo1NYYHdaU?start=301&end=409,ย้ายระบบหักเงินจากบัตรเครดิตให้เป็นแบบธุรกรรมยืนยันตัวผ่าน Biometric",
 "Bb9QA1LIjY4?start=266&end=439,ชักรอกท่อเหล็กไส้ในดึงดินออก กดฝังท่อลงดิน",
 "HVL1o_GhJUE,ตอกฝันลิ่มไม้ปีนต้นไม้ใหญ่",
+"Q_fN0MQiBs4?start=157&end=225,Arrow Function => ถูกออกแบบมาเพื่อไม่ต้องใช้คำว่า Function",
 ];
