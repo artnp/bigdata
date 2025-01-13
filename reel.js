@@ -1517,4 +1517,5 @@ const videoIds = [
 "Q_fN0MQiBs4?start=157&end=225,Arrow Function => ถูกออกแบบมาเพื่อไม่ต้องใช้คำว่า Function",
 "TLsqVjtrovo?start=197&end=297,โครงสร้างถักสามเหลี่ยมป้องกันแรงสั่นสะเทือนจากแผ่นดินไหว",
 "rpeiuBKSmhc?start=687&end=747,ใต้เเกนโลกเป็นเหล็ก",
+"5nR4zcqS0sw?start=252&end=393,ไฟหน้ารถยนต์ใช้กระจกเว้าในการสะท้อนแสงไปข้างหน้า",
 ];
