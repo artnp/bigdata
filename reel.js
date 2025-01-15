@@ -1558,4 +1558,5 @@ const videoIds = [
 "ByJ0ht1_Er4?start=54&end=128,ใช้มุม 90 องศา เพื่อวัดแรงทอร์ก(Torque)",
 "FVYaJlCTZ_8?start=237&end=311,กำหนดหน่วยเสี้ยวนิ้ว เป็น 1/4"",
 "FVYaJlCTZ_8?start=327&end=393,กำหนดหน่วยหุน เป็น 1/8"",
+"FVYaJlCTZ_8?start=395&end=479,กำหนดหน่วยครึ่งหุน เป็น 1/16"",
 ];
