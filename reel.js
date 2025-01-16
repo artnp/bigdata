@@ -1574,4 +1574,5 @@ const videoIds = [
 "Jmb6kepHLew?start=118&end=170,ฝึกใช้หัวไหล่จำลองการจับทุ่ม",
 "Jmb6kepHLew?start=914&end=997,ฝึกจังหวะซอยเข้าจับทุ่ม",
 "WyQ7z8BMwwk?start=358&end=418,ฝัง keylogger ในไฟล์เอกสาร ส่งให้เป้าหมายผ่านอีเมลที่รู้จักกัน",
+"WyQ7z8BMwwk?start=485&end=531,Kaspersky ดูแลความปลอดภัยไซเบอร์ให้กลุ่มธนาคารใหญ่ในยุโรป",
 ];
