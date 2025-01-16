@@ -1566,4 +1566,5 @@ const videoIds = [
 "ZVcFZ32ZLIo?start=183&end=302,จังหวะตลาดหุ้นแต่ละโซนเปิดทำการ",
 "yV5AtSIXbbw?start=141&end=191,เจาะรูท่อทิ้งขยะลงถัง",
 "yV5AtSIXbbw?start=956&end=1007,แผ่นปั๊มสูบลมยกลากของ",
+"yV5AtSIXbbw?start=1571&end=1630,กรงไก่เคลื่อนที่สำเร็จรูป",
 ];
