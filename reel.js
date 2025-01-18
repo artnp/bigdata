@@ -1637,4 +1637,5 @@ const videoIds = [
 "-bAN_9wRagQ?start=4707&end=4731,เส้นใยในผงรำข้าวช่วยให้ขี้ออก แก้อาการท้องผูก",
 "mSgLgCIuoRU?start=766&end=821,ขุดมุมตื้นขอบสระ สร้างแหล่งอาหารธรรมชาติให้ปลา",
 "mSgLgCIuoRU?start=1422&end=1485,ให้ดินฟรีแลกกับค่าขุดสระ",
+"Yg7bTCdoLCQ?start=1708&end=1767,กำหนดกองกำลังไม้เทรดตามโซน Fibonacci Level",
 ];
