@@ -1733,4 +1733,5 @@ const videoIds = [
 "YptvMPek4RI?start=4933&end=4962,หลอกขายรังนกผสมน้ำ อ้างเป็นรังนก100% ",
 "3wzjaCzjcrY?start=1705&end=1752,เมื่อเหรียญ Altcoin ขึ้นจะดันให้ ETH ราคาขึ้นตาม",
 "3wzjaCzjcrY?start=2213&end=2259,MVRV เกิน3 มีเวลา 100วัน ขายบิทคอยน์ก่อนจะลงใหญ่",
+"3wzjaCzjcrY?start=2487&end=2531,BlackRock เชียร์บล็อกเชนของ Ethereum",
 ];
