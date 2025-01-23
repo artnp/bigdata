@@ -1754,4 +1754,5 @@ const videoIds = [
 "ZYFm2qzCWPI?start=351&end=370,สอดแต่ปืนเข้าไปยิง ป้องกันถูกโดนยิงสวน",
 "WXVYzHhgYQQ?start=288&end=362,เครื่องหลอมเหล็กโดยใช้ขดลวดไฟฟ้า",
 "sepwjqVuLeg?start=886&end=907,0.02 Bitcoin เพียงพอต่อการเกษียณในปี 2035",
+"Sc7QzQq1xBk?start=403&end=430,ความร้อนจากกาแฟคั่วเข้มจะทำลายสารอะคริลาไมด์ (Acrylamide)ได้ในตัว",
 ];
