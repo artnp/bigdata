@@ -1753,4 +1753,5 @@ const videoIds = [
 "ZYFm2qzCWPI?start=95&end=130,ดักยิงคนเข้าห้อง ตำแหน่งหน้ามุมห้อง",
 "ZYFm2qzCWPI?start=351&end=370,สอดแต่ปืนเข้าไปยิง ป้องกันถูกโดนยิงสวน",
 "WXVYzHhgYQQ?start=288&end=362,เครื่องหลอมเหล็กโดยใช้ขดลวดไฟฟ้า",
+"sepwjqVuLeg?start=886&end=907,0.02 Bitcoin เพียงพอต่อการเกษียณในปี 2035",
 ];
