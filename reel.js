@@ -1799,4 +1799,5 @@ const videoIds = [
 "BBmWvIwtdwY?start=279&end=357,เข้ามาควบคุมกลไกราคาตลาด เพื่อปกป้องทรัพย์สินนั้น",
 "lZMxP0ilO98?start=11&end=113,ตีโครงไม้ชานพักบันได",
 "ZVRfGCpfbPM?start=50&end=111,รูป Pattern ธงเสายกขึ้น = ฟองสบู่รอวันแตก",
+"ZVRfGCpfbPM?start=50&end=111,Pattern ธงเสายกขึ้น คือ ฟองสบู่รอวันแตก",
 ];
