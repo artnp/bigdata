@@ -1800,4 +1800,5 @@ const videoIds = [
 "lZMxP0ilO98?start=11&end=113,ตีโครงไม้ชานพักบันได",
 "ZVRfGCpfbPM?start=50&end=111,รูป Pattern ธงเสายกขึ้น = ฟองสบู่รอวันแตก",
 "ZVRfGCpfbPM?start=50&end=111,Pattern ธงเสายกขึ้น คือ ฟองสบู่รอวันแตก",
+"oFPicteePIs?start=35&end=186,ถือ 0.153 btc เพื่อครองฐานทรัพย์สินโลก",
 ];
