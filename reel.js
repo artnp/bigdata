@@ -1888,4 +1888,5 @@ const videoIds = [
 "Gzgkc0aZV1I?start=6&end=70,ไส้ดินสอสีขาวขีดมาร์คตำแหน่งให้เห็นชัดบนไม้สีเข้ม",
 "jWeMcdi1Hh8?start=19&end=89, เส้นแกนนำทางลูกสูบให้ขึ้นลงเป็นเส้นตรง โดยไม่ต้องใช้รางบังคับ",
 "HsEMJOa7WPk?start=11&end=39,ต่อข้อต่อ Watt's linkage",
+"J5j9dzFDiRQ?start=7&end=72,ต่อขากลไกกรรไกรยก (Scissor linkage)",
 ];
