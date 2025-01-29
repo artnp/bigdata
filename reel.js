@@ -1891,4 +1891,5 @@ const videoIds = [
 "J5j9dzFDiRQ?start=7&end=72,ต่อขากลไกกรรไกรยก (Scissor linkage)",
 "gv5ESOkvgEU?start=0&end=13,กลไกแขนจับ Scott-Russell คลื่นสองวัตถุแนวเส้นฉาก",
 "yRjI_1kP6NA?start=0&end=15,กลไก Sarrus ใช้ข้อต่อแนวแกนสามมิติ เปลี่ยนแกนวัตถุ",
+"2_ADbjbq53c?start=46&end=100,เครื่องตีไข่เครื่องแรก ประดิษฐ์ขึ้น ปี1856",
 ];
