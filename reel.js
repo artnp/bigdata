@@ -1904,4 +1904,5 @@ const videoIds = [
 "Enml9252GXI?start=334&end=393,ธรรมชาติให้คนบาปฆ่าตายกันเอง",
 "d1PQEgza9UA?start=57&end=91,วางธูปเชื่อมไขว้ลับมีด",
 "d1PQEgza9UA?start=214&end=228,คล้องเกี่ยวสายไฟมุมข้อต่อโค้ง",
+"d1PQEgza9UA?start=240&end=295,เดือย Bow Tie เชื่อม ประสานหน้าไม้ต่อกัน",
 ];
