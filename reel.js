@@ -1922,4 +1922,5 @@ const videoIds = [
 "nq-5uXacRRo?start=105&end=146,กำหนดความชันของหลังคา โดยใช้อัตราความยาวต่อ 12นิ้ว",
 "nq-5uXacRRo?start=147&end=174,วิธีวัดอัตราส่วนความชันหลังคา(Pitch) ",
 "nq-5uXacRRo?start=683&end=741,ไม้ฉากสามเหลี่ยมขีดตำแหน่งมุม Pitch",
+"nq-5uXacRRo?start=748&end=889,วัดตัดบ่าจันทัน",
 ];
