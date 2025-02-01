@@ -79,10 +79,6 @@ var url = window.location.href;
 var { videoId, videoTitle } = getVideoInfo(url);
 var iframe = document.getElementById("youtube-video");
 
-if (videoId) {
-    iframe.src = "https://www.youtube.com/embed/" + videoId + "&autoplay=1";  // Add autoplay parameter
-    refreshVideoUntilAutoplay(iframe, videoId);  // Refresh until autoplay starts
-}
 </script>
 
 </body>
