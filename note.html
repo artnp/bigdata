@@ -44,33 +44,6 @@ function getVideoInfo(url) {
   return { videoId };
 }
 
-// Function to refresh the iframe until autoplay is triggered
-function refreshVideoUntilAutoplay(iframe, videoId) {
-    var player;
-
-    // Initialize YouTube API player
-    var script = document.createElement('script');
-    script.src = "https://www.youtube.com/iframe_api";
-    document.head.appendChild(script);
-
-    window.onYouTubeIframeAPIReady = function() {
-        player = new YT.Player(iframe, {
-            videoId: videoId,
-            events: {
-                'onStateChange': function(event) {
-                    if (event.data === YT.PlayerState.PLAYING) {
-                        console.log('Video is playing');
-                        return; // Autoplay has started
-                    }
-                    if (event.data === YT.PlayerState.UNSTARTED) {
-                        console.log('Video not started yet, refreshing iframe...');
-                        iframe.src = iframe.src; // Force refresh
-                    }
-                }
-            }
-        });
-    };
-}
   
 // Get the full URL
 var url = window.location.href;
@@ -81,7 +54,6 @@ var iframe = document.getElementById("youtube-video");
 
     if (videoId) {
     iframe.src = "https://www.youtube.com/embed/" + videoId + "&autoplay=1";  // Add autoplay parameter
-
 }
 </script>
 
