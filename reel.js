@@ -1992,4 +1992,5 @@ const videoIds = [
 "wxe5oGrCeIs?start=263&end=301,เช็ดขนสัตว์เลี้ยงให้แห้งทันทีหลังอาบน้ำ ป้องกันผิวหนังติดเชื้อ",
 "K1rSHXaoVqQ?start=324&end=378,คอมพิวเตอร์พกพาในรูปแบบ console",
 "VM1aVdEfuJM?start=230&end=310,ระบบกันภาพสั่นในตัวแว่น AR",
+"IyEwPGwcG1I?start=250&end=340,กล่องเข้าใช้งาน windows บน cloud",
 ];
