@@ -1986,4 +1986,5 @@ const videoIds = [
 "iBiGhRIaHgs?start=1379&end=1432,ใช้เหล้าแสดงสันดานคนที่แท้จริง",
 "iBiGhRIaHgs?start=3015&end=3028,สลับตัวอักษร VEGANISM = SAVING ME",
 "0FsKetm7arc?start=654&end=765,คว้านรูไม้พันเชือกขว้างหิน",
+"0FsKetm7arc?start=1146&end=1251,มัดโครงกิ่งไม้ สะพายหลังพรางตัว",
 ];
