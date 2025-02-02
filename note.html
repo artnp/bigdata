@@ -44,16 +44,15 @@ function getVideoInfo(url) {
   return { videoId };
 }
 
-  
 // Get the full URL
 var url = window.location.href;
 
 // Extract video ID and title
-var { videoId, videoTitle } = getVideoInfo(url);
+var { videoId } = getVideoInfo(url);
 var iframe = document.getElementById("youtube-video");
 
-    if (videoId) {
-    iframe.src = "https://www.youtube.com/embed/" + videoId + "&autoplay=1";  // Add autoplay parameter
+if (videoId) {
+    iframe.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1";  // Add autoplay parameter
 }
 </script>
 
