@@ -1993,4 +1993,5 @@ const videoIds = [
 "K1rSHXaoVqQ?start=324&end=378,คอมพิวเตอร์พกพาในรูปแบบ console",
 "VM1aVdEfuJM?start=230&end=310,ระบบกันภาพสั่นในตัวแว่น AR",
 "IyEwPGwcG1I?start=250&end=340,กล่องเข้าใช้งาน windows บน cloud",
+"kV0rEgYSiYs?start=1611&end=1759,เมื่อกลุ่มคนจำนวนมหาศาลรวมตัวสวดภาวนา เหตุการณ์นั้นจะเกิดขึ้นจริง",
 ];
