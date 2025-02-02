@@ -1987,4 +1987,5 @@ const videoIds = [
 "iBiGhRIaHgs?start=3015&end=3028,สลับตัวอักษร VEGANISM = SAVING ME",
 "0FsKetm7arc?start=654&end=765,คว้านรูไม้พันเชือกขว้างหิน",
 "0FsKetm7arc?start=1146&end=1251,มัดโครงกิ่งไม้ สะพายหลังพรางตัว",
+"x5R67Uc_RbM?start=274&end=362,ห้องตีเหล็กในตัวอาคาร",
 ];
