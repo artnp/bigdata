@@ -2021,4 +2021,5 @@ const videoIds = [
 "p75FVtmNwdE?start=125&end=185,กินเพชรสังฆาตรักษาโรคกระดูกบาง",
 "Z7SkgdR7jDA?start=91&end=160,แป้นพิมพ์ QWERTY เครื่องรุ่นแรก",
 "GViXIMp1uag?start=463&end=517,เครื่องจักรกลึงไม้ ใช้แรงคนเหยียบ",
+"ZJc6YuS61oE?start=616&end=704,เฟืองลูกเบี้ยวไม้ หมุนส่งแรงตอก",
 ];
