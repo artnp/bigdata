@@ -2032,4 +2032,5 @@ const videoIds = [
 "Exr9xp0tDpI?start=554&end=630,เหล็กผิวเป็นหลุม จะเกิดสนิมกัดกร่อนกินผิวไปเรื่อยๆ",
 "CqpDXeMIY1Q?start=1396&end=1479,ให้ AI สร้างชุด Machine Learning มาพัฒนากลยุทธ์ทุกรูปแบบ",
 "Pcna20P-iyM,หลอกวางหุ่นปลอมเป็นโชว์คนยืนนิ่ง เพื่อรับเงินบริจาค",
+"ipRZ_EYxk1A?start=38&end=163,แผ่น Mig Switch รวมเกมทั้งหมดลงใน Nintendo Switch",
 ];
