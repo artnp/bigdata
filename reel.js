@@ -2033,4 +2033,5 @@ const videoIds = [
 "CqpDXeMIY1Q?start=1396&end=1479,ให้ AI สร้างชุด Machine Learning มาพัฒนากลยุทธ์ทุกรูปแบบ",
 "Pcna20P-iyM,หลอกวางหุ่นปลอมเป็นโชว์คนยืนนิ่ง เพื่อรับเงินบริจาค",
 "ipRZ_EYxk1A?start=38&end=163,แผ่น Mig Switch รวมเกมทั้งหมดลงใน Nintendo Switch",
+"HAXUUQGU7Ow?start=305&end=363,Emby สตรีมไฟล์วิดีโอให้อุปกรณ์อื่นในเครือข่าย LAN",
 ];
