@@ -2086,4 +2086,5 @@ const videoIds = [
 "Rs2Zyow5Rcg,ประตูซ้อนประตูเรื่อยๆดึงดูดความสนใจ",
 "BGa0ztNFLVg?start=586&end=634,เคลื่อนสมาร์ทโฟนแทน Air mouse",
 "t7XByyA4MbY?start=12&end=84,KSWEB รันสคริปต์ PHP บนระบบ Android",
+"NQCNypIrhl8?start=242&end=285,สายแบตเตอรี่คาดเอว",
 ];
