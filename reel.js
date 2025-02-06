@@ -2087,4 +2087,5 @@ const videoIds = [
 "BGa0ztNFLVg?start=586&end=634,เคลื่อนสมาร์ทโฟนแทน Air mouse",
 "t7XByyA4MbY?start=12&end=84,KSWEB รันสคริปต์ PHP บนระบบ Android",
 "NQCNypIrhl8?start=242&end=285,สายแบตเตอรี่คาดเอว",
+"tXVMAD7Mg6A?start=146&end=162,ฟาซาดตะแกรงเหล็กพรางสายตา",
 ];
