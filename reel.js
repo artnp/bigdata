@@ -2088,4 +2088,5 @@ const videoIds = [
 "t7XByyA4MbY?start=12&end=84,KSWEB รันสคริปต์ PHP บนระบบ Android",
 "NQCNypIrhl8?start=242&end=285,สายแบตเตอรี่คาดเอว",
 "tXVMAD7Mg6A?start=146&end=162,ฟาซาดตะแกรงเหล็กพรางสายตา",
+"tXVMAD7Mg6A?start=247&end=264,ช่องหลุมทิ้งถุงขยะลงถังภายในตัวบ้าน",
 ];
