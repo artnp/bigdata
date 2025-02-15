@@ -2278,4 +2278,5 @@ const videoIds = [
 "5IjVnI73NPo?start=798&end=859,จอหมึก E-ink ต่อเสริมจอคอม ",
 "DGRipRzCNq8?start=204&end=256,เทขายหุ้น MSTR บังคับให้บริษัทปล่อยขายบิทคอยน์ออก",
 "vRB4JssHTvs?start=405&end=428,โดนชกน็อคหน้ามืดจนมองไม่เห็น",
+"cdGVmPwqgto,โยกหัวให้มือคว้าจับของได้เร็ว",
 ];
