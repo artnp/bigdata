@@ -2355,4 +2355,5 @@ const videoIds = [
 "7-nEewsAPXU,ยางรถเลี้ยงลูกเจี๊ยบเก็บความร้อน",
 "0T-SBkBOj7c,ประกบบีบท่อPVC หยุดน้ำท่อPE",
 "NwnhUw1b4AM?start=35&end=100,กินเก๋ากี้ดำติดต่อกันจนไตวาย",
+"A63aLZcemgE?start=195&end=251,ชิป E-Marker ทำให้สาย USB-C รองรับการจ่ายไฟสูง",
 ];
