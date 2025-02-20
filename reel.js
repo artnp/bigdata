@@ -2411,4 +2411,5 @@ const videoIds = [
 "eWGmpulsusc?start=1848&end=1923,กรดลอริก (Lauric Acid) ในน้ำมันมะพร้าวฆ่าเชื้อไวรัสแบคทีเรีย",
 "eWGmpulsusc?start=1941&end=1984,ปากสะอาด ลำไส้ก็จะสะอาดตาม",
 "eWGmpulsusc?start=1988&end=2032,อมน้ำมันมะพร้าวแก้อาการปวดฟัน",
+"nC8TEDZwTR8?start=287&end=303,มีดเคาะปอกเปลือกก้ามกุ้งแม่น้ำ",
 ];
