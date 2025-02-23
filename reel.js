@@ -2469,4 +2469,5 @@ const videoIds = [
 "VukcfLpuDJY?start=4256&end=4564,หยิบ AI agent เข้ามาในทีมทำงาน",
 "4NtttcsTg4k?start=139&end=236,ปืนปั้มลมชักมือพลังทำลายสูง",
 "p47NJdZFScw?start=51&end=98,สมองเสื่อมก่อนอายุหลังจากฉีดวัคซีนโควิด",
+"iHXuU3nTXfQ?start=0&end=89,หุ่นยนต์เข้าทำงานแทนคนแต่ละแผนก",
 ];
