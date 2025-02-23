@@ -2467,4 +2467,5 @@ const videoIds = [
 "8F1ZIR6sG3c,eq",
 "hu_mzMYLcX0?start=33&end=52,ขาเกี่ยวขาหลัง ป้องกันโดนยกทุ่มจากด้านหลัง",
 "VukcfLpuDJY?start=4256&end=4564,หยิบ AI agent เข้ามาในทีมทำงาน",
+"4NtttcsTg4k?start=139&end=236,ปืนปั้มลมชักมือพลังทำลายสูง",
 ];
