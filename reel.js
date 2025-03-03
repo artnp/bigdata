@@ -2587,4 +2587,5 @@ const videoIds = [
 "38loqDtlLok?start=232&end=284,OCR AI แกะลายมือตัวเขียนอ่านยาก",
 "taCaHETvZyI?start=340&end=369,ฉีดพ่นคลอรีนฆ่าแมลงศัตรูพืช",
 "taCaHETvZyI?start=55&end=106,ไฟฟ้าช็อตน้ำเกลือกลายเป็นก๊าซคลอรีน",
+"bI8VL9PoN_c?start=999&end=1065,ไล่ Short Sell ไม่ให้ราคาวิ่งขึ้นเกินแนวต้าน",
 ];
