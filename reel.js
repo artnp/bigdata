@@ -2585,4 +2585,5 @@ const videoIds = [
 "jqHB-qRBAUw?start=599&end=638,เก็บเศษชิ้นเนื้อวิเคราะห์โรค",
 "P_df90HnNV0?start=132&end=258,น้ำซาวข้าวผสมกะปิเร่งพืชออกผลผลิต",
 "38loqDtlLok?start=232&end=284,OCR AI แกะลายมือตัวเขียนอ่านยาก",
+"taCaHETvZyI?start=340&end=369,ฉีดพ่นคลอรีนฆ่าแมลงศัตรูพืช",
 ];
