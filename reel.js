@@ -2672,4 +2672,5 @@ const videoIds = [
 "xe9BCwD_yVw?start=1&end=48,หุ่นยนต์กระโดดพ่วงติดมอเตอร์ไซค์ไฟฟ้า",
 "jjO1bPURo7M?start=0&end=39,AI สร้างวิดีโอพนักงานแนะนำขายสินค้า",
 "ZoEvwdlIl5M?start=0&end=29,AI สร้างภาพยนตร์โฆษณาเกรดโปรดักชั่น",
+"LM2RPLSDjdQ?start=0&end=103,รวมวิชามายากลทั้งโลก",
 ];
