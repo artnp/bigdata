@@ -2673,4 +2673,5 @@ const videoIds = [
 "jjO1bPURo7M?start=0&end=39,AI สร้างวิดีโอพนักงานแนะนำขายสินค้า",
 "ZoEvwdlIl5M?start=0&end=29,AI สร้างภาพยนตร์โฆษณาเกรดโปรดักชั่น",
 "LM2RPLSDjdQ?start=0&end=103,รวมวิชามายากลทั้งโลก",
+"16gQOYHZT2w?start=55&end=123,แว่น VR ซ้อมรบลดค่าใช้จ่าย",
 ];
