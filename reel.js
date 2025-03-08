@@ -2674,4 +2674,5 @@ const videoIds = [
 "ZoEvwdlIl5M?start=0&end=29,AI สร้างภาพยนตร์โฆษณาเกรดโปรดักชั่น",
 "LM2RPLSDjdQ?start=0&end=103,รวมวิชามายากลทั้งโลก",
 "16gQOYHZT2w?start=55&end=123,แว่น VR ซ้อมรบลดค่าใช้จ่าย",
+"5LcwsN0DTaY?start=616&end=703,เสียงสวดชินบัญชรรับวิญญาณออกจากร่าง",
 ];
