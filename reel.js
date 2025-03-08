@@ -2675,4 +2675,5 @@ const videoIds = [
 "LM2RPLSDjdQ?start=0&end=103,รวมวิชามายากลทั้งโลก",
 "16gQOYHZT2w?start=55&end=123,แว่น VR ซ้อมรบลดค่าใช้จ่าย",
 "5LcwsN0DTaY?start=616&end=703,เสียงสวดชินบัญชรรับวิญญาณออกจากร่าง",
+"5LcwsN0DTaY?start=892&end=1047,สมองเป็นเครื่องบันทึกผลกรรม",
 ];
