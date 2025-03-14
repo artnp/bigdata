@@ -2773,4 +2773,5 @@ const videoIds = [
 "MOmdAMS_slo?start=124&end=214,ลู่วิ่งสายพานแบบไม่ใช้ไฟฟ้า",
 "0BR0VeRTyWc?start=439&end=476,ย่ำจังหวะถีบหลอก",
 "0BR0VeRTyWc?start=658&end=698,จับล็อคขาดึงลากถอยหลัง",
+"0BR0VeRTyWc?start=720&end=754,ชกคล้องตวัดเกี่ยวคอ",
 ];
