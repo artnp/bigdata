@@ -2792,4 +2792,5 @@ const videoIds = [
 "4iP_ZPBduSo?start=10&end=58,กลไกชักหมุนเคลื่อนที่ลูกสูบแบบ Scotch yoke",
 "pJCQlyAFCbU?start=6&end=40,หมุนเพลาลูกเบี้ยวชักแนวลูกสูบ",
 "SeOcMGWi7oY?start=97&end=114,ตัดประกอบเฟืองลูกสูบไม้",
+"LdvysdJJXW0?start=10&end=74,เฟืองคล้อง(Ratchet Mechanism) ป้องกันการหมุนกลับย้อนทิศทาง",
 ];
