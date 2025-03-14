@@ -2774,4 +2774,5 @@ const videoIds = [
 "0BR0VeRTyWc?start=439&end=476,ย่ำจังหวะถีบหลอก",
 "0BR0VeRTyWc?start=658&end=698,จับล็อคขาดึงลากถอยหลัง",
 "0BR0VeRTyWc?start=720&end=754,ชกคล้องตวัดเกี่ยวคอ",
+"0BR0VeRTyWc?start=1248&end=1303,เตะช้อนเกี่ยวขายกบล็อคลูกเตะ",
 ];
