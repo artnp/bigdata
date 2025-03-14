@@ -2791,4 +2791,5 @@ const videoIds = [
 "AuVRC5z0mq8?start=295&end=322,ขบคอแมวตัวเมียกระตุ้นให้ตกไข่",
 "4iP_ZPBduSo?start=10&end=58,กลไกชักหมุนเคลื่อนที่ลูกสูบแบบ Scotch yoke",
 "pJCQlyAFCbU?start=6&end=40,หมุนเพลาลูกเบี้ยวชักแนวลูกสูบ",
+"SeOcMGWi7oY?start=97&end=114,ตัดประกอบเฟืองลูกสูบไม้",
 ];
