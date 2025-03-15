@@ -2793,4 +2793,5 @@ const videoIds = [
 "pJCQlyAFCbU?start=6&end=40,หมุนเพลาลูกเบี้ยวชักแนวลูกสูบ",
 "SeOcMGWi7oY?start=97&end=114,ตัดประกอบเฟืองลูกสูบไม้",
 "LdvysdJJXW0?start=10&end=74,เฟืองคล้อง(Ratchet Mechanism) ป้องกันการหมุนกลับย้อนทิศทาง",
+"yD10bf59reQ?start=212&end=269,ทำนาย: แคนาดา+เม็กซิโกรวมเป็นประเทศเดียวกับสหรัฐ",
 ];
