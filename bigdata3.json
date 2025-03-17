@@ -8299,5 +8299,8 @@
     },
     {
         "data": "รถบัส: ใช้ Warren truss เพื่อรับแรงดัด"
+    },
+    {
+        "data": "รถออฟโรด: ใช้ Brown truss หรือ Triangular Warren truss เพื่อรับแรงบิด"
     }
 ]
