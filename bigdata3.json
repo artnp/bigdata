@@ -8371,5 +8371,8 @@
     },
     {
         "data": " Search Engines: ใช้ filetype: เพื่อค้นหาไฟล์ประเภทที่ต้องการ"
+    },
+    {
+        "data": "Web servers มักมี default content ที่อาจเป็นประโยชน์ในการโจมตี"
     }
 ]
