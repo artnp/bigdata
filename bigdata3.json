@@ -8374,5 +8374,8 @@
     },
     {
         "data": "Web servers มักมี default content ที่อาจเป็นประโยชน์ในการโจมตี"
+    },
+    {
+        "data": "File extensions ใน URLs มักบอกถึง platform หรือ programming language ที่ใช้"
     }
 ]
