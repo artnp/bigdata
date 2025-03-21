@@ -2976,5 +2976,5 @@ const videoIds = [
 "-D7iyt3STPM?start=1953&end=2009,บอกมองมุมตำแหน่งจุดอ่อนจากมุมมองที่สาม",
 "TzBg4K7kgBw?start=59&end=165,แยกโมเดล AI ใส่ให้หุ่นยนต์ส่วนตัว",
 "QBQzViR4xU4?start=418&end=473,กล้องจับความเคลื่อนไหวดวงตา ระบุตำแหน่งการหยุดมอง ",
-"40UHGyzUrBo?start=380&end=495,เทียบเส้น logarithm Global M2 บอกฐานราคาบิทคอยน์",
+"40UHGyzUrBo?start=380&end=495,เทียบเส้น logarithm Global M2 บอกฐานราคาบิทคอยน์ล่วงหน้า",
 ];
