@@ -2960,4 +2960,5 @@ const videoIds = [
 "M3CmXSy0F5Y?start=0&end=59,สร้างภูเขากองดินหมัก บนที่ดินไม่อุดมสมบูรณ์",
 "K67SHEhM50c?start=10&end=55,ขุดเจาะสูบน้ำใช้จากชั้นบาดาลตื้น",
 "K67SHEhM50c?start=57&end=93,เช็คตำแหน่งพื้นที่มีน้ำบาดาลออนไลน์",
+"7fpstK0uGik?start=153&end=228,ใช้ Liquidation Heatmap นำทางการเทรด",
 ];
