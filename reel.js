@@ -2962,4 +2962,5 @@ const videoIds = [
 "K67SHEhM50c?start=57&end=93,เช็คตำแหน่งพื้นที่มีน้ำบาดาลออนไลน์",
 "7fpstK0uGik?start=153&end=228,ใช้ Liquidation Heatmap นำทางการเทรด",
 "wrXTu-sscPs?start=438&end=523,ไส้ติ่งผลิตแบคทีเรียดีเก็บสำรองให้ร่างกาย",
+"yYDggYqbpbk?start=14&end=55,อียิปต์โบราณใช้มินต์ผสมลงในยาสีฟัน เพื่อให้ปากสะอาด",
 ];
