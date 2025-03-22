@@ -2979,4 +2979,5 @@ const videoIds = [
 "40UHGyzUrBo?start=380&end=495,เทียบเส้น logarithm Global M2 บอกฐานราคาบิทคอยน์ล่วงหน้า",
 "kWRwvQNwws4?start=47&end=93,กลูโคส+ออกซิเจน จะสร้างพลังงานเก็บในเซลล์",
 "-m7bC4oYSps?start=60&end=165,ปี 1945: คอมพิวเตอร์เครื่องแรก ENIAC สร้างต่อยอดจากเครื่องคิดเลข",
+"e6TyyAZfuho?start=28&end=67,CPU ทำหน้าที่เป็นสมองให้แก่คอมพิวเตอร์",
 ];
