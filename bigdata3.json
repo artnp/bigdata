@@ -8602,5 +8602,8 @@
     },
     {
         "data": "Shockwave Flash Objects: การควบคุมเกมฝั่ง client ทำให้ attacker สามารถ manipulate เกมได้."
+    },
+    {
+        "data": "SWF files มี bytecode ที่สามารถ decompile เป็น ActionScript ได้."
     }
 ]
