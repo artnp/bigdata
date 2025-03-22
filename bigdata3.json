@@ -8605,5 +8605,8 @@
     },
     {
         "data": "SWF files มี bytecode ที่สามารถ decompile เป็น ActionScript ได้."
+    },
+    {
+        "data": "ใช้เทคนิค breadth-first ในการโจมตีหลายชื่อผู้ใช้พร้อมกัน."
     }
 ]
