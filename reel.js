@@ -3032,4 +3032,5 @@ const videoIds = [
 "9X4QN_Urd08?start=54&end=103,เรียงขั้นตอนการทำงานก่อนเขียนโค้ด",
 "MGvD4xjZC8Y?start=38&end=157,ECMA พัฒนาภาษา javascript ให้เป็นมาตรฐานสากล",
 "7Tok22qxPzQ?start=15&end=107,คำสั่ง DOM บังคับเปลี่ยนแปลงหน้าเว็บให้ทำตามสั่ง",
+"uS1-DBqNCVw?start=22&end=90,นิยามทฤษฎีอะตอมขึ้นครั้งแรก",
 ];
