@@ -3094,4 +3094,5 @@ const videoIds = [
 "TKZA8M-aBq8?start=25&end=72,ซ่อนตามขอบมุมไม่ให้แสงส่องเห็นเงา",
 "QsTV7ooTAOE?start=42&end=82,ตรวจดูข้อมูล Exif ในไฟล์รูปภาพ",
 "d3NsT8lJRlE?start=42&end=139,ค้นหาตำแหน่งพิกัดถ่ายภาพ จาก metadata",
+"jzSC4JWhjjU?start=161&end=191,ตั้งให้กล้องถ่ายภาพระบุพิกัด GPS เพื่อให้ตามตัวเจอ",
 ];
