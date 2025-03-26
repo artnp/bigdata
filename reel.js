@@ -3095,4 +3095,5 @@ const videoIds = [
 "QsTV7ooTAOE?start=42&end=82,ตรวจดูข้อมูล Exif ในไฟล์รูปภาพ",
 "d3NsT8lJRlE?start=42&end=139,ค้นหาตำแหน่งพิกัดถ่ายภาพ จาก metadata",
 "jzSC4JWhjjU?start=161&end=191,ตั้งให้กล้องถ่ายภาพระบุพิกัด GPS เพื่อให้ตามตัวเจอ",
+"jJaAWSMQih4?start=639&end=676,แฮกกล้องวงจรปิด IP camera ดูคนในบ้านก่อนเข้าปล้น",
 ];
