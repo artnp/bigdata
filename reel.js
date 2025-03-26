@@ -3092,4 +3092,5 @@ const videoIds = [
 "YyVSUDTAt5k?start=0&end=30,ใช้กระเป๋าถือกันปิดรับคนเข้าหา",
 "SHRm0OiDpGM?start=0&end=59,แผ่นฟิล์มกระจกสองทาง แอบมองจากอีกด้าน",
 "TKZA8M-aBq8?start=25&end=72,ซ่อนตามขอบมุมไม่ให้แสงส่องเห็นเงา",
+"QsTV7ooTAOE?start=42&end=82,ตรวจดูข้อมูล Exif ในไฟล์รูปภาพ",
 ];
