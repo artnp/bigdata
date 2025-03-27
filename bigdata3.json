@@ -8965,5 +8965,8 @@
     },
     {
         "data": "async: ดาวน์โหลดไฟล์ JavaScript แบบ asynchronous"
+    },
+    {
+        "data": "src: ระบุ path ของไฟล์ JavaScript ที่จะแทรก"
     }
 ]
