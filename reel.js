@@ -3123,4 +3123,5 @@ const videoIds = [
 "NeViRiKyHlg?start=543&end=603,ค้นพบกลไกลับข้างในพีระมิดคาเฟร",
 "hJSc_4AZUoU?start=79&end=185,ตัวอย่างใช้ท่อนเพลงใส่คำสาปแช่ง",
 "cE1BDGjQjhE?start=17&end=85,ใช้จังหวะคลื่นสะกดคน",
+"h1xoaQkPmns?start=896&end=986,ลดอัตราดอกเบี้ยเลี่ยงวิกฤติเศรษฐกิจ",
 ];
