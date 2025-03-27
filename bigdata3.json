@@ -8962,5 +8962,8 @@
     },
     {
         "data": "Internet of Things (IoT) ใช้ JavaScript ในอุปกรณ์ต่างๆ"
+    },
+    {
+        "data": "async: ดาวน์โหลดไฟล์ JavaScript แบบ asynchronous"
     }
 ]
