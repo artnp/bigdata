@@ -3184,4 +3184,5 @@ const videoIds = [
 "mStSbc10vtU?start=26&end=67,ตบสั่งสอนให้อยู่ในกติกา",
 "2QieGESBmiw?start=136&end=184,ใช้อุปกรณ์ Samsung ปลอดภัยในการเข้ารหัสสื่อสาร",
 "2QieGESBmiw?start=236&end=286,แอพ ATAK มาร์คชี้จุดเป้าหมายผ่าน GPS",
+"am12kCwdyXY?start=34&end=131,ตีเส้น offset กำหนดผังในตัวอาคาร",
 ];
