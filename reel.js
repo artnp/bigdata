@@ -3178,4 +3178,5 @@ const videoIds = [
 "vMJH-UJyENs?start=458&end=517,ติดตั้ง Graphene OS ให้มือถือ ไร้ตัวตนติดตามไม่ได้",
 "MBOZouUV8zw?start=0&end=58,แช่ไข่ในน้ำเดือด ฆ่าเชื้อก่อนกินดิบ",
 "8OvX-EXrsSw?start=76&end=101,สีจุดดำบนเปลือกไข่บ่งบอกใกล้หมดอายุ",
+"DT37nSv4q4Y?start=86&end=142,คำนวณสูตรคณิตศาสตร์สัดส่วนกราฟหุ้นผ่านแถบค้นหา Tradingview",
 ];
