@@ -14,4 +14,5 @@ const videoIds = [
 "YTbPMXvoUHM?start=82&end=136,โน้มกันระยะป้องกันโดนตวัดขัดขา",
 "wm1n4c9d1pE?start=14&end=39,ตวัดช้อนขัดขาจากด้านใน",
 "wm1n4c9d1pE?start=38&end=73,ขายันข้อเท้าตวัดให้ล้ม",
+"ommBYBxcCuE?start=107&end=137,ดึงคอเสื้อกดให้ล้มลงข้างหลัง",
 ];
