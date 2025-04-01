@@ -15,4 +15,5 @@ const videoIds = [
 "wm1n4c9d1pE?start=14&end=39,ตวัดช้อนขัดขาจากด้านใน",
 "wm1n4c9d1pE?start=38&end=73,ขายันข้อเท้าตวัดให้ล้ม",
 "ommBYBxcCuE?start=107&end=137,ดึงคอเสื้อกดให้ล้มลงข้างหลัง",
+"ommBYBxcCuE?start=139&end=160,ดึงคอเสื้อดันปลายคางหันติดหัวไหล่",
 ];
