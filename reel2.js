@@ -115,4 +115,5 @@ const videoIds = [
 "P--5YMH3r4w?start=592&end=678,จัดการระเบียบชีวิตไม่ให้อารมณ์เหวี่ยงสวิงขึ้นลง",
 "CjskhHknjlE?start=898&end=969,มุขคุยแลกเปลี่ยนแบบข่มหน้าตาย",
 "2tMyCmGgf5k?start=386&end=430,รออ่านจังหวะ J-Hook Pattern",
+"emd-Yk1pE-4?start=124&end=160,กราฟ Crypto Total Market Cap วิ่งเป็นเส้นเดียวกับ Global M2 YoY Change ",
 ];
