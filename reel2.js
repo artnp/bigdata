@@ -117,4 +117,5 @@ const videoIds = [
 "2tMyCmGgf5k?start=386&end=430,รออ่านจังหวะ J-Hook Pattern",
 "emd-Yk1pE-4?start=124&end=160,กราฟ Crypto Total Market Cap วิ่งเป็นเส้นเดียวกับ Global M2 YoY Change ",
 "emd-Yk1pE-4?start=160&end=174,Global M2 ขึ้น 10% ราคาบิทคอยน์จะวิ่งตาม 80.95%",
+"emd-Yk1pE-4?start=188&end=230,EPU Index ปรับตัวขึ้นสูงสุด จะส่งผลกระทบต่อระบบการเงินรวม",
 ];
