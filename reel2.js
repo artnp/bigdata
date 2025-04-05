@@ -122,4 +122,5 @@ const videoIds = [
 "emd-Yk1pE-4?start=282&end=348,กราฟ Global Liquidity Cycle มีรอบปรับตัวจากจุดต่ำสุดถึงสูงสุด 33วัน",
 "VmUg3mc95WI?start=86&end=169,ตบหัวตีเข่าเข้าหน้า ให้ไม่ทันรู้ตัว",
 "GQx82Q8FBGg?start=65&end=144,ขยับก้าวขาหลังเข้า สร้างแรงบิดลำตัว",
+"LLfEcrp0TWs?start=107&end=140,ความประสงค์ให้อ่านหนังสือ Book of Jeremiah ",
 ];
