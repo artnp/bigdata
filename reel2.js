@@ -126,4 +126,5 @@ const videoIds = [
 "RQ2nYUBVvqI?start=217&end=249,แปลงเศษส่วนเป็นอัตราส่วน",
 "yGu5kPWRoIw?start=158&end=219,วิธีนับเลขฐาน 60",
 "MXveVqBxFow?start=439&end=502,สูตรถอดรากที่2 ของบาบิโลน",
+"44KdIPVropw?start=1288&end=1315,เฉลยปัญหาเชาว์: วาดสี่เหลี่ยมด้วยเส้น 3เส้น",
 ];
