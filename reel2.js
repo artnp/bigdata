@@ -130,4 +130,5 @@ const videoIds = [
 "I7JyydkqDeI?start=2369&end=2446,แว่น AR ไร้สาย ควบคุมการสัมผัสผ่านสายข้อมือ",
 "z_sz36KVl_M?start=2440&end=2491,RSI Timeframe: Month เกิน 90 สัญญาณตลาดเฟ้อ",
 "UaN33BfkwVc?start=165&end=230,ทอดเนื้อปลา โดยเอาฝั่งหนังลงกระทะ",
+"UaN33BfkwVc?start=245&end=291,ทอดเนื้อปลาฝั่งเดียว ไม่ต้องกลับให้เสีย",
 ];
