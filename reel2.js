@@ -158,4 +158,5 @@ const videoIds = [
 "D6KRrYsmLRM?start=515&end=575,CBBI วิเคราะห์ข้อมูล on-chain หลายตัว รวมเป็นค่าเดียว",
 "D6KRrYsmLRM?start=52&end=82,แบ่งแยก 3ขั้นตอน วิเคราะห์ทิศทางกราฟบิทคอยน์",
 "D6KRrYsmLRM?start=652&end=679,LunarCrush ตรวจจับอารมณ์คนส่วนมากในตลาดเทรด",
+"9d12zDdf9jU?start=2&end=82,CBBI <=10 เป็นรอบจุดต่ำสุดของตลาดคริปโต",
 ];
