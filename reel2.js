@@ -191,4 +191,5 @@ const videoIds = [
 "u4lDrWAKJmQ,ปุ่มคีย์ลัด Task Manager = Ctrl+Shift+Esc",
 "CAH0B1ErriI?start=48&end=194,Task Scheduler กำหนดสั่งเปิดไฟล์ทุกช่วงเวลา",
 "VngSa2YP3qw?start=4&end=71,เหรียญคริปโตที่อนุมัติจาก MiCA จะครองฐานตลาดยุโรปก่อนเหรียญอื่น",
+"vd2wGVUyMoc?start=356&end=395,ปี1600 กำหนดมาตราฐานให้ใช้อิฐมอญสร้างบ้านกันไฟไหม้",
 ];
