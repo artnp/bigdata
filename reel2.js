@@ -200,4 +200,5 @@ const videoIds = [
 "tmFZEEgu7-c?start=1796&end=1843,เริ่มต้นเก็บข้อมูล สร้าง AI Agent เฉพาะบุคคล",
 "tmFZEEgu7-c?start=2627&end=2679,AI สร้างกำกับฉากวิดีโอแบบละเอียด",
 "tmFZEEgu7-c?start=2966&end=3142,คุม AI หลายตัวทำงานพร้อมกัน",
+"tmFZEEgu7-c?start=3448&end=3541,อุปกรณ์ช่วยฟังเสียงส่งให้ AI สรุปตลอดเวลา",
 ];
