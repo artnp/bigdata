@@ -188,4 +188,5 @@ const videoIds = [
 "uYLiuGCPY9c?start=14&end=36,ห้อยแม่เหล็กกับเชือกหาทิศเหนือ/ใต้",
 "VnBcpimu2YM?start=201&end=257,มองภัยอันตรายในสถานการณ์เดียวเป็นหลายมิติ",
 "Pk8a1NlYb5c?start=527&end=651,พูดขู่ฆ่านักข่าวให้เรื่องใหญ่บานปลาย",
+"u4lDrWAKJmQ,ปุ่มคีย์ลัด Task Manager = Ctrl+Shift+Esc",
 ];
