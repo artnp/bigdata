@@ -190,4 +190,5 @@ const videoIds = [
 "Pk8a1NlYb5c?start=527&end=651,พูดขู่ฆ่านักข่าวให้เรื่องใหญ่บานปลาย",
 "u4lDrWAKJmQ,ปุ่มคีย์ลัด Task Manager = Ctrl+Shift+Esc",
 "CAH0B1ErriI?start=48&end=194,Task Scheduler กำหนดสั่งเปิดไฟล์ทุกช่วงเวลา",
+"VngSa2YP3qw?start=4&end=71,เหรียญคริปโตที่อนุมัติจาก MiCA จะครองฐานตลาดยุโรปก่อนเหรียญอื่น",
 ];
