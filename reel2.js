@@ -206,4 +206,5 @@ const videoIds = [
 "n5heAVbj7_4?start=123&end=158,Model AI แปลเอกสาร PDF ด้านในแบบไม่เปลี่ยนตำแหน่ง",
 "VF9AqTuBNlY?start=1&end=20,ถามข้อมูลใน youtube  ผ่าน AI ในมือถือ ",
 "Iy4PuAZQyo8?start=101&end=168,J.P. Morgan ช่วยกู้วิกฤติการเงิน ปี1907",
+"jMpztX2c29I?start=425&end=486,ศตวรรษที่19 ระบบอุตสหกรรมอเมริกาโตแบบก้าวกระโดด",
 ];
