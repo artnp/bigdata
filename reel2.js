@@ -204,4 +204,5 @@ const videoIds = [
 "25T8SY27x1w?start=24&end=49,ใส่ @ข้างหน้า url youtube ให้ Gemini AI ประมวลผลในคลิป",
 "-8bM0EW7mzg,แปลงตัวเขียนลายมือเป็นฟอนต์ทันที",
 "n5heAVbj7_4?start=123&end=158,Model AI แปลเอกสาร PDF ด้านในแบบไม่เปลี่ยนตำแหน่ง",
+"VF9AqTuBNlY?start=1&end=20,ถามข้อมูลใน youtube  ผ่าน AI ในมือถือ ",
 ];
