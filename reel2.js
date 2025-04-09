@@ -202,4 +202,5 @@ const videoIds = [
 "tmFZEEgu7-c?start=2966&end=3142,คุม AI หลายตัวทำงานพร้อมกัน",
 "tmFZEEgu7-c?start=3448&end=3541,อุปกรณ์ช่วยฟังเสียงส่งให้ AI สรุปตลอดเวลา",
 "25T8SY27x1w?start=24&end=49,ใส่ @ข้างหน้า url youtube ให้ Gemini AI ประมวลผลในคลิป",
+"-8bM0EW7mzg,แปลงตัวเขียนลายมือเป็นฟอนต์ทันที",
 ];
