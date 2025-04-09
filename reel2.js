@@ -207,4 +207,5 @@ const videoIds = [
 "VF9AqTuBNlY?start=1&end=20,ถามข้อมูลใน youtube  ผ่าน AI ในมือถือ ",
 "Iy4PuAZQyo8?start=101&end=168,J.P. Morgan ช่วยกู้วิกฤติการเงิน ปี1907",
 "jMpztX2c29I?start=425&end=486,ศตวรรษที่19 ระบบอุตสหกรรมอเมริกาโตแบบก้าวกระโดด",
+"uBGJE776Tqo?start=0&end=26,มนุษย์เพิ่งจะค้นพบทองคำ 0.003% ที่อยู่บนโลก",
 ];
