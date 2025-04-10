@@ -249,4 +249,5 @@ const videoIds = [
 "tmzyE9AawiE?start=13&end=58,เปิดจอกล้องพูดคุยกับ AI",
 "tmzyE9AawiE?start=91&end=126,แสดงผลจอภาพให้ AI ดู",
 "QRJIzfhU8r4?start=689&end=739,1% ของ Global M2 ไหลเข้าบิทคอยน์ในปี2025 จะดันราคาไปที่ 146,825$",
+"40UHGyzUrBo?start=425&end=455,สูตรคำนวณฐานราคาบิทคอยน์จากจุดยอด Global M2: y = 5.88 * 10**(-20) * 110**11.9696",
 ];
