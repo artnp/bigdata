@@ -246,4 +246,5 @@ const videoIds = [
 "K49OohbZxVc?start=665&end=651,ตัดปล้องไม้ไผ่เป็นกระบอกฝาปิด เก็บใส่อาหาร",
 "uXKiQfnQNlc?start=0&end=19,ดัดตะขอสองชั้นเกี่ยวไถลปากปลา",
 "uoOB5cyEfTw?start=17&end=51,ต้นเฟิร์นขึ้นบ่งบอกแหล่งความชื้นในดิน",
+"tmzyE9AawiE?start=13&end=58,เปิดจอกล้องพูดคุยกับ AI",
 ];
