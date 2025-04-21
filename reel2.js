@@ -338,4 +338,5 @@ const videoIds = [
 "EWdMEVtMIFM?start=297&end=340,ก้าวขาถอยหนีจังหวะแบบนักล่า",
 "EWdMEVtMIFM?start=806&end=874,เล็งชกให้ช่วงแขนเลยพ้นหัวคู่ต่อสู้",
 "TpTU-EZzMYs?start=400&end=470,ต่อกิ่งไม้ลากบรรทุกของหนัก",
+"TpTU-EZzMYs?start=854&end=883,สานใบปาล์มทำพื้นรองเท้า",
 ];
