@@ -451,4 +451,5 @@ const videoIds = [
 "g7yLpg-hx5k?start=27&end=72,สัญลักษณ์ตัว G หมายถึง GOD",
 "F0B_4wIql1s?start=0&end=37,สมองจะพัฒนาได้เร็วสุดช่วง 25ปีแรกของชีวิต",
 "ZPJeowFM7jw?start=446&end=503,เข้าถึงความทรงจำผ่านอารมณ์",
+"OVtqqLY-XXk?start=19&end=67,เครื่องจักรดูดบดมือใส่ถุงมือ",
 ];
