@@ -659,4 +659,5 @@ const videoIds = [
 "YwAfezQmGvw?start=485&end=531,กินเนื้อวัว/ควายดิบ ติดเชื้อแอนแทรกซ์(Anthrax) เข้าร่างกาย",
 "YwAfezQmGvw?start=519&end=581,แผลคล้ายบุหรี่จี้ตามผิวหนัง บ่งบอกการติดเชื้อแอนแทรกซ์(Anthrax)",
 "CtRwskOnW8M?start=254&end=336,แบคทีเรียกินเนื้อคน ติดเข้าทางบาดแผลตามผิวหนัง ",
+"94SMd5Red8Q?start=501&end=600,BTC: Accumulation Trend Score ใช้โซนดูช่วงสะสม หรือ ช่วงเทขาย",
 ];
