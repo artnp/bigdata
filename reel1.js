@@ -892,4 +892,5 @@ const videoIds = [
 "9Ev20Z-ylzQ,กระบอกไฮดรอลิคแตกระเบิด",
 "N4OJuoeNtkw?start=19&end=99,จำลองการวิ่งตลาดหุ้นแบบสุ่ม ในเครื่องตัวเอง",
 "oWheof70O9g?start=295&end=393,Order Book เป็นตัวกำหนดรูปแบบ chart pattern กราฟ",
+"e7HoopaPmVA?start=6307&end=6372,มวยรัดคอกะเอาให้ตาย",
 ];
