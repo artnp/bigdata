@@ -891,4 +891,5 @@ const videoIds = [
 "KVNSbeLQbCQ,เฉลยมายากลลอยตัวข้ามประตู: ตัวสไลด์ขึ้นโต๊ะยาว2ตัว ",
 "9Ev20Z-ylzQ,กระบอกไฮดรอลิคแตกระเบิด",
 "N4OJuoeNtkw?start=19&end=99,จำลองการวิ่งตลาดหุ้นแบบสุ่ม ในเครื่องตัวเอง",
+"oWheof70O9g?start=295&end=393,Order Book เป็นตัวกำหนดรูปแบบ chart pattern กราฟ",
 ];
