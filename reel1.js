@@ -927,4 +927,5 @@ const videoIds = [
 "sxUBThVQLjU?start=0&end=75,เปลี่ยนระบบ search engine แบบดั้งเดิม เป็นใช้ AI ในการค้นหาข้อมูล",
 "JcDBFAm9PPI?start=13&end=102,ส่งเอกสารให้ AI ประมวลเป็นเทคนิคการสอนทีละขั้นตอน",
 "JcDBFAm9PPI?start=21&end=47,สั่งการ AI บังคับควบคุมมือถือ ค้นหาสิ่งต่างๆ",
+"qNrQdZF1pLU?start=2&end=24,AI โค้ดแปลงภาพ 2มิติ กลายเป็น 3มิติ",
 ];
