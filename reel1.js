@@ -930,4 +930,5 @@ const videoIds = [
 "qNrQdZF1pLU?start=2&end=24,AI โค้ดแปลงภาพ 2มิติ กลายเป็น 3มิติ",
 "qNrQdZF1pLU?start=38&end=61,AI สร้างโค้ดแบบจำลองภาพจากจินตนาการ",
 "x_x-JAAKSvU?start=11&end=77,AI ปิดฉากอาชีพนักปั้น 3D",
+"VHI200c5ngE?start=46&end=68,ทีวีติดกล้องหลายตำแหน่ง สร้างภาพจำลองโฮโลแกรม",
 ];
