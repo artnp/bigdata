@@ -978,5 +978,5 @@ const videoIds = [
 "nLdJd6rwqR0?start=647&end=676,ขนาดอุปกรณ์ตัวเล็กที่รัน AI ได้แบบออฟไลน์ ปี2016",
 "t_VuLtgqYrg,แผงจอ LED แบบยืดหยุ่นได้",
 "5DfkiMx2dVI?start=234&end=289,เทียบประมาณการสัดส่วนชั้นราคาBTC วิ่งตามหลังGlobal M2",
-"5DfkiMx2dVI?start=283&end=298,สูตรใช้คาดการณ์ราคาต่อ BTCวิ่งตามM2 => BTC(t) = (BTC_ref ÷ M2_ref) × M2(t - 107)",
+"5DfkiMx2dVI?start=283&end=298,สูตรใช้คาดการณ์ราคาต่อวัน BTCวิ่งตามM2 => BTC(t) = (BTC_ref ÷ M2_ref) × M2(t - 107)",
 ];
