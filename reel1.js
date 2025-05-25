@@ -980,5 +980,5 @@ const videoIds = [
 "5DfkiMx2dVI?start=234&end=289,เทียบประมาณการสัดส่วนชั้นราคาBTC วิ่งตามหลังGlobal M2",
 "5DfkiMx2dVI?start=283&end=298,สูตรใช้คาดการณ์ราคาต่อวัน BTCวิ่งตามM2 => BTC(t) = (BTC_ref ÷ M2_ref) × M2(t - 107)",
 "NJIkUCJZwZg?start=2123&end=2173,ระบบตรวจสอบธุรกรรมบน Blockchain แบบ Real-time",
-"-BjB4DdLcjA?start=103&end=161,ยกตัวบ้านสูงโปร่ง ป้องกันยุง",
+"-BjB4DdLcjA?start=103&end=161,ยกตัวบ้านสูงโปร่ง ป้องกันยุงชุม",
 ];
