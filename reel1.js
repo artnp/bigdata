@@ -1080,4 +1080,5 @@ const videoIds = [
 "Nk0uJKljKTE?start=202&end=216,หมวกปีกโซล่าเซลล์",
 "Nk0uJKljKTE?start=1093&end=1114,แผ่นกระเบื้องปูพื้นโซล่าเซลล์",
 "Nk0uJKljKTE?start=1576&end=1616,รางชักปล่อยรูดสายจากบนหัว",
+"Nk0uJKljKTE?start=1838&end=1893,Bypass Diode ในแผงโซล่าเซลล์ เบี่ยงอ้อมกระแสไฟให้เมื่อเจอเงาบัง",
 ];
