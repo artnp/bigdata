@@ -1095,4 +1095,5 @@ const videoIds = [
 "YgZWDPdyl7k?start=113&end=164,ตรวจเลือดเช็ควัดค่าการทำงานของไตเสื่อม eGFR < 90% ต่อเนื่อง ≥ 3 เดือน",
 "YgZWDPdyl7k?start=393&end=474,โรคเบาหวานทำลายหลอดเลือดที่ไต นำพาอาการสู่โรคไตเรื้อรัง",
 "YgZWDPdyl7k?start=484&end=546,ความดันโลหิตสูง ดันเส้นหลอดเลือดไตแตกเสียหาย",
+"YgZWDPdyl7k?start=606&end=673,ยาแก้ปวดกลุ่มNSAIDs (Ibuprofen/Diclofenac/Meloxicam/Naproxen/Indomethacin/Piroxicam) ทำให้หลอดเลือดไตตีบ จนไตขาดเลือด",
 ];
