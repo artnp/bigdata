@@ -1097,4 +1097,5 @@ const videoIds = [
 "YgZWDPdyl7k?start=484&end=546,ความดันโลหิตสูง ดันเส้นหลอดเลือดไตแตกเสียหาย",
 "YgZWDPdyl7k?start=606&end=673,ยาแก้ปวดกลุ่มNSAIDs (Ibuprofen/Diclofenac/Meloxicam/Naproxen/Indomethacin/Piroxicam) ทำให้หลอดเลือดไตตีบ จนไตขาดเลือด",
 "E_ZYNK96a0c?start=94&end=135,ทุ่นระเบิดรถถัง ทำงานเมื่อโดนน้ำหนักกดเกิน 500กิโลกรัม",
+"E_ZYNK96a0c?start=141&end=183,วางทุ่นระเบิดซ้อนทุ่นระเบิด สร้างความเสียหายเมื่อเข้ากู้",
 ];
