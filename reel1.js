@@ -1109,4 +1109,5 @@ const videoIds = [
 "E_ZYNK96a0c?start=1761&end=1814,เหลาหัวไม้ไผ่แหลมเผาไฟให้แข็ง ทำแท่งอาวุธ ",
 "xZIoPQUH69Q?start=211&end=267,PMI จะปรับตัวดีดขึ้นหลังจาก Fed เริ่มลดอัตราดอกเบี้ยประมาณ 6-12 เดือน",
 "xZIoPQUH69Q?start=130&end=170,กราฟ Bitcoin ขึ้นลงสัมพันธ์ตามค่า PMI",
+"xZIoPQUH69Q?start=299&end=349,PMI จะวิ่งสวนทางกับ DXY",
 ];
