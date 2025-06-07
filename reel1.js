@@ -1148,4 +1148,5 @@ const videoIds = [
 "11cIsMPkAco?start=39&end=118,เส้นรอบวง ÷ เส้นผ่านศูนย์กลาง = π (≈ 3.14)",
 "11cIsMPkAco?start=120&end=153,เส้นรอบวง (Circumference) = 2πr",
 "gW9fSb9cZnc?start=6&end=34,ถูเสียดสีมือสร้างความร้อน",
+"xqvQGWvkMXA?start=45&end=109,ยกกำลัง3 ใช้ในการหา ปริมาตรลูกบาศก์ทรงสามมิติ",
 ];
