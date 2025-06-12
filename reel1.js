@@ -1229,4 +1229,5 @@ const videoIds = [
 "US2gO7UYEfY?start=323&end=372,นักแสดงควบคุมการแสดงของตัวละคร AI",
 "T_TONQ2L4bY?start=0&end=40,AI รวบรวมฐานข่าวเศรษฐกิจ วิเคราะห์ตลาดการเงิน",
 "NNaf1X30TuE?start=490&end=532,บริษัท Moody's ใช้ Solana Blockchain แปลงคะแนนความน่าเชื่อถือพันธบัตรเทศบาล เป็นโทเค็น",
+"TaOxv35T_do?start=334&end=392,ใช้ท่า Buggy Choke รัดไม่สำเร็จ ใช้ขากางคร่อมขี่ตัวทับต่อ",
 ];
