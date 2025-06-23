@@ -2269,5 +2269,8 @@
     },
     {
         "data": "การตอบสนองทางภูมิคุ้มกันแบบฮิวเมอรัล (Humoral Immune Response): B-cell สร้างแอนติบอดี (Antibodies) เพื่อจับกับแอนติเจน (Antigens)"
+    },
+    {
+        "data": "B-cell แบ่งตัวเป็น Memory B cells (จดจำเชื้อโรค) และ Plasma B cells (สร้างแอนติบอดี)"
     }
 ]
