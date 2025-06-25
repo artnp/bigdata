@@ -1422,4 +1422,5 @@ const videoIds = [
 "hSJJ0D09pwM?start=223&end=267,โครงการ World Liberty Finance ดูแลโดยตระกูลทรัมป์",
 "AeRHKMftzP0?start=80&end=119,แขวนกระบอกน้ำดื่มห้อยคอ เดินทางไกล",
 "AeRHKMftzP0?start=761&end=800,พักถอดรองเท้าพึ่งเท้าตากแดด ป้องกันเชื้อราขึ้นเท้า",
+"AeRHKMftzP0?start=1138&end=1249,ซีลปิดปากหม้อดินเผา เก็บอาหารแห้งนานหลายปี",
 ];
