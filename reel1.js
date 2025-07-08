@@ -1567,4 +1567,5 @@ const videoIds = [
 "d7-i9jmCo3c?start=6&end=120,หัวฉีดเทอร์โบ (Turbo Nozzle) ปืนฉีดน้ำแรงดันสูงใช้ยิงขุดเจาะดิน",
 "BoIltl810Cw?start=25&end=68,ปั้มน้ำแบบใช้มือหมุน",
 "9vpkudLQo2w?start=507&end=559,ใช้ Stable.C.D ยืนยันดูภาพรวมตลาดคริปโตกลับหัว",
+"e69bYmDaBAs?start=14&end=34,เชื่อมตะปูปิดช่องรูโหว่เหล็ก",
 ];
