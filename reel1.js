@@ -1619,4 +1619,5 @@ const videoIds = [
 "ifEgvxNDMVs?start=0&end=34,ปั่นกราฟขึ้นจนกว่าจะ ล่อนักลงทุนรายย่อยกลับเข้ามาในตลาด",
 "vWNAS7h1g8M,Power Station ต่อไฟ AC ออกใช้งาน",
 "m2IMF6zcZCA?start=24&end=74,ห่วงเกี่ยวเปลเร็ว ไม่ต้องผูกเงื่อน",
+"ciC1i_3Vq-M?start=1912&end=1955,joist hangers ติดเสาปูน เสียบไม้ระแนงกั้นรั้ว ",
 ];
