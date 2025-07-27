@@ -1688,4 +1688,5 @@ const videoIds = [
 "kWu0jM7lWS4?start=136&end=170,กระเป๋าเป้ตู้เย็น",
 "5kd6aIX4LDE?start=82&end=126,ถือ Digital Token แทนการถือหุ้นแบบเก่า",
 "hBnl7WE0N_k?start=914&end=942,ปั่นสว่านมือจากแท่งไม้ หมุนเจาะนำไม้",
+"ejFjLrrSuyY?start=114&end=126,ตัดสายยางเป็นกิ๊บล็อคสายไฟ",
 ];
