@@ -1728,4 +1728,5 @@ const videoIds = [
 "OG2QJmtJPJo?start=547&end=669,ต่อขั้วแบตเตอรี่แบบอนุกรม และ ขนาน ร่วมกัน",
 "OG2QJmtJPJo?start=680&end=853,วิธีการต่อระบบโซล่าเซลล์แบบ Off-Grid Inverter",
 "cnWWawkvXNk?start=6&end=33,ลดประชากรคนด้อยคุณภาพออกจากโลก",
+"cnWWawkvXNk?start=118&end=139,ทำลายประชากรคนให้เป็นโรคจากผลวัคซีนโควิด-19",
 ];
