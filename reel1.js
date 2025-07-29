@@ -1720,4 +1720,5 @@ const videoIds = [
 "s5DgpCIHcBk?start=798&end=856,ธนูพับเก็บสำเร็จรูป",
 "s5DgpCIHcBk?start=945&end=992,ล้อเข็นสัมภาระเดินผูกหลัง",
 "s5DgpCIHcBk?start=1507&end=1539,ตั้งกระบอกสแตนเลส วางต้มข้างกองไฟ",
+"HhyRMacwBpY?start=1284&end=1361,เชือกชักแปขึ้นหลังคา ทำงานคนเดียว",
 ];
