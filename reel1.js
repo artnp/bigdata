@@ -1764,4 +1764,5 @@ const videoIds = [
 "8gUOJsrJrzw?start=354&end=415,อเมริกาทำให้เงินเงินดอลลาร์อ่อนค่า เพื่อใช้ล้างหนี้เก่า",
 "uMfnJ6TJinc?start=45&end=87,เส้นรอบวง ÷ เส้นผ่านศูนย์กลาง = 3.141...",
 "uMfnJ6TJinc?start=118&end=223,มุม sin(60°) ≈ 0.866",
+"uMfnJ6TJinc?start=312&end=352,มุม sin(30°) = 0.5",
 ];
