@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-time Fuzzy Search Engine</title>
+    <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/128/1162/1162914.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #1a1a1a;
+            --text-color: #ffffff;
+            --link-color: #8ab4f8;
+            --result-bg-hover: #2e2e2e;
+            --highlight-color: #3b82f6;
+            --search-bar-bg: #2e2e2e;
+            --border-color: #444444;
+        }
+        
+        body { 
+            font-family: 'Sarabun', Arial, sans-serif; 
+            margin: 0; 
+            background-color: var(--bg-color); 
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 50px;
+        }
+
+        #main-container {
+            width: 100%;
+            max-width: 700px;
+            padding: 20px;
+        }
+
+        #header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        #header h2 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin: 0;
+            letter-spacing: -1px;
+        }
+        
+        #search-container {
+            display: flex;
+            align-items: center;
+            padding: 5px;
+            margin-bottom: 20px;
+            background-color: var(--search-bar-bg);
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        
+        #search-input { 
+            flex: 1; 
+            border: none; 
+            outline: none; 
+            font-size: 1.1rem; 
+            padding: 12px 20px; 
+            background-color: transparent; 
+            color: var(--text-color);
+            border-radius: 50px;
+        }
+        
+        #results {
+            margin-top: 20px;
+        }
+        
+        .result-item { 
+            padding: 15px; 
+            cursor: pointer; 
+            border-radius: 10px;
+            transition: background-color 0.3s;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .result-item:hover {
+            background-color: var(--result-bg-hover);
+        }
+
+        .result-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .result-link {
+            color: var(--link-color);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+        }
+
+        .result-link a {
+            color: var(--link-color);
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        .result-link img {
+            width: 16px;
+            height: 16px;
+            margin-right: 5px;
+        }
+
+        .highlight { 
+            background-color: var(--highlight-color);
+            color: var(--text-color);
+            font-weight: bold; 
+            padding: 2px 4px;
+            border-radius: 4px;
+            animation: highlightFade 0.5s ease-in-out;
+        }
+        
+        .popup {
+            position: relative;
+            z-index: 10;
+            margin-top: 10px;
+            width: 100%;
+            max-width: 650px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .popup iframe {
+            width: 100%;
+            height: 450px;
+            display: block;
+            border: none;
+            border-radius: 8px;
+        }
+
+        .copy-popup {
+            position: absolute;
+            background: #ffffffe6;
+            color: #000;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            opacity: 0;
+            pointer-events: none;
+            transform: translate(-50%, -100%);
+            transition: opacity 0.3s ease-in-out;
+            z-index: 9999;
+        }
+
+        .strike-hide {
+            text-decoration: line-through;
+            opacity: 0;
+            transition: opacity 0.5s, text-decoration 0.5s;
+        }
+
+        @keyframes highlightFade { 
+            from { background-color: transparent; } 
+            to { background-color: var(--highlight-color); } 
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div id="main-container">
+        <div id="header">
+            <h2>
+                <span style="color:#4285F4;">D</span><span style="color:#EA4335;">e</span><span style="color:#FBBC05;">e</span><span style="color:#4285F4;">p</span> 
+                <span style="color:#34A853;">D</span><span style="color:#EA4335;">a</span><span style="color:#FBBC05;">t</span><span style="color:#4285F4;">a</span> 
+                <span style="color:#EA4335;">L</span><span style="color:#34A853;">a</span><span style="color:#FBBC05;">p</span>
+            </h2>
+        </div>
+        <div id="search-container">
+            <input type="text" id="search-input" placeholder=">> พิมพ์ข้อความค้นหา" autocomplete="off">
+        </div>
+        <div id="results"></div>
+    </div>
+    <div id="copy-popup" class="copy-popup">คัดลอกแล้ว!</div>
+    
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('search-input');
+    const resultsContainer = document.getElementById('results');
+    const copyPopup = document.getElementById('copy-popup');
+    let videoIds = [];
+    let data = [];
+    let fuse;
+
+    Promise.all([
+        fetch('https://artnp.github.io/bigdata/reel.js').then(response => response.text()),
+        fetch('https://artnp.github.io/bigdata/reel1.js').then(response => response.text()),
+    ]).then(results => {
+        const regex = /"([^,]+),([^"]+)"/g;
+        results.forEach(dataStr => {
+            let match;
+            while (match = regex.exec(dataStr)) {
+                videoIds.push({ id: match[1], text: match[2] });
+            }
+        });
+        setupFuse();
+    });
+
+    Promise.all([
+        fetch('https://artnp.github.io/bigdata/bigdata.json').then(response => response.json()),
+        fetch('https://artnp.github.io/bigdata/bigdata1.json').then(response => response.json()),
+    ]).then(results => {
+        data = results.flat();
+        setupFuse();
+    });
+
+    function setupFuse() {
+        if (videoIds.length === 0 || data.length === 0) return;
+        const allItems = [
+            ...videoIds.map(item => ({ ...item, type: 'video' })),
+            ...data.map(item => ({ ...item, type: 'data' }))
+        ];
+        fuse = new Fuse(allItems, {
+            keys: ['text', 'data'],
+            includeScore: true,
+            threshold: 0.4,
+            ignoreLocation: true,
+            findAllMatches: true,
+            minMatchCharLength: 2,
+            useExtendedSearch: true
+        });
+    }
+
+    function extractKeywords(input) {
+        return (input.match(/[\u0E00-\u0E7F]+|[a-zA-Z0-9]+/g) || []).filter(w => w.length > 0);
+    }
+
+    function highlightKeywords(text, keywords) {
+        let foundAll = true;
+        let highlightedText = text;
+        keywords.forEach(keyword => {
+            const safeKeyword = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const regex = new RegExp(safeKeyword, 'gi');
+            if (!regex.test(text)) foundAll = false;
+            highlightedText = highlightedText.replace(regex, `<span class="highlight">$&</span>`);
+        });
+        return foundAll ? { highlightedText, found: true } : { highlightedText: text, found: false };
+    }
+
+    function handleSearch() {
+        const input = searchInput.value.trim();
+        if (!input || !fuse) {
+            resultsContainer.innerHTML = '';
+            return;
+        }
+        const keywords = extractKeywords(input);
+
+        const fuseResults = fuse.search(input);
+
+        const results = [];
+        fuseResults.forEach(res => {
+            let displayText = '', found = false;
+            if (res.item.text) {
+                const r = highlightKeywords(res.item.text, keywords);
+                displayText = r.highlightedText;
+                found = r.found;
+            } else if (res.item.data) {
+                const r = highlightKeywords(res.item.data, keywords);
+                displayText = r.highlightedText;
+                found = r.found;
+            }
+            if (found) results.push({ ...res.item, displayText });
+        });
+
+        if (results.length === 0) {
+            resultsContainer.innerHTML = '';
+            return;
+        }
+
+        renderResults(results);
+    }
+
+    function renderResults(results) {
+        resultsContainer.innerHTML = '';
+        results.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.className = 'result-item';
+            div.dataset.index = index; // For later reference
+
+            if (item.id && item.text) {
+                const url = item.id.includes('start') 
+                    ? `https://artnp.github.io/bigdata/note.html?${item.id}`
+                    : `http://youtube.com/shorts/${item.id}`;
+                
+                div.innerHTML = `
+                    <div class="result-title">${item.displayText}</div>
+                    <div class="result-link">
+                        <img src="https://cdn-icons-png.flaticon.com/128/1384/1384060.png" alt="YouTube Icon">
+                        <a href="${url}" target="_blank">${url}</a>
+                    </div>
+                `;
+
+                // Track if we already struck/hid this item
+                div.dataset.struck = "false";
+
+                div.addEventListener('mouseenter', () => {
+                    if (!div.querySelector('.popup')) {
+                        const popup = document.createElement('div');
+                        popup.className = 'popup';
+                        popup.innerHTML = `
+                            <iframe src="https://www.youtube.com/embed/${item.id}?modestbranding=1&showinfo=0&rel=0&controls=0&autoplay=1" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen></iframe>`;
+                        div.appendChild(popup);
+                    }
+                });
+                
+                div.addEventListener('mouseleave', () => {
+                    // ขีดฆ่าและซ่อนผลลัพธ์ (เฉพาะผลที่มีลิ้งค์)
+                    if (div.dataset.struck === "false") {
+                        div.dataset.struck = "true";
+                        div.classList.add('strike-hide');
+                        // ซ่อนหลังแอนิเมชัน
+                        setTimeout(() => {
+                            div.style.display = 'none';
+                        }, 500);
+                    }
+                    // ซ่อน popup ถ้ามี
+                    const popup = div.querySelector('.popup');
+                    if (popup) popup.remove();
+                });
+
+            } else if (item.data) {
+                div.innerHTML = item.displayText;
+            }
+
+            div.addEventListener('click', () => {
+                const text = div.textContent || div.innerText;
+                copyTextToClipboard(text);
+                showCopyPopupAtElement(div);
+            });
+
+            resultsContainer.appendChild(div);
+        });
+    }
+
+    function copyTextToClipboard(text) {
+        const tempTextArea = document.createElement('textarea');
+        tempTextArea.value = text;
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempTextArea);
+    }
+
+    function showCopyPopupAtElement(element) {
+        const rect = element.getBoundingClientRect();
+        copyPopup.style.left = rect.left + (rect.width / 2) + 'px';
+        copyPopup.style.top = rect.top + window.scrollY - 10 + 'px';
+        copyPopup.style.opacity = '1';
+        setTimeout(() => {
+            copyPopup.style.opacity = '0';
+        }, 1200);
+    }
+
+    searchInput.addEventListener('input', handleSearch);
+
+    // --- เว้นวรรคอัตโนมัติเมื่อพิมพ์ "จบคำ" ---
+    let autoSpaceTimer;
+    searchInput.addEventListener('input', () => {
+        clearTimeout(autoSpaceTimer);
+        autoSpaceTimer = setTimeout(() => {
+            const val = searchInput.value;
+            if (val &&
+                !val.endsWith(' ') &&
+                /[\u0E00-\u0E7Fa-zA-Z0-9]$/.test(val)
+            ) {
+                searchInput.value = val + ' ';
+                searchInput.selectionStart = searchInput.selectionEnd = searchInput.value.length;
+                handleSearch();
+            }
+        }, 400);
+    });
+
+    searchInput.addEventListener('keydown', (e) => {
+        if (e.key === ' ' || e.key === 'Enter') {
+            const val = searchInput.value;
+            const pos = searchInput.selectionStart;
+            if (
+                pos === val.length ||
+                (val[pos] && val[pos] !== ' ')
+            ) {
+                if (!val.endsWith(' ')) {
+                    setTimeout(() => {
+                        if (!searchInput.value.endsWith(' ')) {
+                            searchInput.value += ' ';
+                            searchInput.selectionStart = searchInput.selectionEnd = searchInput.value.length;
+                            handleSearch();
+                        }
+                    }, 0);
+                }
+            }
+        }
+    });
+});
+    </script>
+</body>
+</html>
