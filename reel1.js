@@ -1765,4 +1765,5 @@ const videoIds = [
 "uMfnJ6TJinc?start=45&end=87,เส้นรอบวง ÷ เส้นผ่านศูนย์กลาง = 3.141...",
 "uMfnJ6TJinc?start=118&end=223,มุม sin(60°) ≈ 0.866",
 "uMfnJ6TJinc?start=312&end=352,มุม sin(30°) = 0.5",
+"uMfnJ6TJinc?start=430&end=463,ตารางเทียบไล่ระดับมุมองศา Sin Cos Tan",
 ];
