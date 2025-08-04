@@ -1,79 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YouTube Video</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai+Looped:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-html, body {
-    font-weight: 450;
-    font-style: normal;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YouTube Video</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ----------------------------------------------------------- */
+/* General Styles */
+/* ----------------------------------------------------------- */
+html,
+body {
     height: 100%;
     margin: 0;
-    background-color: #000000;
+    font-family: 'IBM Plex Sans Thai', sans-serif;
+    background: #000000;
+    color: #f0f0f0;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
+/* ----------------------------------------------------------- */
+/* Video Container */
+/* ----------------------------------------------------------- */
 .video-container {
-    flex: 1;
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .video-container iframe {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
     width: 100%;
     height: 100%;
-    border: none;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+}
+
+.error-message {
+    color: #ff4d4f;
+    font-size: 24px;
+    text-align: center;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+}
+
+/* ----------------------------------------------------------- */
+/* Footer and Timer Badge */
+/* ----------------------------------------------------------- */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 footer {
-    height: 3%;
-    background-color: #222;
-    color: white;
+    height: 60px;
+    background-color: rgba(20, 20, 20, 0.8);
+    backdrop-filter: blur(10px);
+    color: #e0e0e0;
     text-align: center;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
+    font-size: 16px;
+    font-weight: 500;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.5s ease-in-out;
 }
-    </style>
+
+footer.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.time-badge {
+    background: linear-gradient(45deg, #448aff, #00d2ff);
+    color: #ffffff;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    margin-left: 10px;
+    animation: slideInUp 0.5s ease-out forwards;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.time-badge:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+</style>
 </head>
 <body>
 
 <div class="video-container">
-  <iframe id="youtube-video" allowfullscreen></iframe>
+    <iframe id="youtube-video" allowfullscreen></iframe>
 </div>
 
-<footer>
-     <span id="sec"></span>
+<footer id="main-footer">
+    <span>ใช้เวลาสกัด:</span><span id="sec" class="time-badge"></span>
 </footer>
 
 <script>
-function getVideoInfo(url) {
-  const videoId = url.split('html?')[1] || '';
-  return { videoId };
-}
+    function getVideoInfo(url) {
+        const videoId = url.split('html?')[1] || '';
+        return { videoId };
+    }
 
-var url = window.location.href;
-var { videoId } = getVideoInfo(url);
-var iframe = document.getElementById("youtube-video");
+    var url = window.location.href;
+    var { videoId } = getVideoInfo(url);
+    var iframe = document.getElementById("youtube-video");
+    var footer = document.getElementById("main-footer");
+    var videoContainer = document.querySelector('.video-container');
 
-if (videoId) {
-    iframe.src = "https://www.youtube.com/embed/" + videoId + "&autoplay=1";
-}
+    if (videoId) {
+        iframe.src = "https://www.youtube.com/embed/" + videoId + "&autoplay=1";
+    } else {
+        // แสดงข้อความแจ้งเตือนเมื่อไม่พบ videoId
+        iframe.remove();
+        videoContainer.innerHTML = `<div class="error-message">ไม่พบวิดีโอ<br>กรุณาตรวจสอบ URL</div>`;
+    }
 
-const match = videoId.match(/start=(\d+)&end=(\d+)/);
-if (match) {
-    const start = parseInt(match[1], 10);
-    const end = parseInt(match[2], 10);
-    const result = end - start;
-    document.getElementById('sec').innerHTML = 'ใช้เวลาสกัด <span style="background-color: yellow; color:black; padding: 2px 4px; border-radius: 4px;">' + result + ' วินาที</span>';
-}
+    const match = videoId.match(/start=(\d+)&end=(\d+)/);
+    if (match) {
+        const start = parseInt(match[1], 10);
+        const end = parseInt(match[2], 10);
+        const result = end - start;
+        
+        // อัปเดตเนื้อหาใน footer และแสดงผล
+        document.getElementById('sec').textContent = result + ' วินาที';
+        footer.classList.add('active');
+    }
 </script>
 
 </body>
