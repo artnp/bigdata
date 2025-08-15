@@ -1825,4 +1825,5 @@ const videoIds = [
 "tnZvrcnErho,เชื่อมแหวนอีแปะ+น็อตตัวเมีย ขันหัวเกลียวน็อตขาด",
 "frZzymdwy5o,ไฟลนสลิงบิดตัวขาดสายสลิง",
 "izvHA7LG08c?start=477&end=509,ปากีสถานประกาศตั้ง Strategic Reserve ของตนเอง โดยมี Michael Saylor เป็นที่ปรึกษา",
+"miZIkCVRxy0?start=267&end=308,inflow 1 พันล้านดอลลาร์ เข้าสู่ Bitcoin อาจส่งผลให้ราคาเพิ่มขึ้นประมาณ 1,000 ดอลลาร์ ",
 ];
