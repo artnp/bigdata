@@ -1827,4 +1827,5 @@ const videoIds = [
 "izvHA7LG08c?start=477&end=509,ปากีสถานประกาศตั้ง Strategic Reserve ของตนเอง โดยมี Michael Saylor เป็นที่ปรึกษา",
 "miZIkCVRxy0?start=267&end=308,inflow 1 พันล้านดอลลาร์ เข้าสู่ Bitcoin อาจส่งผลให้ราคาเพิ่มขึ้นประมาณ 1,000 ดอลลาร์ ",
 "miZIkCVRxy0?start=268&end=304, $50 พันล้าน inflow เข้ามา ราคา Bitcoin อาจเพิ่มขึ้น $50,000",
+"Y5YJPj3PFAo?start=5&end=42,Agentic AI จำเป็นต้องใช้ smart contracts เพื่ออำนวยความสะดวกในการโต้ตอบและทำธุรกรรมกับเว็บไซต์ต่างๆ ",
 ];
