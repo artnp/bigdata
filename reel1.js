@@ -1889,7 +1889,4 @@ const videoIds = [
 "_5jYTrBAqeI?start=763&end=779,แอบมีดไว้หลังมือ ตอนเอามือประสานหัวจำนน",
 "_5jYTrBAqeI?start=972&end=994,ใช้กระดูกหน้าผากรับหมัดชก ทำให้กระดูกมือคนชกหักได้",
 "yM9zrs8uHoA?start=64&end=119,วิธีเก็บเมล็ดแฟล็กซ์จากต้น",
-"OjYNmF7hp1I?start=1&end=16,ตี๋น้อย",
-,
-"OjYNmF7hp1I?start=1&end=3,อวสานคนตาตี่",
-"OjYNmF7hp1I?start=8&end=8,ยังไงวะ"];
+];
