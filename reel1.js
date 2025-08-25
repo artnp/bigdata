@@ -1902,5 +1902,5 @@ const videoIds = [
 "UCOjPz3ewAk?start=669&end=706,แท่งเทียน topping tail เป็นสัญญาณกำลังจะร่วงหนัก",
 "UCOjPz3ewAk?start=707&end=770,ลากเส้นเชื่อมต่อจุดสูงสุดกราฟ เพื่อกำหนดกรอบการเทขายหุ้นทิ้ง",
 "UCOjPz3ewAk?start=1034&end=1123,มองภาพกราฟล่วงหน้า ถ้าตกดิ่งรวดเดียวให้มองเป็น Bear flag",
-"NvFflUqytIo?start=127&end=156,เพิ่มแสง Rim Light ตอนโชว์เข้าท่อนฮุค",
+"NvFflUqytIo?start=127&end=156,เพิ่มแสง Rim Light ตอนโชว์เพลงเข้าท่อนฮุค",
 ];
