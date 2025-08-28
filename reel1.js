@@ -1951,4 +1951,5 @@ const videoIds = [
 "0IuEyZl2z-M?start=425&end=488,วิธีหลุดออกจากท่าตรึงกางเขนกับพื้น (Crucifix Position) ของ Khamzat",
 "ym8SKs6xml4,คลิปตลก: นักมวยโดนชกบนเวทีลงไปนอน จ๊ะเอ๋!อยู่ตรงหน้าเจ้าของค่ายมวย",
 "QNKibD0kTvk,ถุงมือเส้นใยถักสเตนเลส",
+"OwzXwlji3TQ?start=364&end=381,JP Morgan เป็นเจ้าของ 33% ของ Fed",
 ];
