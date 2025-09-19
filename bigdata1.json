@@ -2012,5 +2012,6 @@
 {"data":"เลือกมะเขือเทศดูจากสีและความนิ่ม (ไม่เละ ไม่แข็งเกิน)"},
 {"data":"เทคนิค confit = การเคี่ยวช้าๆ ในน้ำมัน\/ไขมัน"},
 {"data":"มะเขือเทศที่ดีจะ “เด้ง” เล็กน้อยเมื่อกด"},
-{"data":"TOTAL3 คือมูลค่าตลาดของ Altcoin ทั้งหมด ยกเว้น Bitcoin และ Ethereum"}
+{"data":"TOTAL3 คือมูลค่าตลาดของ Altcoin ทั้งหมด ยกเว้น Bitcoin และ Ethereum"},
+{"data":"TOTAL3ES คือมูลค่าตลาด Altcoin ที่ไม่รวม Bitcoin, Ethereum และ Stablecoins"}
 ]
