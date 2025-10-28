@@ -2148,4 +2148,5 @@ const videoIds = [
 "mMthIwOdIZM,สอดกระเบื้องตัดกลมเข้าเสากลม ผ่านรอดช่องคาน",
 "fo0P2QcJdXw?start=162&end=224,iShares Russell 2000 ETF (IWM) ขึ้นเป็นรูปถ้วย บิทคอยน์จะพุ่งทะยานตาม",
 "8NVYSJDy-VA?start=229&end=352,ใช้เศษไม้ต่อเป็นกังหันน้ำหมุน",
+"8NVYSJDy-VA?start=442&end=585,เข้าเดือยไม้เป็นข้อต่อแกนหมุน",
 ];
