@@ -756,5 +756,6 @@
 {"data":"Hal Finney: นักรหัสวิทยา ผู้สร้าง Reusable Proof-of-Work ชิ้นแรก"},
 {"data":"ผู้ต้องสงสัย Satoshi: Nick Szabo ถูกสงสัยอย่างกว้างขวางว่าเป็น Satoshi Nakamoto เนื่องจากวันเกิดตรงกัน (5 เมษายน) และชื่อย่อกลับกัน (Satoshi Nakamoto)"},
 {"data":"กลไก: การแก้ปัญหาของ Satoshi เริ่มด้วย Timestamp Server ซึ่งทำหน้าที่สร้างค่า Hash ของชุดรายการในบล็อก"},
-{"data":"การประยุกต์ใช้: เพื่อนำ Timestamp Server ไปใช้ในเครือข่าย Peer-to-Peer จำเป็นต้องใช้ระบบ Proof-of-Work (PoW) คล้ายกับ Hashcash ของ Adam Back"}
+{"data":"การประยุกต์ใช้: เพื่อนำ Timestamp Server ไปใช้ในเครือข่าย Peer-to-Peer จำเป็นต้องใช้ระบบ Proof-of-Work (PoW) คล้ายกับ Hashcash ของ Adam Back"},
+{"data":"Bug ที่รอดมาได้: ในเดือน ต.ค. 2010 มีการค้นพบบั๊ก integer overflow ที่ทำให้ Hacker สามารถสร้าง 182 พันล้าน BTC แต่ Jeff Garzik ได้แก้ไขโดยการ Fork Blockchain อย่างรวดเร็ว ซึ่งช่วยรักษา Bitcoin ไว้ได้"}
 ]
