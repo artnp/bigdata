@@ -2200,4 +2200,5 @@ const videoIds = [
 "fHbpkL6kYyI,กระโดดใช้เสื้อช้อนปลาจำนวนมากในน้ำ",
 "OLdkeJ-JJ_Y,ค้ำไม้ดามรั้งแรงตีตะปู",
 "HpvuHh31POE,เสียชีวิตเพราะดื่มน้ำมะพร้าวที่มีเชื้อรา Aspergillus flavus สร้างสารพิษ Aflatoxin",
+"NVsZ3g6keSU?start=57&end=87,คริปโตจะราคาขึ้น จากคนหันมาใช้ Stablecoin ใช้จ่ายกันเป็นปกติ",
 ];
