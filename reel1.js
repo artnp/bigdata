@@ -2224,4 +2224,5 @@ const videoIds = [
 "UKzKzyEBe6k?start=950&end=1131,ทฤษฎี INVESTCON 6-1 ของ Howard Marks ใช้ในการประเมินสภาวะตลาดหุ้น เพื่อกำหนดระดับความเสี่ยง",
 "u0lGGBffq_s,ตบดอกบัวให้ดานออก",
 "fgvPMmRPchA?start=254&end=301,ใช้ภาษาไทย ในคำสั่ง prompt AI จะเปลืองโทเค็นอย่างมาก",
+"fgvPMmRPchA?start=337&end=366,prompt คำสั่ง AI เป็นภาษาอังกฤษ แล้วให้ output เป็นภาษาไทย แก้ปัญหาการใช้โทเค็นเปลือง",
 ];
