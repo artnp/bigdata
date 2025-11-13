@@ -273,7 +273,7 @@
             const pageSize = 20;
             let isLoading = false;
 
-            // Cache สำหรับ segmented และ romanized เพื่อลดการคำนวณซ้ำ
+            // Cache สำหรับ romanized เพื่อลดการคำนวณซ้ำ
             const cache = new Map();
 
             // Enhanced Thai to Roman transliteration map
@@ -325,23 +325,6 @@
                 return result;
             }
 
-            function normalizeWord(word) {
-                if (word.endsWith('ๆ')) {
-                    return word.slice(0, -1);
-                }
-                return word;
-            }
-
-            function segmentThai(text) {
-                const cacheKey = `seg_${text}`;
-                if (cache.has(cacheKey)) return cache.get(cacheKey);
-                if (!text || !text.trim()) return [];
-                // ใช้ fallback ง่ายๆ เสมอ เพื่อความเร็ว (Intl.Segmenter อาจช้า)
-                const result = (text.match(/[\u0E00-\u0E7F]+|[a-zA-Z0-9]+/g) || []).map(w => normalizeWord(w)).filter(w => w.length > 1);
-                cache.set(cacheKey, result);
-                return result;
-            }
-
             // แสดง skeleton loading ตอนเริ่มต้น
             function showSkeleton() {
                 resultsContainer.innerHTML = '';
@@ -379,13 +362,10 @@
                     let match;
                     while ((match = regex.exec(dataStr))) {
                         const originalText = match[2];
-                        const segments = segmentThai(originalText);
-                        const romanizedSegments = segments.map(word => simpleRomanize(word)).join(' ');
                         videoIds.push({ 
                             id: match[1], 
                             text: originalText,
-                            romanized: simpleRomanize(originalText),
-                            romanizedSegments: romanizedSegments
+                            romanized: simpleRomanize(originalText)
                         });
                     }
                 });
@@ -405,15 +385,10 @@
                     r.json()
                 ),
             ]).then((results) => {
-                data = results.flat().map(item => {
-                    const segments = segmentThai(item.data);
-                    const romanizedSegments = segments.map(word => simpleRomanize(word)).join(' ');
-                    return {
-                        ...item,
-                        romanized: simpleRomanize(item.data),
-                        romanizedSegments: romanizedSegments
-                    };
-                });
+                data = results.flat().map(item => ({
+                    ...item,
+                    romanized: simpleRomanize(item.data)
+                }));
                 setupFuse();
                 loadingIndicator.classList.remove('show');
                 hideSkeleton();
@@ -427,19 +402,17 @@
                 allItems = [
                     ...videoIds.map((item) => ({ 
                         ...item, 
-                        type: "video", 
-                        segmented: segmentThai(item.text)
+                        type: "video" 
                     })),
                     ...data.map((item) => ({ 
                         ...item, 
-                        type: "data", 
-                        segmented: segmentThai(item.data)
+                        type: "data" 
                     })),
                 ];
                 fuse = new Fuse(allItems, {
-                    keys: ["text", "data", "segmented", "romanized", "romanizedSegments"],
+                    keys: ["text", "data", "romanized"],
                     includeScore: true,
-                    threshold: 0.5, // Lowered for better cross-language matching
+                    threshold: 0.5,
                     ignoreLocation: true,
                     findAllMatches: true,
                     minMatchCharLength: 1,
@@ -448,10 +421,9 @@
             }
 
             function extractKeywords(input) {
-                const segments = segmentThai(input);
+                // ไม่แยกคำ เพื่อความเร็ว ใช้ romanize โดยตรง
                 const romanizedInput = simpleRomanize(input);
-                const romanSegments = segmentThai(romanizedInput);
-                return [...segments, ...romanSegments].filter((w, index, arr) => arr.indexOf(w) === index);
+                return [input, romanizedInput];
             }
 
             function highlightKeywords(text, keywords) {
@@ -466,7 +438,7 @@
                         `<span class="highlight">$&</span>`
                     );
                 });
-                const found = foundCount >= Math.floor(keywords.length / 2);
+                const found = foundCount > 0; // ผ่อนคลายให้ match อย่างน้อย 1 คำ
                 return { highlightedText, found };
             }
 
@@ -477,21 +449,13 @@
                     return;
                 }
                 const keywords = extractKeywords(input);
-                if (keywords.length === 0) {
-                    resultsContainer.innerHTML = "";
-                    return;
-                }
 
                 // แสดง loading และ skeleton ขณะ search
                 loadingIndicator.classList.add('show');
                 showSkeleton();
 
-                // Search with multiple terms: original, romanized full, and romanized segments
-                const searchTerms = [
-                    input,
-                    simpleRomanize(input),
-                    keywords.join(' ')
-                ];
+                // Search with romanized terms
+                const searchTerms = keywords;
                 let allFuseResults = [];
                 searchTerms.forEach(term => {
                     const fuseResults = fuse.search(term);
@@ -509,22 +473,11 @@
                 const results = [];
                 uniqueResults.forEach((res) => {
                     const item = res.item;
-                    const itemWords = item.segmented || [];
-                    const itemRomanWords = segmentThai(item.romanizedSegments || item.romanized || '') || [];
-                    const allItemWords = [...itemWords, ...itemRomanWords];
-                    const loweredKeywords = keywords.map(kw => kw.toLowerCase());
-                    const loweredAllItemWords = allItemWords.map(iw => iw.toLowerCase());
-                    const matchedCount = loweredKeywords.filter(kw => 
-                        loweredAllItemWords.some(iw => iw.includes(kw) || kw.includes(iw))
-                    ).length;
-                    const found = matchedCount >= Math.floor(loweredKeywords.length / 2);
                     let displayText = "";
-                    if (found && (item.text || item.data)) {
+                    if (res.score < 0.6 && (item.text || item.data)) { // ใช้ score จาก Fuse โดยตรง
                         const textToHighlight = item.text || item.data;
                         const r = highlightKeywords(textToHighlight, keywords);
                         displayText = r.highlightedText;
-                    }
-                    if (found) {
                         results.push({ ...item, displayText, score: res.score });
                     }
                 });
