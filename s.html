@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Real-time Fuzzy Search Engine</title>
-    <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/128/1162/1162914.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/128/1162/1162914.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
     <style>
         :root {
             --bg-color: #1a1a1a;
@@ -18,11 +21,11 @@
             --search-bar-bg: #2e2e2e;
             --border-color: #444444;
         }
-        
-        body { 
-            font-family: 'Sarabun', Arial, sans-serif; 
-            margin: 0; 
-            background-color: var(--bg-color); 
+
+        body {
+            font-family: 'Sarabun', Arial, sans-serif;
+            margin: 0;
+            background-color: var(--bg-color);
             color: var(--text-color);
             display: flex;
             flex-direction: column;
@@ -50,7 +53,7 @@
             margin: 0;
             letter-spacing: -1px;
         }
-        
+
         #search-container {
             display: flex;
             align-items: center;
@@ -58,33 +61,34 @@
             margin-bottom: 20px;
             background-color: var(--search-bar-bg);
             border-radius: 50px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
-        
-        #search-input { 
-            flex: 1; 
-            border: none; 
-            outline: none; 
-            font-size: 1.1rem; 
-            padding: 12px 20px; 
-            background-color: transparent; 
+
+        #search-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 1.1rem;
+            padding: 12px 20px;
+            background-color: transparent;
             color: var(--text-color);
             border-radius: 50px;
         }
-        
+
         #results {
             margin-top: 20px;
         }
-        
-        .result-item { 
-            padding: 15px; 
-            cursor: pointer; 
+
+        .result-item {
+            padding: 15px;
+            cursor: pointer;
             border-radius: 10px;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, opacity 0.3s;
             margin-bottom: 10px;
             position: relative;
+            overflow: hidden;
         }
-        
+
         .result-item:hover {
             background-color: var(--result-bg-hover);
         }
@@ -114,15 +118,24 @@
             margin-right: 5px;
         }
 
-        .highlight { 
+        .highlight {
             background-color: var(--highlight-color);
             color: var(--text-color);
-            font-weight: bold; 
+            font-weight: bold;
             padding: 2px 4px;
             border-radius: 4px;
             animation: highlightFade 0.5s ease-in-out;
         }
-        
+
+        @keyframes highlightFade {
+            from {
+                background-color: transparent;
+            }
+            to {
+                background-color: var(--highlight-color);
+            }
+        }
+
         .popup {
             position: relative;
             z-index: 10;
@@ -148,7 +161,7 @@
             padding: 5px 10px;
             border-radius: 20px;
             font-size: 0.8rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
             opacity: 0;
             pointer-events: none;
             transform: translate(-50%, -100%);
@@ -156,256 +169,309 @@
             z-index: 9999;
         }
 
-        .strike-hide {
-            text-decoration: line-through;
-            opacity: 0;
-            transition: opacity 0.5s, text-decoration 0.5s;
+        /* ลด opacity เป็น 70% แทน strike */
+        .viewed {
+            opacity: 0.85;
         }
 
-        @keyframes highlightFade { 
-            from { background-color: transparent; } 
-            to { background-color: var(--highlight-color); } 
+        /* Loading */
+        #loading {
+            text-align: center;
+            padding: 10px;
+            color: #888;
+            font-size: 0.9rem;
         }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <div id="main-container">
         <div id="header">
-            <h2>
-                <span style="color:#4285F4;">D</span><span style="color:#EA4335;">e</span><span style="color:#FBBC05;">e</span><span style="color:#4285F4;">p</span> 
-                <span style="color:#34A853;">D</span><span style="color:#EA4335;">a</span><span style="color:#FBBC05;">t</span><span style="color:#4285F4;">a</span> 
-                <span style="color:#EA4335;">L</span><span style="color:#34A853;">a</span><span style="color:#FBBC05;">p</span>
-            </h2>
         </div>
         <div id="search-container">
-            <input type="text" id="search-input" placeholder=">> พิมพ์ข้อความค้นหา" autocomplete="off">
+            <input
+                type="text"
+                id="search-input"
+                placeholder=">> ค้นหาข้อมูลใน Big_data"
+                autocomplete="off"
+            />
         </div>
         <div id="results"></div>
+        <div id="loading"></div>
     </div>
     <div id="copy-popup" class="copy-popup">คัดลอกแล้ว!</div>
-    
+
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0"></script>
     <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const searchInput = document.getElementById('search-input');
-    const resultsContainer = document.getElementById('results');
-    const copyPopup = document.getElementById('copy-popup');
-    let videoIds = [];
-    let data = [];
-    let fuse;
+        document.addEventListener("DOMContentLoaded", () => {
+            const searchInput = document.getElementById("search-input");
+            const resultsContainer = document.getElementById("results");
+            const copyPopup = document.getElementById("copy-popup");
+            const loadingIndicator = document.getElementById("loading");
 
-    Promise.all([
-        fetch('https://artnp.github.io/bigdata/reel.js').then(response => response.text()),
-        fetch('https://artnp.github.io/bigdata/reel1.js').then(response => response.text()),
-    ]).then(results => {
-        const regex = /"([^,]+),([^"]+)"/g;
-        results.forEach(dataStr => {
-            let match;
-            while (match = regex.exec(dataStr)) {
-                videoIds.push({ id: match[1], text: match[2] });
-            }
-        });
-        setupFuse();
-    });
+            let videoIds = [];
+            let data = [];
+            let fuse;
+            let allItems = [];
 
-    Promise.all([
-        fetch('https://artnp.github.io/bigdata/bigdata.json').then(response => response.json()),
-        fetch('https://artnp.github.io/bigdata/bigdata1.json').then(response => response.json()),
-    ]).then(results => {
-        data = results.flat();
-        setupFuse();
-    });
+            let allResults = [];
+            let currentPage = 0;
+            const pageSize = 20;
+            let isLoading = false;
 
-    function setupFuse() {
-        if (videoIds.length === 0 || data.length === 0) return;
-        const allItems = [
-            ...videoIds.map(item => ({ ...item, type: 'video' })),
-            ...data.map(item => ({ ...item, type: 'data' }))
-        ];
-        fuse = new Fuse(allItems, {
-            keys: ['text', 'data'],
-            includeScore: true,
-            threshold: 0.4,
-            ignoreLocation: true,
-            findAllMatches: true,
-            minMatchCharLength: 2,
-            useExtendedSearch: true
-        });
-    }
-
-    function extractKeywords(input) {
-        return (input.match(/[\u0E00-\u0E7F]+|[a-zA-Z0-9]+/g) || []).filter(w => w.length > 0);
-    }
-
-    function highlightKeywords(text, keywords) {
-        let foundAll = true;
-        let highlightedText = text;
-        keywords.forEach(keyword => {
-            const safeKeyword = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-            const regex = new RegExp(safeKeyword, 'gi');
-            if (!regex.test(text)) foundAll = false;
-            highlightedText = highlightedText.replace(regex, `<span class="highlight">$&</span>`);
-        });
-        return foundAll ? { highlightedText, found: true } : { highlightedText: text, found: false };
-    }
-
-    function handleSearch() {
-        const input = searchInput.value.trim();
-        if (!input || !fuse) {
-            resultsContainer.innerHTML = '';
-            return;
-        }
-        const keywords = extractKeywords(input);
-
-        const fuseResults = fuse.search(input);
-
-        const results = [];
-        fuseResults.forEach(res => {
-            let displayText = '', found = false;
-            if (res.item.text) {
-                const r = highlightKeywords(res.item.text, keywords);
-                displayText = r.highlightedText;
-                found = r.found;
-            } else if (res.item.data) {
-                const r = highlightKeywords(res.item.data, keywords);
-                displayText = r.highlightedText;
-                found = r.found;
-            }
-            if (found) results.push({ ...res.item, displayText });
-        });
-
-        if (results.length === 0) {
-            resultsContainer.innerHTML = '';
-            return;
-        }
-
-        renderResults(results);
-    }
-
-    function renderResults(results) {
-        resultsContainer.innerHTML = '';
-        results.forEach((item, index) => {
-            const div = document.createElement('div');
-            div.className = 'result-item';
-            div.dataset.index = index; // For later reference
-
-            if (item.id && item.text) {
-                const url = item.id.includes('start') 
-                    ? `https://artnp.github.io/bigdata/note.html?${item.id}`
-                    : `http://youtube.com/shorts/${item.id}`;
-                
-                div.innerHTML = `
-                    <div class="result-title">${item.displayText}</div>
-                    <div class="result-link">
-                        <img src="https://cdn-icons-png.flaticon.com/128/1384/1384060.png" alt="YouTube Icon">
-                        <a href="${url}" target="_blank">${url}</a>
-                    </div>
-                `;
-
-                // Track if we already struck/hid this item
-                div.dataset.struck = "false";
-
-                div.addEventListener('mouseenter', () => {
-                    if (!div.querySelector('.popup')) {
-                        const popup = document.createElement('div');
-                        popup.className = 'popup';
-                        popup.innerHTML = `
-                            <iframe src="https://www.youtube.com/embed/${item.id}?modestbranding=1&showinfo=0&rel=0&controls=0&autoplay=1" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen></iframe>`;
-                        div.appendChild(popup);
-                    }
-                });
-                
-                div.addEventListener('mouseleave', () => {
-                    // ขีดฆ่าและซ่อนผลลัพธ์ (เฉพาะผลที่มีลิ้งค์)
-                    if (div.dataset.struck === "false") {
-                        div.dataset.struck = "true";
-                        div.classList.add('strike-hide');
-                        // ซ่อนหลังแอนิเมชัน
-                        setTimeout(() => {
-                            div.style.display = 'none';
-                        }, 500);
-                    }
-                    // ซ่อน popup ถ้ามี
-                    const popup = div.querySelector('.popup');
-                    if (popup) popup.remove();
-                });
-
-            } else if (item.data) {
-                div.innerHTML = item.displayText;
+            function normalizeWord(word) {
+                if (word.endsWith('ๆ')) {
+                    return word.slice(0, -1);
+                }
+                return word;
             }
 
-            div.addEventListener('click', () => {
-                const text = div.textContent || div.innerText;
-                copyTextToClipboard(text);
-                showCopyPopupAtElement(div);
-            });
-
-            resultsContainer.appendChild(div);
-        });
-    }
-
-    function copyTextToClipboard(text) {
-        const tempTextArea = document.createElement('textarea');
-        tempTextArea.value = text;
-        document.body.appendChild(tempTextArea);
-        tempTextArea.select();
-        document.execCommand('copy');
-        document.body.removeChild(tempTextArea);
-    }
-
-    function showCopyPopupAtElement(element) {
-        const rect = element.getBoundingClientRect();
-        copyPopup.style.left = rect.left + (rect.width / 2) + 'px';
-        copyPopup.style.top = rect.top + window.scrollY - 10 + 'px';
-        copyPopup.style.opacity = '1';
-        setTimeout(() => {
-            copyPopup.style.opacity = '0';
-        }, 1200);
-    }
-
-    searchInput.addEventListener('input', handleSearch);
-
-    // --- เว้นวรรคอัตโนมัติเมื่อพิมพ์ "จบคำ" ---
-    let autoSpaceTimer;
-    searchInput.addEventListener('input', () => {
-        clearTimeout(autoSpaceTimer);
-        autoSpaceTimer = setTimeout(() => {
-            const val = searchInput.value;
-            if (val &&
-                !val.endsWith(' ') &&
-                /[\u0E00-\u0E7Fa-zA-Z0-9]$/.test(val)
-            ) {
-                searchInput.value = val + ' ';
-                searchInput.selectionStart = searchInput.selectionEnd = searchInput.value.length;
-                handleSearch();
-            }
-        }, 400);
-    });
-
-    searchInput.addEventListener('keydown', (e) => {
-        if (e.key === ' ' || e.key === 'Enter') {
-            const val = searchInput.value;
-            const pos = searchInput.selectionStart;
-            if (
-                pos === val.length ||
-                (val[pos] && val[pos] !== ' ')
-            ) {
-                if (!val.endsWith(' ')) {
-                    setTimeout(() => {
-                        if (!searchInput.value.endsWith(' ')) {
-                            searchInput.value += ' ';
-                            searchInput.selectionStart = searchInput.selectionEnd = searchInput.value.length;
-                            handleSearch();
-                        }
-                    }, 0);
+            function segmentThai(text) {
+                if (!text || !text.trim()) return [];
+                try {
+                    const segmenter = new Intl.Segmenter('th-TH', {granularity: 'word'});
+                    return Array.from(segmenter.segment(text))
+                        .map(s => normalizeWord(s.segment))
+                        .filter(w => w.length > 1);
+                } catch (e) {
+                    // Fallback to simple split if Intl.Segmenter not supported
+                    return (text.match(/[\u0E00-\u0E7F]+|[a-zA-Z0-9]+/g) || []).filter(w => w.length > 1);
                 }
             }
-        }
-    });
-});
+
+            Promise.all([
+                fetch("https://raw.githubusercontent.com/artnp/bigdata/refs/heads/main/reel.js").then((r) =>
+                    r.text()
+                ),
+                fetch("https://raw.githubusercontent.com/artnp/bigdata/refs/heads/main/reel1.js").then((r) =>
+                    r.text()
+                ),
+            ]).then((results) => {
+                const regex = /"([^,]+),([^"]+)"/g;
+                results.forEach((dataStr) => {
+                    let match;
+                    while ((match = regex.exec(dataStr))) {
+                        videoIds.push({ id: match[1], text: match[2] });
+                    }
+                });
+                setupFuse();
+            });
+
+            Promise.all([
+                fetch("https://raw.githubusercontent.com/artnp/bigdata/refs/heads/main/bigdata.json").then((r) =>
+                    r.json()
+                ),
+                fetch("https://raw.githubusercontent.com/artnp/bigdata/refs/heads/main/bigdata1.json").then((r) =>
+                    r.json()
+                ),
+            ]).then((results) => {
+                data = results.flat();
+                setupFuse();
+            });
+
+            function setupFuse() {
+                if (videoIds.length === 0 || data.length === 0) return;
+                allItems = [
+                    ...videoIds.map((item) => ({ 
+                        ...item, 
+                        type: "video", 
+                        segmented: segmentThai(item.text) 
+                    })),
+                    ...data.map((item) => ({ 
+                        ...item, 
+                        type: "data", 
+                        segmented: segmentThai(item.data) 
+                    })),
+                ];
+                fuse = new Fuse(allItems, {
+                    keys: ["text", "data", "segmented"],
+                    includeScore: true,
+                    threshold: 0.8,
+                    ignoreLocation: true,
+                    findAllMatches: true,
+                    minMatchCharLength: 1,
+                    useExtendedSearch: true,
+                });
+            }
+
+            function extractKeywords(input) {
+                return segmentThai(input);
+            }
+
+            function highlightKeywords(text, keywords) {
+                let highlightedText = text;
+                let foundCount = 0;
+                keywords.forEach((keyword) => {
+                    const safeKeyword = keyword.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+                    const regex = new RegExp(safeKeyword, "gi");
+                    if (regex.test(text)) foundCount++;
+                    highlightedText = highlightedText.replace(
+                        regex,
+                        `<span class="highlight">$&</span>`
+                    );
+                });
+                const found = foundCount === keywords.length;
+                return { highlightedText, found };
+            }
+
+            function handleSearch() {
+                const input = searchInput.value.trim();
+                if (!input || !fuse) {
+                    resultsContainer.innerHTML = "";
+                    return;
+                }
+                const keywords = extractKeywords(input);
+                if (keywords.length === 0) {
+                    resultsContainer.innerHTML = "";
+                    return;
+                }
+                const fuseResults = fuse.search(input);
+                const results = [];
+                fuseResults.forEach((res) => {
+                    const item = res.item;
+                    const itemWords = item.segmented || [];
+                    const loweredKeywords = keywords.map(kw => kw.toLowerCase());
+                    const loweredItemWords = itemWords.map(iw => iw.toLowerCase());
+                    const matchedCount = loweredKeywords.filter(kw => loweredItemWords.includes(kw)).length;
+                    const found = matchedCount === keywords.length;
+                    let displayText = "";
+                    if (found && (item.text || item.data)) {
+                        const textToHighlight = item.text || item.data;
+                        const r = highlightKeywords(textToHighlight, keywords);
+                        displayText = r.highlightedText;
+                    }
+                    if (found) {
+                        results.push({ ...item, displayText, score: res.score });
+                    }
+                });
+
+                // เรียงลำดับตาม score (ยิ่งต่ำยิ่งดี)
+                results.sort((a, b) => a.score - b.score);
+
+                allResults = results;
+                currentPage = 0;
+                resultsContainer.innerHTML = "";
+                loadNextPage();
+            }
+
+            function loadNextPage() {
+                if (isLoading) return;
+                isLoading = true;
+                loadingIndicator.innerText = "";
+
+                const start = currentPage * pageSize;
+                const end = start + pageSize;
+                const pageItems = allResults.slice(start, end);
+
+                if (pageItems.length === 0) {
+                    isLoading = false;
+                    return;
+                }
+
+                renderResults(pageItems, true);
+                currentPage++;
+                isLoading = false;
+            }
+
+            function renderResults(results, append = false) {
+                if (!append) resultsContainer.innerHTML = "";
+                results.forEach((item) => {
+                    const div = document.createElement("div");
+                    div.className = "result-item";
+                    if (item.id && item.text) {
+                        const url = item.id.includes("start")
+                            ? `https://www.youtube.com/embed/${item.id}&autoplay=1`
+                            : `http://youtube.com/shorts/${item.id}`;
+                        div.innerHTML = `
+                        <div class="result-title">${item.displayText}</div>
+                        <div class="result-link">
+                            <img src="https://cdn-icons-png.flaticon.com/128/1384/1384060.png" alt="YouTube Icon" />
+                            <a href="${url}" target="_blank">${url}</a>
+                        </div>`;
+                        let hoverTimer = null;
+                        div.addEventListener("mouseenter", () => {
+                            if (div.classList.contains("viewed") || hoverTimer) return;
+                            hoverTimer = setTimeout(() => {
+                                if (!div.querySelector(".popup")) {
+                                    const popup = document.createElement("div");
+                                    popup.className = "popup";
+                                    popup.innerHTML = `
+                                    <iframe src="https://www.youtube.com/embed/${item.id}?modestbranding=1&showinfo=0&rel=0&controls=0&autoplay=1" 
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                        allowfullscreen></iframe>`;
+                                    div.appendChild(popup);
+                                }
+                                hoverTimer = null;
+                            }, 900);
+                            div.timer = hoverTimer;
+                        });
+                        div.addEventListener("mouseleave", () => {
+                            if (hoverTimer) {
+                                clearTimeout(hoverTimer);
+                                hoverTimer = null;
+                                div.timer = null;
+                            }
+                            const popup = div.querySelector(".popup");
+                            if (popup) {
+                                div.classList.add("viewed");
+                            }
+                        });
+                    } else if (item.data) {
+                        div.innerHTML = item.displayText;
+                    }
+                    div.addEventListener("click", () => {
+                        let copiedText;
+                        if (div.querySelector('.result-link')) {
+                            const title = div.querySelector('.result-title').textContent.trim();
+                            const link = div.querySelector('.result-link a').textContent.trim();
+                            copiedText = title.trim() + '\n ' + link.trim();
+                        } else {
+                            copiedText = div.textContent.trim().replace(/\s+/g, ' ');
+                        }
+                        copyTextToClipboard(copiedText);
+                        showCopyPopupAtElement(div);
+                    });
+                    resultsContainer.appendChild(div);
+                });
+            }
+
+            function copyTextToClipboard(text) {
+                const tempTextArea = document.createElement("textarea");
+                tempTextArea.value = text;
+                document.body.appendChild(tempTextArea);
+                tempTextArea.select();
+                document.execCommand("copy");
+                document.body.removeChild(tempTextArea);
+            }
+
+            function showCopyPopupAtElement(element) {
+                const rect = element.getBoundingClientRect();
+                copyPopup.style.left = rect.left + rect.width / 2 + "px";
+                copyPopup.style.top = rect.top + window.scrollY - 10 + "px";
+                copyPopup.style.opacity = "1";
+                setTimeout(() => {
+                    copyPopup.style.opacity = "0";
+                }, 1200);
+            }
+
+            // Debounce search input
+            let debounceTimer;
+            searchInput.addEventListener("input", () => {
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(() => {
+                    handleSearch();
+                }, 300);
+            });
+
+            // bind scroll event for infinite loading
+            window.addEventListener("scroll", () => {
+                if (
+                    window.innerHeight + window.scrollY >=
+                    document.body.offsetHeight - 200
+                ) {
+                    loadNextPage();
+                }
+            });
+        });
     </script>
 </body>
 </html>
