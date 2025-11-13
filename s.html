@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Real-time Fuzzy Search Engine</title>
+    <title>Big_data Search Engine</title>
     <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/128/1162/1162914.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -174,18 +174,84 @@
             opacity: 0.85;
         }
 
-        /* Loading */
+        /* Loading Animation */
         #loading {
             text-align: center;
             padding: 10px;
             color: #888;
             font-size: 0.9rem;
+            display: none; /* ซ่อนเริ่มต้น */
+        }
+
+        #loading.show {
+            display: block;
+        }
+
+        .loading-text {
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 2px solid #888;
+            animation: typing 2s steps(20) infinite, blink 0.5s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink {
+            from, to { border-color: transparent; }
+            50% { border-color: #888; }
+        }
+
+        /* เพิ่ม skeleton loading สำหรับ results */
+        .skeleton {
+            background: linear-gradient(90deg, #2e2e2e 25%, #444444 50%, #2e2e2e 75%);
+            background-size: 200% 100%;
+            animation: loading-skeleton 1.5s infinite;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        @keyframes loading-skeleton {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .skeleton-item {
+            padding: 15px;
+            height: 60px;
+        }
+
+        .skeleton-title {
+            height: 20px;
+            width: 80%;
+            margin-bottom: 10px;
+        }
+
+        .skeleton-link {
+            height: 15px;
+            width: 60%;
         }
     </style>
 </head>
 <body>
     <div id="main-container">
         <div id="header">
+            <h2>
+                <span style="color:#4285F4;">D</span
+                ><span style="color:#EA4335;">e</span
+                ><span style="color:#FBBC05;">e</span
+                ><span style="color:#4285F4;">p</span>
+                <span style="color:#34A853;">D</span
+                ><span style="color:#EA4335;">a</span
+                ><span style="color:#FBBC05;">t</span
+                ><span style="color:#4285F4;">a</span>
+                <span style="color:#EA4335;">L</span
+                ><span style="color:#34A853;">a</span
+                ><span style="color:#FBBC05;">p</span>
+            </h2>
         </div>
         <div id="search-container">
             <input
@@ -196,7 +262,9 @@
             />
         </div>
         <div id="results"></div>
-        <div id="loading"></div>
+        <div id="loading">
+            <div class="loading-text">กำลังโหลดข้อมูล...</div>
+        </div>
     </div>
     <div id="copy-popup" class="copy-popup">คัดลอกแล้ว!</div>
 
@@ -218,6 +286,58 @@
             const pageSize = 20;
             let isLoading = false;
 
+            // Cache สำหรับ segmented และ romanized เพื่อลดการคำนวณซ้ำ
+            const cache = new Map();
+
+            // Enhanced Thai to Roman transliteration map
+            const thaiToRoman = {
+                // Consonants (more accurate for loanwords)
+                'ก': 'k', 'ข': 'kh', 'ฃ': 'kh', 'ค': 'k', 'ฅ': 'kh', 'ฆ': 'kh', 'ง': 'ng',
+                'จ': 'j', 'ฉ': 'ch', 'ช': 'ch', 'ซ': 's', 'ฌ': 'ch', 'ญ': 'y', 'ฎ': 'd', 'ฏ': 't',
+                'ฐ': 'th', 'ฑ': 'th', 'ฒ': 'th', 'ณ': 'n', 'ด': 'd', 'ต': 't', 'ถ': 'th', 'ท': 'th',
+                'ธ': 'th', 'น': 'n', 'บ': 'b', 'ป': 'p', 'ผ': 'ph', 'ฝ': 'f', 'พ': 'ph', 'ฟ': 'f',
+                'ภ': 'ph', 'ม': 'm', 'ย': 'y', 'ร': 'r', 'ล': 'l', 'ว': 'w', 'ศ': 's', 'ษ': 's',
+                'ส': 's', 'ห': 'h', 'ฬ': 'l', 'อ': 'a', 'ฮ': 'h',
+                // Vowels (improved for common sounds)
+                'ะ': 'a', 'า': 'a', 'ิ': 'i', 'ี': 'i', 'ึ': 'ue', 'ื': 'ue', 'ุ': 'u', 'ู': 'u',
+                'เ': 'e', 'แ': 'ae', 'โ': 'o', 'ใ': 'ai', 'ไ': 'ai', 'ำ': 'am', '็': 'o', '่': '',
+                // For "coin" sound adjustment
+                '็': 'o', '์': '',
+                // English pass-through
+                'a': 'a', 'b': 'b', 'c': 'c', 'd': 'd', 'e': 'e', 'f': 'f', 'g': 'g', 'h': 'h',
+                'i': 'i', 'j': 'j', 'k': 'k', 'l': 'l', 'm': 'm', 'n': 'n', 'o': 'o', 'p': 'p',
+                'q': 'q', 'r': 'r', 's': 's', 't': 't', 'u': 'u', 'v': 'v', 'w': 'w', 'x': 'x',
+                'y': 'y', 'z': 'z'
+            };
+
+            // Loanword dictionary for exact matches
+            const loanwordMap = {
+                'บิทคอยน์': 'bitcoin',
+                'บิทคอยร์': 'bitcoin',
+                'Bitcoin': 'bitcoin',
+                // Add more common loanwords as needed
+            };
+
+            function simpleRomanize(text) {
+                const cacheKey = `roman_${text}`;
+                if (cache.has(cacheKey)) return cache.get(cacheKey);
+                if (!text) return '';
+                // Check for loanwords first
+                if (loanwordMap[text]) {
+                    const result = loanwordMap[text].toLowerCase();
+                    cache.set(cacheKey, result);
+                    return result;
+                }
+                let roman = '';
+                for (let i = 0; i < text.length; i++) {
+                    const char = text[i];
+                    roman += thaiToRoman[char] || char;
+                }
+                const result = roman.toLowerCase().replace(/\s+/g, ' ');
+                cache.set(cacheKey, result);
+                return result;
+            }
+
             function normalizeWord(word) {
                 if (word.endsWith('ๆ')) {
                     return word.slice(0, -1);
@@ -226,17 +346,38 @@
             }
 
             function segmentThai(text) {
+                const cacheKey = `seg_${text}`;
+                if (cache.has(cacheKey)) return cache.get(cacheKey);
                 if (!text || !text.trim()) return [];
-                try {
-                    const segmenter = new Intl.Segmenter('th-TH', {granularity: 'word'});
-                    return Array.from(segmenter.segment(text))
-                        .map(s => normalizeWord(s.segment))
-                        .filter(w => w.length > 1);
-                } catch (e) {
-                    // Fallback to simple split if Intl.Segmenter not supported
-                    return (text.match(/[\u0E00-\u0E7F]+|[a-zA-Z0-9]+/g) || []).filter(w => w.length > 1);
+                // ใช้ fallback ง่ายๆ เสมอ เพื่อความเร็ว (Intl.Segmenter อาจช้า)
+                const result = (text.match(/[\u0E00-\u0E7F]+|[a-zA-Z0-9]+/g) || []).map(w => normalizeWord(w)).filter(w => w.length > 1);
+                cache.set(cacheKey, result);
+                return result;
+            }
+
+            // แสดง skeleton loading ตอนเริ่มต้น
+            function showSkeleton() {
+                resultsContainer.innerHTML = '';
+                for (let i = 0; i < 5; i++) {
+                    const skeleton = document.createElement('div');
+                    skeleton.className = 'skeleton result-item';
+                    skeleton.innerHTML = `
+                        <div class="skeleton skeleton-title"></div>
+                        <div class="skeleton skeleton-link"></div>
+                    `;
+                    resultsContainer.appendChild(skeleton);
                 }
             }
+
+            // ซ่อน skeleton
+            function hideSkeleton() {
+                const skeletons = resultsContainer.querySelectorAll('.skeleton');
+                skeletons.forEach(s => s.remove());
+            }
+
+            // เริ่มโหลดข้อมูลพร้อม skeleton
+            showSkeleton();
+            loadingIndicator.classList.add('show');
 
             Promise.all([
                 fetch("https://raw.githubusercontent.com/artnp/bigdata/refs/heads/main/reel.js").then((r) =>
@@ -250,10 +391,23 @@
                 results.forEach((dataStr) => {
                     let match;
                     while ((match = regex.exec(dataStr))) {
-                        videoIds.push({ id: match[1], text: match[2] });
+                        const originalText = match[2];
+                        const segments = segmentThai(originalText);
+                        const romanizedSegments = segments.map(word => simpleRomanize(word)).join(' ');
+                        videoIds.push({ 
+                            id: match[1], 
+                            text: originalText,
+                            romanized: simpleRomanize(originalText),
+                            romanizedSegments: romanizedSegments
+                        });
                     }
                 });
                 setupFuse();
+                loadingIndicator.classList.remove('show');
+                hideSkeleton();
+            }).catch(() => {
+                loadingIndicator.classList.remove('show');
+                hideSkeleton();
             });
 
             Promise.all([
@@ -264,8 +418,21 @@
                     r.json()
                 ),
             ]).then((results) => {
-                data = results.flat();
+                data = results.flat().map(item => {
+                    const segments = segmentThai(item.data);
+                    const romanizedSegments = segments.map(word => simpleRomanize(word)).join(' ');
+                    return {
+                        ...item,
+                        romanized: simpleRomanize(item.data),
+                        romanizedSegments: romanizedSegments
+                    };
+                });
                 setupFuse();
+                loadingIndicator.classList.remove('show');
+                hideSkeleton();
+            }).catch(() => {
+                loadingIndicator.classList.remove('show');
+                hideSkeleton();
             });
 
             function setupFuse() {
@@ -274,18 +441,18 @@
                     ...videoIds.map((item) => ({ 
                         ...item, 
                         type: "video", 
-                        segmented: segmentThai(item.text) 
+                        segmented: segmentThai(item.text)
                     })),
                     ...data.map((item) => ({ 
                         ...item, 
                         type: "data", 
-                        segmented: segmentThai(item.data) 
+                        segmented: segmentThai(item.data)
                     })),
                 ];
                 fuse = new Fuse(allItems, {
-                    keys: ["text", "data", "segmented"],
+                    keys: ["text", "data", "segmented", "romanized", "romanizedSegments"],
                     includeScore: true,
-                    threshold: 0.8,
+                    threshold: 0.5, // Lowered for better cross-language matching
                     ignoreLocation: true,
                     findAllMatches: true,
                     minMatchCharLength: 1,
@@ -294,7 +461,10 @@
             }
 
             function extractKeywords(input) {
-                return segmentThai(input);
+                const segments = segmentThai(input);
+                const romanizedInput = simpleRomanize(input);
+                const romanSegments = segmentThai(romanizedInput);
+                return [...segments, ...romanSegments].filter((w, index, arr) => arr.indexOf(w) === index);
             }
 
             function highlightKeywords(text, keywords) {
@@ -309,7 +479,7 @@
                         `<span class="highlight">$&</span>`
                     );
                 });
-                const found = foundCount === keywords.length;
+                const found = foundCount >= Math.floor(keywords.length / 2);
                 return { highlightedText, found };
             }
 
@@ -324,15 +494,43 @@
                     resultsContainer.innerHTML = "";
                     return;
                 }
-                const fuseResults = fuse.search(input);
+
+                // แสดง loading และ skeleton ขณะ search
+                loadingIndicator.classList.add('show');
+                showSkeleton();
+
+                // Search with multiple terms: original, romanized full, and romanized segments
+                const searchTerms = [
+                    input,
+                    simpleRomanize(input),
+                    keywords.join(' ')
+                ];
+                let allFuseResults = [];
+                searchTerms.forEach(term => {
+                    const fuseResults = fuse.search(term);
+                    allFuseResults = allFuseResults.concat(fuseResults);
+                });
+
+                // Deduplicate
+                const uniqueResults = allFuseResults.filter((res, index, self) =>
+                    index === self.findIndex(r => 
+                        (r.item.id && self[index].item.id === r.item.id) || 
+                        (r.item.data && self[index].item.data === r.item.data)
+                    )
+                );
+
                 const results = [];
-                fuseResults.forEach((res) => {
+                uniqueResults.forEach((res) => {
                     const item = res.item;
                     const itemWords = item.segmented || [];
+                    const itemRomanWords = segmentThai(item.romanizedSegments || item.romanized || '') || [];
+                    const allItemWords = [...itemWords, ...itemRomanWords];
                     const loweredKeywords = keywords.map(kw => kw.toLowerCase());
-                    const loweredItemWords = itemWords.map(iw => iw.toLowerCase());
-                    const matchedCount = loweredKeywords.filter(kw => loweredItemWords.includes(kw)).length;
-                    const found = matchedCount === keywords.length;
+                    const loweredAllItemWords = allItemWords.map(iw => iw.toLowerCase());
+                    const matchedCount = loweredKeywords.filter(kw => 
+                        loweredAllItemWords.some(iw => iw.includes(kw) || kw.includes(iw))
+                    ).length;
+                    const found = matchedCount >= Math.floor(loweredKeywords.length / 2);
                     let displayText = "";
                     if (found && (item.text || item.data)) {
                         const textToHighlight = item.text || item.data;
@@ -344,11 +542,12 @@
                     }
                 });
 
-                // เรียงลำดับตาม score (ยิ่งต่ำยิ่งดี)
                 results.sort((a, b) => a.score - b.score);
 
                 allResults = results;
                 currentPage = 0;
+                hideSkeleton();
+                loadingIndicator.classList.remove('show');
                 resultsContainer.innerHTML = "";
                 loadNextPage();
             }
@@ -356,7 +555,7 @@
             function loadNextPage() {
                 if (isLoading) return;
                 isLoading = true;
-                loadingIndicator.innerText = "";
+                loadingIndicator.classList.add('show');
 
                 const start = currentPage * pageSize;
                 const end = start + pageSize;
@@ -364,12 +563,14 @@
 
                 if (pageItems.length === 0) {
                     isLoading = false;
+                    loadingIndicator.classList.remove('show');
                     return;
                 }
 
                 renderResults(pageItems, true);
                 currentPage++;
                 isLoading = false;
+                loadingIndicator.classList.remove('show');
             }
 
             function renderResults(results, append = false) {
@@ -453,13 +654,13 @@
                 }, 1200);
             }
 
-            // Debounce search input
+            // Debounce search input - เพิ่มเวลา debounce เป็น 500ms เพื่อลดการค้างขณะพิมพ์
             let debounceTimer;
             searchInput.addEventListener("input", () => {
                 clearTimeout(debounceTimer);
                 debounceTimer = setTimeout(() => {
                     handleSearch();
-                }, 300);
+                }, 500);
             });
 
             // bind scroll event for infinite loading
