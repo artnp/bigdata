@@ -2267,4 +2267,5 @@ const videoIds = [
 "boomS8MgZRQ,ถีบเพื่อทำลายสมดุลคู่ต่อสู้ สร้างช่องว่างก่อนเข้าจับทุ่ม/เทคดาวน์",
 "MeeIUO_WEOI,จิ๊กสะพานวงเดือน ใช้บานพับประตูเป็นตัวยกเสริม",
 "NiefyV6WzUs?start=85&end=120,Solana, Avalanche, Sui และ Aptos ล้วนโคลนจาก Ethereum ไม่มีนวัตกรรมใหม่จริง",
+"NiefyV6WzUs?start=118&end=178,Frontends บนเซิร์ฟเวอร์รวมศูนย์ที่ใช้เข้าถึง Ethereum smart contracts มีความเสี่ยงต่อการถูกเซ็นเซอร์, downtime และการโจมตี",
 ];
