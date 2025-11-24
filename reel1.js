@@ -2270,4 +2270,5 @@ const videoIds = [
 "NiefyV6WzUs?start=118&end=178,Frontends บนเซิร์ฟเวอร์รวมศูนย์ที่ใช้เข้าถึง Ethereum smart contracts มีความเสี่ยงต่อการถูกเซ็นเซอร์, downtime และการโจมตี",
 "nTE9wGsy8nQ,ท่า Darce choke ของอิสลาม",
 "VI1x0l3nIWc?start=1540&end=1696,สินทรัพย์ที่มีความเชื่อของมวลชนเข้ามาเกี่ยวข้อง กราฟมักจะมี 5 คลื่น",
+"VokqMGryBnE,การทำงานของเลเซอร์ลบรอยสัก",
 ];
