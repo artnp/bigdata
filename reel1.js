@@ -2266,7 +2266,7 @@ const videoIds = [
 "FfbfM1dkN5g,Log Tongs คีมยกไม้ เมื่อถูกยกขึ้น แรงจะถูกบีบไปยังท่อนซุง",
 "boomS8MgZRQ,ถีบเพื่อทำลายสมดุลคู่ต่อสู้ สร้างช่องว่างก่อนเข้าจับทุ่ม/เทคดาวน์",
 "MeeIUO_WEOI,จิ๊กสะพานวงเดือน ใช้บานพับประตูเป็นตัวยกเสริม",
-"NiefyV6WzUs?start=85&end=120,Solana, Avalanche, Sui และ Aptos ล้วนโคลนจาก Ethereum ไม่มีนวัตกรรมใหม่จริง",
+"NiefyV6WzUs?start=85&end=120,Solana, Avalanche, Sui และ Aptos ล้วนโคลนเลียนแบบจาก Ethereum ไม่มีนวัตกรรมใหม่จริง",
 "NiefyV6WzUs?start=118&end=178,Frontends บนเซิร์ฟเวอร์รวมศูนย์ที่ใช้เข้าถึง Ethereum smart contracts มีความเสี่ยงต่อการถูกเซ็นเซอร์, downtime และการโจมตี",
 "nTE9wGsy8nQ,ท่า Darce choke ของอิสลาม",
 "VI1x0l3nIWc?start=1540&end=1696,สินทรัพย์ที่มีความเชื่อของมวลชนเข้ามาเกี่ยวข้อง กราฟมักจะมี 5 คลื่น",
