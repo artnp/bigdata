@@ -2285,4 +2285,5 @@ const videoIds = [
 "GkRbATGhW00?start=134&end=200,DIY ก้านโยกดัดเหล็กเส้นพกพา",
 "YiBZ3nXOXjo?start=180&end=234,จุดสูงสุดของราคา Bitcoin สอดคล้องกับจุดสูงสุดของ ISM PMI",
 "YiBZ3nXOXjo?start=307&end=351, Altseason จะมาเมื่อ ค่า PMI อยู่ที่ 52 หรือสูงกว่า ",
+"3L4lxusff1c?start=21&end=53, เด็กทารกไม่ได้กลัวงูโดยสัญชาตญาณธรรมชาติ ",
 ];
