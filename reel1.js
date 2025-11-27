@@ -2286,4 +2286,5 @@ const videoIds = [
 "YiBZ3nXOXjo?start=180&end=234,จุดสูงสุดของราคา Bitcoin สอดคล้องกับจุดสูงสุดของ ISM PMI",
 "YiBZ3nXOXjo?start=307&end=351, Altseason จะมาเมื่อ ค่า PMI อยู่ที่ 52 หรือสูงกว่า ",
 "3L4lxusff1c?start=21&end=53, เด็กทารกไม่ได้กลัวงูโดยสัญชาตญาณธรรมชาติ ",
+"aOcqkoY-flc,เศษยางรถยนต์+น้ำมันเบนซิน+เบกกิ้งโซดา = กาวทาประสานท่อ PVC",
 ];
