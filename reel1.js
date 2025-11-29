@@ -2298,4 +2298,5 @@ const videoIds = [
 "Seomnc0b1cE?start=57&end=287,ห่อถ่าน AA 4 ก้อน ต่อเรียงสายชาร์จ USB โทรศัพท์มือถือ",
 "XMV40lVeL0U,ต่อท่อลำเลียงท่อนไม้ลงจากภูเขา",
 "wFYJEw0OAX8,รองเท้าลมเดินบนน้ำ",
+"_GpDmIfbSG0?start=454&end=484,ดูสัญญาณ Coinbase Bitcoin premium ดูทิศทางขาขึ้น-ลง Bitcoin ที่ถูกกำหนดจากสถาบัน",
 ];
