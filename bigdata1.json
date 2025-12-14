@@ -1695,5 +1695,6 @@
 {"data":"โดยปกติแล้วจะใช้ got-scraping สำหรับการสเครป HTML และใช้ fetch เมื่อเรียก API"},
 {"data":"พร็อกซีที่ใช้บ่อยคือ Smart Proxy แบบ Data Center Proxy ชนิด Auto-Rotating ซึ่งจัดการการหมุนเวียน IP ให้ทุกครั้ง"},
 {"data":"การเลือกเครื่องมือ: โดยทั่วไปใช้ got-scraping สำหรับ HTML และใช้ fetch เมื่อมีการเรียก API"},
-{"data":"Proxy ทางเลือก: Storm Proxies: เคยใช้บ่อยแต่ช่วงหลังใช้งานได้ไม่ดีนัก แต่ยังใช้ได้ดีกับการ Scraping Google โดยใช้ dedicated proxies"}
+{"data":"Proxy ทางเลือก: Storm Proxies: เคยใช้บ่อยแต่ช่วงหลังใช้งานได้ไม่ดีนัก แต่ยังใช้ได้ดีกับการ Scraping Google โดยใช้ dedicated proxies"},
+{"data":"ทางเลือก: Lambda Function IPs: บางครั้ง IP ของ AWS Lambda function ก็ใช้งานได้ดีมาก โดยการโฮสต์โค้ดบน AWS Lambda จะทำให้พร็อกซี่หมุน IP อัตโนมัติ"}
 ]
