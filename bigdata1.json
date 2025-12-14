@@ -1669,5 +1669,6 @@
 {"data":"Axios มีคุณสมบัติเด่น เช่น Interceptors (การสกัดกั้นและปรับเปลี่ยนคำขอ-การตอบกลับ), การจัดการข้อผิดพลาด (Error Handling) และการรองรับการยกเลิกคำขอ"},
 {"data":"Supabase ใช้ฐานข้อมูลแบบ PostgreSQL ซึ่งเป็นฐานข้อมูลเชิงสัมพันธ์ (SQL)"},
 {"data":"ผู้บรรยายชื่นชอบ Supabase เพราะเป็นฐานข้อมูล SQL และเชื่อว่าเหมาะสมกว่า NoSQL สำหรับการทำ Scraping"},
-{"data":"ผู้บรรยายใช้ Supabase แทน AWS DynamoDB ที่เคยใช้มาก่อน เพราะ DynamoDB มี ราคาสูงมาก"}
+{"data":"ผู้บรรยายใช้ Supabase แทน AWS DynamoDB ที่เคยใช้มาก่อน เพราะ DynamoDB มี ราคาสูงมาก"},
+{"data":"eVOMI เสนอ Residential Proxies ในราคา 49 เซนต์ต่อกิกกะไบต์ ซึ่งถูกกว่า Data Center IPs ราคาถูกของ Smart Proxy ด้วยซ้ำ"}
 ]
