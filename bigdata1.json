@@ -1697,5 +1697,6 @@
 {"data":"การเลือกเครื่องมือ: โดยทั่วไปใช้ got-scraping สำหรับ HTML และใช้ fetch เมื่อมีการเรียก API"},
 {"data":"Proxy ทางเลือก: Storm Proxies: เคยใช้บ่อยแต่ช่วงหลังใช้งานได้ไม่ดีนัก แต่ยังใช้ได้ดีกับการ Scraping Google โดยใช้ dedicated proxies"},
 {"data":"ทางเลือก: Lambda Function IPs: บางครั้ง IP ของ AWS Lambda function ก็ใช้งานได้ดีมาก โดยการโฮสต์โค้ดบน AWS Lambda จะทำให้พร็อกซี่หมุน IP อัตโนมัติ"},
-{"data":"Last Resort Proxy: Smart Proxy (Residential IPs): จะใช้ Residential IPs ของ Smart Proxy เป็นทางเลือกสุดท้ายเมื่อตัวเลือกอื่นล้มเหลว เพราะมีราคาสูงกว่า"}
+{"data":"Last Resort Proxy: Smart Proxy (Residential IPs): จะใช้ Residential IPs ของ Smart Proxy เป็นทางเลือกสุดท้ายเมื่อตัวเลือกอื่นล้มเหลว เพราะมีราคาสูงกว่า"},
+{"data":"เครื่องมือ Last Resort: Puppeteer: ใช้เป็นทางเลือกสุดท้ายสำหรับบางกรณีที่จำเป็น เช่น การดึงวิดีโอจาก TikTok ซึ่งเป็นตัวเลือกสุดท้ายที่ควรใช้"}
 ]
