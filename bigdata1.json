@@ -1662,5 +1662,6 @@
 {"data":"Axios เป็นเครื่องมือที่ใช้ในการดึงข้อมูลจากหน้าเว็บหรือ API ใน JavaScript"},
 {"data":"ปกติแล้วใน JavaScript เมื่อคุณต้องการดึงข้อมูลจากหน้าเว็บหรือ API คุณจะใช้ axios หรือ Fetch"},
 {"data":"Got Scraping ถูกมองว่าดีกว่า Axios สำหรับงาน Web Scraping โดยเฉพาะ"},
-{"data":"Axios เป็นไลบรารี JavaScript แบบ Open Source ที่ได้รับความนิยม ใช้สำหรับทำ HTTP Requests จากเบราว์เซอร์หรือสภาพแวดล้อม Node.js"}
+{"data":"Axios เป็นไลบรารี JavaScript แบบ Open Source ที่ได้รับความนิยม ใช้สำหรับทำ HTTP Requests จากเบราว์เซอร์หรือสภาพแวดล้อม Node.js"},
+{"data":"Axios เป็น Promise-based HTTP Client ซึ่งทำให้ง่ายต่อการจัดการคำขอแบบอะซิงโครนัส (Asynchronous Requests) โดยใช้ async-await"}
 ]
