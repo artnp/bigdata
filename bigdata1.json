@@ -1664,5 +1664,6 @@
 {"data":"Got Scraping ถูกมองว่าดีกว่า Axios สำหรับงาน Web Scraping โดยเฉพาะ"},
 {"data":"Axios เป็นไลบรารี JavaScript แบบ Open Source ที่ได้รับความนิยม ใช้สำหรับทำ HTTP Requests จากเบราว์เซอร์หรือสภาพแวดล้อม Node.js"},
 {"data":"Axios เป็น Promise-based HTTP Client ซึ่งทำให้ง่ายต่อการจัดการคำขอแบบอะซิงโครนัส (Asynchronous Requests) โดยใช้ async-await"},
-{"data":"คุณสามารถใช้ Axios เพื่อส่งคำขอแบบต่าง ๆ ได้แก่ GET, POST, PUT, และ DELETE"}
+{"data":"คุณสามารถใช้ Axios เพื่อส่งคำขอแบบต่าง ๆ ได้แก่ GET, POST, PUT, และ DELETE"},
+{"data":"ข้อดีของ Axios คือมี API ที่เป็นมิตรต่อผู้ใช้มากกว่า fetch() โดยมีการแปลงข้อมูล JSON โดยอัตโนมัติ"}
 ]
