@@ -2347,4 +2347,5 @@ const videoIds = [
 "y_jPKpd_b6A,Jake Paul แสดงละครหลอกคนดู ในไฟต์ชกมวย",
 "tJ39ydOFte4?start=164&end=210,แมวมีสนามแม่เหล็กไฟฟ้าช่วยไล่พลังงานไม่ดีออกไป",
 "qzF6yzlA6fg?start=153&end=183,ฐานหลอดไฟ LED ฝั่งที่โดนบากเรียบจะเป็นด้าน -",
+"qzF6yzlA6fg?start=241&end=255,บอร์ด Arduino ใช้ไฟจ่ายเข้า 5V DC",
 ];
