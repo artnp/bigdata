@@ -2469,5 +2469,6 @@
 {"data":"ตรวจสอบในหน้าต่าง Action ว่าคำสั่งที่บันทึกไว้ไม่มี"},
 {"data":"ตรวจสอบในหน้าต่าง Action ว่าคำสั่งที่บันทึกไว้ไม่มี"},
 {"data":"ไปที่เมนู Layer > Show Layers เพื่อสั่งเปิดตาเฉพาะ Layer ล่าง"},
-{"data":"ไปที่เมนู Layer > Show Layers เพื่อสั่งเปิดตาเฉพาะ Layer ล่าง"}
+{"data":"ไปที่เมนู Layer > Show Layers เพื่อสั่งเปิดตาเฉพาะ Layer ล่าง"},
+{"data":"ในพาเนล Action จะต้องขึ้นคำสั่ง Select bottom layer - Hide layer - Select all layers - Hide"}
 ]
