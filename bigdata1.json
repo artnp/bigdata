@@ -2430,5 +2430,6 @@
 {"data":"มอง"},
 {"data":"ตรวจสอบสิทธิ์การเข้าถึงไฟล์ (Permissions) ของ Folder ที่เก็บ"},
 {"data":"ลอง Restart โปรแกรม Photoshop หนึ่งครั้งหลังจากตั้งค่าเสร็จสิ้นเพื่อให้ระบบโหลดการตั้งค่า Event Manager ใหม่ทั้งหมด"},
-{"data":"ตรวจสอบว่าไฟล์ gemini-tool.jsx ถูกวางไว้ใน Folder ของ Photoshop > Presets > Scripts แล้ว"}
+{"data":"ตรวจสอบว่าไฟล์ gemini-tool.jsx ถูกวางไว้ใน Folder ของ Photoshop > Presets > Scripts แล้ว"},
+{"data":"ตรวจสอบสิทธิ์การเข้าถึงไฟล์ (Permissions) ของ Folder ที่เก็บ"}
 ]
