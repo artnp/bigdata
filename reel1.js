@@ -271,4 +271,5 @@ const videoIds = [
 "nGUV0yWNbNM?start=4&end=55.625,แนะนำบอร์ด Arduino VENTUNO Q ที่รองรับเทคโนโลยี AI หลากหลาย เช่น LLM, VLM และ ASR",
 "DHH9MqJe0YM?start=215&end=275,Digital Optimus จะประมวลผลวิดีโอหน้าจอแบบ Real-time แทนการใช้ภาพนิ่ง (Screenshots) แบบ AI เจ้าอื่น",
 "DKTPDmC0Y3o?start=182&end=242,ผลลัพธ์การสร้าง: ตัวละครในรูปภาพจะเคลื่อนไหวตามหลักชีวกลศาสตร์ (Biomechanics) จากวิดีโอต้นแบบอย่างแม่นยำ",
+"Amn1eqnjRFk?start=4&end=20.666667,Kling 3.0 Motion Control เปิดตัวฟีเจอร์ใหม่ที่เน้นการควบคุมการเคลื่อนไหวที่สมจริงยิ่งขึ้น",
 ];
