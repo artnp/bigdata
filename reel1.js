@@ -425,4 +425,5 @@ const videoIds = [
 "pPnVsRPFWV8?start=16&end=76,Jensen Huang อธิบายว่าหุ่นยนต์นี้ทำงานผ่านแพลตฟอร์ม NVIDIA Omniverse",
 "WNtlUViSrPg?start=27&end=87,Orcahand Lite: มือหุ่นยนต์รุ่นเริ่มต้น มี 9 องศาอิสระ (DoF) และ 13 ข้อต่อ น้ำหนักเบาไม่ถึง 700 กรัม",
 "raPrDE8cr8I?start=84&end=144,กลไกการตอกหรือเจาะ (Punching/Stamping Mechanism): ใช้การหมุนเปลี่ยนเป็นการเคลื่อนที่ขึ้นลงเพื่อกดหรือเจาะ",
+"raPrDE8cr8I?start=193&end=253,กลไกตัวหนีบขนาน (Parallel Gripper): การใช้จุดหมุนและกระบอกสูบควบคุมการหนีบในแนวขนาน",
 ];
