@@ -1318,4 +1318,5 @@ const videoIds = [
 "uYsmO3OG1xk?start=269&end=329,บทบาทของ Joi Ito: Joichi Ito อดีตผู้อำนวยการ MIT Media Lab เป็นตัวกลางสำคัญที่นำเงินของ Epstein เข้ามาสนับสนุนโปรเจกต์ต่าง ๆ ใน MIT",
 "uYsmO3OG1xk?start=392&end=452,การก่อตั้ง MIT DCI: Joi Ito ก่อตั้ง MIT Digital Currency Initiative (DCI) ในปี 2015 เพื่อเข้ามามีบทบาทในการสนับสนุนการพัฒนา Bitcoin",
 "uYsmO3OG1xk?start=333&end=393,การฟอกเงินผ่านการกุศล: Epstein ต้องการนำเงินสีเทามาทำให้สะอาดผ่านการบริจาคให้มหาวิทยาลัยชั้นนำอย่าง Harvard และ MIT โดยใช้ Joi Ito เป็นผู้ประสานงาน",
+"uYsmO3OG1xk?start=1146&end=1206,เงินทุนของ Epstein สู่กลุ่มนักพัฒนา: เงินจำนวน 500,000 เหรียญจาก Epstein ถูกส่งผ่าน Joi Ito เพื่อนำไปจ่ายเป็นเงินเดือนให้แก่กลุ่มนักพัฒนา Bitcoin Core 3 คน",
 ];
