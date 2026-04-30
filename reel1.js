@@ -1441,4 +1441,5 @@ const videoIds = [
 "IupSHQBjOqQ?start=180&end=240,Addressing Calf Kicks: In his interview, Haggerty shared advice for fighters, particularly about calf kicks. He emphasized the importance of hard work in the gym and having a supportive coach. He simply suggested lifting your leg to handle the kicks .",
 "HpWOZJgOB_o?start=76&end=85.48,คำเตือนทิ้งท้ายว่าความสุขสบายที่มากเกินไปจะนำไปสู่ความล้มเหลวในที่สุด",
 "Hxuv74a1Pjc?start=322&end=382,มหาเศรษฐีเริ่มพูดถึง 'รายได้พื้นฐานถ้วนหน้า' (UBI) เพื่อเตรียมรับมือกับปัญหาการว่างงานที่อาจเกิดจาก AI ในอนาคต",
+"1-1nqttp8EE?start=1160&end=1220,ความไม่แน่นอนจากการเปลี่ยนผู้นำ Fed ร่วมกับปัจจัยเรื่องภาษีและความขัดแย้งโลก อาจนำไปสู่จุดจบของวัฏจักรเศรษฐกิจนี้ในอีก 1-2 ปีข้างหน้า",
 ];
