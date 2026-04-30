@@ -1438,4 +1438,5 @@ const videoIds = [
 "g_atCL7bBo8?start=253&end=313,ประเด็นหลักที่รถถังพ่ายแพ้คือ 'วินัยและการโฟกัสที่ลดลง' รวมถึงสภาพร่างกายที่ยืนระยะไม่ครบ 5 ยก",
 "dYQUoMvGktQ?start=95&end=117.76,แรงปะทะที่รวดเร็วและรุนแรงส่งผลต่อสมองโดยตรง ทำให้รถถังเกิดอาการคอนคัสชั่น (Concussion) จนทรุดลงกับพื้น",
 "R2hf57bgR7M?start=20&end=47.066667,กุญแจสำคัญคือการสลับการ์ดเพื่อหลบลูกเตะคาฟคิกของยูกิที่เคยเป็นจุดเด่นได้อย่างยอดเยี่ยม",
+"IupSHQBjOqQ?start=180&end=240,Addressing Calf Kicks: In his interview, Haggerty shared advice for fighters, particularly about calf kicks. He emphasized the importance of hard work in the gym and having a supportive coach. He simply suggested lifting your leg to handle the kicks .",
 ];
