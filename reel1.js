@@ -1481,4 +1481,5 @@ const videoIds = [
 "M54st3Qtsxs?start=23&end=83,สโลแกน 'Just Do It' มีที่มาจากคำพูดสุดท้ายก่อนประหารชีวิตของ Gary Gilmore ฆาตกรต่อเนื่องในปี 1977",
 "M54st3Qtsxs?start=402&end=462,บทเรียนสำคัญคือ 'Just make it exist first' หรือการทำให้มันมีตัวตนขึ้นมาก่อน แล้วค่อยพัฒนาให้ดีขึ้นทีหลัง",
 "nLHGW7pWTJw?start=277&end=337,Powerful Orchestration: Toward the end, the full orchestra comes together for a dramatic, swelling climax, blending traditional motifs with a powerful, modern symphonic sound .",
+"nLHGW7pWTJw?start=166&end=226,Industrial Climax: Around the middle of the track, the tempo increases, and the percussion becomes more prominent and driving, symbolizing the energy and motion of the industrial age .",
 ];
