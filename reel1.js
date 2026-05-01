@@ -1480,4 +1480,5 @@ const videoIds = [
 "bZwRU7QHNAo?start=909&end=969,ควรลดอัตตาและมองว่าตนเองเป็นเพียงส่วนเล็กๆ ของธรรมชาติ เพื่อให้อยู่ร่วมกับสิ่งอื่นได้อย่างเคารพและกลมกลืน",
 "M54st3Qtsxs?start=23&end=83,สโลแกน 'Just Do It' มีที่มาจากคำพูดสุดท้ายก่อนประหารชีวิตของ Gary Gilmore ฆาตกรต่อเนื่องในปี 1977",
 "M54st3Qtsxs?start=402&end=462,บทเรียนสำคัญคือ 'Just make it exist first' หรือการทำให้มันมีตัวตนขึ้นมาก่อน แล้วค่อยพัฒนาให้ดีขึ้นทีหลัง",
+"nLHGW7pWTJw?start=277&end=337,Powerful Orchestration: Toward the end, the full orchestra comes together for a dramatic, swelling climax, blending traditional motifs with a powerful, modern symphonic sound .",
 ];
