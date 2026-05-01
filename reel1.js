@@ -1482,4 +1482,5 @@ const videoIds = [
 "M54st3Qtsxs?start=402&end=462,บทเรียนสำคัญคือ 'Just make it exist first' หรือการทำให้มันมีตัวตนขึ้นมาก่อน แล้วค่อยพัฒนาให้ดีขึ้นทีหลัง",
 "nLHGW7pWTJw?start=277&end=337,Powerful Orchestration: Toward the end, the full orchestra comes together for a dramatic, swelling climax, blending traditional motifs with a powerful, modern symphonic sound .",
 "nLHGW7pWTJw?start=166&end=226,Industrial Climax: Around the middle of the track, the tempo increases, and the percussion becomes more prominent and driving, symbolizing the energy and motion of the industrial age .",
+"jaX15ZlT368?start=78&end=138,มีการนำเสียงเครื่องเป่าเข้ามาเสริมเพื่อสร้างความรู้สึกที่ยิ่งใหญ่และสง่างาม",
 ];
