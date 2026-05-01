@@ -1483,4 +1483,5 @@ const videoIds = [
 "nLHGW7pWTJw?start=277&end=337,Powerful Orchestration: Toward the end, the full orchestra comes together for a dramatic, swelling climax, blending traditional motifs with a powerful, modern symphonic sound .",
 "nLHGW7pWTJw?start=166&end=226,Industrial Climax: Around the middle of the track, the tempo increases, and the percussion becomes more prominent and driving, symbolizing the energy and motion of the industrial age .",
 "jaX15ZlT368?start=78&end=138,มีการนำเสียงเครื่องเป่าเข้ามาเสริมเพื่อสร้างความรู้สึกที่ยิ่งใหญ่และสง่างาม",
+"jaX15ZlT368?start=165&end=220.04,เสียงขลุ่ยญี่ปุ่น (Shakuhachi) เข้ามามีบทบาทเด่น ให้ความรู้สึกถึงจิตวิญญาณดั้งเดิมท่ามกลางความทันสมัย",
 ];
