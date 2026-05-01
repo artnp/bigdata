@@ -1484,4 +1484,5 @@ const videoIds = [
 "nLHGW7pWTJw?start=166&end=226,Industrial Climax: Around the middle of the track, the tempo increases, and the percussion becomes more prominent and driving, symbolizing the energy and motion of the industrial age .",
 "jaX15ZlT368?start=78&end=138,มีการนำเสียงเครื่องเป่าเข้ามาเสริมเพื่อสร้างความรู้สึกที่ยิ่งใหญ่และสง่างาม",
 "jaX15ZlT368?start=165&end=220.04,เสียงขลุ่ยญี่ปุ่น (Shakuhachi) เข้ามามีบทบาทเด่น ให้ความรู้สึกถึงจิตวิญญาณดั้งเดิมท่ามกลางความทันสมัย",
+"ybUNXIXocBQ?start=524&end=584,บล็อกเชนทำหน้าที่เป็นชั้นประสานงาน (Coordination Layer) สำหรับเศรษฐกิจยุคใหม่ที่ขับเคลื่อนด้วย AI Agents",
 ];
