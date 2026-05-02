@@ -1561,4 +1561,5 @@ const videoIds = [
 "a27T4mu-rSY?start=231&end=291,บุคคลสำคัญที่มีชื่อในบัญชี ได้แก่ Alex Karp (CEO ของ Palantir), Satya Nadella (CEO ของ Microsoft) และหัวหน้าหน่วย MI6",
 "a27T4mu-rSY?start=262&end=322,ผู้ร่วมประชุมยังรวมถึงผู้มีอิทธิพลอย่าง Peter Thiel, Demis Hassabis (CEO ของ Google DeepMind) และอดีตนายกรัฐมนตรีอังกฤษ Rishi Sunak",
 "aA5eoXPFcIg?start=35&end=95,Khan Academy เปิดตัวโปรเจกต์ใหม่ชื่อ KN TED Institute เพื่อมอบปริญญาตรีด้าน AI",
+"v8a7kQHhzvk?start=83&end=143,เมื่อออกอาวุธเสร็จจะฉากออกด้านข้างเสมอ ไม่ถอยหลังตรงๆ เพื่อหลบฉากจากวิถีการบุก",
 ];
