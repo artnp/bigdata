@@ -1562,4 +1562,5 @@ const videoIds = [
 "a27T4mu-rSY?start=262&end=322,ผู้ร่วมประชุมยังรวมถึงผู้มีอิทธิพลอย่าง Peter Thiel, Demis Hassabis (CEO ของ Google DeepMind) และอดีตนายกรัฐมนตรีอังกฤษ Rishi Sunak",
 "aA5eoXPFcIg?start=35&end=95,Khan Academy เปิดตัวโปรเจกต์ใหม่ชื่อ KN TED Institute เพื่อมอบปริญญาตรีด้าน AI",
 "v8a7kQHhzvk?start=83&end=143,เมื่อออกอาวุธเสร็จจะฉากออกด้านข้างเสมอ ไม่ถอยหลังตรงๆ เพื่อหลบฉากจากวิถีการบุก",
+"IqYj2T9yzWI?start=201&end=261,Boncafé: ใช้เมล็ดกาแฟโภคภัณฑ์ราคาถูกที่สุดจากหลายแหล่งมาผสมกัน มักเป็นกาแฟเก่าบดค้างสต็อกที่สูญเสียรสชาติไปแล้ว",
 ];
