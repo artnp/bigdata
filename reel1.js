@@ -1784,4 +1784,5 @@ const videoIds = [
 "e717WuysH9Q?start=933&end=993,เมื่อราคาเข้าสู่ Gaussian Channel ในกราฟ 7 วัน จะเปรียบเหมือน 'ทรายดูด' ที่ต้องใช้เวลาหลายร้อยวันกว่าจะฟื้นตัว",
 "cO5t7e_dNWo?start=241&end=292.500542,Ilia Topuria and Justin Gaethje faced off ahead of their title fight, both showcasing their championship belts .",
 "-PZsSWwc9xA?start=63&end=123,กล่าวถึงนักบุญปีเตอร์ (Peter) ที่กำลังพักร้อน ซึ่งเปรียบเสมือนการเปิดโอกาสให้ทำสิ่งต่างๆ ได้",
+"9-GnpLmhrpE?start=18&end=35.3,ขั้นตอนการหมุนตัวเด็ก 180 องศาในท่าที่เหมาะสมเพื่อช่วยให้การทำคลอดทำได้ง่ายขึ้น",
 ];
