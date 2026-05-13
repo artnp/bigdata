@@ -1896,4 +1896,5 @@ const videoIds = [
 "n6-6QYDI6Vo?start=227&end=287,Android for Cars เพิ่มระบบนำทาง Google Maps แบบ 3D Immersive ที่แสดงรายละเอียดถนนและป้ายชัดเจน",
 "dXCCleAddEA?start=629&end=689,ฟีเจอร์ 'Rambler' บน Gboard ช่วยจัดระเบียบคำพูดที่สับสนให้กลายเป็นข้อความที่สมบูรณ์และเป็นธรรมชาติ",
 "Jzrc-pSGsMg?start=266&end=326,เครือข่ายแบบปิด (Walled Garden): ระบบใหม่ของ Wall Street สร้างบน Canton Network ซึ่งเป็นบล็อกเชนแบบส่วนตัวและต้องขออนุญาต ซึ่งอาจซ้ำรอยความล้มเหลวของ AOL ในอดีต",
+"Jzrc-pSGsMg?start=495&end=555,ทฤษฎี Infrastructure Inversion: Andreas Antonopoulos เคยทำนายไว้เมื่อ 10 ปีก่อนว่าธนาคารจะค่อยๆ เปลี่ยนจากต่อต้านมาเป็นใช้งาน และสุดท้ายจะรันระบบบนบัญชีแยกประเภทแบบกระจายศูนย์ (Open Ledger)",
 ];
