@@ -2086,4 +2086,5 @@ const videoIds = [
 "ufPzeXDIYDM?start=16&end=76,จังหวะบีตอิเล็กทรอนิกส์หนักๆ เริ่มแทรกเข้ามาพร้อมกับเสียงสังเคราะห์ที่ดังต่อเนื่อง ทำให้อารมณ์ของเพลงดูเร่งรีบและกดดันมากขึ้น",
 "f0708Q1kDZ8?start=50&end=110,ดนตรีเริ่มส่งสัญญาณของความโกลาหลและอันตรายที่กำลังคืบคลานเข้ามา",
 "AKCS-2wA4mU?start=205&end=265,- Climax & Escalation: Electric guitar kicks in with heavy, distorted riffs, turning the calm melody into a chaotic and powerful rock anthem.",
+"BcRoyqpV5pg?start=43&end=103,เริ่มมีเสียงบีท (Beat) สม่ำเสมอเข้ามาประกอบ คล้ายเสียงกลองหรือเสียงเคาะที่เป็นจังหวะคงที่",
 ];
