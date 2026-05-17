@@ -2087,4 +2087,5 @@ const videoIds = [
 "f0708Q1kDZ8?start=50&end=110,ดนตรีเริ่มส่งสัญญาณของความโกลาหลและอันตรายที่กำลังคืบคลานเข้ามา",
 "AKCS-2wA4mU?start=205&end=265,- Climax & Escalation: Electric guitar kicks in with heavy, distorted riffs, turning the calm melody into a chaotic and powerful rock anthem.",
 "BcRoyqpV5pg?start=43&end=103,เริ่มมีเสียงบีท (Beat) สม่ำเสมอเข้ามาประกอบ คล้ายเสียงกลองหรือเสียงเคาะที่เป็นจังหวะคงที่",
+"BcRoyqpV5pg?start=85&end=145,ดนตรีเริ่มมีการเปลี่ยนผ่าน โดยเพิ่มเครื่องดนตรีประเภทลิ่มนิ้วหรือเสียงคีย์บอร์ดที่เล่นทำนองสลับไปมาอย่างรวดเร็ว",
 ];
