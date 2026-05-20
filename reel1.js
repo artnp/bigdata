@@ -2200,4 +2200,5 @@ const videoIds = [
 "OMhKgQmeMhI?start=868&end=928,แนะนำ Information Agents ระบบเอเจนต์บน Google Search ที่ช่วยสแกนและอัปเดตข้อมูลจากทั่วทั้งเว็บตามเงื่อนไขที่กำหนด",
 "OMhKgQmeMhI?start=1714&end=1774,เปิดตัวแว่นตาเสียงอัจฉริยะ (Audio Glasses) รุ่นแรกของ Google เน้นการสั่งงานและรับฟังข้อมูลผ่านเสียงโดยไม่ต้องมีหน้าจอ",
 "OMhKgQmeMhI?start=2002&end=2062,ประกรศทิศทาง Gemini for Science และโปรเจกต์ Alpha Earth Foundations แฝดดิจิทัลของโลกเพื่อช่วยเหลืองานวิจัยและการแพทย์",
+"xxQjRTCEafc?start=27&end=56.4,Mandy Rose โชว์ความสามารถในการแรปสด (Freestyle) บนถนนร่วมกับวง Crash Adams ได้อย่างน่าทึ่ง",
 ];
