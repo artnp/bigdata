@@ -2197,4 +2197,5 @@ const videoIds = [
 "OMhKgQmeMhI?start=416&end=476,เปิดตัว Gemini 3.5 Flash โมเดลระดับฟรอนเทียร์รุ่นใหม่ที่เน้นความเร็วในการประมวลผลสูงกว่าเดิมถึง 4 เท่า",
 "OMhKgQmeMhI?start=507&end=567,อัปเกรดแอปพลิเคชัน Anti-gravity 2.0 บนเดสก์ท็อป โดยเน้นสถาปัตยกรรมที่ออกแบบมาเพื่อการทำงานของ AI Agent โดยเฉพาะ",
 "OMhKgQmeMhI?start=628&end=688,เปิดตัว Gemini Spark ผู้ช่วย AI อัจฉริยะส่วนบุคคล (Personal AI Agent) ที่ทำงานอยู่เบื้องหลังได้ตลอด 24 ชั่วโมงผ่าน Cloud",
+"OMhKgQmeMhI?start=868&end=928,แนะนำ Information Agents ระบบเอเจนต์บน Google Search ที่ช่วยสแกนและอัปเดตข้อมูลจากทั่วทั้งเว็บตามเงื่อนไขที่กำหนด",
 ];
