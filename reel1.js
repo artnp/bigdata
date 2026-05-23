@@ -2331,4 +2331,5 @@ const videoIds = [
 "M1E03imD0lM?start=125&end=185,ASR (Automatic Speech Recognition) เปรียบเสมือนหูของบอท โดยใช้ Web Speech API บนเบราว์เซอร์",
 "M1E03imD0lM?start=466&end=526,VAD (Voice Activity Detection) เป็นหัวใจสำคัญที่ช่วยตรวจจับว่าผู้ใช้หยุดพูดแล้ว เพื่อส่งข้อความไปประมวลผลโดยอัตโนมัติ",
 "UH5ilYWxRog?start=180&end=240,ใช้ไดอะตอมเมเชียสเอิร์ธ (Diatomaceous Earth) ชนิด Food Grade นวดลงบนขนสัตว์เลี้ยงเพื่อกำจัดหมัดตัวเต็มวัย",
+"_51ZOeHXhnY?start=86&end=146,Merab ซึ่งเป็นถึงแชมป์โลกอาศัยความได้เปรียบทางด้านเทคนิคและการใช้จุดผ่อนแรงที่เหนือกว่า ทำให้เขาสามารถจัดการกับ Larry ได้อย่างง่ายดาย",
 ];
