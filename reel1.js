@@ -2524,4 +2524,5 @@ const videoIds = [
 "A9DWtnV1ADo?start=396&end=456,Dominic Williams ผู้ก่อตั้ง ICP ได้กล่าวถึงความสำเร็จของนักพัฒนาที่สามารถรัน WordPress ได้แบบ On-chain 100% บน Internet Computer",
 "mCcv90sUNbY?start=6&end=27.933333,ระบบของหุ่นยนต์เริ่มทำการประมวลผลทักษะต่างๆ โดยเริ่มจากโหมด Deception (การหลอกล่อ)",
 "tI0E8XvPrt4?start=301&end=361,จุดเริ่มต้นมาจากชายที่ใช้นามแฝงว่า 'Whatbecomes' ตั้งกระทู้จับผิดประวัติการศึกษาของทาโบในเว็บบอร์ด Never จนกลายเป็นกระแสเชื้อเพลิงแห่งความริษยาในสังคม",
+"8ShbnsM2jUk?start=168&end=228,แนวคิด Bitcoin-only fintech เริ่มเสื่อมความนิยม เพราะตลาดเลือกใช้ Stablecoins ในการชำระเงินมากกว่า",
 ];
