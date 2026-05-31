@@ -836,8 +836,8 @@ function renderResults(results, queryWords) {
         item.matchedCount = matchedCount;
     });
 
-    // Group items: Top Matches must have ratio >= 25% (0.25)
-    const topMatches = results.filter(r => r.ratio >= 0.25).slice(0, 3);
+    // Group items: Top Matches must have ratio >= 20% (0.20)
+    const topMatches = results.filter(r => r.ratio >= 0.20).slice(0, 3);
     const relevantResults = results.filter(r => !topMatches.includes(r));
 
     const grouped = {
