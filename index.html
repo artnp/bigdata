@@ -822,9 +822,27 @@ function renderResults(results, queryWords) {
         return;
     }
     
+    // Calculate ratio for each result
+    results.forEach(item => {
+        const uniqueMatchedWords = [...new Set(item.matchedWords || [])];
+        const contentQueryWords = [...new Set(queryWords.filter(w => !THAI_STOP_WORDS.has(w) && w.length >= 2))];
+        const contentMatchedWords = uniqueMatchedWords.filter(w => !THAI_STOP_WORDS.has(w) && w.length >= 2);
+        
+        const totalCount = contentQueryWords.length > 0 ? contentQueryWords.length : [...new Set(queryWords)].length;
+        const matchedCount = contentQueryWords.length > 0 ? contentMatchedWords.length : uniqueMatchedWords.length;
+        
+        item.ratio = totalCount > 0 ? (matchedCount / totalCount) : 0;
+        item.totalCount = totalCount;
+        item.matchedCount = matchedCount;
+    });
+
+    // Group items: Top Matches must have ratio >= 50% (0.5)
+    const topMatches = results.filter(r => r.ratio >= 0.5).slice(0, 3);
+    const relevantResults = results.filter(r => !topMatches.includes(r));
+
     const grouped = {
-        'Top Matches': results.slice(0, 3),
-        'Relevant Results': results.slice(3)
+        'Top Matches': topMatches,
+        'Relevant Results': relevantResults
     };
     
     let html = '';
@@ -858,12 +876,8 @@ function renderResults(results, queryWords) {
                 typeBadge = isShorts ? '<span class="shorts-badge">SHORTS</span>' : '<span class="card-badge">YouTube</span>';
             }
             
-            // Calculate match ratio (excluding stop words if content words exist)
-            const contentQueryWords = [...new Set(queryWords.filter(w => !THAI_STOP_WORDS.has(w) && w.length >= 2))];
-            const contentMatchedWords = uniqueMatchedWords.filter(w => !THAI_STOP_WORDS.has(w) && w.length >= 2);
-            
-            const totalCount = contentQueryWords.length > 0 ? contentQueryWords.length : [...new Set(queryWords)].length;
-            const matchedCount = contentQueryWords.length > 0 ? contentMatchedWords.length : uniqueMatchedWords.length;
+            const totalCount = item.totalCount;
+            const matchedCount = item.matchedCount;
             
             const relevanceBadge = `<span class="card-badge" style="background: rgba(88, 166, 255, 0.1); color: var(--accent); border: 1px solid rgba(88, 166, 255, 0.2); font-weight: 500;">ตรง ${matchedCount}/${totalCount} คำ (คะแนน ${Math.round(item.score)})</span>`;
             
