@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>BigData Search</title>
+<link rel="icon" href="https://cdn-icons-png.flaticon.com/128/1162/1162914.png" />
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+:root { 
+    --bg: #0d1117; 
+    --card: #161b22;
+    --header-bg: rgba(13, 17, 23, 0.75);
+    --text: #c9d1d9; 
+    --text-muted: #8b949e;
+    --accent: #58a6ff; 
+    --accent-glow: rgba(88, 166, 255, 0.15);
+    --success: #3fb950;
+    --border: #30363d;
+    --highlight: rgba(88, 166, 255, 0.2);
+    --card-hover: #21262d;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Outfit', 'Sarabun', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+/* Glassmorphism Header */
+header {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    padding: 16px 40px;
+    background: var(--header-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    z-index: 1000;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-area { 
+    display: flex; 
+    align-items: center; 
+    gap: 12px; 
+}
+.logo-icon { 
+    width: 34px; 
+    height: 34px; 
+    background: linear-gradient(135deg, #1f6feb, var(--accent)); 
+    border-radius: 10px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-weight: 700; 
+    color: white;
+    box-shadow: 0 4px 12px rgba(88, 166, 255, 0.3);
+}
+.logo-text { 
+    font-size: 1.4rem; 
+    font-weight: 700; 
+    letter-spacing: -0.5px; 
+    background: linear-gradient(to right, #58a6ff, #bc8cff); 
+    -webkit-background-clip: text; 
+    -webkit-text-fill-color: transparent; 
+}
+
+/* Reload Button */
+#reload-btn {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 8px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+}
+#reload-btn:hover { 
+    background: rgba(88, 166, 255, 0.1); 
+    border-color: var(--accent); 
+    color: white;
+    transform: translateY(-1px); 
+    box-shadow: 0 4px 12px var(--accent-glow);
+}
+#reload-btn svg { 
+    transition: transform 0.5s ease; 
+}
+#reload-btn:active svg { 
+    transform: rotate(180deg); 
+}
+
+/* Main layout */
+#main-content {
+    max-width: 900px;
+    margin: 50px auto 100px auto;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.hero-title { 
+    font-size: 2.8rem; 
+    font-weight: 700; 
+    margin-bottom: 12px; 
+    letter-spacing: -1px; 
+    background: linear-gradient(135deg, #ffffff 0%, #c9d1d9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.hero-subtitle { 
+    color: var(--text-muted); 
+    margin-bottom: 35px; 
+    font-size: 1.05rem; 
+    font-weight: 300;
+}
+
+/* Search Area */
+#search-container {
+    width: 100%;
+    position: relative;
+    margin-bottom: 25px;
+}
+#search-input {
+    width: 100%;
+    padding: 18px 25px;
+    font-size: 1.15rem;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: white;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    outline: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+#search-input:focus { 
+    border-color: var(--accent); 
+    box-shadow: 0 0 0 3px var(--accent-glow), 0 8px 30px rgba(88, 166, 255, 0.1); 
+}
+
+/* Filter Tabs */
+.filter-tabs { 
+    display: flex; 
+    gap: 8px; 
+    justify-content: center; 
+    margin-bottom: 30px; 
+}
+.tab { 
+    padding: 8px 20px; 
+    border-radius: 20px; 
+    background: rgba(255, 255, 255, 0.03); 
+    border: 1px solid var(--border); 
+    font-size: 0.85rem; 
+    font-weight: 500;
+    cursor: pointer; 
+    transition: all 0.2s ease; 
+    color: var(--text-muted); 
+}
+.tab:hover {
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.06);
+}
+.tab.active { 
+    background: var(--highlight); 
+    border-color: var(--accent); 
+    color: var(--accent); 
+    font-weight: 600; 
+}
+
+/* Search Status Indicator */
+#search-status {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    text-align: left;
+    padding-left: 10px;
+}
+
+/* Results */
+#results { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 12px; 
+}
+.result-group-label { 
+    text-align: left; 
+    font-size: 0.75rem; 
+    font-weight: 600;
+    text-transform: uppercase; 
+    letter-spacing: 1.5px; 
+    color: var(--text-muted); 
+    margin: 15px 0 5px 10px; 
+}
+
+.result-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+.result-card:hover { 
+    border-color: #444c56; 
+    transform: translateY(-2px); 
+    background: var(--card-hover); 
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+.result-card::before { 
+    content: ""; 
+    position: absolute; 
+    left: 0; 
+    top: 0; 
+    bottom: 0; 
+    width: 3px; 
+    background: var(--accent); 
+    opacity: 0; 
+    transition: opacity 0.2s; 
+}
+.result-card:hover::before { 
+    opacity: 1; 
+}
+
+.card-icon { 
+    width: 40px; 
+    height: 40px; 
+    border-radius: 10px; 
+    background: rgba(255, 255, 255, 0.03); 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-size: 1.2rem; 
+    flex-shrink: 0; 
+}
+.card-content { 
+    flex: 1; 
+    min-width: 0;
+}
+.card-text { 
+    font-size: 1rem; 
+    font-weight: 400; 
+    color: #f0f6fc; 
+    margin-bottom: 4px; 
+    word-break: break-word;
+}
+.card-meta { 
+    display: flex; 
+    align-items: center; 
+    gap: 12px; 
+    font-size: 0.75rem; 
+    color: var(--text-muted); 
+}
+.card-badge { 
+    padding: 2px 8px; 
+    border-radius: 4px; 
+    background: rgba(255, 255, 255, 0.05); 
+    font-weight: 600; 
+}
+
+.yt-icon { 
+    color: #ff0000; 
+}
+.shorts-badge { 
+    background: #ff0000; 
+    color: white; 
+    font-size: 0.65rem; 
+    padding: 1px 5px; 
+    border-radius: 3px; 
+    font-weight: bold; 
+}
+
+.highlight {
+    background: var(--highlight);
+    color: #58a6ff;
+    padding: 0 2px;
+    border-radius: 3px;
+    font-weight: 500;
+}
+
+/* Skeletons */
+.skeleton {
+    background: linear-gradient(90deg, #161b22 25%, #21262d 50%, #161b22 75%);
+    background-size: 200%;
+    animation: skeleton-loading 1.5s infinite;
+    height: 76px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    border: 1px solid var(--border);
+}
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Video Popover/Frame */
+.popup-frame {
+    transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+    position: fixed;
+    top: 50%;
+    right: 30px;
+    transform: translateY(-50%) scale(0.9);
+    width: auto;
+    max-width: 40%;
+    max-height: 80%;
+    overflow: hidden;
+    z-index: 998;
+    background: var(--card);
+    border-radius: 16px;
+    padding: 10px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    border: 1px solid var(--border);
+    opacity: 0; 
+    pointer-events: none;
+}
+.popup-frame.active {
+    opacity: 1; 
+    transform: translateY(-50%) scale(1); 
+    pointer-events: auto;
+}
+.popup-frame iframe {
+    border: none;
+    border-radius: 10px;
+    display: block;
+} 
+#close-video-frame {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1001; 
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    transition: all 0.2s;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+#close-video-frame:hover {
+    background: #da3633;
+    transform: rotate(90deg);
+}
+
+/* Copy Toast */
+#copy-popup {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--success);
+    color: white;
+    padding: 10px 24px;
+    border-radius: 30px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 9999;
+    box-shadow: 0 10px 25px rgba(63, 185, 80, 0.3);
+    pointer-events: none;
+}
+#copy-popup.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Media Queries */
+@media (max-width: 1100px) {
+    .popup-frame {
+        position: fixed; 
+        top: auto; 
+        bottom: 20px; 
+        right: 20px; 
+        transform: scale(0.85); 
+        transform-origin: bottom right;
+    }
+    .popup-frame.active {
+        transform: scale(0.85);
+    }
+}
+
+@media (max-width: 768px) {
+    header { padding: 15px 20px; }
+    .hero-title { font-size: 2.1rem; }
+    #main-content { margin-top: 30px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <div class="logo-area">
+        <div class="logo-icon">B</div>
+        <div class="logo-text">BigData Search</div>
+    </div>
+    <button id="reload-btn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M23 4v6h-6"></path>
+            <path d="M1 20v-6h6"></path>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+        </svg>
+        Reload Data
+    </button>
+</header>
+
+<main id="main-content">
+    <div class="hero-title">Intelligent Data Search</div>
+    <div class="hero-subtitle">Fast client-side keyword search across your entire GitHub database</div>
+    
+    <div id="search-container">
+        <input type="text" id="search-input" placeholder="พิมพ์คำค้นหาของคุณที่นี่..." autocomplete="off" disabled />
+    </div>
+    
+    <div id="api-link-container" style="display:none; text-align:left; margin-top: -15px; margin-bottom: 20px; padding: 12px 18px; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border); border-radius: 10px; font-size: 0.8rem; color: var(--text-muted); align-items: center; justify-content: space-between;">
+        <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-right: 15px; flex-grow: 1;">
+            ลิงก์ค้นหาผ่าน API / แชร์: <a id="api-url-link" href="#" target="_blank" style="color: var(--accent); text-decoration: none; font-family: monospace;"></a>
+        </span>
+        <button id="copy-api-btn" style="background: #21262d; color: var(--text); border: 1px solid var(--border); padding: 4px 12px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; flex-shrink: 0; transition: all 0.2s; font-weight: 600;">คัดลอกลิงก์</button>
+    </div>
+
+    <div class="filter-tabs">
+        <button class="tab active" data-filter="all">All Items</button>
+        <button class="tab" data-filter="video">Videos</button>
+        <button class="tab" data-filter="text">Research & Info</button>
+    </div>
+    
+    <div id="search-status">กำลังดาวน์โหลดข้อมูลเริ่มต้นจาก GitHub...</div>
+    
+    <div id="results"></div>
+</main>
+
+<div id="copy-popup">คัดลอกลงคลิปบอร์ดแล้ว! ✅</div>
+<div class="popup-frame" id="video-frame"></div>
+
+<script>
+// GitHub configuration
+const GITHUB_USER = 'artnp';
+const GITHUB_REPO = 'bigdata';
+const GITHUB_BRANCH = 'main';
+const TOTAL_FILES = 14; // Update this count if files are added/removed (8 bigdata + 6 reel)
+
+const searchInput = document.getElementById('search-input');
+const resultsDiv = document.getElementById('results');
+const searchStatus = document.getElementById('search-status');
+const copyPopup = document.getElementById('copy-popup');
+const videoFrame = document.getElementById('video-frame');
+const reloadBtn = document.getElementById('reload-btn');
+
+// API/Share link elements
+const apiLinkContainer = document.getElementById('api-link-container');
+const apiUrlLink = document.getElementById('api-url-link');
+const copyApiBtn = document.getElementById('copy-api-btn');
+
+let items = [];
+let currentFilter = 'all';
+let searchTimer = null;
+let isFetching = false;
+let wasLoadedWithQuery = false;
+
+function closeVideo(){
+    videoFrame.classList.remove('active');
+    setTimeout(() => { videoFrame.innerHTML = ''; }, 350);
+}
+
+function showSkeleton(count) {
+    let html = '';
+    for (let i = 0; i < count; i++) {
+        html += '<div class="skeleton"></div>';
+    }
+    resultsDiv.innerHTML = html;
+}
+
+// Fetch all files from GitHub sequentially without rate limits
+async function fetchDatabase() {
+    if (isFetching) return;
+    isFetching = true;
+    searchInput.disabled = true;
+    searchInput.placeholder = "กำลังดาวน์โหลดฐานข้อมูล...";
+    searchStatus.innerHTML = 'กำลังดาวน์โหลดฐานข้อมูล... <span style="color:#58a6ff;font-weight:600">0%</span>';
+    showSkeleton(5);
+    
+    const bigdataItems = [];
+    const reelItems = [];
+    let loadedCount = 0;
+    
+    const updateProgress = () => {
+        const percent = Math.min(99, Math.round((loadedCount / TOTAL_FILES) * 100));
+        searchStatus.innerHTML = `กำลังดาวน์โหลดฐานข้อมูล... <span style="color:#58a6ff;font-weight:600">${percent}%</span>`;
+    };
+    
+    // 1. Fetch JSON files sequentially
+    let n = 1;
+    while (true) {
+        try {
+            const url = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/bigdata${n}.json?t=${Date.now()}`;
+            const response = await fetch(url);
+            if (!response.ok) {
+                // If bigdata1.json returns 404, we check bigdata.json as a fallback
+                if (n === 1) {
+                    const fallbackUrl = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/bigdata.json?t=${Date.now()}`;
+                    const fallbackResp = await fetch(fallbackUrl);
+                    if (fallbackResp.ok) {
+                        const fallbackData = await fallbackResp.json();
+                        if (Array.isArray(fallbackData)) {
+                            fallbackData.forEach(item => {
+                                bigdataItems.push({
+                                    type: 'text',
+                                    text: item.data
+                                });
+                            });
+                        }
+                    }
+                }
+                break; // Stop looking for next indices
+            }
+            const data = await response.json();
+            if (Array.isArray(data)) {
+                data.forEach(item => {
+                    bigdataItems.push({
+                        type: 'text',
+                        text: item.data
+                    });
+                });
+            }
+            loadedCount++;
+            updateProgress();
+            n++;
+        } catch (e) {
+            console.error(`Error loading bigdata${n}.json:`, e);
+            break;
+        }
+    }
+    
+    // 2. Fetch Reel JS files sequentially
+    n = 1;
+    while (true) {
+        try {
+            const url = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/reel${n}.js?t=${Date.now()}`;
+            const response = await fetch(url);
+            if (!response.ok) {
+                // If reel1.js returns 404, check reel.js fallback
+                if (n === 1) {
+                    const fallbackUrl = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/reel.js?t=${Date.now()}`;
+                    const fallbackResp = await fetch(fallbackUrl);
+                    if (fallbackResp.ok) {
+                        const fallbackText = await fallbackResp.text();
+                        parseReelJsText(fallbackText, reelItems);
+                    }
+                }
+                break;
+            }
+            const text = await response.text();
+            parseReelJsText(text, reelItems);
+            loadedCount++;
+            updateProgress();
+            n++;
+        } catch (e) {
+            console.error(`Error loading reel${n}.js:`, e);
+            break;
+        }
+    }
+    
+    // Deduplicate combined items
+    const combined = [...bigdataItems, ...reelItems];
+    const uniqueItems = [];
+    const seen = new Set();
+    for (const item of combined) {
+        const key = `${item.type}:${item.id || ''}:${item.text.trim()}`;
+        if (!seen.has(key)) {
+            seen.add(key);
+            uniqueItems.push(item);
+        }
+    }
+    items = uniqueItems;
+    isFetching = false;
+    
+    const uniqueVideoCount = items.filter(i => i.type === 'video').length;
+    const uniqueTextCount = items.filter(i => i.type === 'text').length;
+    
+    searchStatus.innerHTML = `โหลดเสร็จสิ้น | มีวิดีโอ <span style="color:#fff;font-weight:600">${uniqueVideoCount.toLocaleString()}</span> รายการ, ข้อความ <span style="color:#fff;font-weight:600">${uniqueTextCount.toLocaleString()}</span> รายการ`;
+    
+    searchInput.placeholder = "ป้อนคำค้นหา (ค้นหาหลายคำพร้อมกันโดยใช้ช่องว่าง)...";
+    searchInput.disabled = false;
+    searchInput.focus();
+    
+    // Clear results
+    resultsDiv.innerHTML = '';
+    
+    // Check for URL query parameter on load
+    const urlParams = new URLSearchParams(window.location.search);
+    const queryParam = urlParams.get('q');
+    if (queryParam) {
+        wasLoadedWithQuery = true;
+        searchInput.value = queryParam;
+        performSearch(queryParam);
+    }
+}
+
+function parseReelJsText(text, arrayToPush) {
+    const matches = text.match(/"([^"]+)"/g);
+    if (matches) {
+        matches.forEach(match => {
+            const cleanStr = match.slice(1, -1); // remove outer quotes
+            const parts = cleanStr.split(',');
+            if (parts.length >= 2) {
+                const id = parts[0].trim();
+                const title = parts.slice(1).join(',').trim();
+                arrayToPush.push({
+                    type: 'video',
+                    id: id,
+                    text: title
+                });
+            }
+        });
+    }
+}
+       // Common Thai stop words
+const THAI_STOP_WORDS = new Set([
+    'และ', 'หรือ', 'แต่', 'ของ', 'ที่', 'ใน', 'มี', 'เป็น', 'จะ', 'ได้', 'ให้', 
+    'กับ', 'โดย', 'ตาม', 'เพื่อ', 'ไป', 'มา', 'นี้', 'นั้น', 'การ', 'ความ', 
+    'ผู้', 'จาก', 'ถึง', 'ด้วย', 'ขึ้น', 'ลง', 'ก็', 'เลย', 'แล้ว', 'อีก', 
+    'ไม่', 'ใช่', 'ใช่ไหม', 'ครับ', 'ค่ะ', 'นะ', 'คะ', 'ครับผม', 'พวก'
+]);
+
+// Segment query into words using native Intl.Segmenter
+function segmentText(text) {
+    if (typeof Intl !== 'undefined' && Intl.Segmenter) {
+        try {
+            const segmenter = new Intl.Segmenter('th', { granularity: 'word' });
+            return Array.from(segmenter.segment(text))
+                .filter(s => s.isWordLike)
+                .map(s => s.segment.toLowerCase().trim())
+                .filter(s => s.length > 0);
+        } catch (e) {
+            console.warn('Intl.Segmenter failed, falling back to regex', e);
+        }
+    }
+    // Fallback split by spaces and common punctuation
+    return text.toLowerCase()
+        .split(/[\s\d\p{P}]+/u)
+        .filter(s => s.length > 0);
+}
+
+// Calculate relevance score between query words and database item text
+function calculateScore(itemText, queryWords, rawQuery) {
+    const textLower = itemText.toLowerCase();
+    let score = 0;
+    let matchCount = 0;
+    let matchedWords = [];
+
+    // 1. Exact substring matching (huge priority)
+    if (textLower.includes(rawQuery.toLowerCase())) {
+        score += 2000;
+        if (textLower === rawQuery.toLowerCase()) {
+            score += 3000;
+        }
+    }
+
+    // 2. Score based on each word in query
+    queryWords.forEach((word, index) => {
+        const pos = textLower.indexOf(word);
+        if (pos !== -1) {
+            matchCount++;
+            matchedWords.push(word);
+            
+            // Stop-words get extremely low weight
+            let weight = 1.0;
+            if (THAI_STOP_WORDS.has(word) || word.length < 2) {
+                weight = 0.05;
+            }
+
+            // Base word match points
+            score += weight * 1000;
+
+            // First word matched gets additional weight
+            if (index === 0) {
+                score += weight * 150;
+            }
+
+            // Match closer to the beginning of the text is better
+            score += (weight * 100 / (pos + 1));
+        }
+    });
+
+    // 3. Sequential order bonus
+    if (matchedWords.length > 1) {
+        let lastPos = -1;
+        let inOrderCount = 0;
+        let isSequential = true;
+        
+        for (const word of matchedWords) {
+            const currentPos = textLower.indexOf(word);
+            if (currentPos > lastPos) {
+                inOrderCount++;
+            } else {
+                isSequential = false;
+            }
+            lastPos = currentPos;
+        }
+        
+        if (inOrderCount === matchedWords.length) {
+            score += 300; 
+        }
+        if (isSequential) {
+            score += 200; 
+        }
+    }
+
+    // 4. Density bonus (prefer shorter matches for the same number of words matched)
+    if (matchCount > 0) {
+        score += (200 * matchCount / (itemText.length + 1));
+    }
+
+    return {
+        score,
+        matchCount,
+        matchedWords
+    };
+}
+
+function performSearch(query) {
+    const q = query.trim();
+    if (!q) {
+        resultsDiv.innerHTML = '';
+        apiLinkContainer.style.display = 'none';
+        
+        const videoCount = items.filter(i => i.type === 'video').length;
+        const textCount = items.filter(i => i.type === 'text').length;
+        searchStatus.innerHTML = `โหลดเสร็จสิ้น | มีวิดีโอ <span style="color:#fff;font-weight:600">${videoCount.toLocaleString()}</span> รายการ, ข้อความ <span style="color:#fff;font-weight:600">${textCount.toLocaleString()}</span> รายการ`;
+        
+        if (wasLoadedWithQuery) {
+            const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+            window.history.replaceState({ path: cleanUrl }, '', cleanUrl);
+        }
+        return;
+    }
+    
+    // Segment query words
+    const queryWords = segmentText(q);
+    if (queryWords.length === 0) {
+        resultsDiv.innerHTML = '';
+        apiLinkContainer.style.display = 'none';
+        return;
+    }
+    
+    // Check if the query has any content words
+    const contentWords = queryWords.filter(w => !THAI_STOP_WORDS.has(w) && w.length >= 2);
+    const hasContentWords = contentWords.length > 0;
+    
+    let filtered = items;
+    if (currentFilter !== 'all') {
+        filtered = items.filter(item => item.type === currentFilter);
+    }
+    
+    const results = [];
+    for (const item of filtered) {
+        const scoreInfo = calculateScore(item.text, queryWords, q);
+        
+        if (scoreInfo.score > 0) {
+            // Noise reduction: 
+            // If the search query has content words, the document must match at least one content word
+            if (hasContentWords) {
+                const hasMatchingContentWord = scoreInfo.matchedWords.some(w => contentWords.includes(w));
+                if (!hasMatchingContentWord) continue;
+            }
+            
+            results.push({
+                ...item,
+                score: scoreInfo.score,
+                matchedWords: scoreInfo.matchedWords
+            });
+        }
+    }
+    
+    // Sort descending by score
+    results.sort((a, b) => b.score - a.score);
+    
+    if (wasLoadedWithQuery) {
+        const searchUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?q=' + encodeURIComponent(q);
+        apiUrlLink.textContent = searchUrl;
+        apiUrlLink.href = searchUrl;
+        apiLinkContainer.style.display = 'flex';
+        window.history.replaceState({ path: searchUrl }, '', searchUrl);
+    } else {
+        apiLinkContainer.style.display = 'none';
+    }
+    
+    searchStatus.innerHTML = `พบข้อมูลเชื่อมโยง <span style="color:#58a6ff;font-weight:600">${results.length.toLocaleString()}</span> รายการ จากฐานข้อมูลทั้งหมด ${items.length.toLocaleString()} รายการ`;
+    
+    renderResults(results.slice(0, 50), queryWords); 
+}
+
+function renderResults(results, queryWords) {
+    if (results.length === 0) {
+        resultsDiv.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:80px 0;">ไม่พบข้อมูลที่ตรงกับเงื่อนไขการค้นหาของคุณ</div>';
+        return;
+    }
+    
+    const grouped = {
+        'Top Matches': results.slice(0, 3),
+        'Relevant Results': results.slice(3)
+    };
+    
+    let html = '';
+    for (const [groupName, groupItems] of Object.entries(grouped)) {
+        if (groupItems.length === 0) continue;
+        html += `<div class="result-group-label">${groupName}</div>`;
+        
+        groupItems.forEach(item => {
+            // Apply highlighting for all matched query words
+            let highlightedText = item.text;
+            const uniqueMatchedWords = [...new Set(item.matchedWords || [])];
+            
+            // Sort unique words by length descending so we don't break sub-matches during replacement
+            uniqueMatchedWords.sort((a, b) => b.length - a.length);
+            
+            uniqueMatchedWords.forEach(kw => {
+                if (kw.length >= 2 || !THAI_STOP_WORDS.has(kw)) {
+                    const regex = new RegExp(`(${escapeRegExp(kw)})(?![^<>]*>)`, 'gi');
+                    highlightedText = highlightedText.replace(regex, '<span class="highlight">$1</span>');
+                }
+            });
+            
+            let iconHtml = '<div class="card-icon">📄</div>';
+            let typeBadge = '<span class="card-badge">Research & Info</span>';
+            
+            if (item.type === 'video') {
+                const isShorts = !item.id.includes('?start=');
+                iconHtml = `<div class="card-icon yt-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 4-8 4z"/></svg>
+                </div>`;
+                typeBadge = isShorts ? '<span class="shorts-badge">SHORTS</span>' : '<span class="card-badge">YouTube</span>';
+            }
+            
+            // Calculate match ratio (excluding stop words if content words exist)
+            const contentQueryWords = [...new Set(queryWords.filter(w => !THAI_STOP_WORDS.has(w) && w.length >= 2))];
+            const contentMatchedWords = uniqueMatchedWords.filter(w => !THAI_STOP_WORDS.has(w) && w.length >= 2);
+            
+            const totalCount = contentQueryWords.length > 0 ? contentQueryWords.length : [...new Set(queryWords)].length;
+            const matchedCount = contentQueryWords.length > 0 ? contentMatchedWords.length : uniqueMatchedWords.length;
+            
+            const relevanceBadge = `<span class="card-badge" style="background: rgba(88, 166, 255, 0.1); color: var(--accent); border: 1px solid rgba(88, 166, 255, 0.2); font-weight: 500;">ตรง ${matchedCount}/${totalCount} คำ (คะแนน ${Math.round(item.score)})</span>`;
+            
+            const metaHtml = item.type === 'video' ? `<span>ID: ${item.id}</span>` : '';
+            
+            html += `
+            <div class="result-card" data-text="${encodeURIComponent(item.text)}" data-id="${item.id || ''}" data-type="${item.type}">
+                ${iconHtml}
+                <div class="card-content">
+                    <div class="card-text">${highlightedText}</div>
+                    <div class="card-meta">
+                        ${typeBadge}
+                        ${relevanceBadge}
+                        ${metaHtml}
+                    </div>
+                </div>
+            </div>`;
+        });
+    }
+    
+    resultsDiv.innerHTML = html;
+    
+    // Attach event listeners to results
+    document.querySelectorAll('.result-card').forEach(el => {
+        const textData = decodeURIComponent(el.dataset.text);
+        const videoId = el.dataset.id;
+        const itemType = el.dataset.type;
+        let hoverTimer = null;
+        
+        if (itemType === 'video' && videoId) {
+            // Hover logic to open preview frame on right side (1.5s delay)
+            el.addEventListener('mouseenter', () => {
+                hoverTimer = setTimeout(() => {
+                    const isShorts = !videoId.includes('?start=');
+                    const width = isShorts ? 360 : 480;
+                    const height = isShorts ? 640 : 270;
+                    
+                    const videoIdParts = videoId.split('?');
+                    const embedId = videoIdParts[0]; 
+                    const params = videoIdParts.length > 1 ? `&${videoIdParts[1]}` : '';
+                    const embedUrl = `https://www.youtube.com/embed/${embedId}?autoplay=1&modestbranding=1&rel=0${params}`;
+                    
+                    videoFrame.innerHTML = `
+                        <div id="close-video-frame">×</div>
+                        <iframe src="${embedUrl}" width="${width}" height="${height}" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+                    
+                    videoFrame.classList.add('active');
+                    document.getElementById('close-video-frame').addEventListener('click', closeVideo);
+                }, 1500);
+            });
+            
+            el.addEventListener('mouseleave', () => {
+                clearTimeout(hoverTimer);
+            });
+        }
+        
+        // Click to copy logic
+        el.addEventListener('click', () => {
+            closeVideo();
+            
+            let clipboardText = textData;
+            if (itemType === 'video' && videoId) {
+                const isShorts = !videoId.includes('?start=');
+                const extra = isShorts ? `\nhttps://youtube.com/shorts/${videoId}` : `\nhttps://www.youtube.com/watch?v=${videoId}`;
+                clipboardText += extra;
+            }
+            
+            navigator.clipboard.writeText(clipboardText).then(() => {
+                copyPopup.classList.add('show');
+                el.style.borderColor = 'var(--success)';
+                setTimeout(() => {
+                    copyPopup.classList.remove('show');
+                    el.style.borderColor = 'var(--border)';
+                }, 2000);
+            });
+        });
+    });
+}
+
+function escapeRegExp(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+// Search input listener with debounce
+searchInput.addEventListener('input', () => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => {
+        performSearch(searchInput.value);
+    }, 200);
+});
+
+// Copy API share link listener
+copyApiBtn.addEventListener('click', () => {
+    navigator.clipboard.writeText(apiUrlLink.href).then(() => {
+        const originalText = copyApiBtn.textContent;
+        copyApiBtn.textContent = 'คัดลอกแล้ว! ✓';
+        copyApiBtn.style.background = 'var(--success)';
+        copyApiBtn.style.color = 'white';
+        setTimeout(() => {
+            copyApiBtn.textContent = originalText;
+            copyApiBtn.style.background = '#21262d';
+            copyApiBtn.style.color = 'var(--text)';
+            copyApiBtn.style.borderColor = 'var(--border)';
+        }, 2000);
+    });
+});
+
+// Reload button click
+reloadBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    closeVideo();
+    fetchDatabase();
+});
+
+// Load database on startup
+fetchDatabase();
+</script>
+</body>
+</html>
