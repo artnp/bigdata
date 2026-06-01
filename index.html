@@ -790,10 +790,24 @@ function performSearch(query) {
                 if (!hasMatchingContentWord) continue;
             }
             
+            const uniqueMatchedWords = [...new Set(scoreInfo.matchedWords || [])];
+            const contentQueryWords = [...new Set(queryWords.filter(w => !THAI_STOP_WORDS.has(w) && w.length >= 2))];
+            const contentMatchedWords = uniqueMatchedWords.filter(w => !THAI_STOP_WORDS.has(w) && w.length >= 2);
+            
+            const totalCount = contentQueryWords.length > 0 ? contentQueryWords.length : [...new Set(queryWords)].length;
+            const matchedCount = contentQueryWords.length > 0 ? contentMatchedWords.length : uniqueMatchedWords.length;
+            const ratio = totalCount > 0 ? (matchedCount / totalCount) : 0;
+            
+            // Only keep if match ratio is at least 15% to filter out noise
+            if (ratio < 0.15) continue;
+            
             results.push({
                 ...item,
                 score: scoreInfo.score,
-                matchedWords: scoreInfo.matchedWords
+                matchedWords: scoreInfo.matchedWords,
+                ratio: ratio,
+                totalCount: totalCount,
+                matchedCount: matchedCount
             });
         }
     }
@@ -821,20 +835,6 @@ function renderResults(results, queryWords) {
         resultsDiv.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:80px 0;">ไม่พบข้อมูลที่ตรงกับเงื่อนไขการค้นหาของคุณ</div>';
         return;
     }
-    
-    // Calculate ratio for each result
-    results.forEach(item => {
-        const uniqueMatchedWords = [...new Set(item.matchedWords || [])];
-        const contentQueryWords = [...new Set(queryWords.filter(w => !THAI_STOP_WORDS.has(w) && w.length >= 2))];
-        const contentMatchedWords = uniqueMatchedWords.filter(w => !THAI_STOP_WORDS.has(w) && w.length >= 2);
-        
-        const totalCount = contentQueryWords.length > 0 ? contentQueryWords.length : [...new Set(queryWords)].length;
-        const matchedCount = contentQueryWords.length > 0 ? contentMatchedWords.length : uniqueMatchedWords.length;
-        
-        item.ratio = totalCount > 0 ? (matchedCount / totalCount) : 0;
-        item.totalCount = totalCount;
-        item.matchedCount = matchedCount;
-    });
 
     // Group items: Top Matches must have ratio >= 35% (0.35)
     const topMatches = results.filter(r => r.ratio >= 0.35).slice(0, 3);
@@ -960,6 +960,16 @@ function renderResults(results, queryWords) {
 function escapeRegExp(string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
+
+// Filter tab click handlers
+document.querySelectorAll('.filter-tabs .tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+        document.querySelectorAll('.filter-tabs .tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        currentFilter = tab.getAttribute('data-filter');
+        performSearch(searchInput.value);
+    });
+});
 
 // Search input listener with debounce
 searchInput.addEventListener('input', () => {
