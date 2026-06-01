@@ -594,6 +594,33 @@ let isFetching = false;
 let wasLoadedWithQuery = false;
 let initialUrlQuery = null;
 
+const CACHE_KEY = 'bigdata_search_cache';
+const SYNC_THROTTLE_MS = 10 * 60 * 1000; // 10 minutes
+
+function saveToCache(itemsList) {
+    try {
+        const cacheData = {
+            timestamp: Date.now(),
+            items: itemsList
+        };
+        localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
+    } catch (e) {
+        console.warn('Failed to save to localStorage cache:', e);
+    }
+}
+
+function loadFromCache() {
+    try {
+        const cached = localStorage.getItem(CACHE_KEY);
+        if (cached) {
+            return JSON.parse(cached);
+        }
+    } catch (e) {
+        console.warn('Failed to load from localStorage cache:', e);
+    }
+    return null;
+}
+
 function closeVideo(){
     videoFrame.classList.remove('active');
     setTimeout(() => { videoFrame.innerHTML = ''; }, 350);
@@ -607,28 +634,34 @@ function showSkeleton(count) {
     resultsDiv.innerHTML = html;
 }
 
-// Fetch all files from GitHub sequentially without rate limits
-async function fetchDatabase() {
+// Fetch all files from GitHub sequentially
+// force = true means show UI progress, force load
+// force = false means silent background update
+async function fetchDatabase(force = true) {
     if (isFetching) return;
     isFetching = true;
-    searchInput.disabled = true;
-    searchInput.placeholder = "กำลังดาวน์โหลดฐานข้อมูล...";
-    searchStatus.innerHTML = `
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-            <span>กำลังดาวน์โหลดฐานข้อมูล...</span>
-            <span style="color:#58a6ff;font-weight:600" id="progress-percent">0%</span>
-        </div>
-        <div class="progress-container">
-            <div class="progress-bar" id="progress-bar-fill"></div>
-        </div>
-    `;
-    showSkeleton(5);
+    
+    if (force) {
+        searchInput.disabled = true;
+        searchInput.placeholder = "กำลังดาวน์โหลดฐานข้อมูล...";
+        searchStatus.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span>กำลังดาวน์โหลดฐานข้อมูล...</span>
+                <span style="color:#58a6ff;font-weight:600" id="progress-percent">0%</span>
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar-fill"></div>
+            </div>
+        `;
+        showSkeleton(5);
+    }
     
     const bigdataItems = [];
     const reelItems = [];
     let loadedCount = 0;
     
     const updateProgress = () => {
+        if (!force) return;
         const percent = Math.min(99, Math.round((loadedCount / TOTAL_FILES) * 100));
         const percentEl = document.getElementById('progress-percent');
         const barFillEl = document.getElementById('progress-bar-fill');
@@ -719,27 +752,74 @@ async function fetchDatabase() {
             uniqueItems.push(item);
         }
     }
-    // Set progress to 100% before transition
-    const percentEl = document.getElementById('progress-percent');
-    const barFillEl = document.getElementById('progress-bar-fill');
-    if (percentEl) percentEl.textContent = '100%';
-    if (barFillEl) barFillEl.style.width = '100%';
-    await new Promise(resolve => setTimeout(resolve, 350));
+    
+    if (force) {
+        // Set progress to 100% before transition
+        const percentEl = document.getElementById('progress-percent');
+        const barFillEl = document.getElementById('progress-bar-fill');
+        if (percentEl) percentEl.textContent = '100%';
+        if (barFillEl) barFillEl.style.width = '100%';
+        await new Promise(resolve => setTimeout(resolve, 350));
+    }
 
-    items = uniqueItems;
+    // Compare with current items list to check if there are changes
+    let changed = false;
+    if (items.length !== uniqueItems.length) {
+        changed = true;
+    } else {
+        const oldSignature = items.map(i => i.id || i.text.slice(0, 10)).slice(0, 100).join('|');
+        const newSignature = uniqueItems.map(i => i.id || i.text.slice(0, 10)).slice(0, 100).join('|');
+        if (oldSignature !== newSignature) {
+            changed = true;
+        }
+    }
+
+    if (changed || force || items.length === 0) {
+        items = uniqueItems;
+        saveToCache(items);
+        
+        const uniqueVideoCount = items.filter(i => i.type === 'video').length;
+        const uniqueTextCount = items.filter(i => i.type === 'text').length;
+        
+        searchStatus.innerHTML = `โหลดเสร็จสิ้น${force ? '' : ' (อัปเดตข้อมูลใหม่แล้ว)'} | มีวิดีโอ <span style="color:#fff;font-weight:600">${uniqueVideoCount.toLocaleString()}</span> รายการ, ข้อความ <span style="color:#fff;font-weight:600">${uniqueTextCount.toLocaleString()}</span> รายการ`;
+        
+        // Re-run search if user is currently searching
+        if (searchInput.value.trim().length > 0) {
+            performSearch(searchInput.value);
+        }
+    } else {
+        // Just update cache timestamp
+        saveToCache(items);
+    }
+    
     isFetching = false;
-    
-    const uniqueVideoCount = items.filter(i => i.type === 'video').length;
-    const uniqueTextCount = items.filter(i => i.type === 'text').length;
-    
-    searchStatus.innerHTML = `โหลดเสร็จสิ้น | มีวิดีโอ <span style="color:#fff;font-weight:600">${uniqueVideoCount.toLocaleString()}</span> รายการ, ข้อความ <span style="color:#fff;font-weight:600">${uniqueTextCount.toLocaleString()}</span> รายการ`;
-    
     searchInput.placeholder = "ป้อนคำค้นหา (ค้นหาหลายคำพร้อมกันโดยใช้ช่องว่าง)...";
     searchInput.disabled = false;
-    searchInput.focus();
     
-    // Clear results
-    resultsDiv.innerHTML = '';
+    if (force) {
+        searchInput.focus();
+        // Clear results if it was not search query triggered
+        if (!searchInput.value) {
+            resultsDiv.innerHTML = '';
+        }
+    }
+}
+
+async function syncCacheInBackground() {
+    const cached = loadFromCache();
+    if (cached && cached.timestamp) {
+        const timeSinceLastSync = Date.now() - cached.timestamp;
+        if (timeSinceLastSync < SYNC_THROTTLE_MS) {
+            console.log('Background sync skipped: last sync was ' + Math.round(timeSinceLastSync / 60000) + ' minutes ago.');
+            return;
+        }
+    }
+    console.log('Starting silent background update check...');
+    await fetchDatabase(false);
+}
+
+function initDatabase() {
+    const cached = loadFromCache();
     
     // Check for URL query parameter on load
     const urlParams = new URLSearchParams(window.location.search);
@@ -751,20 +831,57 @@ async function fetchDatabase() {
         document.body.classList.add('embed-mode');
     }
     
-    if (queryParam) {
-        wasLoadedWithQuery = true;
-        initialUrlQuery = queryParam.trim();
-        searchInput.value = queryParam;
+    if (cached && Array.isArray(cached.items) && cached.items.length > 0) {
+        // Loaded from cache!
+        items = cached.items;
         
-        // Hide hero section and search box when loaded with URL query
-        const heroTitle = document.querySelector('.hero-title');
-        const heroSub = document.querySelector('.hero-subtitle');
-        const searchCont = document.getElementById('search-container');
-        if (heroTitle) heroTitle.style.display = 'none';
-        if (heroSub) heroSub.style.display = 'none';
-        if (searchCont) searchCont.style.display = 'none';
+        const uniqueVideoCount = items.filter(i => i.type === 'video').length;
+        const uniqueTextCount = items.filter(i => i.type === 'text').length;
         
-        performSearch(queryParam);
+        searchStatus.innerHTML = `โหลดเสร็จสิ้น (จากแคชในเครื่อง) | มีวิดีโอ <span style="color:#fff;font-weight:600">${uniqueVideoCount.toLocaleString()}</span> รายการ, ข้อความ <span style="color:#fff;font-weight:600">${uniqueTextCount.toLocaleString()}</span> รายการ`;
+        
+        searchInput.placeholder = "ป้อนคำค้นหา (ค้นหาหลายคำพร้อมกันโดยใช้ช่องว่าง)...";
+        searchInput.disabled = false;
+        
+        if (queryParam) {
+            wasLoadedWithQuery = true;
+            initialUrlQuery = queryParam.trim();
+            searchInput.value = queryParam;
+            
+            // Hide hero section and search box when loaded with URL query
+            const heroTitle = document.querySelector('.hero-title');
+            const heroSub = document.querySelector('.hero-subtitle');
+            const searchCont = document.getElementById('search-container');
+            if (heroTitle) heroTitle.style.display = 'none';
+            if (heroSub) heroSub.style.display = 'none';
+            if (searchCont) searchCont.style.display = 'none';
+            
+            performSearch(queryParam);
+        } else {
+            searchInput.focus();
+        }
+        
+        // Schedule silent background sync after 1 minute (60,000 ms)
+        setTimeout(() => {
+            syncCacheInBackground();
+        }, 60000);
+        
+    } else {
+        // No cache: perform full download
+        if (queryParam) {
+            wasLoadedWithQuery = true;
+            initialUrlQuery = queryParam.trim();
+            searchInput.value = queryParam;
+            
+            // Hide hero section and search box when loaded with URL query
+            const heroTitle = document.querySelector('.hero-title');
+            const heroSub = document.querySelector('.hero-subtitle');
+            const searchCont = document.getElementById('search-container');
+            if (heroTitle) heroTitle.style.display = 'none';
+            if (heroSub) heroSub.style.display = 'none';
+            if (searchCont) searchCont.style.display = 'none';
+        }
+        fetchDatabase(true);
     }
 }
 
@@ -1192,11 +1309,11 @@ copyEmbedBtn.addEventListener('click', () => {
 reloadBtn.addEventListener('click', (e) => {
     e.preventDefault();
     closeVideo();
-    fetchDatabase();
+    fetchDatabase(true);
 });
 
 // Load database on startup
-fetchDatabase();
+initDatabase();
 </script>
 </body>
 </html>
