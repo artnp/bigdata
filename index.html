@@ -328,6 +328,33 @@ header {
     100% { background-position: -200% 0; }
 }
 
+/* Progress Bar */
+.progress-container {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    height: 8px;
+    overflow: hidden;
+    margin-top: 12px;
+    position: relative;
+}
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #1f6feb, var(--accent), #bc8cff);
+    background-size: 200% 100%;
+    border-radius: 8px;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: progress-glow 2s linear infinite;
+    box-shadow: 0 0 10px rgba(88, 166, 255, 0.5);
+}
+@keyframes progress-glow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
 /* Video Popover/Frame */
 .popup-frame {
     transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
@@ -496,6 +523,7 @@ let currentFilter = 'all';
 let searchTimer = null;
 let isFetching = false;
 let wasLoadedWithQuery = false;
+let initialUrlQuery = null;
 
 function closeVideo(){
     videoFrame.classList.remove('active');
@@ -516,7 +544,15 @@ async function fetchDatabase() {
     isFetching = true;
     searchInput.disabled = true;
     searchInput.placeholder = "กำลังดาวน์โหลดฐานข้อมูล...";
-    searchStatus.innerHTML = 'กำลังดาวน์โหลดฐานข้อมูล... <span style="color:#58a6ff;font-weight:600">0%</span>';
+    searchStatus.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span>กำลังดาวน์โหลดฐานข้อมูล...</span>
+            <span style="color:#58a6ff;font-weight:600" id="progress-percent">0%</span>
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar-fill"></div>
+        </div>
+    `;
     showSkeleton(5);
     
     const bigdataItems = [];
@@ -525,7 +561,10 @@ async function fetchDatabase() {
     
     const updateProgress = () => {
         const percent = Math.min(99, Math.round((loadedCount / TOTAL_FILES) * 100));
-        searchStatus.innerHTML = `กำลังดาวน์โหลดฐานข้อมูล... <span style="color:#58a6ff;font-weight:600">${percent}%</span>`;
+        const percentEl = document.getElementById('progress-percent');
+        const barFillEl = document.getElementById('progress-bar-fill');
+        if (percentEl) percentEl.textContent = `${percent}%`;
+        if (barFillEl) barFillEl.style.width = `${percent}%`;
     };
     
     // 1. Fetch JSON files sequentially
@@ -611,6 +650,13 @@ async function fetchDatabase() {
             uniqueItems.push(item);
         }
     }
+    // Set progress to 100% before transition
+    const percentEl = document.getElementById('progress-percent');
+    const barFillEl = document.getElementById('progress-bar-fill');
+    if (percentEl) percentEl.textContent = '100%';
+    if (barFillEl) barFillEl.style.width = '100%';
+    await new Promise(resolve => setTimeout(resolve, 350));
+
     items = uniqueItems;
     isFetching = false;
     
@@ -631,6 +677,7 @@ async function fetchDatabase() {
     const queryParam = urlParams.get('q');
     if (queryParam) {
         wasLoadedWithQuery = true;
+        initialUrlQuery = queryParam.trim();
         searchInput.value = queryParam;
         performSearch(queryParam);
     }
@@ -758,6 +805,16 @@ function calculateScore(itemText, queryWords, rawQuery) {
     };
 }
 
+function is100PercentMatch(itemText, query) {
+    const t1 = itemText.trim().toLowerCase();
+    const q1 = query.trim().toLowerCase();
+    if (t1 === q1) return true;
+    
+    const t2 = t1.replace(/\s+/g, '');
+    const q2 = q1.replace(/\s+/g, '');
+    return t2 === q2;
+}
+
 function performSearch(query) {
     const q = query.trim();
     if (!q) {
@@ -797,6 +854,10 @@ function performSearch(query) {
         const scoreInfo = calculateScore(item.text, queryWords, q);
         
         if (scoreInfo.score > 0) {
+            // If searched via URL and matches initial URL query, exclude 100% matches
+            if (wasLoadedWithQuery && initialUrlQuery && is100PercentMatch(item.text, initialUrlQuery) && is100PercentMatch(item.text, q)) {
+                continue;
+            }
             // Noise reduction: 
             // If the search query has content words, the document must match at least one content word
             if (hasContentWords) {
@@ -812,8 +873,9 @@ function performSearch(query) {
             const matchedCount = contentQueryWords.length > 0 ? contentMatchedWords.length : uniqueMatchedWords.length;
             const ratio = totalCount > 0 ? (matchedCount / totalCount) : 0;
             
-            // Only keep if match ratio is at least 15% to filter out noise
-            if (ratio < 0.15) continue;
+            // Only keep if match ratio is at least 15% (or 30% if loaded with URL query) to filter out noise
+            const minRatio = wasLoadedWithQuery ? 0.30 : 0.15;
+            if (ratio < minRatio) continue;
             
             results.push({
                 ...item,
