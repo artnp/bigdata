@@ -359,13 +359,6 @@ header {
 .popup-frame {
     transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.9);
-    width: 90%;
-    max-width: 480px;
-    max-height: 90%;
-    overflow: hidden;
     z-index: 998;
     background: var(--card);
     border-radius: 12px;
@@ -376,13 +369,38 @@ header {
     pointer-events: none;
     box-sizing: border-box;
 }
-.popup-frame.active {
+.popup-frame.centered {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    width: 95%;
+    max-width: 560px;
+    max-height: 90%;
+}
+.popup-frame.centered.active {
     opacity: 1; 
     transform: translate(-50%, -50%) scale(1); 
     pointer-events: auto;
 }
-.popup-frame.shorts {
-    max-width: 260px;
+.popup-frame.centered.shorts {
+    max-width: 300px;
+}
+.popup-frame.bottom-right {
+    bottom: 30px;
+    right: 30px;
+    top: auto;
+    left: auto;
+    transform: scale(0.9);
+    transform-origin: bottom right;
+    width: 440px;
+}
+.popup-frame.bottom-right.active {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+}
+.popup-frame.bottom-right.shorts {
+    width: 260px;
 }
 .popup-frame iframe {
     border: none;
@@ -492,6 +510,40 @@ body.embed-mode #search-status {
     header { padding: 15px 20px; }
     .hero-title { font-size: 2.1rem; }
     #main-content { margin-top: 30px; }
+    
+    /* Center the bottom-right popup on mobile so it doesn't overflow screen */
+    .popup-frame.bottom-right {
+        top: 50% !important;
+        left: 50% !important;
+        right: auto !important;
+        bottom: auto !important;
+        transform: translate(-50%, -50%) scale(0.9) !important;
+        width: 95% !important;
+        max-width: 440px !important;
+        transform-origin: center !important;
+    }
+    .popup-frame.bottom-right.active {
+        transform: translate(-50%, -50%) scale(1) !important;
+    }
+    .popup-frame.bottom-right.shorts {
+        width: 90% !important;
+        max-width: 280px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .result-card {
+        padding: 6px 12px;
+        gap: 10px;
+    }
+    .card-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 0.9rem;
+    }
+    .card-text {
+        font-size: 0.85rem;
+    }
 }
 </style>
 </head>
@@ -1169,8 +1221,30 @@ function renderResults(results, queryWords) {
                 const videoIdParts = videoId.split('?');
                 const embedId = videoIdParts[0]; 
                 
-                // Add aspect ratio classes
+                // Copy video info + URL to clipboard
+                const videoUrl = isShorts ? `https://youtube.com/shorts/${videoId}` : `https://www.youtube.com/watch?v=${videoId}`;
+                const clipboardText = `${textData}\n${videoUrl}`;
+                
+                navigator.clipboard.writeText(clipboardText).then(() => {
+                    copyPopup.classList.add('show');
+                    el.style.borderColor = 'var(--success)';
+                    setTimeout(() => {
+                        copyPopup.classList.remove('show');
+                        el.style.borderColor = 'var(--border)';
+                    }, 2000);
+                });
+                
+                // Check if URL has query param "q"
+                const hasQ = new URLSearchParams(window.location.search).has('q');
+                
+                // Add aspect ratio and positioning classes
                 videoFrame.className = 'popup-frame active';
+                if (hasQ) {
+                    videoFrame.classList.add('centered');
+                } else {
+                    videoFrame.classList.add('bottom-right');
+                }
+                
                 if (isShorts) {
                     videoFrame.classList.add('shorts');
                 } else {
