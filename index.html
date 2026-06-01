@@ -679,6 +679,17 @@ async function fetchDatabase() {
         wasLoadedWithQuery = true;
         initialUrlQuery = queryParam.trim();
         searchInput.value = queryParam;
+        
+        // Hide hero section and search box when loaded with URL query
+        const heroTitle = document.querySelector('.hero-title');
+        const heroSub = document.querySelector('.hero-subtitle');
+        const searchCont = document.getElementById('search-container');
+        const apiCont = document.getElementById('api-link-container');
+        if (heroTitle) heroTitle.style.display = 'none';
+        if (heroSub) heroSub.style.display = 'none';
+        if (searchCont) searchCont.style.display = 'none';
+        if (apiCont) apiCont.style.display = 'none';
+        
         performSearch(queryParam);
     }
 }
@@ -706,7 +717,8 @@ const THAI_STOP_WORDS = new Set([
     'และ', 'หรือ', 'แต่', 'ของ', 'ที่', 'ใน', 'มี', 'เป็น', 'จะ', 'ได้', 'ให้', 
     'กับ', 'โดย', 'ตาม', 'เพื่อ', 'ไป', 'มา', 'นี้', 'นั้น', 'การ', 'ความ', 
     'ผู้', 'จาก', 'ถึง', 'ด้วย', 'ขึ้น', 'ลง', 'ก็', 'เลย', 'แล้ว', 'อีก', 
-    'ไม่', 'ใช่', 'ใช่ไหม', 'ครับ', 'ค่ะ', 'นะ', 'คะ', 'ครับผม', 'พวก'
+    'ไม่', 'ใช่', 'ใช่ไหม', 'ครับ', 'ค่ะ', 'นะ', 'คะ', 'ครับผม', 'พวก',
+    'ใช้', 'สามารถ', 'ต้อง', 'ผ่าน', 'เปลี่ยน', 'ปรับ', 'ระดับ', 'ชิ้น', 'งาน'
 ]);
 
 // Segment query into words using native Intl.Segmenter
@@ -895,7 +907,7 @@ function performSearch(query) {
         const searchUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?q=' + encodeURIComponent(q);
         apiUrlLink.textContent = searchUrl;
         apiUrlLink.href = searchUrl;
-        apiLinkContainer.style.display = 'flex';
+        apiLinkContainer.style.display = 'none';
         window.history.replaceState({ path: searchUrl }, '', searchUrl);
     } else {
         apiLinkContainer.style.display = 'none';
