@@ -431,6 +431,39 @@ header {
     transform: translateX(-50%) translateY(0);
 }
 
+/* Embed Mode Styles */
+body.embed-mode {
+    background: var(--bg);
+}
+body.embed-mode header {
+    display: none !important;
+}
+body.embed-mode #main-content {
+    margin: 0 auto;
+    padding: 10px 0;
+    max-width: 100%;
+}
+body.embed-mode .hero-title,
+body.embed-mode .hero-subtitle,
+body.embed-mode #search-container,
+body.embed-mode #api-link-container,
+body.embed-mode #share-embed-container,
+body.embed-mode .filter-tabs,
+body.embed-mode #search-status {
+    display: none !important;
+}
+body.embed-mode .popup-frame {
+    left: 50% !important;
+    top: 50% !important;
+    right: auto !important;
+    transform: translate(-50%, -50%) scale(0.9) !important;
+    max-width: 90% !important;
+    max-height: 90% !important;
+}
+body.embed-mode .popup-frame.active {
+    transform: translate(-50%, -50%) scale(1) !important;
+}
+
 /* Media Queries */
 @media (max-width: 1100px) {
     .popup-frame {
@@ -478,11 +511,27 @@ header {
         <input type="text" id="search-input" placeholder="พิมพ์คำค้นหาของคุณที่นี่..." autocomplete="off" disabled />
     </div>
     
-    <div id="api-link-container" style="display:none; text-align:left; margin-top: -15px; margin-bottom: 20px; padding: 12px 18px; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border); border-radius: 10px; font-size: 0.8rem; color: var(--text-muted); align-items: center; justify-content: space-between;">
-        <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-right: 15px; flex-grow: 1;">
-            ลิงก์ค้นหาผ่าน API / แชร์: <a id="api-url-link" href="#" target="_blank" style="color: var(--accent); text-decoration: none; font-family: monospace;"></a>
-        </span>
-        <button id="copy-api-btn" style="background: #21262d; color: var(--text); border: 1px solid var(--border); padding: 4px 12px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; flex-shrink: 0; transition: all 0.2s; font-weight: 600;">คัดลอกลิงก์</button>
+    <div id="share-embed-container" style="display:none; text-align:left; margin-top: -15px; margin-bottom: 20px; padding: 16px; background: rgba(22, 27, 34, 0.6); backdrop-filter: blur(10px); border: 1px solid var(--border); border-radius: 12px; font-size: 0.85rem; color: var(--text); flex-direction: column; gap: 12px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
+            <span style="font-weight: 600; color: #f0f6fc; display: flex; align-items: center; gap: 6px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                แชร์ลิงก์ค้นหา:
+            </span>
+            <div style="display: flex; align-items: center; gap: 8px; flex-grow: 1; justify-content: flex-end; min-width: 0;">
+                <a id="share-url-link" href="#" target="_blank" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: monospace; color: var(--accent); font-size: 0.8rem; background: rgba(0,0,0,0.2); padding: 4px 8px; border-radius: 6px; max-width: 250px; text-decoration: none;"></a>
+                <button id="copy-share-btn" style="background: #21262d; color: var(--text); border: 1px solid var(--border); padding: 4px 12px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; transition: all 0.2s; font-weight: 600; white-space: nowrap;">คัดลอกลิงก์</button>
+            </div>
+        </div>
+        <div style="border-top: 1px solid rgba(48, 54, 61, 0.5); padding-top: 10px; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
+            <span style="font-weight: 600; color: #f0f6fc; display: flex; align-items: center; gap: 6px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#bc8cff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                โค้ดฝัง iFrame (Embed):
+            </span>
+            <div style="display: flex; align-items: center; gap: 8px; flex-grow: 1; justify-content: flex-end; min-width: 0;">
+                <span id="embed-code-text" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: monospace; color: var(--text-muted); font-size: 0.8rem; background: rgba(0,0,0,0.2); padding: 4px 8px; border-radius: 6px; max-width: 250px;"></span>
+                <button id="copy-embed-btn" style="background: #21262d; color: var(--text); border: 1px solid var(--border); padding: 4px 12px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; transition: all 0.2s; font-weight: 600; white-space: nowrap;">คัดลอก iFrame</button>
+            </div>
+        </div>
     </div>
 
     <div class="filter-tabs">
@@ -513,10 +562,12 @@ const copyPopup = document.getElementById('copy-popup');
 const videoFrame = document.getElementById('video-frame');
 const reloadBtn = document.getElementById('reload-btn');
 
-// API/Share link elements
-const apiLinkContainer = document.getElementById('api-link-container');
-const apiUrlLink = document.getElementById('api-url-link');
-const copyApiBtn = document.getElementById('copy-api-btn');
+// API/Share & Embed link elements
+const shareEmbedContainer = document.getElementById('share-embed-container');
+const shareUrlLink = document.getElementById('share-url-link');
+const copyShareBtn = document.getElementById('copy-share-btn');
+const embedCodeText = document.getElementById('embed-code-text');
+const copyEmbedBtn = document.getElementById('copy-embed-btn');
 
 let items = [];
 let currentFilter = 'all';
@@ -675,6 +726,13 @@ async function fetchDatabase() {
     // Check for URL query parameter on load
     const urlParams = new URLSearchParams(window.location.search);
     const queryParam = urlParams.get('q');
+    const embedParam = urlParams.get('embed');
+    const isEmbedMode = (embedParam === 'true' || embedParam === '1');
+    
+    if (isEmbedMode) {
+        document.body.classList.add('embed-mode');
+    }
+    
     if (queryParam) {
         wasLoadedWithQuery = true;
         initialUrlQuery = queryParam.trim();
@@ -684,11 +742,9 @@ async function fetchDatabase() {
         const heroTitle = document.querySelector('.hero-title');
         const heroSub = document.querySelector('.hero-subtitle');
         const searchCont = document.getElementById('search-container');
-        const apiCont = document.getElementById('api-link-container');
         if (heroTitle) heroTitle.style.display = 'none';
         if (heroSub) heroSub.style.display = 'none';
         if (searchCont) searchCont.style.display = 'none';
-        if (apiCont) apiCont.style.display = 'none';
         
         performSearch(queryParam);
     }
@@ -831,7 +887,7 @@ function performSearch(query) {
     const q = query.trim();
     if (!q) {
         resultsDiv.innerHTML = '';
-        apiLinkContainer.style.display = 'none';
+        shareEmbedContainer.style.display = 'none';
         
         const videoCount = items.filter(i => i.type === 'video').length;
         const textCount = items.filter(i => i.type === 'text').length;
@@ -848,7 +904,7 @@ function performSearch(query) {
     const queryWords = segmentText(q);
     if (queryWords.length === 0) {
         resultsDiv.innerHTML = '';
-        apiLinkContainer.style.display = 'none';
+        shareEmbedContainer.style.display = 'none';
         return;
     }
     
@@ -903,14 +959,26 @@ function performSearch(query) {
     // Sort descending by score
     results.sort((a, b) => b.score - a.score);
     
-    if (wasLoadedWithQuery) {
-        const searchUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?q=' + encodeURIComponent(q);
-        apiUrlLink.textContent = searchUrl;
-        apiUrlLink.href = searchUrl;
-        apiLinkContainer.style.display = 'none';
-        window.history.replaceState({ path: searchUrl }, '', searchUrl);
+    const baseUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+    const searchUrl = baseUrl + '?q=' + encodeURIComponent(q);
+    const embedUrl = baseUrl + '?q=' + encodeURIComponent(q) + '&embed=true';
+    const iframeCode = `<iframe src="${embedUrl}" width="100%" height="600" style="border:none; border-radius:12px;"></iframe>`;
+
+    const embedParam = new URLSearchParams(window.location.search).get('embed');
+    const isEmbedMode = (embedParam === 'true' || embedParam === '1');
+
+    if (!isEmbedMode) {
+        shareUrlLink.textContent = searchUrl;
+        shareUrlLink.href = searchUrl;
+        embedCodeText.textContent = iframeCode;
+        shareEmbedContainer.style.display = 'flex';
     } else {
-        apiLinkContainer.style.display = 'none';
+        shareEmbedContainer.style.display = 'none';
+    }
+
+    if (wasLoadedWithQuery) {
+        const finalUrl = isEmbedMode ? embedUrl : searchUrl;
+        window.history.replaceState({ path: finalUrl }, '', finalUrl);
     }
     
     searchStatus.innerHTML = `พบข้อมูลเชื่อมโยง <span style="color:#58a6ff;font-weight:600">${results.length.toLocaleString()}</span> รายการ จากฐานข้อมูลทั้งหมด ${items.length.toLocaleString()} รายการ`;
@@ -1070,18 +1138,34 @@ searchInput.addEventListener('input', () => {
     }, 200);
 });
 
-// Copy API share link listener
-copyApiBtn.addEventListener('click', () => {
-    navigator.clipboard.writeText(apiUrlLink.href).then(() => {
-        const originalText = copyApiBtn.textContent;
-        copyApiBtn.textContent = 'คัดลอกแล้ว! ✓';
-        copyApiBtn.style.background = 'var(--success)';
-        copyApiBtn.style.color = 'white';
+// Copy share link listener
+copyShareBtn.addEventListener('click', () => {
+    navigator.clipboard.writeText(shareUrlLink.href).then(() => {
+        const originalText = copyShareBtn.textContent;
+        copyShareBtn.textContent = 'คัดลอกแล้ว! ✓';
+        copyShareBtn.style.background = 'var(--success)';
+        copyShareBtn.style.color = 'white';
         setTimeout(() => {
-            copyApiBtn.textContent = originalText;
-            copyApiBtn.style.background = '#21262d';
-            copyApiBtn.style.color = 'var(--text)';
-            copyApiBtn.style.borderColor = 'var(--border)';
+            copyShareBtn.textContent = originalText;
+            copyShareBtn.style.background = '#21262d';
+            copyShareBtn.style.color = 'var(--text)';
+            copyShareBtn.style.borderColor = 'var(--border)';
+        }, 2000);
+    });
+});
+
+// Copy embed code listener
+copyEmbedBtn.addEventListener('click', () => {
+    navigator.clipboard.writeText(embedCodeText.textContent).then(() => {
+        const originalText = copyEmbedBtn.textContent;
+        copyEmbedBtn.textContent = 'คัดลอกแล้ว! ✓';
+        copyEmbedBtn.style.background = 'var(--success)';
+        copyEmbedBtn.style.color = 'white';
+        setTimeout(() => {
+            copyEmbedBtn.textContent = originalText;
+            copyEmbedBtn.style.background = '#21262d';
+            copyEmbedBtn.style.color = 'var(--text)';
+            copyEmbedBtn.style.borderColor = 'var(--border)';
         }, 2000);
     });
 });
