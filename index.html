@@ -850,8 +850,8 @@ function renderResults(results, queryWords) {
         return;
     }
 
-    // Group items: Top Matches must have ratio >= 35% (0.35)
-    const topMatches = results.filter(r => r.ratio >= 0.35).slice(0, 3);
+    // Group items: Top Matches must have ratio >= 29% (0.29)
+    const topMatches = results.filter(r => r.ratio >= 0.29).slice(0, 3);
     const relevantResults = results.filter(r => !topMatches.includes(r));
 
     const grouped = {
