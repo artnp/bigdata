@@ -526,31 +526,9 @@ body.embed-mode .popup-frame.active {
     <div class="hero-subtitle">Fast client-side keyword search across your entire GitHub database</div>
     
     <div id="search-container">
-        <input type="text" id="search-input" placeholder="พิมพ์คำค้นหาของคุณที่นี่..." autocomplete="off" disabled />
+        <input type="text" id="search-input" placeholder="พิมพ์เพื่อค้นหาข้อมูล.." autocomplete="off">
     </div>
-    
-    <div id="share-embed-container" style="display:none; text-align:left; margin-top: -15px; margin-bottom: 20px; padding: 16px; background: rgba(22, 27, 34, 0.6); backdrop-filter: blur(10px); border: 1px solid var(--border); border-radius: 12px; font-size: 0.85rem; color: var(--text); flex-direction: column; gap: 12px;">
-        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
-            <span style="font-weight: 600; color: #f0f6fc; display: flex; align-items: center; gap: 6px;">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
-                แชร์ลิงก์ค้นหา:
-            </span>
-            <div style="display: flex; align-items: center; gap: 8px; flex-grow: 1; justify-content: flex-end; min-width: 0;">
-                <a id="share-url-link" href="#" target="_blank" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: monospace; color: var(--accent); font-size: 0.8rem; background: rgba(0,0,0,0.2); padding: 4px 8px; border-radius: 6px; max-width: 250px; text-decoration: none;"></a>
-                <button id="copy-share-btn" style="background: #21262d; color: var(--text); border: 1px solid var(--border); padding: 4px 12px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; transition: all 0.2s; font-weight: 600; white-space: nowrap;">คัดลอกลิงก์</button>
-            </div>
-        </div>
-        <div style="border-top: 1px solid rgba(48, 54, 61, 0.5); padding-top: 10px; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
-            <span style="font-weight: 600; color: #f0f6fc; display: flex; align-items: center; gap: 6px;">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#bc8cff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
-                โค้ดฝัง iFrame (Embed):
-            </span>
-            <div style="display: flex; align-items: center; gap: 8px; flex-grow: 1; justify-content: flex-end; min-width: 0;">
-                <span id="embed-code-text" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: monospace; color: var(--text-muted); font-size: 0.8rem; background: rgba(0,0,0,0.2); padding: 4px 8px; border-radius: 6px; max-width: 250px;"></span>
-                <button id="copy-embed-btn" style="background: #21262d; color: var(--text); border: 1px solid var(--border); padding: 4px 12px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; transition: all 0.2s; font-weight: 600; white-space: nowrap;">คัดลอก iFrame</button>
-            </div>
-        </div>
-    </div>
+
 
     <div class="filter-tabs">
         <button class="tab active" data-filter="all">All Items</button>
@@ -580,12 +558,7 @@ const copyPopup = document.getElementById('copy-popup');
 const videoFrame = document.getElementById('video-frame');
 const reloadBtn = document.getElementById('reload-btn');
 
-// API/Share & Embed link elements
-const shareEmbedContainer = document.getElementById('share-embed-container');
-const shareUrlLink = document.getElementById('share-url-link');
-const copyShareBtn = document.getElementById('copy-share-btn');
-const embedCodeText = document.getElementById('embed-code-text');
-const copyEmbedBtn = document.getElementById('copy-embed-btn');
+
 
 let items = [];
 let currentFilter = 'all';
@@ -643,7 +616,7 @@ async function fetchDatabase(force = true) {
     
     if (force) {
         searchInput.disabled = true;
-        searchInput.placeholder = "กำลังดาวน์โหลดฐานข้อมูล...";
+        searchInput.placeholder = "พิมพ์เพื่อค้นหาข้อมูล..";
         searchStatus.innerHTML = `
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                 <span>กำลังดาวน์โหลดฐานข้อมูล...</span>
@@ -793,7 +766,7 @@ async function fetchDatabase(force = true) {
     }
     
     isFetching = false;
-    searchInput.placeholder = "ป้อนคำค้นหา (ค้นหาหลายคำพร้อมกันโดยใช้ช่องว่าง)...";
+    searchInput.placeholder = "พิมพ์เพื่อค้นหาข้อมูล..";
     searchInput.disabled = false;
     
     if (force) {
@@ -840,21 +813,18 @@ function initDatabase() {
         
         searchStatus.innerHTML = `โหลดเสร็จสิ้น (จากแคชในเครื่อง) | มีวิดีโอ <span style="color:#fff;font-weight:600">${uniqueVideoCount.toLocaleString()}</span> รายการ, ข้อความ <span style="color:#fff;font-weight:600">${uniqueTextCount.toLocaleString()}</span> รายการ`;
         
-        searchInput.placeholder = "ป้อนคำค้นหา (ค้นหาหลายคำพร้อมกันโดยใช้ช่องว่าง)...";
+        searchInput.placeholder = "พิมพ์เพื่อค้นหาข้อมูล..";
         searchInput.disabled = false;
         
         if (queryParam) {
             wasLoadedWithQuery = true;
             initialUrlQuery = queryParam.trim();
-            searchInput.value = queryParam;
             
-            // Hide hero section and search box when loaded with URL query
+            // Hide hero section when loaded with URL query
             const heroTitle = document.querySelector('.hero-title');
             const heroSub = document.querySelector('.hero-subtitle');
-            const searchCont = document.getElementById('search-container');
             if (heroTitle) heroTitle.style.display = 'none';
             if (heroSub) heroSub.style.display = 'none';
-            if (searchCont) searchCont.style.display = 'none';
             
             performSearch(queryParam);
         } else {
@@ -871,15 +841,12 @@ function initDatabase() {
         if (queryParam) {
             wasLoadedWithQuery = true;
             initialUrlQuery = queryParam.trim();
-            searchInput.value = queryParam;
             
-            // Hide hero section and search box when loaded with URL query
+            // Hide hero section when loaded with URL query
             const heroTitle = document.querySelector('.hero-title');
             const heroSub = document.querySelector('.hero-subtitle');
-            const searchCont = document.getElementById('search-container');
             if (heroTitle) heroTitle.style.display = 'none';
             if (heroSub) heroSub.style.display = 'none';
-            if (searchCont) searchCont.style.display = 'none';
         }
         fetchDatabase(true);
     }
@@ -1022,7 +989,6 @@ function performSearch(query) {
     const q = query.trim();
     if (!q) {
         resultsDiv.innerHTML = '';
-        shareEmbedContainer.style.display = 'none';
         
         const videoCount = items.filter(i => i.type === 'video').length;
         const textCount = items.filter(i => i.type === 'text').length;
@@ -1039,7 +1005,6 @@ function performSearch(query) {
     const queryWords = segmentText(q);
     if (queryWords.length === 0) {
         resultsDiv.innerHTML = '';
-        shareEmbedContainer.style.display = 'none';
         return;
     }
     
@@ -1097,19 +1062,9 @@ function performSearch(query) {
     const baseUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
     const searchUrl = baseUrl + '?q=' + encodeURIComponent(q);
     const embedUrl = baseUrl + '?q=' + encodeURIComponent(q) + '&embed=true';
-    const iframeCode = `<iframe src="${embedUrl}" width="100%" height="600" style="border:none; border-radius:12px;"></iframe>`;
 
     const embedParam = new URLSearchParams(window.location.search).get('embed');
     const isEmbedMode = (embedParam === 'true' || embedParam === '1');
-
-    if (!isEmbedMode) {
-        shareUrlLink.textContent = searchUrl;
-        shareUrlLink.href = searchUrl;
-        embedCodeText.textContent = iframeCode;
-        shareEmbedContainer.style.display = 'flex';
-    } else {
-        shareEmbedContainer.style.display = 'none';
-    }
 
     if (wasLoadedWithQuery) {
         const finalUrl = isEmbedMode ? embedUrl : searchUrl;
@@ -1273,37 +1228,7 @@ searchInput.addEventListener('input', () => {
     }, 200);
 });
 
-// Copy share link listener
-copyShareBtn.addEventListener('click', () => {
-    navigator.clipboard.writeText(shareUrlLink.href).then(() => {
-        const originalText = copyShareBtn.textContent;
-        copyShareBtn.textContent = 'คัดลอกแล้ว! ✓';
-        copyShareBtn.style.background = 'var(--success)';
-        copyShareBtn.style.color = 'white';
-        setTimeout(() => {
-            copyShareBtn.textContent = originalText;
-            copyShareBtn.style.background = '#21262d';
-            copyShareBtn.style.color = 'var(--text)';
-            copyShareBtn.style.borderColor = 'var(--border)';
-        }, 2000);
-    });
-});
 
-// Copy embed code listener
-copyEmbedBtn.addEventListener('click', () => {
-    navigator.clipboard.writeText(embedCodeText.textContent).then(() => {
-        const originalText = copyEmbedBtn.textContent;
-        copyEmbedBtn.textContent = 'คัดลอกแล้ว! ✓';
-        copyEmbedBtn.style.background = 'var(--success)';
-        copyEmbedBtn.style.color = 'white';
-        setTimeout(() => {
-            copyEmbedBtn.textContent = originalText;
-            copyEmbedBtn.style.background = '#21262d';
-            copyEmbedBtn.style.color = 'var(--text)';
-            copyEmbedBtn.style.borderColor = 'var(--border)';
-        }, 2000);
-    });
-});
 
 // Reload button click
 reloadBtn.addEventListener('click', (e) => {
