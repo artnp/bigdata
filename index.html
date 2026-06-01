@@ -1226,12 +1226,15 @@ function renderResults(results, queryWords) {
                 const clipboardText = `${textData}\n${videoUrl}`;
                 
                 navigator.clipboard.writeText(clipboardText).then(() => {
-                    copyPopup.classList.add('show');
-                    el.style.borderColor = 'var(--success)';
-                    setTimeout(() => {
-                        copyPopup.classList.remove('show');
-                        el.style.borderColor = 'var(--border)';
-                    }, 2000);
+                    const hasQ = new URLSearchParams(window.location.search).has('q');
+                    if (!hasQ) {
+                        copyPopup.classList.add('show');
+                        el.style.borderColor = 'var(--success)';
+                        setTimeout(() => {
+                            copyPopup.classList.remove('show');
+                            el.style.borderColor = 'var(--border)';
+                        }, 2000);
+                    }
                 });
                 
                 // Check if URL has query param "q"
@@ -1295,12 +1298,15 @@ function renderResults(results, queryWords) {
             } else {
                 closeVideo();
                 navigator.clipboard.writeText(textData).then(() => {
-                    copyPopup.classList.add('show');
-                    el.style.borderColor = 'var(--success)';
-                    setTimeout(() => {
-                        copyPopup.classList.remove('show');
-                        el.style.borderColor = 'var(--border)';
-                    }, 2000);
+                    const hasQ = new URLSearchParams(window.location.search).has('q');
+                    if (!hasQ) {
+                        copyPopup.classList.add('show');
+                        el.style.borderColor = 'var(--success)';
+                        setTimeout(() => {
+                            copyPopup.classList.remove('show');
+                            el.style.borderColor = 'var(--border)';
+                        }, 2000);
+                    }
                 });
             }
         });
@@ -1336,6 +1342,13 @@ reloadBtn.addEventListener('click', (e) => {
     e.preventDefault();
     closeVideo();
     fetchDatabase(true);
+});
+
+// Close video popup when clicking outside the frame
+document.addEventListener('click', (e) => {
+    if (videoFrame.classList.contains('active') && !videoFrame.contains(e.target)) {
+        closeVideo();
+    }
 });
 
 // Load database on startup
