@@ -536,6 +536,14 @@ body.embed-mode #search-status {
 <div class="popup-frame" id="video-frame"></div>
 
 <script>
+// Load YouTube IFrame Player API
+(function() {
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+})();
+
 // GitHub configuration
 const GITHUB_USER = 'artnp';
 const GITHUB_REPO = 'bigdata';
@@ -585,11 +593,14 @@ function loadFromCache() {
     return null;
 }
 
+let closeVideoTimeout = null;
 function closeVideo(){
     videoFrame.classList.remove('active');
-    setTimeout(() => { 
+    if (closeVideoTimeout) clearTimeout(closeVideoTimeout);
+    closeVideoTimeout = setTimeout(() => { 
         videoFrame.innerHTML = ''; 
         videoFrame.className = 'popup-frame';
+        closeVideoTimeout = null;
     }, 350);
 }
 
@@ -1146,15 +1157,17 @@ function renderResults(results, queryWords) {
         
         // Click to copy logic
         el.addEventListener('click', (e) => {
-            closeVideo();
-            
             if (itemType === 'video' && videoId) {
                 e.stopPropagation();
+                
+                if (closeVideoTimeout) {
+                    clearTimeout(closeVideoTimeout);
+                    closeVideoTimeout = null;
+                }
+                
                 const isShorts = !videoId.includes('?start=');
                 const videoIdParts = videoId.split('?');
                 const embedId = videoIdParts[0]; 
-                const params = videoIdParts.length > 1 ? `&${videoIdParts[1]}` : '';
-                const embedUrl = `https://www.youtube.com/embed/${embedId}?autoplay=1&modestbranding=1&rel=0${params}`;
                 
                 // Add aspect ratio classes
                 videoFrame.className = 'popup-frame active';
@@ -1166,13 +1179,47 @@ function renderResults(results, queryWords) {
                 
                 videoFrame.innerHTML = `
                     <div id="close-video-frame">×</div>
-                    <iframe src="${embedUrl}" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+                    <div id="yt-player-container"></div>`;
                 
                 document.getElementById('close-video-frame').addEventListener('click', (ev) => {
                     ev.stopPropagation();
                     closeVideo();
                 });
+                
+                const playerVars = {
+                    'autoplay': 1,
+                    'modestbranding': 1,
+                    'rel': 0,
+                    'enablejsapi': 1
+                };
+                if (videoIdParts.length > 1) {
+                    const searchParams = new URLSearchParams(videoIdParts[1]);
+                    for (const [key, value] of searchParams.entries()) {
+                        playerVars[key] = value;
+                    }
+                }
+                
+                if (window.YT && window.YT.Player) {
+                    new window.YT.Player('yt-player-container', {
+                        videoId: embedId,
+                        playerVars: playerVars,
+                        events: {
+                            'onStateChange': (event) => {
+                                if (event.data === 0) { // 0 = YT.PlayerState.ENDED
+                                    closeVideo();
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    // Fallback to standard iframe if YT API is not ready
+                    const params = videoIdParts.length > 1 ? `&${videoIdParts[1]}` : '';
+                    const embedUrl = `https://www.youtube.com/embed/${embedId}?autoplay=1&modestbranding=1&rel=0${params}`;
+                    document.getElementById('yt-player-container').innerHTML = `
+                        <iframe src="${embedUrl}" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+                }
             } else {
+                closeVideo();
                 navigator.clipboard.writeText(textData).then(() => {
                     copyPopup.classList.add('show');
                     el.style.borderColor = 'var(--success)';
