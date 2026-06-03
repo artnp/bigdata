@@ -930,6 +930,7 @@ function initDatabase() {
         if (queryParam) {
             wasLoadedWithQuery = true;
             initialUrlQuery = queryParam.trim();
+            searchInput.value = initialUrlQuery;
             
             // Hide hero section when loaded with URL query
             const heroTitle = document.querySelector('.hero-title');
@@ -952,6 +953,7 @@ function initDatabase() {
         if (queryParam) {
             wasLoadedWithQuery = true;
             initialUrlQuery = queryParam.trim();
+            searchInput.value = initialUrlQuery;
             
             // Hide hero section when loaded with URL query
             const heroTitle = document.querySelector('.hero-title');
@@ -1545,9 +1547,12 @@ function performSearch(query) {
             const semanticBonus = (scoreInfo.semanticMatchedWords && scoreInfo.semanticMatchedWords.length > 0) ? 0.3 : 0;
             const ratio = totalCount > 0 ? Math.min(1, (matchedCount / totalCount) + semanticBonus) : 0;
             
-            // Only keep if match ratio is at least 15% (or 30% if loaded with URL query) to filter out noise
-            const minRatio = wasLoadedWithQuery ? 0.30 : 0.15;
-            if (ratio < minRatio) continue;
+            // If loaded with URL query, filter strictly by word match accuracy (without semantic bonus)
+            const wordMatchRatio = totalCount > 0 ? (matchedCount / totalCount) : 0;
+            if (wasLoadedWithQuery && wordMatchRatio < 0.45) continue;
+            
+            // Otherwise, apply normal ratio filter (including semantic bonus) for normal searches
+            if (!wasLoadedWithQuery && ratio < 0.15) continue;
             
             results.push({
                 ...item,
@@ -1587,8 +1592,8 @@ function renderResults(results, queryWords) {
         return;
     }
 
-    // Group items: Top Matches must have ratio >= 33% (0.33)
-    const topMatches = results.filter(r => r.ratio >= 0.33).slice(0, 3);
+    // Group items: Top Matches must have ratio >= 45% (0.45)
+    const topMatches = results.filter(r => r.ratio >= 0.45).slice(0, 3);
     const relevantResults = results.filter(r => !topMatches.includes(r));
 
     const grouped = {
@@ -1793,6 +1798,7 @@ document.querySelectorAll('.filter-tabs .tab').forEach(tab => {
 searchInput.addEventListener('input', () => {
     clearTimeout(searchTimer);
     searchTimer = setTimeout(() => {
+        wasLoadedWithQuery = false;
         performSearch(searchInput.value);
     }, 200);
 });
