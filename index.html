@@ -1499,7 +1499,8 @@ function performSearch(query) {
     
     // Show expansion pills
     const expansionInfoEl = document.getElementById('smart-expansion-info');
-    if (expandedInfo.expanded.length > 0) {
+    const hasQ = new URLSearchParams(window.location.search).has('q');
+    if (expandedInfo.expanded.length > 0 && !hasQ) {
         const pills = expandedInfo.expanded.slice(0, 8).map(w => {
             const info = expandedInfo.map[w];
             const icon = info.source === 'thai-eng' ? '🔤' : info.source === 'synonym' ? '🔗' : info.source === 'consonant' ? '✏️' : '🧠';
