@@ -276,7 +276,7 @@ header {
     font-size: 1rem; 
     font-weight: 400; 
     color: #f0f6fc; 
-    margin-bottom: 0; 
+    margin-bottom: 6px; 
     word-break: break-word;
 }
 .card-meta { 
@@ -314,6 +314,53 @@ header {
     font-weight: 600;
     border: 1px solid rgba(255, 215, 0, 0.35);
     text-shadow: 0 0 4px rgba(255, 215, 0, 0.4);
+}
+
+.highlight-semantic {
+    background: rgba(188, 140, 255, 0.18);
+    color: #bc8cff;
+    padding: 1px 4px;
+    margin: 0 1px;
+    border-radius: 3px;
+    font-weight: 600;
+    border: 1px solid rgba(188, 140, 255, 0.35);
+    text-shadow: 0 0 4px rgba(188, 140, 255, 0.4);
+    cursor: help;
+}
+
+.smart-expansion-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-left: 10px;
+}
+.smart-badge {
+    font-size: 0.72rem;
+    padding: 3px 10px;
+    border-radius: 12px;
+    background: rgba(188, 140, 255, 0.1);
+    border: 1px solid rgba(188, 140, 255, 0.25);
+    color: #bc8cff;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+.smart-badge:hover {
+    background: rgba(188, 140, 255, 0.2);
+    border-color: rgba(188, 140, 255, 0.5);
+}
+.smart-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
 }
 
 /* Skeletons */
@@ -584,6 +631,8 @@ body.embed-mode #search-status {
     
     <div id="search-status">กำลังดาวน์โหลดข้อมูลเริ่มต้นจาก GitHub...</div>
     
+    <div id="smart-expansion-info" class="smart-expansion-info" style="display:none;"></div>
+    
     <div id="results"></div>
 </main>
 
@@ -810,6 +859,7 @@ async function fetchDatabase(force = true) {
     if (changed || force || items.length === 0) {
         items = uniqueItems;
         saveToCache(items);
+        buildSmartIndex(items, true);
         
         const uniqueVideoCount = items.filter(i => i.type === 'video').length;
         const uniqueTextCount = items.filter(i => i.type === 'text').length;
@@ -867,6 +917,7 @@ function initDatabase() {
     if (cached && Array.isArray(cached.items) && cached.items.length > 0) {
         // Loaded from cache!
         items = cached.items;
+        buildSmartIndex(items, false);
         
         const uniqueVideoCount = items.filter(i => i.type === 'video').length;
         const uniqueTextCount = items.filter(i => i.type === 'text').length;
@@ -939,15 +990,27 @@ const THAI_STOP_WORDS = new Set([
     'ใช้', 'สามารถ', 'ต้อง', 'ผ่าน', 'เปลี่ยน', 'ปรับ', 'ระดับ', 'ชิ้น', 'งาน'
 ]);
 
-// Segment query into words using native Intl.Segmenter
-function segmentText(text) {
+let thSegmenter = null;
+try {
     if (typeof Intl !== 'undefined' && Intl.Segmenter) {
+        thSegmenter = new Intl.Segmenter('th', { granularity: 'word' });
+    }
+} catch (e) {
+    console.warn('Intl.Segmenter init failed:', e);
+}
+
+// Segment query into words using native Intl.Segmenter (optimized for performance)
+function segmentText(text) {
+    if (thSegmenter) {
         try {
-            const segmenter = new Intl.Segmenter('th', { granularity: 'word' });
-            return Array.from(segmenter.segment(text))
-                .filter(s => s.isWordLike)
-                .map(s => s.segment.toLowerCase().trim())
-                .filter(s => s.length > 0);
+            const result = [];
+            for (const s of thSegmenter.segment(text)) {
+                if (s.isWordLike) {
+                    const clean = s.segment.toLowerCase().trim();
+                    if (clean.length > 0) result.push(clean);
+                }
+            }
+            return result;
         } catch (e) {
             console.warn('Intl.Segmenter failed, falling back to regex', e);
         }
@@ -958,8 +1021,346 @@ function segmentText(text) {
         .filter(s => s.length > 0);
 }
 
+// Helper to generate n-grams of adjacent words to capture compound terms and transliterations
+function getMergedTerms(words) {
+    const terms = [...words];
+    for (let i = 0; i < words.length - 1; i++) {
+        terms.push(words[i] + words[i+1]);
+        if (i < words.length - 2) {
+            terms.push(words[i] + words[i+1] + words[i+2]);
+        }
+    }
+    return [...new Set(terms)];
+}
+
+const SMART_INDEX_CACHE_KEY = 'bigdata_smart_index_cache';
+function saveSmartIndexToCache(index) {
+    try {
+        const serialized = {
+            thaiEngPairs: Array.from(index.thaiEngPairs.entries()).map(([k, v]) => [k, Array.from(v)]),
+            engThaiPairs: Array.from(index.engThaiPairs.entries()).map(([k, v]) => [k, Array.from(v)]),
+            consonantMap: Array.from(index.consonantMap.entries()).map(([k, v]) => [k, Array.from(v)]),
+            cooccurrence: Array.from(index.cooccurrence.entries()),
+            timestamp: Date.now()
+        };
+        localStorage.setItem(SMART_INDEX_CACHE_KEY, JSON.stringify(serialized));
+    } catch (e) {
+        console.warn('Failed to save smart index to cache:', e);
+    }
+}
+
+function loadSmartIndexFromCache() {
+    try {
+        const cached = localStorage.getItem(SMART_INDEX_CACHE_KEY);
+        if (cached) {
+            const data = JSON.parse(cached);
+            const thaiEngPairs = new Map(data.thaiEngPairs.map(([k, v]) => [k, new Set(v)]));
+            const engThaiPairs = new Map(data.engThaiPairs.map(([k, v]) => [k, new Set(v)]));
+            const consonantMap = new Map(data.consonantMap.map(([k, v]) => [k, new Set(v)]));
+            const cooccurrence = new Map(data.cooccurrence);
+            return { thaiEngPairs, engThaiPairs, consonantMap, cooccurrence };
+        }
+    } catch (e) {
+        console.warn('Failed to load smart index from cache:', e);
+    }
+    return null;
+}
+
+// ============= SMART SEMANTIC SEARCH ENGINE =============
+// Self-learning: builds intelligence from database automatically
+// No AI API, no internet, free 100%
+
+const CORE_SYNONYMS = [
+    ['ไม่สบาย', 'ป่วย', 'เจ็บไข้', 'ตัวร้อน', 'มีไข้', 'เป็นไข้', 'ไข้'],
+    ['กิน', 'ดื่ม', 'รับประทาน', 'บริโภค', 'ทาน', 'กระหาย'],
+    ['ตาย', 'เสียชีวิต', 'สิ้นใจ', 'ดับ', 'วายชนม์', 'มรณะ'],
+    ['เจ็บ', 'ปวด', 'เจ็บปวด', 'แสบ', 'เจ็บแปลบ'],
+    ['แก่', 'ชรา', 'สูงอายุ', 'แก่ชรา', 'วัยชรา', 'อายุมาก', 'แก่ตัว', 'แก่เร็ว'],
+    ['ยา', 'เวชภัณฑ์', 'ตัวยา', 'ยารักษา'],
+    ['หมอ', 'แพทย์', 'นายแพทย์', 'คุณหมอ', 'อายุรแพทย์'],
+    ['โรค', 'เชื้อโรค', 'โรคภัย', 'เจ็บป่วย', 'อาการป่วย'],
+    ['เงิน', 'สกุลเงิน', 'เงินตรา', 'ค่าเงิน', 'ธนบัตร'],
+    ['กลัว', 'หวาด', 'หวาดกลัว', 'ตกใจ', 'สะดุ้ง', 'ขนลุก'],
+    ['เหนื่อย', 'อ่อนเพลีย', 'อ่อนล้า', 'เพลีย', 'ล้า'],
+    ['อ้วน', 'น้ำหนักเกิน', 'โรคอ้วน', 'อวบ', 'ท้วม'],
+    ['ร้อน', 'อุณหภูมิสูง', 'ความร้อน', 'ร้อนจัด'],
+    ['หนาว', 'เย็น', 'อุณหภูมิต่ำ', 'หนาวจัด', 'เหน็บหนาว'],
+    ['แรง', 'พลัง', 'กำลัง', 'เรี่ยวแรง', 'พลังงาน'],
+    ['เร็ว', 'ไว', 'รวดเร็ว', 'ฉับไว', 'ว่องไว'],
+    ['ใหญ่', 'มหึมา', 'ยิ่งใหญ่', 'ขนาดใหญ่'],
+    ['เล็ก', 'จิ๋ว', 'เล็กน้อย', 'ขนาดเล็ก'],
+    ['อันตราย', 'เสี่ยง', 'เสี่ยงอันตราย', 'มีอันตราย'],
+    ['ฆ่า', 'สังหาร', 'ฆาตกรรม', 'ปลิดชีพ'],
+    ['ลงทุน', 'เทรด', 'การลงทุน', 'ซื้อขาย'],
+    ['สมอง', 'มันสมอง', 'ระบบประสาท'],
+    ['นอน', 'หลับ', 'นอนหลับ', 'พักผ่อน', 'งีบ'],
+    ['ออกกำลังกาย', 'วิ่ง', 'แอโรบิค', 'แอโรบิก', 'กีฬา', 'ฟิตเนส'],
+    ['อาหาร', 'ของกิน', 'มื้ออาหาร', 'โภชนาการ'],
+    ['อาวุธ', 'ปืน', 'กระสุน', 'ระเบิด'],
+    ['ต่อสู้', 'ชก', 'เตะ', 'ต่อย', 'มวย'],
+    ['ผิวหนัง', 'ผิว', 'หนังกำพร้า', 'ชั้นผิว'],
+    ['ดวงอาทิตย์', 'แสงแดด', 'แดด', 'พลังงานแสง'],
+    ['ทะเล', 'มหาสมุทร', 'น้ำทะเล', 'สมุทร'],
+];
+
+// Transliteration boost: common Thai-English terms that may not appear together in the same data entry
+// Auto-extraction handles same-entry pairs; this covers cross-entry pairs
+const TRANSLITERATION_BOOST = new Map([
+    ['บิทคอยน์', ['bitcoin']], ['บิตคอยน์', ['bitcoin']], ['bitcoin', ['บิทคอยน์', 'บิตคอยน์']],
+    ['บล็อกเชน', ['blockchain']], ['บล็อคเชน', ['blockchain']], ['blockchain', ['บล็อกเชน', 'บล็อคเชน']],
+    ['คริปโต', ['crypto', 'cryptocurrency']], ['crypto', ['คริปโต']], ['cryptocurrency', ['คริปโต']],
+    ['อีเธอเรียม', ['ethereum']], ['ethereum', ['อีเธอเรียม']],
+    ['โดปามีน', ['dopamine']], ['dopamine', ['โดปามีน']],
+    ['เซโรโทนิน', ['serotonin']], ['serotonin', ['เซโรโทนิน']],
+    ['อัลไซเมอร์', ['alzheimer']], ['alzheimer', ['อัลไซเมอร์']],
+    ['พาราเซตามอล', ['paracetamol']], ['paracetamol', ['พาราเซตามอล']],
+    ['แอโรบิค', ['aerobic']], ['แอโรบิก', ['aerobic']], ['aerobic', ['แอโรบิค', 'แอโรบิก']],
+    ['ดีเอ็นเอ', ['dna']], ['dna', ['ดีเอ็นเอ']],
+    ['วิตามิน', ['vitamin']], ['vitamin', ['วิตามิน']],
+    ['โปรตีน', ['protein']], ['protein', ['โปรตีน']],
+    ['แคลเซียม', ['calcium']], ['calcium', ['แคลเซียม']],
+    ['ออกซิเจน', ['oxygen']], ['oxygen', ['ออกซิเจน']],
+    ['ไฮโดรเจน', ['hydrogen']], ['hydrogen', ['ไฮโดรเจน']],
+    ['โครโมโซม', ['chromosome']], ['chromosome', ['โครโมโซม']],
+    ['ฟอสฟอรัส', ['phosphorus']], ['phosphorus', ['ฟอสฟอรัส']],
+    ['มะเร็ง', ['cancer']], ['cancer', ['มะเร็ง']],
+    ['เบาหวาน', ['diabetes']], ['diabetes', ['เบาหวาน']],
+    ['อินซูลิน', ['insulin']], ['insulin', ['อินซูลิน']],
+    ['คอเลสเตอรอล', ['cholesterol']], ['cholesterol', ['คอเลสเตอรอล']],
+    ['โยคะ', ['yoga']], ['yoga', ['โยคะ']],
+    ['คาเฟอีน', ['caffeine']], ['caffeine', ['คาเฟอีน']],
+    ['เทโลเมียร์', ['telomere']], ['telomere', ['เทโลเมียร์']],
+]);
+
+let smartIndex = null;
+
+function getConsonantSkeleton(word) {
+    const SOUND_MAP = {
+        'ก':'k','ข':'k','ฃ':'k','ค':'k','ฅ':'k','ฆ':'k',
+        'ง':'g',
+        'จ':'c','ฉ':'c','ช':'c','ฌ':'c',
+        'ซ':'s','ศ':'s','ษ':'s','ส':'s',
+        'ญ':'y',
+        'ฎ':'t','ฏ':'t','ฐ':'t','ฑ':'t','ฒ':'t',
+        'ณ':'n','น':'n',
+        'ด':'t','ต':'t','ถ':'t','ท':'t','ธ':'t',
+        'บ':'b','ป':'p','ผ':'p','พ':'p','ภ':'p','ฝ':'f','ฟ':'f',
+        'ม':'m','ย':'y','ร':'r','ล':'l','ว':'w',
+        'ห':'h','ฬ':'l','อ':'q','ฮ':'h'
+    };
+    
+    // Silence Thai characters followed by garan (์) to align spellings (e.g. บิทคอยน์ -> บิทคอย)
+    const cleanedWord = word.replace(/.[์]/g, '').toLowerCase();
+    
+    let skeleton = '';
+    for (const ch of cleanedWord) {
+        if (SOUND_MAP[ch]) {
+            skeleton += SOUND_MAP[ch];
+        } else if (/[a-zA-Z]/.test(ch)) {
+            skeleton += ch.toLowerCase();
+        }
+    }
+    return skeleton;
+}
+
+// Build Smart Index asynchronously in chunks to prevent UI locking/blocking
+async function buildSmartIndex(itemsList, forceRebuild = false) {
+    console.time('buildSmartIndex');
+    
+    if (!forceRebuild) {
+        const cached = loadSmartIndexFromCache();
+        if (cached) {
+            smartIndex = cached;
+            console.log('Smart Index loaded from cache successfully.');
+            console.timeEnd('buildSmartIndex');
+            return;
+        }
+    }
+
+    const thaiEngPairs = new Map();
+    const engThaiPairs = new Map();
+    const consonantMap = new Map();
+    const cooccurrence = new Map();
+
+    const addPair = (thai, eng) => {
+        const tl = thai.toLowerCase().trim();
+        const el = eng.toLowerCase().trim();
+        if (tl.length < 2 || el.length < 2) return;
+        if (!thaiEngPairs.has(tl)) thaiEngPairs.set(tl, new Set());
+        thaiEngPairs.get(tl).add(el);
+        if (!engThaiPairs.has(el)) engThaiPairs.set(el, new Set());
+        engThaiPairs.get(el).add(tl);
+    };
+
+    // Safe optimized regexes to extract Thai-English pairs (linear time, no backtracking)
+    const r1 = /([\u0E01-\u0E4F\s]+)\s*[\(（]([A-Za-z0-9\s\-'\.]+)[\)）]/g;
+    const r2 = /([A-Za-z0-9\s\-'\.]+)\s*[\(（]([\u0E01-\u0E4F\s]+)[\)）]/g;
+    const r3 = /([\u0E01-\u0E4F]{2,})\s+([A-Z][a-zA-Z0-9]{2,})/g;
+    const r4 = /([A-Z][a-zA-Z0-9]{2,})\s+([\u0E01-\u0E4F]{2,})/g;
+
+    const chunkSize = 1500;
+    for (let i = 0; i < itemsList.length; i += chunkSize) {
+        const chunk = itemsList.slice(i, i + chunkSize);
+        
+        for (const item of chunk) {
+            const text = item.text;
+
+            // Pattern Match (Bypassed if text does not contain brackets or uppercase letters)
+            if (text.includes('(') || text.includes('（')) {
+                for (const m of text.matchAll(r1)) addPair(m[1], m[2]);
+                for (const m of text.matchAll(r2)) addPair(m[2], m[1]);
+            }
+            if (/[A-Z]/.test(text)) {
+                for (const m of text.matchAll(r3)) addPair(m[1], m[2]);
+                for (const m of text.matchAll(r4)) addPair(m[2], m[1]);
+            }
+
+            const words = segmentText(text);
+            const sigWords = words.filter(w => !THAI_STOP_WORDS.has(w) && w.length >= 2);
+
+            // Index only the segmented words (NO MERGES in database items to prevent massive index)
+            sigWords.forEach(w => {
+                if (/[\u0E01-\u0E2E]/.test(w) && w.length >= 4) {
+                    const sk = getConsonantSkeleton(w);
+                    if (sk.length >= 3) {
+                        if (!consonantMap.has(sk)) consonantMap.set(sk, new Set());
+                        consonantMap.get(sk).add(w);
+                    }
+                }
+            });
+
+            // Co-occurrence
+            const coWords = sigWords.slice(0, 10);
+            for (let j = 0; j < coWords.length; j++) {
+                for (let k = j + 1; k < coWords.length; k++) {
+                    const w1 = coWords[j], w2 = coWords[k];
+                    if (w1 === w2) continue;
+                    if (!cooccurrence.has(w1)) cooccurrence.set(w1, new Map());
+                    cooccurrence.get(w1).set(w2, (cooccurrence.get(w1).get(w2) || 0) + 1);
+                    if (!cooccurrence.has(w2)) cooccurrence.set(w2, new Map());
+                    cooccurrence.get(w2).set(w1, (cooccurrence.get(w2).get(w1) || 0) + 1);
+                }
+            }
+        }
+        
+        // Yield to the browser main thread to keep UI completely responsive
+        await new Promise(resolve => setTimeout(resolve, 0));
+    }
+
+    const filteredCo = new Map();
+    for (const [word, relMap] of cooccurrence) {
+        const top = [...relMap.entries()]
+            .filter(([_, c]) => c >= 3)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 5)
+            .map(([w]) => w);
+        if (top.length > 0) filteredCo.set(word, top);
+    }
+
+    smartIndex = { thaiEngPairs, engThaiPairs, consonantMap, cooccurrence: filteredCo };
+    saveSmartIndexToCache(smartIndex);
+    
+    console.timeEnd('buildSmartIndex');
+    console.log(`Smart Index built: ${thaiEngPairs.size} pairs, ${consonantMap.size} skeletons, ${filteredCo.size} co-occurrence`);
+    
+    // Re-run search if query is currently active
+    if (searchInput.value.trim().length > 0) {
+        performSearch(searchInput.value);
+    }
+}
+
+function expandQuerySmart(queryWords, rawQuery) {
+    if (!smartIndex) return { original: queryWords, expanded: [], map: {} };
+
+    const expanded = new Set();
+    const map = {};
+    const rawLower = rawQuery ? rawQuery.toLowerCase().trim() : '';
+
+    // Generate merged terms from queryWords (only for user query lookup)
+    const queryTerms = getMergedTerms(queryWords);
+
+    // 1. Direct Transliteration Lookup (using merged terms)
+    for (const term of queryTerms) {
+        if (TRANSLITERATION_BOOST.has(term)) {
+            for (const trans of TRANSLITERATION_BOOST.get(term)) {
+                if (!queryWords.includes(trans) && !expanded.has(trans)) {
+                    expanded.add(trans);
+                    map[trans] = { source: 'thai-eng', from: term, label: `${term} → ${trans}` };
+                }
+            }
+        }
+    }
+
+    // 2. Core Synonym Group Lookup (using merged terms)
+    for (const term of queryTerms) {
+        for (const group of CORE_SYNONYMS) {
+            if (group.some(s => s === term)) {
+                for (const syn of group) {
+                    if (syn !== term && !queryWords.includes(syn) && !expanded.has(syn)) {
+                        expanded.add(syn);
+                        map[syn] = { source: 'synonym', from: term, label: `${term} ≈ ${syn}` };
+                    }
+                }
+                break;
+            }
+        }
+    }
+
+    // 3. Consonant Skeleton Group Lookup & Transitive Transliterations (using merged terms)
+    for (const term of queryTerms) {
+        if (/[\u0E01-\u0E2E]/.test(term) && term.length >= 3) {
+            const sk = getConsonantSkeleton(term);
+            if (sk.length >= 2 && smartIndex.consonantMap.has(sk)) {
+                for (const similar of smartIndex.consonantMap.get(sk)) {
+                    if (similar !== term && !queryWords.includes(similar) && !expanded.has(similar) && Math.abs(similar.length - term.length) <= 3) {
+                        expanded.add(similar);
+                        map[similar] = { source: 'consonant', from: term, label: `${term} ≈ ${similar}` };
+                        
+                        // TRANSITIVE TRANSLITERATION (e.g. บิทคอย -> similarity match บิทคอยน์ -> transliteration bitcoin)
+                        if (TRANSLITERATION_BOOST.has(similar)) {
+                            for (const trans of TRANSLITERATION_BOOST.get(similar)) {
+                                if (!queryWords.includes(trans) && !expanded.has(trans)) {
+                                    expanded.add(trans);
+                                    map[trans] = { source: 'thai-eng', from: term, label: `${term} → ${trans}` };
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // 4. Co-occurrence Group Lookup (using individual words to prevent noise)
+    for (const word of queryWords) {
+        if (THAI_STOP_WORDS.has(word) || word.length < 2) continue;
+        const wl = word.toLowerCase();
+        if (smartIndex.cooccurrence.has(wl)) {
+            const related = smartIndex.cooccurrence.get(wl);
+            for (const rw of related.slice(0, 3)) {
+                if (!queryWords.includes(rw) && !expanded.has(rw)) {
+                    expanded.add(rw);
+                    map[rw] = { source: 'cooccurrence', from: word, label: `${word} ↔ ${rw}` };
+                }
+            }
+        }
+    }
+
+    // 5. Check rawQuery against TRANSLITERATION_BOOST directly as fallback
+    if (rawLower.length >= 2 && TRANSLITERATION_BOOST.has(rawLower)) {
+        for (const trans of TRANSLITERATION_BOOST.get(rawLower)) {
+            if (!expanded.has(trans)) {
+                expanded.add(trans);
+                map[trans] = { source: 'thai-eng', from: rawLower, label: `${rawQuery.trim()} → ${trans}` };
+            }
+        }
+    }
+
+    return { original: queryWords, expanded: [...expanded], map };
+}
+
 // Calculate relevance score between query words and database item text
-function calculateScore(itemText, queryWords, rawQuery) {
+function calculateScore(itemText, queryWords, rawQuery, expandedInfo) {
     const textLower = itemText.toLowerCase();
     let score = 0;
     let matchCount = 0;
@@ -1028,10 +1429,32 @@ function calculateScore(itemText, queryWords, rawQuery) {
         score += (200 * matchCount / (itemText.length + 1));
     }
 
+    // 5. Smart Semantic Expansion matching
+    let semanticMatchedWords = [];
+    if (expandedInfo && expandedInfo.expanded.length > 0) {
+        for (const expWord of expandedInfo.expanded) {
+            const expLower = expWord.toLowerCase();
+            const pos = textLower.indexOf(expLower);
+            if (pos !== -1) {
+                semanticMatchedWords.push(expWord);
+                const info = expandedInfo.map[expWord];
+                let weight = 0.4;
+                if (info) {
+                    if (info.source === 'thai-eng') weight = 0.6;
+                    else if (info.source === 'synonym') weight = 0.5;
+                    else if (info.source === 'consonant') weight = 0.55;
+                    else if (info.source === 'cooccurrence') weight = 0.35;
+                }
+                score += weight * 500;
+            }
+        }
+    }
+
     return {
         score,
         matchCount,
-        matchedWords
+        matchedWords,
+        semanticMatchedWords
     };
 }
 
@@ -1049,6 +1472,7 @@ function performSearch(query) {
     const q = query.trim();
     if (!q) {
         resultsDiv.innerHTML = '';
+        document.getElementById('smart-expansion-info').style.display = 'none';
         
         const videoCount = items.filter(i => i.type === 'video').length;
         const textCount = items.filter(i => i.type === 'text').length;
@@ -1068,6 +1492,24 @@ function performSearch(query) {
         return;
     }
     
+    // Smart Semantic Expansion
+    const expandedInfo = expandQuerySmart(queryWords, q);
+    
+    // Show expansion pills
+    const expansionInfoEl = document.getElementById('smart-expansion-info');
+    if (expandedInfo.expanded.length > 0) {
+        const pills = expandedInfo.expanded.slice(0, 8).map(w => {
+            const info = expandedInfo.map[w];
+            const icon = info.source === 'thai-eng' ? '🔤' : info.source === 'synonym' ? '🔗' : info.source === 'consonant' ? '✏️' : '🧠';
+            return `<span class="smart-badge">${icon} ${info.label}</span>`;
+        }).join('');
+        const moreCount = expandedInfo.expanded.length > 8 ? ` <span class="smart-label">+${expandedInfo.expanded.length - 8} อื่นๆ</span>` : '';
+        expansionInfoEl.innerHTML = `<span class="smart-label">🧠 Smart Search:</span>${pills}${moreCount}`;
+        expansionInfoEl.style.display = 'flex';
+    } else {
+        expansionInfoEl.style.display = 'none';
+    }
+    
     // Check if the query has any content words
     const contentWords = queryWords.filter(w => !THAI_STOP_WORDS.has(w) && w.length >= 2);
     const hasContentWords = contentWords.length > 0;
@@ -1079,7 +1521,7 @@ function performSearch(query) {
     
     const results = [];
     for (const item of filtered) {
-        const scoreInfo = calculateScore(item.text, queryWords, q);
+        const scoreInfo = calculateScore(item.text, queryWords, q, expandedInfo);
         
         if (scoreInfo.score > 0) {
             // If searched via URL and matches initial URL query, exclude 100% matches
@@ -1087,10 +1529,11 @@ function performSearch(query) {
                 continue;
             }
             // Noise reduction: 
-            // If the search query has content words, the document must match at least one content word
+            // If the search query has content words, the document must match at least one content word or have semantic matches
             if (hasContentWords) {
                 const hasMatchingContentWord = scoreInfo.matchedWords.some(w => contentWords.includes(w));
-                if (!hasMatchingContentWord) continue;
+                const hasSemanticMatch = scoreInfo.semanticMatchedWords && scoreInfo.semanticMatchedWords.length > 0;
+                if (!hasMatchingContentWord && !hasSemanticMatch) continue;
             }
             
             const uniqueMatchedWords = [...new Set(scoreInfo.matchedWords || [])];
@@ -1099,7 +1542,8 @@ function performSearch(query) {
             
             const totalCount = contentQueryWords.length > 0 ? contentQueryWords.length : [...new Set(queryWords)].length;
             const matchedCount = contentQueryWords.length > 0 ? contentMatchedWords.length : uniqueMatchedWords.length;
-            const ratio = totalCount > 0 ? (matchedCount / totalCount) : 0;
+            const semanticBonus = (scoreInfo.semanticMatchedWords && scoreInfo.semanticMatchedWords.length > 0) ? 0.3 : 0;
+            const ratio = totalCount > 0 ? Math.min(1, (matchedCount / totalCount) + semanticBonus) : 0;
             
             // Only keep if match ratio is at least 15% (or 30% if loaded with URL query) to filter out noise
             const minRatio = wasLoadedWithQuery ? 0.30 : 0.15;
@@ -1109,6 +1553,7 @@ function performSearch(query) {
                 ...item,
                 score: scoreInfo.score,
                 matchedWords: scoreInfo.matchedWords,
+                semanticMatchedWords: scoreInfo.semanticMatchedWords || [],
                 ratio: ratio,
                 totalCount: totalCount,
                 matchedCount: matchedCount
@@ -1159,11 +1604,20 @@ function renderResults(results, queryWords) {
         groupItems.forEach(item => {
             // Apply highlighting for all matched query words
             let highlightedText = item.text;
+            
+            // Apply semantic highlights first (purple) — from expanded words
+            const uniqueSemanticWords = [...new Set(item.semanticMatchedWords || [])];
+            uniqueSemanticWords.sort((a, b) => b.length - a.length);
+            uniqueSemanticWords.forEach(kw => {
+                if (kw.length >= 2) {
+                    const regex = new RegExp(`(${escapeRegExp(kw)})(?![^<>]*>)`, 'gi');
+                    highlightedText = highlightedText.replace(regex, '<span class="highlight-semantic" title="คำเชื่อมโยง">$1</span>');
+                }
+            });
+            
+            // Apply direct highlights (gold) — from original query words
             const uniqueMatchedWords = [...new Set(item.matchedWords || [])];
-            
-            // Sort unique words by length descending so we don't break sub-matches during replacement
             uniqueMatchedWords.sort((a, b) => b.length - a.length);
-            
             uniqueMatchedWords.forEach(kw => {
                 if (kw.length >= 2 || !THAI_STOP_WORDS.has(kw)) {
                     const regex = new RegExp(`(${escapeRegExp(kw)})(?![^<>]*>)`, 'gi');
@@ -1197,6 +1651,11 @@ function renderResults(results, queryWords) {
                 ${iconHtml}
                 <div class="card-content">
                     <div class="card-text">${highlightedText}</div>
+                    <div class="card-meta">
+                        ${typeBadge}
+                        ${relevanceBadge}
+                        ${metaHtml}
+                    </div>
                 </div>
             </div>`;
         });
