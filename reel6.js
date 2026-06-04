@@ -306,4 +306,5 @@ const videoIds = [
 "U520IJl8AR4?start=138&end=198,Final Adjustments: Once the basic shape is formed, use pliers to make precise adjustments . Finally, use a wooden block and a mallet to finalize the edges and ensure the shape is consistent , , .",
 "-zRbf8laUh8?start=68&end=94.733333,หากยกปืนเชื่อมออกจากชิ้นงานเร็วเกินไปก่อนที่เครื่องจะตัดไฟสนิท จะทำให้ลวดที่ค้างอยู่ในท่อพุ่งออกมามาก",
 "m8lSpXtnY3I?start=632&end=692,ภายในกล่องมีฟอยล์เก็บอุณหภูมิ ซึ่งสามารถสะสมประจุบวกได้มหาศาล หากกระเป๋ามีรอยชำรุดหรือฉีกขาดจนเผยให้เห็นโครงโลหะด้านใน จะกลายเป็นตัวล่อให้ประจุลบจากเมฆฝนวิ่งเข้าหา",
+"3L6D0SdLM1o?start=56&end=116,แก้ปัญหาด้วย 'วิธีเคเบิลเฟอร์รี่' โดยใช้ท่อไม้ไผ่ครอบสายเคเบิลชั่วคราวเพื่อช่วยเลื่อนโซ่เหล็กข้ามแม่น้ำ",
 ];
