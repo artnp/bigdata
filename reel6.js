@@ -303,4 +303,5 @@ const videoIds = [
 "e1e_Zs6PpCE?start=78&end=138,ทำหน้าที่แปลงไฟ DC จากแบตเตอรี่ Makita ให้เป็นไฟบ้าน 220V เหมาะสำหรับงานช่างหรืองานแคมป์ปิ้ง",
 "mN2bEv9t-Vg?start=1180&end=1240,พบกลุ่มยานบินเรียงตัวกันเป็นกลุ่มคล้ายรูปเรือหลายลำขณะบินขึ้นเหนือในคืนเดือนมืด",
 "mN2bEv9t-Vg?start=1321&end=1381,ประสบการณ์ที่ชัดเจนที่สุดคือพบยานรูปจานคว่ำสีเงินด้านขณะบินหลบสภาพอากาศแถวฮ่องกง ซึ่งอยู่ใกล้ตัวเครื่องมากแต่ระบบเตือนภัยการชน (TCAS) ของเครื่องบินไม่ส่งสัญญาณแจ้งเตือน",
+"U520IJl8AR4?start=138&end=198,Final Adjustments: Once the basic shape is formed, use pliers to make precise adjustments . Finally, use a wooden block and a mallet to finalize the edges and ensure the shape is consistent , , .",
 ];
