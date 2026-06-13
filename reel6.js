@@ -608,4 +608,5 @@ const videoIds = [
 "6XXns8gDXSA?start=664&end=724,มีการตั้งข้อสังเกตว่าเนื้อหาในซีรีส์จีนอาจมีความเชื่อมโยงกับนโยบายหรือแผนพัฒนาเศรษฐกิจของรัฐบาล เช่น การนำเสนออาชีพแพทย์หรือนักดับเพลิงจำนวนมากในช่วงที่อาชีพเหล่านั้นขาดแคลน",
 "8e0oX9QYMkk?start=35&end=95,This video features a beautiful cover of the theme from Crouching Tiger, Hidden Dragon performed on the erhu by Eliott Tordo, accompanied by Valentin Catil on the cello . The performance, which takes place in a serene, nature-filled setting, showcases the expressive qualities of both instruments , .",
 "fK9soy_U4ik?start=266&end=326,การที่ธุรกิจสีเทา เช่น ร้านพนันหรือหวยเถื่อน รอดตัวได้เพราะใช้เงินลงทุนต่ำและเป็นที่พึ่งทางใจชั่วคราวสำหรับคนตกงานหรือผู้สูงอายุ",
+"eKS8vyNA2ZY?start=259&end=319,โทนเสียง: เสียงสูงๆ เช่น การจุ๊ปาก หรือดนตรีที่มีโน้ตสูง ดึงดูดแมวได้ดีเพราะคล้ายเสียงสัตว์ขนาดเล็ก",
 ];
