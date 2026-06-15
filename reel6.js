@@ -659,4 +659,5 @@ const videoIds = [
 "0BdgWW2PMFw?start=0&end=8.366667,ซีริล กาน (Cyril Gane) ออกหมัดโจมตีใส่ อเล็กซ์ เปเรย์รา (Alex Pereira) จนเสียหลัก",
 "oobBNiZvf9Q?start=1&end=23,Ciryl Gane ปล่อยหมัดแย็บและเริ่มบุกเข้ากดดัน",
 "UeM30XLlGpE?start=46&end=106,ราคา Bitcoin มีความเสี่ยงที่จะปรับตัวลดลงเนื่องจากมี Fair Value Gap และแนวต้านที่เส้น EMA 21 วัน",
+"Q_UqzU3WOO0?start=13&end=64.766667,Justin Gaethje สามารถฟื้นตัวกลับมาได้จากความอดทนและโชคช่วย",
 ];
