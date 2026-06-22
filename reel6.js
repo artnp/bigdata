@@ -997,4 +997,5 @@ const videoIds = [
 "linevoom.line.me/post/1178212547233109768,ย้ายตำแหน่ง script tags ทั้งหมดจากส่วน head ไปไว้ที่ด้านล่างสุดของ body เพื่อไม่ให้ขวางการโหลดหน้าเว็บ",
 "linevoom.line.me/post/1178212553133112532,หากจำเป็นต้องใช้ script ให้ใส่ attribute async หรือ defer เพื่อไม่ให้การโหลด script ไปบล็อกการแสดงผลหน้าเว็บ",
 "linevoom.line.me/post/1178212559133115226,พยายามลดการแก้ไข DOM (DOM manipulation) และหลีกเลี่ยง JavaScript ที่ทำงานหนักหรือใช้เวลานานเกินไป",
+"linevoom.line.me/post/1178212564733117722,ลดการพึ่งพา library ขนาดใหญ่อย่าง jQuery แล้วเปลี่ยนไปใช้ Vanilla JavaScript หรือฟีเจอร์พื้นฐานของเบราว์เซอร์แทน",
 ];
