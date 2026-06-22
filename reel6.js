@@ -996,4 +996,5 @@ const videoIds = [
 "linevoom.line.me/post/1178212524333099080,กฎการใช้ async: ควรใช้กับสคริปต์ที่ไม่ส่งผลกระทบต่อ DOM หรือ CSSOM และไม่สำคัญต่อประสบการณ์การใช้งานหลักของผู้ใช้ (User Experience) เช่น สคริปต์ของ Google Analytics หรือระบบแทร็กกิ้งต่างๆ",
 "linevoom.line.me/post/1178212547233109768,ย้ายตำแหน่ง script tags ทั้งหมดจากส่วน head ไปไว้ที่ด้านล่างสุดของ body เพื่อไม่ให้ขวางการโหลดหน้าเว็บ",
 "linevoom.line.me/post/1178212553133112532,หากจำเป็นต้องใช้ script ให้ใส่ attribute async หรือ defer เพื่อไม่ให้การโหลด script ไปบล็อกการแสดงผลหน้าเว็บ",
+"linevoom.line.me/post/1178212559133115226,พยายามลดการแก้ไข DOM (DOM manipulation) และหลีกเลี่ยง JavaScript ที่ทำงานหนักหรือใช้เวลานานเกินไป",
 ];
