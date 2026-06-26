@@ -533,6 +533,62 @@ header {
     transform: rotate(90deg);
 }
 
+/* Update Bar (background sync) */
+#update-bar {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 999;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease;
+    opacity: 0;
+    pointer-events: none;
+    font-size: 0.85rem;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    flex-wrap: wrap;
+}
+#update-bar.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+}
+#update-bar-text {
+    color: var(--text);
+    font-weight: 500;
+    white-space: nowrap;
+}
+#update-bar-count {
+    color: var(--text-muted);
+    font-size: 0.78rem;
+}
+#update-bar-progress {
+    width: 80px;
+    height: 4px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 4px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+#update-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #1f6feb, var(--accent));
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+#update-bar.done #update-bar-fill {
+    background: var(--success);
+}
+
 /* Copy Toast */
 #copy-popup {
     position: fixed;
@@ -682,6 +738,11 @@ body.embed-mode #search-status {
 
 <div id="copy-popup">คัดลอกลงคลิปบอร์ดแล้ว! ✅</div>
 <div class="popup-frame" id="video-frame"></div>
+<div id="update-bar">
+    <span id="update-bar-text">กำลังตรวจสอบข้อมูลใหม่...</span>
+    <span id="update-bar-count"></span>
+    <div id="update-bar-progress"><div id="update-bar-fill"></div></div>
+</div>
 
 <script>
 // Load YouTube IFrame Player API
@@ -715,12 +776,17 @@ let wasLoadedWithQuery = false;
 let initialUrlQuery = null;
 
 const CACHE_KEY = 'bigdata_search_cache';
-const SYNC_THROTTLE_MS = 10 * 60 * 1000; // 10 minutes
+const DAILY_CHECK_INTERVAL_MS = 60 * 60 * 1000; // Check every hour if day changed
+
+function getTodayDate() {
+    return new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+}
 
 function saveToCache(itemsList) {
     try {
         const cacheData = {
             timestamp: Date.now(),
+            date: getTodayDate(),
             items: itemsList
         };
         localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
@@ -739,6 +805,46 @@ function loadFromCache() {
         console.warn('Failed to load from localStorage cache:', e);
     }
     return null;
+}
+
+// Update bar helpers
+const updateBar = document.getElementById('update-bar');
+const updateBarText = document.getElementById('update-bar-text');
+const updateBarCount = document.getElementById('update-bar-count');
+const updateBarFill = document.getElementById('update-bar-fill');
+
+function showUpdateBar(text, count) {
+    updateBar.classList.remove('done');
+    updateBar.classList.add('show');
+    updateBarText.textContent = text;
+    if (count) {
+        updateBarCount.textContent = count;
+        updateBarCount.style.display = '';
+    } else {
+        updateBarCount.style.display = 'none';
+    }
+}
+
+function updateUpdateBarProgress(loaded, total) {
+    const pct = Math.min(100, Math.round((loaded / total) * 100));
+    if (updateBarFill) updateBarFill.style.width = pct + '%';
+    if (updateBarCount && updateBarCount.style.display !== 'none') {
+        updateBarCount.textContent = `${loaded}/${total}`;
+    }
+}
+
+function hideUpdateBar(done = true) {
+    if (done) {
+        updateBar.classList.add('done');
+        updateBarText.textContent = 'อัปเดตข้อมูลเสร็จสิ้น';
+        updateBarCount.style.display = 'none';
+        if (updateBarFill) updateBarFill.style.width = '100%';
+        setTimeout(() => {
+            updateBar.classList.remove('show', 'done');
+        }, 2500);
+    } else {
+        updateBar.classList.remove('show', 'done');
+    }
 }
 
 let closeVideoTimeout = null;
@@ -786,6 +892,8 @@ async function fetchDatabase(force = true) {
             </div>
         `;
         showSkeleton(5);
+    } else {
+        showUpdateBar('กำลังตรวจสอบอัปเดต...');
     }
     
     const bigdataItems = [];
@@ -793,12 +901,15 @@ async function fetchDatabase(force = true) {
     let loadedCount = 0;
     
     const updateProgress = () => {
-        if (!force) return;
-        const percent = Math.min(99, Math.round((loadedCount / TOTAL_FILES) * 100));
-        const percentEl = document.getElementById('progress-percent');
-        const barFillEl = document.getElementById('progress-bar-fill');
-        if (percentEl) percentEl.textContent = `${percent}%`;
-        if (barFillEl) barFillEl.style.width = `${percent}%`;
+        if (force) {
+            const percent = Math.min(99, Math.round((loadedCount / TOTAL_FILES) * 100));
+            const percentEl = document.getElementById('progress-percent');
+            const barFillEl = document.getElementById('progress-bar-fill');
+            if (percentEl) percentEl.textContent = `${percent}%`;
+            if (barFillEl) barFillEl.style.width = `${percent}%`;
+        } else {
+            updateUpdateBarProgress(loadedCount, TOTAL_FILES);
+        }
     };
     
     // 1. Fetch JSON files sequentially
@@ -886,12 +997,13 @@ async function fetchDatabase(force = true) {
     }
     
     if (force) {
-        // Set progress to 100% before transition
         const percentEl = document.getElementById('progress-percent');
         const barFillEl = document.getElementById('progress-bar-fill');
         if (percentEl) percentEl.textContent = '100%';
         if (barFillEl) barFillEl.style.width = '100%';
         await new Promise(resolve => setTimeout(resolve, 350));
+    } else {
+        updateUpdateBarProgress(TOTAL_FILES, TOTAL_FILES);
     }
 
     // Compare with current items list to check if there are changes
@@ -914,15 +1026,22 @@ async function fetchDatabase(force = true) {
         const uniqueVideoCount = items.filter(i => i.type === 'video').length;
         const uniqueTextCount = items.filter(i => i.type === 'text').length;
         
-        searchStatus.innerHTML = `โหลดเสร็จสิ้น${force ? '' : ' (อัปเดตข้อมูลใหม่แล้ว)'} | มีวิดีโอ <span style="color:#fff;font-weight:600">${uniqueVideoCount.toLocaleString()}</span> รายการ, ข้อความ <span style="color:#fff;font-weight:600">${uniqueTextCount.toLocaleString()}</span> รายการ`;
+        const updatedLabel = force ? '' : ' (อัปเดตข้อมูลใหม่แล้ว)';
+        searchStatus.innerHTML = `โหลดเสร็จสิ้น${updatedLabel} | มีวิดีโอ <span style="color:#fff;font-weight:600">${uniqueVideoCount.toLocaleString()}</span> รายการ, ข้อความ <span style="color:#fff;font-weight:600">${uniqueTextCount.toLocaleString()}</span> รายการ`;
         
         // Re-run search if user is currently searching
         if (searchInput.value.trim().length > 0) {
             performSearch(searchInput.value);
         }
+
+        if (!force) {
+            hideUpdateBar(true);
+        }
     } else {
-        // Just update cache timestamp
         saveToCache(items);
+        if (!force) {
+            hideUpdateBar(false);
+        }
     }
     
     isFetching = false;
@@ -931,24 +1050,36 @@ async function fetchDatabase(force = true) {
     
     if (force) {
         searchInput.focus();
-        // Clear results if it was not search query triggered
         if (!searchInput.value) {
             resultsDiv.innerHTML = '';
         }
     }
 }
 
-async function syncCacheInBackground() {
+function isCacheFromToday() {
     const cached = loadFromCache();
-    if (cached && cached.timestamp) {
-        const timeSinceLastSync = Date.now() - cached.timestamp;
-        if (timeSinceLastSync < SYNC_THROTTLE_MS) {
-            console.log('Background sync skipped: last sync was ' + Math.round(timeSinceLastSync / 60000) + ' minutes ago.');
-            return;
-        }
+    if (cached && cached.date) {
+        return cached.date === getTodayDate();
     }
-    console.log('Starting silent background update check...');
+    return false;
+}
+
+async function syncCacheInBackground() {
+    if (isCacheFromToday()) {
+        console.log('Background sync skipped: already have today\'s data.');
+        return;
+    }
+    console.log('Starting silent background update check (new day detected)...');
     await fetchDatabase(false);
+}
+
+function startDailyChecker() {
+    setInterval(() => {
+        if (!isCacheFromToday()) {
+            console.log('New day detected by daily checker, triggering background update...');
+            fetchDatabase(false);
+        }
+    }, DAILY_CHECK_INTERVAL_MS);
 }
 
 function initDatabase() {
@@ -993,10 +1124,15 @@ function initDatabase() {
             searchInput.focus();
         }
         
-        // Schedule silent background sync after 1 minute (60,000 ms)
-        setTimeout(() => {
-            syncCacheInBackground();
-        }, 60000);
+        // Start daily checker
+        startDailyChecker();
+
+        // If cache is not from today, trigger background sync after a short delay
+        if (!isCacheFromToday()) {
+            setTimeout(() => {
+                syncCacheInBackground();
+            }, 3000);
+        }
         
     } else {
         // No cache: perform full download
