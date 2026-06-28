@@ -1,918 +1,1017 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>BigData Search</title>
-<link rel="icon" href="https://cdn-icons-png.flaticon.com/128/1162/1162914.png" />
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet" />
-<style>
-:root { 
-    --bg: #0d1117; 
-    --card: #161b22;
-    --header-bg: rgba(13, 17, 23, 0.75);
-    --text: #c9d1d9; 
-    --text-muted: #8b949e;
-    --accent: #58a6ff; 
-    --accent-glow: rgba(88, 166, 255, 0.15);
-    --success: #3fb950;
-    --border: #30363d;
-    --highlight: rgba(88, 166, 255, 0.2);
-    --card-hover: #21262d;
-}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BigData Search</title>
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/128/1162/1162914.png" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Sarabun:wght@300;400;500;600&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --bg: #0d1117;
+            --card: #161b22;
+            --header-bg: rgba(13, 17, 23, 0.75);
+            --text: #c9d1d9;
+            --text-muted: #8b949e;
+            --accent: #58a6ff;
+            --accent-glow: rgba(88, 166, 255, 0.15);
+            --success: #3fb950;
+            --border: #30363d;
+            --highlight: rgba(88, 166, 255, 0.2);
+            --card-hover: #21262d;
+        }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-body {
-    font-family: 'Outfit', 'Sarabun', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    overflow-x: hidden;
-    line-height: 1.6;
-}
+        body {
+            font-family: 'Outfit', 'Sarabun', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
 
-/* Glassmorphism Header */
-header {
-    position: sticky;
-    top: 0;
-    width: 100%;
-    padding: 16px 40px;
-    background: var(--header-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    z-index: 1000;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+        /* Glassmorphism Header */
+        header {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            padding: 16px 40px;
+            background: var(--header-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-.logo-area { 
-    display: flex; 
-    align-items: center; 
-    gap: 12px; 
-}
-.logo-icon { 
-    width: 34px; 
-    height: 34px; 
-    background: linear-gradient(135deg, #1f6feb, var(--accent)); 
-    border-radius: 10px; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    font-weight: 700; 
-    color: white;
-    box-shadow: 0 4px 12px rgba(88, 166, 255, 0.3);
-}
-.logo-text { 
-    font-size: 1.4rem; 
-    font-weight: 700; 
-    letter-spacing: -0.5px; 
-    background: linear-gradient(to right, #58a6ff, #bc8cff); 
-    -webkit-background-clip: text; 
-    -webkit-text-fill-color: transparent; 
-}
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-/* Reload Button */
-#reload-btn {
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--text);
-    border: 1px solid var(--border);
-    padding: 8px 18px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    text-decoration: none;
-}
-#reload-btn:hover { 
-    background: rgba(88, 166, 255, 0.1); 
-    border-color: var(--accent); 
-    color: white;
-    transform: translateY(-1px); 
-    box-shadow: 0 4px 12px var(--accent-glow);
-}
-#reload-btn svg { 
-    transition: transform 0.5s ease; 
-}
-#reload-btn:active svg { 
-    transform: rotate(180deg); 
-}
+        .logo-icon {
+            width: 34px;
+            height: 34px;
+            background: linear-gradient(135deg, #1f6feb, var(--accent));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+            box-shadow: 0 4px 12px rgba(88, 166, 255, 0.3);
+        }
 
-/* Main layout */
-#main-content {
-    max-width: 900px;
-    margin: 50px auto 100px auto;
-    padding: 0 20px;
-    text-align: center;
-}
+        .logo-text {
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, #58a6ff, #bc8cff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-.hero-title { 
-    font-size: 2.8rem; 
-    font-weight: 700; 
-    margin-bottom: 12px; 
-    letter-spacing: -1px; 
-    background: linear-gradient(135deg, #ffffff 0%, #c9d1d9 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-.hero-subtitle { 
-    color: var(--text-muted); 
-    margin-bottom: 35px; 
-    font-size: 1.05rem; 
-    font-weight: 300;
-}
+        /* Reload Button */
+        #reload-btn {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text);
+            border: 1px solid var(--border);
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+        }
 
-/* Search Area */
-#search-container {
-    width: 100%;
-    position: relative;
-    margin-bottom: 25px;
-}
-#search-input {
-    width: 100%;
-    padding: 18px 25px;
-    font-size: 1.15rem;
-    border-radius: 14px;
-    border: 1px solid var(--border);
-    background: var(--card);
-    color: white;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-    outline: none;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-#search-input:focus { 
-    border-color: var(--accent); 
-    box-shadow: 0 0 0 3px var(--accent-glow), 0 8px 30px rgba(88, 166, 255, 0.1); 
-}
+        #reload-btn:hover {
+            background: rgba(88, 166, 255, 0.1);
+            border-color: var(--accent);
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px var(--accent-glow);
+        }
 
-/* Filter Tabs */
-.filter-tabs { 
-    display: flex; 
-    gap: 8px; 
-    justify-content: center; 
-    margin-bottom: 30px; 
-}
-.tab { 
-    padding: 8px 20px; 
-    border-radius: 20px; 
-    background: rgba(255, 255, 255, 0.03); 
-    border: 1px solid var(--border); 
-    font-size: 0.85rem; 
-    font-weight: 500;
-    cursor: pointer; 
-    transition: all 0.2s ease; 
-    color: var(--text-muted); 
-}
-.tab:hover {
-    color: var(--text);
-    background: rgba(255, 255, 255, 0.06);
-}
-.tab.active { 
-    background: var(--highlight); 
-    border-color: var(--accent); 
-    color: var(--accent); 
-    font-weight: 600; 
-}
+        #reload-btn svg {
+            transition: transform 0.5s ease;
+        }
 
-/* Search Status Indicator */
-#search-status {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    margin-bottom: 20px;
-    text-align: left;
-    padding-left: 10px;
-}
+        #reload-btn:active svg {
+            transform: rotate(180deg);
+        }
 
-/* Results */
-#results { 
-    display: flex; 
-    flex-direction: column; 
-    gap: 12px; 
-}
-.result-group-label { 
-    text-align: left; 
-    font-size: 0.75rem; 
-    font-weight: 600;
-    text-transform: uppercase; 
-    letter-spacing: 1.5px; 
-    color: var(--text-muted); 
-    margin: 15px 0 5px 10px; 
-}
+        /* Main layout */
+        #main-content {
+            max-width: 900px;
+            margin: 50px auto 100px auto;
+            padding: 0 20px;
+            text-align: center;
+        }
 
-.result-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 8px 16px;
-    text-align: left;
-    cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    gap: 12px;
-    align-items: center;
-}
-.result-card:hover { 
-    border-color: #444c56; 
-    transform: translateY(-2px); 
-    background: var(--card-hover); 
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-}
-.result-card::before { 
-    content: ""; 
-    position: absolute; 
-    left: 0; 
-    top: 0; 
-    bottom: 0; 
-    width: 3px; 
-    background: var(--accent); 
-    opacity: 0; 
-    transition: opacity 0.2s; 
-}
-.result-card:hover::before { 
-    opacity: 1; 
-}
+        .hero-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #ffffff 0%, #c9d1d9 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-/* High Relevance / Top Match Card styling */
-.result-card.high-relevance {
-    border: 1px solid rgba(248, 81, 73, 0.45) !important;
-    box-shadow: 0 0 8px rgba(248, 81, 73, 0.1) !important;
-}
-.result-card.high-relevance::before {
-    background: #f85149 !important;
-}
-.result-card.high-relevance:hover {
-    border-color: #f85149 !important;
-    box-shadow: 0 6px 20px rgba(248, 81, 73, 0.2) !important;
-}
+        .hero-subtitle {
+            color: var(--text-muted);
+            margin-bottom: 35px;
+            font-size: 1.05rem;
+            font-weight: 300;
+        }
 
+        /* Search Area */
+        #search-container {
+            width: 100%;
+            position: relative;
+            margin-bottom: 25px;
+        }
 
-.card-icon { 
-    width: 40px; 
-    height: 40px; 
-    border-radius: 10px; 
-    background: rgba(255, 255, 255, 0.03); 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    font-size: 1.2rem; 
-    flex-shrink: 0; 
-}
-.card-content { 
-    flex: 1; 
-    min-width: 0;
-}
-.card-text { 
-    font-size: 1rem; 
-    font-weight: 400; 
-    color: #f0f6fc; 
-    margin-bottom: 6px; 
-    word-break: break-word;
-}
-.card-meta { 
-    display: flex; 
-    align-items: center; 
-    gap: 12px; 
-    font-size: 0.75rem; 
-    color: var(--text-muted); 
-}
-.card-badge { 
-    padding: 2px 8px; 
-    border-radius: 4px; 
-    background: rgba(255, 255, 255, 0.05); 
-    font-weight: 600; 
-}
+        #search-input {
+            width: 100%;
+            padding: 18px 25px;
+            font-size: 1.15rem;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            background: var(--card);
+            color: white;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            outline: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-.yt-icon { 
-    color: #ff0000; 
-}
-.line-icon {
-    background: #06C755;
-    color: #fff;
-    font-size: 0.58rem;
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    line-height: 1;
-}
-.linevoom-badge {
-    background: #06C755;
-    color: white;
-    font-size: 0.65rem;
-    padding: 1px 5px;
-    border-radius: 3px;
-    font-weight: bold;
-}
-#linevoom-embed-container {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    border-radius: 8px;
-    background: #000;
-    overflow: hidden;
-}
-#linevoom-embed-container iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    border-radius: 8px;
-    display: block;
-}
-#yt-player-container {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-}
-#yt-player-container iframe {
-    width: 100%;
-    height: 100%;
-}
-.popup-frame.linevoom.bottom-right {
-    width: 440px;
-}
-.popup-frame.linevoom.centered {
-    max-width: 560px;
-}
-.shorts-badge { 
-    background: #ff0000; 
-    color: white; 
-    font-size: 0.65rem; 
-    padding: 1px 5px; 
-    border-radius: 3px; 
-    font-weight: bold; 
-}
+        #search-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow), 0 8px 30px rgba(88, 166, 255, 0.1);
+        }
 
-.highlight {
-    background: rgba(255, 215, 0, 0.18);
-    color: #ffd700;
-    padding: 1px 4px;
-    margin: 0 1px;
-    border-radius: 3px;
-    font-weight: 600;
-    border: 1px solid rgba(255, 215, 0, 0.35);
-    text-shadow: 0 0 4px rgba(255, 215, 0, 0.4);
-}
+        /* Filter Tabs */
+        .filter-tabs {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
 
-.highlight-semantic {
-    background: rgba(188, 140, 255, 0.18);
-    color: #bc8cff;
-    padding: 1px 4px;
-    margin: 0 1px;
-    border-radius: 3px;
-    font-weight: 600;
-    border: 1px solid rgba(188, 140, 255, 0.35);
-    text-shadow: 0 0 4px rgba(188, 140, 255, 0.4);
-    cursor: help;
-}
+        .tab {
+            padding: 8px 20px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: var(--text-muted);
+        }
 
-.smart-expansion-info {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-bottom: 15px;
-    align-items: center;
-    padding-left: 10px;
-}
-.smart-badge {
-    font-size: 0.72rem;
-    padding: 3px 10px;
-    border-radius: 12px;
-    background: rgba(188, 140, 255, 0.1);
-    border: 1px solid rgba(188, 140, 255, 0.25);
-    color: #bc8cff;
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    transition: all 0.2s ease;
-    white-space: nowrap;
-}
-.smart-badge:hover {
-    background: rgba(188, 140, 255, 0.2);
-    border-color: rgba(188, 140, 255, 0.5);
-}
-.smart-label {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    white-space: nowrap;
-}
+        .tab:hover {
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.06);
+        }
 
-/* Skeletons */
-.skeleton {
-    background: linear-gradient(90deg, #161b22 25%, #21262d 50%, #161b22 75%);
-    background-size: 200%;
-    animation: skeleton-loading 1.5s infinite;
-    height: 76px;
-    border-radius: 12px;
-    margin-bottom: 10px;
-    border: 1px solid var(--border);
-}
-@keyframes skeleton-loading {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
-}
+        .tab.active {
+            background: var(--highlight);
+            border-color: var(--accent);
+            color: var(--accent);
+            font-weight: 600;
+        }
 
-/* Progress Bar */
-.progress-container {
-    width: 100%;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    height: 8px;
-    overflow: hidden;
-    margin-top: 12px;
-    position: relative;
-}
-.progress-bar {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, #1f6feb, var(--accent), #bc8cff);
-    background-size: 200% 100%;
-    border-radius: 8px;
-    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    animation: progress-glow 2s linear infinite;
-    box-shadow: 0 0 10px rgba(88, 166, 255, 0.5);
-}
-@keyframes progress-glow {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
+        /* Search Status Indicator */
+        #search-status {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            text-align: left;
+            padding-left: 10px;
+        }
 
-/* Video Popover/Frame */
-.popup-frame {
-    transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-    position: fixed;
-    z-index: 998;
-    background: var(--card);
-    border-radius: 12px;
-    padding: 6px;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
-    border: 1px solid var(--border);
-    opacity: 0; 
-    pointer-events: none;
-    box-sizing: border-box;
-}
-.popup-frame.centered {
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.9);
-    width: 95%;
-    max-width: 560px;
-    max-height: 90%;
-}
-.popup-frame.centered.active {
-    opacity: 1; 
-    transform: translate(-50%, -50%) scale(1); 
-    pointer-events: auto;
-}
-.popup-frame.centered.shorts {
-    max-width: 300px;
-}
-.popup-frame.bottom-right {
-    bottom: 30px;
-    right: 30px;
-    top: auto;
-    left: auto;
-    transform: scale(0.9);
-    transform-origin: bottom right;
-    width: 440px;
-}
-.popup-frame.bottom-right.active {
-    opacity: 1;
-    transform: scale(1);
-    pointer-events: auto;
-}
-.popup-frame.bottom-right.shorts {
-    width: 260px;
-}
-.popup-frame iframe {
-    border: none;
-    border-radius: 8px;
-    display: block;
-    width: 100%;
-    height: auto;
-}
-.popup-frame.standard iframe {
-    aspect-ratio: 16 / 9;
-}
-.popup-frame.shorts iframe {
-    aspect-ratio: 9 / 16;
-    max-height: 75vh;
-}
-#close-video-frame {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    color: white;
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    z-index: 1001; 
-    background: rgba(0, 0, 0, 0.6);
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
-    text-align: center;
-    transition: all 0.2s;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-#close-video-frame:hover {
-    background: #da3633;
-    transform: rotate(90deg);
-}
+        /* Results */
+        #results {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
 
-/* Update Bar (background sync) */
-#update-bar {
-    position: fixed;
-    bottom: 24px;
-    left: 50%;
-    transform: translateX(-50%) translateY(100px);
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 12px 20px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    z-index: 999;
-    box-shadow: 0 12px 40px rgba(0,0,0,0.5);
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease;
-    opacity: 0;
-    pointer-events: none;
-    font-size: 0.85rem;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    flex-wrap: wrap;
-}
-#update-bar.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-    pointer-events: auto;
-}
-#update-bar-text {
-    color: var(--text);
-    font-weight: 500;
-    white-space: nowrap;
-}
-#update-bar-count {
-    color: var(--text-muted);
-    font-size: 0.78rem;
-}
-#update-bar-progress {
-    width: 80px;
-    height: 4px;
-    background: rgba(255,255,255,0.06);
-    border-radius: 4px;
-    overflow: hidden;
-    flex-shrink: 0;
-}
-#update-bar-fill {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, #1f6feb, var(--accent));
-    border-radius: 4px;
-    transition: width 0.3s ease;
-}
-#update-bar.done #update-bar-fill {
-    background: var(--success);
-}
+        .result-group-label {
+            text-align: left;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            margin: 15px 0 5px 10px;
+        }
 
-/* Copy Toast */
-#copy-popup {
-    position: fixed;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%) translateY(20px);
-    background: var(--success);
-    color: white;
-    padding: 10px 24px;
-    border-radius: 30px;
-    font-size: 0.95rem;
-    font-weight: 600;
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    z-index: 9999;
-    box-shadow: 0 10px 25px rgba(63, 185, 80, 0.3);
-    pointer-events: none;
-}
-#copy-popup.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-}
+        .result-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 8px 16px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
 
-/* Embed Mode Styles */
-body.embed-mode {
-    background: var(--bg);
-}
-body.embed-mode header {
-    display: none !important;
-}
-body.embed-mode #main-content {
-    margin: 0 auto;
-    padding: 10px 0;
-    max-width: 100%;
-}
-body.embed-mode .result-card {
-    padding: 6px 12px !important;
-    gap: 8px !important;
-    border-radius: 6px !important;
-}
-body.embed-mode .card-icon {
-    width: 30px !important;
-    height: 30px !important;
-    font-size: 1rem !important;
-    border-radius: 6px !important;
-}
-body.embed-mode .card-text {
-    font-size: 0.8rem !important;
-    line-height: 1.4 !important;
-}
-body.embed-mode .card-meta {
-    font-size: 0.7rem !important;
-}
-body.embed-mode .hero-title,
-body.embed-mode .hero-subtitle,
-body.embed-mode #search-container,
-body.embed-mode #api-link-container,
-body.embed-mode #share-embed-container,
-body.embed-mode .filter-tabs,
-body.embed-mode #search-status {
-    display: none !important;
-}
+        .result-card:hover {
+            border-color: #444c56;
+            transform: translateY(-2px);
+            background: var(--card-hover);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .result-card::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--accent);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .result-card:hover::before {
+            opacity: 1;
+        }
+
+        /* High Relevance / Top Match Card styling */
+        .result-card.high-relevance {
+            border: 1px solid rgba(248, 81, 73, 0.45) !important;
+            box-shadow: 0 0 8px rgba(248, 81, 73, 0.1) !important;
+        }
+
+        .result-card.high-relevance::before {
+            background: #f85149 !important;
+        }
+
+        .result-card.high-relevance:hover {
+            border-color: #f85149 !important;
+            box-shadow: 0 6px 20px rgba(248, 81, 73, 0.2) !important;
+        }
 
 
-/* Media Queries */
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .card-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .card-text {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #f0f6fc;
+            margin-bottom: 6px;
+            word-break: break-word;
+        }
+
+        .card-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .card-badge {
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.05);
+            font-weight: 600;
+        }
+
+        .yt-icon {
+            color: #ff0000;
+        }
+
+        .line-icon {
+            background: #06C755;
+            color: #fff;
+            font-size: 0.58rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1;
+        }
+
+        .linevoom-badge {
+            background: #06C755;
+            color: white;
+            font-size: 0.65rem;
+            padding: 1px 5px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        #linevoom-embed-container {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border-radius: 8px;
+            background: #000;
+            overflow: hidden;
+        }
+
+        #linevoom-embed-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 8px;
+            display: block;
+        }
+
+        #yt-player-container {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+        }
+
+        #yt-player-container iframe {
+            width: 100%;
+            height: 100%;
+        }
+
+        .popup-frame.linevoom.bottom-right {
+            width: 440px;
+        }
+
+        .popup-frame.linevoom.centered {
+            max-width: 560px;
+        }
+
+        .shorts-badge {
+            background: #ff0000;
+            color: white;
+            font-size: 0.65rem;
+            padding: 1px 5px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        .highlight {
+            background: rgba(255, 215, 0, 0.18);
+            color: #ffd700;
+            padding: 1px 4px;
+            margin: 0 1px;
+            border-radius: 3px;
+            font-weight: 600;
+            border: 1px solid rgba(255, 215, 0, 0.35);
+            text-shadow: 0 0 4px rgba(255, 215, 0, 0.4);
+        }
+
+        .highlight-semantic {
+            background: rgba(188, 140, 255, 0.18);
+            color: #bc8cff;
+            padding: 1px 4px;
+            margin: 0 1px;
+            border-radius: 3px;
+            font-weight: 600;
+            border: 1px solid rgba(188, 140, 255, 0.35);
+            text-shadow: 0 0 4px rgba(188, 140, 255, 0.4);
+            cursor: help;
+        }
+
+        .smart-expansion-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 15px;
+            align-items: center;
+            padding-left: 10px;
+        }
+
+        .smart-badge {
+            font-size: 0.72rem;
+            padding: 3px 10px;
+            border-radius: 12px;
+            background: rgba(188, 140, 255, 0.1);
+            border: 1px solid rgba(188, 140, 255, 0.25);
+            color: #bc8cff;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .smart-badge:hover {
+            background: rgba(188, 140, 255, 0.2);
+            border-color: rgba(188, 140, 255, 0.5);
+        }
+
+        .smart-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+        }
+
+        /* Skeletons */
+        .skeleton {
+            background: linear-gradient(90deg, #161b22 25%, #21262d 50%, #161b22 75%);
+            background-size: 200%;
+            animation: skeleton-loading 1.5s infinite;
+            height: 76px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            border: 1px solid var(--border);
+        }
+
+        @keyframes skeleton-loading {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            height: 8px;
+            overflow: hidden;
+            margin-top: 12px;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #1f6feb, var(--accent), #bc8cff);
+            background-size: 200% 100%;
+            border-radius: 8px;
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: progress-glow 2s linear infinite;
+            box-shadow: 0 0 10px rgba(88, 166, 255, 0.5);
+        }
+
+        @keyframes progress-glow {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Video Popover/Frame */
+        .popup-frame {
+            transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: fixed;
+            z-index: 998;
+            background: var(--card);
+            border-radius: 12px;
+            padding: 6px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--border);
+            opacity: 0;
+            pointer-events: none;
+            box-sizing: border-box;
+        }
+
+        .popup-frame.centered {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            width: 95%;
+            max-width: 560px;
+            max-height: 90%;
+        }
+
+        .popup-frame.centered.active {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            pointer-events: auto;
+        }
+
+        .popup-frame.centered.shorts {
+            max-width: 300px;
+        }
+
+        .popup-frame.bottom-right {
+            bottom: 30px;
+            right: 30px;
+            top: auto;
+            left: auto;
+            transform: scale(0.9);
+            transform-origin: bottom right;
+            width: 440px;
+        }
+
+        .popup-frame.bottom-right.active {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+
+        .popup-frame.bottom-right.shorts {
+            width: 260px;
+        }
+
+        .popup-frame iframe {
+            border: none;
+            border-radius: 8px;
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .popup-frame.standard iframe {
+            aspect-ratio: 16 / 9;
+        }
+
+        .popup-frame.shorts iframe {
+            aspect-ratio: 9 / 16;
+            max-height: 75vh;
+        }
+
+        #close-video-frame {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1001;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            transition: all 0.2s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        #close-video-frame:hover {
+            background: #da3633;
+            transform: rotate(90deg);
+        }
+
+        /* Update Bar (background sync) */
+        #update-bar {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 999;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease;
+            opacity: 0;
+            pointer-events: none;
+            font-size: 0.85rem;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            flex-wrap: wrap;
+        }
+
+        #update-bar.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+            pointer-events: auto;
+        }
+
+        #update-bar-text {
+            color: var(--text);
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        #update-bar-count {
+            color: var(--text-muted);
+            font-size: 0.78rem;
+        }
+
+        #update-bar-progress {
+            width: 80px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 4px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        #update-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #1f6feb, var(--accent));
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        #update-bar.done #update-bar-fill {
+            background: var(--success);
+        }
+
+        /* Copy Toast */
+        #copy-popup {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--success);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 9999;
+            box-shadow: 0 10px 25px rgba(63, 185, 80, 0.3);
+            pointer-events: none;
+        }
+
+        #copy-popup.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Embed Mode Styles */
+        body.embed-mode {
+            background: var(--bg);
+        }
+
+        body.embed-mode header {
+            display: none !important;
+        }
+
+        body.embed-mode #main-content {
+            margin: 0 auto;
+            padding: 10px 0;
+            max-width: 100%;
+        }
+
+        body.embed-mode .result-card {
+            padding: 6px 12px !important;
+            gap: 8px !important;
+            border-radius: 6px !important;
+        }
+
+        body.embed-mode .card-icon {
+            width: 30px !important;
+            height: 30px !important;
+            font-size: 1rem !important;
+            border-radius: 6px !important;
+        }
+
+        body.embed-mode .card-text {
+            font-size: 0.8rem !important;
+            line-height: 1.4 !important;
+        }
+
+        body.embed-mode .card-meta {
+            font-size: 0.7rem !important;
+        }
+
+        body.embed-mode .hero-title,
+        body.embed-mode .hero-subtitle,
+        body.embed-mode #search-container,
+        body.embed-mode #api-link-container,
+        body.embed-mode #share-embed-container,
+        body.embed-mode .filter-tabs,
+        body.embed-mode #search-status {
+            display: none !important;
+        }
 
 
-@media (max-width: 768px) {
-    header { padding: 15px 20px; }
-    .hero-title { font-size: 2.1rem; }
-    #main-content { margin-top: 30px; }
-    
-    /* Center the bottom-right popup on mobile so it doesn't overflow screen */
-    .popup-frame.bottom-right {
-        top: 50% !important;
-        left: 50% !important;
-        right: auto !important;
-        bottom: auto !important;
-        transform: translate(-50%, -50%) scale(0.9) !important;
-        width: 95% !important;
-        max-width: 440px !important;
-        transform-origin: center !important;
-    }
-    .popup-frame.bottom-right.active {
-        transform: translate(-50%, -50%) scale(1) !important;
-    }
-    .popup-frame.bottom-right.shorts {
-        width: 90% !important;
-        max-width: 280px !important;
-    }
-}
+        /* Media Queries */
 
-/* Inline LINE Voom Card layout */
-.result-card.linevoom-card {
-    display: grid;
-    grid-template-columns: 1fr 464px;
-    gap: 24px;
-    align-items: start;
-    padding: 20px;
-}
-.result-card.linevoom-card .card-main-info {
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-}
-.result-card.linevoom-card .linevoom-embed-inline {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 8px;
-    overflow: hidden;
-    width: 100%;
-}
 
-@media (max-width: 800px) {
-    .result-card.linevoom-card {
-        grid-template-columns: 1fr;
-        gap: 16px;
-        padding: 16px;
-    }
-}
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+            }
 
-@media (max-width: 480px) {
-    .result-card {
-        padding: 6px 12px;
-        gap: 10px;
-    }
-    .card-icon {
-        width: 28px;
-        height: 28px;
-        font-size: 0.9rem;
-    }
-    .card-text {
-        font-size: 0.85rem;
-    }
-}
-</style>
+            .hero-title {
+                font-size: 2.1rem;
+            }
+
+            #main-content {
+                margin-top: 30px;
+            }
+
+            /* Center the bottom-right popup on mobile so it doesn't overflow screen */
+            .popup-frame.bottom-right {
+                top: 50% !important;
+                left: 50% !important;
+                right: auto !important;
+                bottom: auto !important;
+                transform: translate(-50%, -50%) scale(0.9) !important;
+                width: 95% !important;
+                max-width: 440px !important;
+                transform-origin: center !important;
+            }
+
+            .popup-frame.bottom-right.active {
+                transform: translate(-50%, -50%) scale(1) !important;
+            }
+
+            .popup-frame.bottom-right.shorts {
+                width: 90% !important;
+                max-width: 280px !important;
+            }
+        }
+
+        /* Inline LINE Voom Card layout */
+        .result-card.linevoom-card {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 12px;
+            width: 100%;
+            max-width: 488px; /* 464px widget + 24px padding */
+            margin: 0 auto;
+            background: var(--card); /* Show card background for clickable frame */
+            border-radius: 12px;
+            overflow: hidden;
+            transition: max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: zoom-in;
+        }
+
+        .result-card.linevoom-card.expanded {
+            max-width: 100%;
+            cursor: zoom-out;
+        }
+
+        .result-card.linevoom-card .linevoom-embed-inline {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .result-card.linevoom-card .linevoom-embed-inline iframe,
+        .result-card.linevoom-card .linevoom-embed-inline blockquote {
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+
+        @media (max-width: 480px) {
+            .result-card {
+                padding: 6px 12px;
+                gap: 10px;
+            }
+
+            .card-icon {
+                width: 28px;
+                height: 28px;
+                font-size: 0.9rem;
+            }
+
+            .card-text {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-<header>
-    <div class="logo-area">
-        <div class="logo-icon">B</div>
-        <div class="logo-text">BigData Search</div>
+    <header>
+        <div class="logo-area">
+            <div class="logo-icon">B</div>
+            <div class="logo-text">BigData Search</div>
+        </div>
+        <button id="reload-btn">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M23 4v6h-6"></path>
+                <path d="M1 20v-6h6"></path>
+                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+            </svg>
+            Reload Data
+        </button>
+    </header>
+
+    <main id="main-content">
+        <div class="hero-title">Intelligent Data Search</div>
+        <div class="hero-subtitle">Fast client-side keyword search across your entire GitHub database</div>
+
+        <div id="search-container">
+            <input type="text" id="search-input" placeholder="พิมพ์เพื่อค้นหาข้อมูล.." autocomplete="off">
+        </div>
+
+
+        <div class="filter-tabs">
+            <button class="tab active" data-filter="all">All Items</button>
+            <button class="tab" data-filter="video">Videos</button>
+            <button class="tab" data-filter="text">Research & Info</button>
+        </div>
+
+        <div id="search-status">กำลังดาวน์โหลดข้อมูลเริ่มต้นจาก GitHub...</div>
+
+        <div id="smart-expansion-info" class="smart-expansion-info" style="display:none;"></div>
+
+        <div id="results"></div>
+    </main>
+
+    <div id="copy-popup">คัดลอกลงคลิปบอร์ดแล้ว! ✅</div>
+    <div class="popup-frame" id="video-frame"></div>
+    <div id="update-bar">
+        <span id="update-bar-text">กำลังตรวจสอบข้อมูลใหม่...</span>
+        <span id="update-bar-count"></span>
+        <div id="update-bar-progress">
+            <div id="update-bar-fill"></div>
+        </div>
     </div>
-    <button id="reload-btn">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M23 4v6h-6"></path>
-            <path d="M1 20v-6h6"></path>
-            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
-        </svg>
-        Reload Data
-    </button>
-</header>
 
-<main id="main-content">
-    <div class="hero-title">Intelligent Data Search</div>
-    <div class="hero-subtitle">Fast client-side keyword search across your entire GitHub database</div>
-    
-    <div id="search-container">
-        <input type="text" id="search-input" placeholder="พิมพ์เพื่อค้นหาข้อมูล.." autocomplete="off">
-    </div>
+    <script>
+        // Load YouTube IFrame Player API
+        (function () {
+            const tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/iframe_api";
+            const firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        })();
 
+        // GitHub configuration
+        const GITHUB_USER = 'artnp';
+        const GITHUB_REPO = 'bigdata';
+        const GITHUB_BRANCH = 'main';
+        const TOTAL_FILES = 14; // Update this count if files are added/removed (8 bigdata + 6 reel)
 
-    <div class="filter-tabs">
-        <button class="tab active" data-filter="all">All Items</button>
-        <button class="tab" data-filter="video">Videos</button>
-        <button class="tab" data-filter="text">Research & Info</button>
-    </div>
-    
-    <div id="search-status">กำลังดาวน์โหลดข้อมูลเริ่มต้นจาก GitHub...</div>
-    
-    <div id="smart-expansion-info" class="smart-expansion-info" style="display:none;"></div>
-    
-    <div id="results"></div>
-</main>
-
-<div id="copy-popup">คัดลอกลงคลิปบอร์ดแล้ว! ✅</div>
-<div class="popup-frame" id="video-frame"></div>
-<div id="update-bar">
-    <span id="update-bar-text">กำลังตรวจสอบข้อมูลใหม่...</span>
-    <span id="update-bar-count"></span>
-    <div id="update-bar-progress"><div id="update-bar-fill"></div></div>
-</div>
-
-<script>
-// Load YouTube IFrame Player API
-(function() {
-    const tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    const firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-})();
-
-// GitHub configuration
-const GITHUB_USER = 'artnp';
-const GITHUB_REPO = 'bigdata';
-const GITHUB_BRANCH = 'main';
-const TOTAL_FILES = 14; // Update this count if files are added/removed (8 bigdata + 6 reel)
-
-const searchInput = document.getElementById('search-input');
-const resultsDiv = document.getElementById('results');
-const searchStatus = document.getElementById('search-status');
-const copyPopup = document.getElementById('copy-popup');
-const videoFrame = document.getElementById('video-frame');
-const reloadBtn = document.getElementById('reload-btn');
+        const searchInput = document.getElementById('search-input');
+        const resultsDiv = document.getElementById('results');
+        const searchStatus = document.getElementById('search-status');
+        const copyPopup = document.getElementById('copy-popup');
+        const videoFrame = document.getElementById('video-frame');
+        const reloadBtn = document.getElementById('reload-btn');
 
 
 
-let items = [];
-let currentFilter = 'all';
-let searchTimer = null;
-let isFetching = false;
-let wasLoadedWithQuery = false;
-let initialUrlQuery = null;
+        let items = [];
+        let currentFilter = 'all';
+        let searchTimer = null;
+        let isFetching = false;
+        let wasLoadedWithQuery = false;
+        let initialUrlQuery = null;
 
-const CACHE_KEY = 'bigdata_search_cache';
-const DAILY_CHECK_INTERVAL_MS = 60 * 60 * 1000; // Check every hour if day changed
+        const CACHE_KEY = 'bigdata_search_cache';
+        const DAILY_CHECK_INTERVAL_MS = 60 * 60 * 1000; // Check every hour if day changed
 
-function getTodayDate() {
-    return new Date().toISOString().slice(0, 10); // YYYY-MM-DD
-}
-
-function saveToCache(itemsList) {
-    try {
-        const cacheData = {
-            timestamp: Date.now(),
-            date: getTodayDate(),
-            items: itemsList
-        };
-        localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
-    } catch (e) {
-        console.warn('Failed to save to localStorage cache:', e);
-    }
-}
-
-function loadFromCache() {
-    try {
-        const cached = localStorage.getItem(CACHE_KEY);
-        if (cached) {
-            return JSON.parse(cached);
+        function getTodayDate() {
+            return new Date().toISOString().slice(0, 10); // YYYY-MM-DD
         }
-    } catch (e) {
-        console.warn('Failed to load from localStorage cache:', e);
-    }
-    return null;
-}
 
-// Update bar helpers
-const updateBar = document.getElementById('update-bar');
-const updateBarText = document.getElementById('update-bar-text');
-const updateBarCount = document.getElementById('update-bar-count');
-const updateBarFill = document.getElementById('update-bar-fill');
+        function saveToCache(itemsList) {
+            try {
+                const cacheData = {
+                    timestamp: Date.now(),
+                    date: getTodayDate(),
+                    items: itemsList
+                };
+                localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
+            } catch (e) {
+                console.warn('Failed to save to localStorage cache:', e);
+            }
+        }
 
-function showUpdateBar(text, count) {
-    updateBar.classList.remove('done');
-    updateBar.classList.add('show');
-    updateBarText.textContent = text;
-    if (count) {
-        updateBarCount.textContent = count;
-        updateBarCount.style.display = '';
-    } else {
-        updateBarCount.style.display = 'none';
-    }
-}
+        function loadFromCache() {
+            try {
+                const cached = localStorage.getItem(CACHE_KEY);
+                if (cached) {
+                    return JSON.parse(cached);
+                }
+            } catch (e) {
+                console.warn('Failed to load from localStorage cache:', e);
+            }
+            return null;
+        }
 
-function updateUpdateBarProgress(loaded, total) {
-    const pct = Math.min(100, Math.round((loaded / total) * 100));
-    if (updateBarFill) updateBarFill.style.width = pct + '%';
-    if (updateBarCount && updateBarCount.style.display !== 'none') {
-        updateBarCount.textContent = `${loaded}/${total}`;
-    }
-}
+        // Update bar helpers
+        const updateBar = document.getElementById('update-bar');
+        const updateBarText = document.getElementById('update-bar-text');
+        const updateBarCount = document.getElementById('update-bar-count');
+        const updateBarFill = document.getElementById('update-bar-fill');
 
-function hideUpdateBar(done = true) {
-    if (done) {
-        updateBar.classList.add('done');
-        updateBarText.textContent = 'อัปเดตข้อมูลเสร็จสิ้น';
-        updateBarCount.style.display = 'none';
-        if (updateBarFill) updateBarFill.style.width = '100%';
-        setTimeout(() => {
-            updateBar.classList.remove('show', 'done');
-        }, 2500);
-    } else {
-        updateBar.classList.remove('show', 'done');
-    }
-}
+        function showUpdateBar(text, count) {
+            updateBar.classList.remove('done');
+            updateBar.classList.add('show');
+            updateBarText.textContent = text;
+            if (count) {
+                updateBarCount.textContent = count;
+                updateBarCount.style.display = '';
+            } else {
+                updateBarCount.style.display = 'none';
+            }
+        }
 
-let closeVideoTimeout = null;
-let lineVoomResizeHandler = null;
+        function updateUpdateBarProgress(loaded, total) {
+            const pct = Math.min(100, Math.round((loaded / total) * 100));
+            if (updateBarFill) updateBarFill.style.width = pct + '%';
+            if (updateBarCount && updateBarCount.style.display !== 'none') {
+                updateBarCount.textContent = `${loaded}/${total}`;
+            }
+        }
 
-function closeVideo(){
-    if (lineVoomResizeHandler) {
-        window.removeEventListener('message', lineVoomResizeHandler);
-        lineVoomResizeHandler = null;
-    }
-    videoFrame.classList.remove('active');
-    if (closeVideoTimeout) clearTimeout(closeVideoTimeout);
-    closeVideoTimeout = setTimeout(() => { 
-        videoFrame.innerHTML = ''; 
-        videoFrame.className = 'popup-frame';
-        closeVideoTimeout = null;
-    }, 350);
-}
+        function hideUpdateBar(done = true) {
+            if (done) {
+                updateBar.classList.add('done');
+                updateBarText.textContent = 'อัปเดตข้อมูลเสร็จสิ้น';
+                updateBarCount.style.display = 'none';
+                if (updateBarFill) updateBarFill.style.width = '100%';
+                setTimeout(() => {
+                    updateBar.classList.remove('show', 'done');
+                }, 2500);
+            } else {
+                updateBar.classList.remove('show', 'done');
+            }
+        }
 
-function showSkeleton(count) {
-    let html = '';
-    for (let i = 0; i < count; i++) {
-        html += '<div class="skeleton"></div>';
-    }
-    resultsDiv.innerHTML = html;
-}
+        let closeVideoTimeout = null;
+        let lineVoomResizeHandler = null;
 
-// Fetch all files from GitHub sequentially
-// force = true means show UI progress, force load
-// force = false means silent background update
-async function fetchDatabase(force = true) {
-    if (isFetching) return;
-    isFetching = true;
-    
-    if (force) {
-        searchInput.disabled = true;
-        searchInput.placeholder = "พิมพ์เพื่อค้นหาข้อมูล..";
-        searchStatus.innerHTML = `
+        function closeVideo() {
+            if (lineVoomResizeHandler) {
+                window.removeEventListener('message', lineVoomResizeHandler);
+                lineVoomResizeHandler = null;
+            }
+            videoFrame.classList.remove('active');
+            if (closeVideoTimeout) clearTimeout(closeVideoTimeout);
+            closeVideoTimeout = setTimeout(() => {
+                videoFrame.innerHTML = '';
+                videoFrame.className = 'popup-frame';
+                closeVideoTimeout = null;
+            }, 350);
+        }
+
+        function showSkeleton(count) {
+            let html = '';
+            for (let i = 0; i < count; i++) {
+                html += '<div class="skeleton"></div>';
+            }
+            resultsDiv.innerHTML = html;
+        }
+
+        // Fetch all files from GitHub sequentially
+        // force = true means show UI progress, force load
+        // force = false means silent background update
+        async function fetchDatabase(force = true) {
+            if (isFetching) return;
+            isFetching = true;
+
+            if (force) {
+                searchInput.disabled = true;
+                searchInput.placeholder = "พิมพ์เพื่อค้นหาข้อมูล..";
+                searchStatus.innerHTML = `
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                 <span>กำลังดาวน์โหลดฐานข้อมูล...</span>
                 <span style="color:#58a6ff;font-weight:600" id="progress-percent">0%</span>
@@ -921,1070 +1020,1063 @@ async function fetchDatabase(force = true) {
                 <div class="progress-bar" id="progress-bar-fill"></div>
             </div>
         `;
-        showSkeleton(5);
-    } else {
-        showUpdateBar('กำลังตรวจสอบอัปเดต...');
-    }
-    
-    const bigdataItems = [];
-    const reelItems = [];
-    let loadedCount = 0;
-    
-    const updateProgress = () => {
-        if (force) {
-            const percent = Math.min(99, Math.round((loadedCount / TOTAL_FILES) * 100));
-            const percentEl = document.getElementById('progress-percent');
-            const barFillEl = document.getElementById('progress-bar-fill');
-            if (percentEl) percentEl.textContent = `${percent}%`;
-            if (barFillEl) barFillEl.style.width = `${percent}%`;
-        } else {
-            updateUpdateBarProgress(loadedCount, TOTAL_FILES);
-        }
-    };
-    
-    // 1. Fetch JSON files sequentially
-    let n = 1;
-    const isLocal = window.location.protocol === 'file:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-    while (true) {
-        try {
-            const url = isLocal
-                ? `./bigdata${n}.json?t=${Date.now()}`
-                : `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/bigdata${n}.json?t=${Date.now()}`;
-            const response = await fetch(url);
-            if (!response.ok) {
-                // If bigdata1.json returns 404, we check bigdata.json as a fallback
-                if (n === 1) {
-                    const fallbackUrl = isLocal
-                        ? `./bigdata.json?t=${Date.now()}`
-                        : `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/bigdata.json?t=${Date.now()}`;
-                    const fallbackResp = await fetch(fallbackUrl);
-                    if (fallbackResp.ok) {
-                        const fallbackData = await fallbackResp.json();
-                        if (Array.isArray(fallbackData)) {
-                            fallbackData.forEach(item => {
-                                const hasLineVoom = item.url && item.url.includes('linevoom');
-                                bigdataItems.push({
-                                    type: hasLineVoom ? 'video' : 'text',
-                                    text: item.data,
-                                    id: hasLineVoom ? item.url : undefined
-                                });
+                showSkeleton(5);
+            } else {
+                showUpdateBar('กำลังตรวจสอบอัปเดต...');
+            }
+
+            const bigdataItems = [];
+            const reelItems = [];
+            let loadedCount = 0;
+
+            const updateProgress = () => {
+                if (force) {
+                    const percent = Math.min(99, Math.round((loadedCount / TOTAL_FILES) * 100));
+                    const percentEl = document.getElementById('progress-percent');
+                    const barFillEl = document.getElementById('progress-bar-fill');
+                    if (percentEl) percentEl.textContent = `${percent}%`;
+                    if (barFillEl) barFillEl.style.width = `${percent}%`;
+                } else {
+                    updateUpdateBarProgress(loadedCount, TOTAL_FILES);
+                }
+            };
+
+            // 1. Fetch JSON files sequentially
+            let n = 1;
+            const isLocal = window.location.protocol === 'file:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+            while (true) {
+                try {
+                    const url = isLocal
+                        ? `./bigdata${n}.json?t=${Date.now()}`
+                        : `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/bigdata${n}.json?t=${Date.now()}`;
+                    const response = await fetch(url);
+                    if (!response.ok) {
+                        // If bigdata1.json returns 404, we check bigdata.json as a fallback
+                        if (n === 1) {
+                            const fallbackUrl = isLocal
+                                ? `./bigdata.json?t=${Date.now()}`
+                                : `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/bigdata.json?t=${Date.now()}`;
+                            const fallbackResp = await fetch(fallbackUrl);
+                            if (fallbackResp.ok) {
+                                const fallbackData = await fallbackResp.json();
+                                if (Array.isArray(fallbackData)) {
+                                    fallbackData.forEach(item => {
+                                        const hasLineVoom = item.url && item.url.includes('linevoom');
+                                        bigdataItems.push({
+                                            type: hasLineVoom ? 'video' : 'text',
+                                            text: item.data,
+                                            id: hasLineVoom ? item.url : undefined
+                                        });
+                                    });
+                                }
+                            }
+                        }
+                        break; // Stop looking for next indices
+                    }
+                    const data = await response.json();
+                    if (Array.isArray(data)) {
+                        data.forEach(item => {
+                            const hasLineVoom = item.url && item.url.includes('linevoom');
+                            bigdataItems.push({
+                                type: hasLineVoom ? 'video' : 'text',
+                                text: item.data,
+                                id: hasLineVoom ? item.url : undefined
                             });
+                        });
+                    }
+                    loadedCount++;
+                    updateProgress();
+                    n++;
+                } catch (e) {
+                    console.error(`Error loading bigdata${n}.json:`, e);
+                    break;
+                }
+            }
+
+            // 2. Fetch Reel JS files sequentially
+            n = 1;
+            while (true) {
+                try {
+                    const url = isLocal
+                        ? `./reel${n}.js?t=${Date.now()}`
+                        : `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/reel${n}.js?t=${Date.now()}`;
+                    const response = await fetch(url);
+                    if (!response.ok) {
+                        // If reel1.js returns 404, check reel.js fallback
+                        if (n === 1) {
+                            const fallbackUrl = isLocal
+                                ? `./reel.js?t=${Date.now()}`
+                                : `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/reel.js?t=${Date.now()}`;
+                            const fallbackResp = await fetch(fallbackUrl);
+                            if (fallbackResp.ok) {
+                                const fallbackText = await fallbackResp.text();
+                                parseReelJsText(fallbackText, reelItems);
+                            }
+                        }
+                        break;
+                    }
+                    const text = await response.text();
+                    parseReelJsText(text, reelItems);
+                    loadedCount++;
+                    updateProgress();
+                    n++;
+                } catch (e) {
+                    console.error(`Error loading reel${n}.js:`, e);
+                    break;
+                }
+            }
+
+            // Deduplicate combined items
+            const combined = [...bigdataItems, ...reelItems];
+            const uniqueItems = [];
+            const seen = new Set();
+            for (const item of combined) {
+                const key = `${item.type}:${item.id || ''}:${item.text.trim()}`;
+                if (!seen.has(key)) {
+                    seen.add(key);
+                    uniqueItems.push(item);
+                }
+            }
+
+            if (force) {
+                const percentEl = document.getElementById('progress-percent');
+                const barFillEl = document.getElementById('progress-bar-fill');
+                if (percentEl) percentEl.textContent = '100%';
+                if (barFillEl) barFillEl.style.width = '100%';
+                await new Promise(resolve => setTimeout(resolve, 350));
+            } else {
+                updateUpdateBarProgress(TOTAL_FILES, TOTAL_FILES);
+            }
+
+            // Compare with current items list to check if there are changes
+            let changed = false;
+            if (items.length !== uniqueItems.length) {
+                changed = true;
+            } else {
+                const oldSignature = items.map(i => i.id || i.text.slice(0, 10)).slice(0, 100).join('|');
+                const newSignature = uniqueItems.map(i => i.id || i.text.slice(0, 10)).slice(0, 100).join('|');
+                if (oldSignature !== newSignature) {
+                    changed = true;
+                }
+            }
+
+            if (changed || force || items.length === 0) {
+                items = uniqueItems;
+                saveToCache(items);
+                buildSmartIndex(items, true);
+
+                const uniqueVideoCount = items.filter(i => i.type === 'video').length;
+                const uniqueTextCount = items.filter(i => i.type === 'text').length;
+
+                const updatedLabel = force ? '' : ' (อัปเดตข้อมูลใหม่แล้ว)';
+                searchStatus.innerHTML = `โหลดเสร็จสิ้น${updatedLabel} | มีวิดีโอ <span style="color:#fff;font-weight:600">${uniqueVideoCount.toLocaleString()}</span> รายการ, ข้อความ <span style="color:#fff;font-weight:600">${uniqueTextCount.toLocaleString()}</span> รายการ`;
+
+                // Re-run search if user is currently searching
+                if (searchInput.value.trim().length > 0) {
+                    performSearch(searchInput.value);
+                }
+
+                if (!force) {
+                    hideUpdateBar(true);
+                }
+            } else {
+                saveToCache(items);
+                if (!force) {
+                    hideUpdateBar(false);
+                }
+            }
+
+            isFetching = false;
+            searchInput.placeholder = "พิมพ์เพื่อค้นหาข้อมูล..";
+            searchInput.disabled = false;
+
+            if (force) {
+                searchInput.focus();
+                if (!searchInput.value) {
+                    resultsDiv.innerHTML = '';
+                }
+            }
+        }
+
+        function isCacheFromToday() {
+            const cached = loadFromCache();
+            if (cached && cached.date) {
+                return cached.date === getTodayDate();
+            }
+            return false;
+        }
+
+        async function syncCacheInBackground(force = false) {
+            if (!force && isCacheFromToday()) {
+                console.log('Background sync skipped: already have today\'s data.');
+                return;
+            }
+            console.log('Starting silent background update check...');
+            await fetchDatabase(false);
+        }
+
+        function startDailyChecker() {
+            setInterval(() => {
+                if (!isCacheFromToday()) {
+                    console.log('New day detected by daily checker, triggering background update...');
+                    fetchDatabase(false);
+                }
+            }, DAILY_CHECK_INTERVAL_MS);
+        }
+
+        function initDatabase() {
+            const cached = loadFromCache();
+
+            // Check for URL query parameter on load
+            const urlParams = new URLSearchParams(window.location.search);
+            const queryParam = urlParams.get('q');
+            const embedParam = urlParams.get('embed');
+            const isEmbedMode = (embedParam === 'true' || embedParam === '1');
+
+            if (isEmbedMode) {
+                document.body.classList.add('embed-mode');
+            }
+
+            if (cached && Array.isArray(cached.items) && cached.items.length > 0) {
+                // Loaded from cache!
+                items = cached.items;
+                buildSmartIndex(items, false);
+
+                const uniqueVideoCount = items.filter(i => i.type === 'video').length;
+                const uniqueTextCount = items.filter(i => i.type === 'text').length;
+
+                searchStatus.innerHTML = `โหลดเสร็จสิ้น (จากแคชในเครื่อง) | มีวิดีโอ <span style="color:#fff;font-weight:600">${uniqueVideoCount.toLocaleString()}</span> รายการ, ข้อความ <span style="color:#fff;font-weight:600">${uniqueTextCount.toLocaleString()}</span> รายการ`;
+
+                searchInput.placeholder = "พิมพ์เพื่อค้นหาข้อมูล..";
+                searchInput.disabled = false;
+
+                if (queryParam) {
+                    wasLoadedWithQuery = true;
+                    initialUrlQuery = queryParam.trim();
+                    searchInput.value = initialUrlQuery;
+
+                    // Hide hero section when loaded with URL query
+                    const heroTitle = document.querySelector('.hero-title');
+                    const heroSub = document.querySelector('.hero-subtitle');
+                    if (heroTitle) heroTitle.style.display = 'none';
+                    if (heroSub) heroSub.style.display = 'none';
+
+                    performSearch(queryParam);
+                } else {
+                    searchInput.focus();
+                }
+
+                // Start daily checker
+                startDailyChecker();
+
+                // If cache is not from today, or if we are in embed mode, trigger background sync
+                if (!isCacheFromToday() || isEmbedMode) {
+                    setTimeout(() => {
+                        syncCacheInBackground(isEmbedMode);
+                    }, isEmbedMode ? 500 : 3000);
+                }
+
+            } else {
+                // No cache: perform full download
+                if (queryParam) {
+                    wasLoadedWithQuery = true;
+                    initialUrlQuery = queryParam.trim();
+                    searchInput.value = initialUrlQuery;
+
+                    // Hide hero section when loaded with URL query
+                    const heroTitle = document.querySelector('.hero-title');
+                    const heroSub = document.querySelector('.hero-subtitle');
+                    if (heroTitle) heroTitle.style.display = 'none';
+                    if (heroSub) heroSub.style.display = 'none';
+                }
+                fetchDatabase(true);
+            }
+        }
+
+        function isLineVoomVideo(id) {
+            return typeof id === 'string' && id.includes('linevoom');
+        }
+
+        function getLineVoomPostId(id) {
+            const match = id.match(/post\/(\d+)/);
+            return match ? match[1] : null;
+        }
+
+        function getLineVoomUrl(id) {
+            if (id.startsWith('http://') || id.startsWith('https://')) return id;
+            return 'https://' + id.replace(/^\/\//, '');
+        }
+
+        function mountLineVoomEmbed(postId) {
+            const container = document.getElementById('linevoom-embed-container');
+            if (!container) return;
+
+            if (lineVoomResizeHandler) {
+                window.removeEventListener('message', lineVoomResizeHandler);
+                lineVoomResizeHandler = null;
+            }
+
+            const iframeUuid = 'embed_' + (typeof crypto !== 'undefined' && crypto.randomUUID
+                ? crypto.randomUUID()
+                : String(Date.now()));
+            const params = new URLSearchParams({
+                playable: 'true',
+                onlyVideo: 'true',
+                autoPlay: 'true',
+                referer: encodeURIComponent(window.location.origin),
+                fullUrlReferer: encodeURIComponent(window.location.href),
+                iframeUuid
+            });
+            const src = `https://linevoom.line.me/embedded/post/${postId}?${params.toString()}`;
+
+            const iframe = document.createElement('iframe');
+            iframe.src = src;
+            iframe.id = iframeUuid;
+            iframe.setAttribute('frameborder', '0');
+            iframe.setAttribute('scrolling', 'no');
+            iframe.setAttribute('allowfullscreen', 'true');
+            iframe.setAttribute('allow', 'autoplay; encrypted-media');
+            container.innerHTML = '';
+            container.appendChild(iframe);
+
+            lineVoomResizeHandler = (event) => {
+                if (!event.data || event.data.action !== 'resize' || !event.data.params) return;
+                if (event.source !== iframe.contentWindow) return;
+
+                const { height, width } = event.data.params;
+                if (!height || !width) return;
+
+                const containerWidth = container.clientWidth || container.offsetWidth;
+                if (!containerWidth) return;
+
+                const scaledHeight = Math.round((containerWidth / width) * height);
+                container.style.aspectRatio = 'auto';
+                container.style.height = scaledHeight + 'px';
+                iframe.style.height = scaledHeight + 'px';
+            };
+            window.addEventListener('message', lineVoomResizeHandler);
+        }
+
+        function parseReelJsText(text, arrayToPush) {
+            const matches = text.match(/"([^"]+)"/g);
+            if (matches) {
+                matches.forEach(match => {
+                    const cleanStr = match.slice(1, -1); // remove outer quotes
+                    const parts = cleanStr.split(',');
+                    if (parts.length >= 2) {
+                        const id = parts[0].trim();
+                        const title = parts.slice(1).join(',').trim();
+                        arrayToPush.push({
+                            type: 'video',
+                            id: id,
+                            text: title
+                        });
+                    }
+                });
+            }
+        }
+        // Common Thai stop words
+        const THAI_STOP_WORDS = new Set([
+            'และ', 'หรือ', 'แต่', 'ของ', 'ที่', 'ใน', 'มี', 'เป็น', 'จะ', 'ได้', 'ให้',
+            'กับ', 'โดย', 'ตาม', 'เพื่อ', 'ไป', 'มา', 'นี้', 'นั้น', 'การ', 'ความ',
+            'ผู้', 'จาก', 'ถึง', 'ด้วย', 'ขึ้น', 'ลง', 'ก็', 'เลย', 'แล้ว', 'อีก',
+            'ไม่', 'ใช่', 'ใช่ไหม', 'ครับ', 'ค่ะ', 'นะ', 'คะ', 'ครับผม', 'พวก',
+            'ใช้', 'สามารถ', 'ต้อง', 'ผ่าน', 'เปลี่ยน', 'ปรับ', 'ระดับ', 'ชิ้น', 'งาน'
+        ]);
+
+        let thSegmenter = null;
+        try {
+            if (typeof Intl !== 'undefined' && Intl.Segmenter) {
+                thSegmenter = new Intl.Segmenter('th', { granularity: 'word' });
+            }
+        } catch (e) {
+            console.warn('Intl.Segmenter init failed:', e);
+        }
+
+        // Segment query into words using native Intl.Segmenter (optimized for performance)
+        function segmentText(text) {
+            if (thSegmenter) {
+                try {
+                    const result = [];
+                    for (const s of thSegmenter.segment(text)) {
+                        if (s.isWordLike) {
+                            const clean = s.segment.toLowerCase().trim();
+                            if (clean.length > 0) result.push(clean);
+                        }
+                    }
+                    return result;
+                } catch (e) {
+                    console.warn('Intl.Segmenter failed, falling back to regex', e);
+                }
+            }
+            // Fallback split by spaces and common punctuation
+            return text.toLowerCase()
+                .split(/[\s\d\p{P}]+/u)
+                .filter(s => s.length > 0);
+        }
+
+        // Helper to generate n-grams of adjacent words to capture compound terms and transliterations
+        function getMergedTerms(words) {
+            const terms = [...words];
+            for (let i = 0; i < words.length - 1; i++) {
+                terms.push(words[i] + words[i + 1]);
+                if (i < words.length - 2) {
+                    terms.push(words[i] + words[i + 1] + words[i + 2]);
+                }
+            }
+            return [...new Set(terms)];
+        }
+
+        const SMART_INDEX_CACHE_KEY = 'bigdata_smart_index_cache';
+        function saveSmartIndexToCache(index) {
+            try {
+                const serialized = {
+                    thaiEngPairs: Array.from(index.thaiEngPairs.entries()).map(([k, v]) => [k, Array.from(v)]),
+                    engThaiPairs: Array.from(index.engThaiPairs.entries()).map(([k, v]) => [k, Array.from(v)]),
+                    consonantMap: Array.from(index.consonantMap.entries()).map(([k, v]) => [k, Array.from(v)]),
+                    cooccurrence: Array.from(index.cooccurrence.entries()),
+                    timestamp: Date.now()
+                };
+                localStorage.setItem(SMART_INDEX_CACHE_KEY, JSON.stringify(serialized));
+            } catch (e) {
+                console.warn('Failed to save smart index to cache:', e);
+            }
+        }
+
+        function loadSmartIndexFromCache() {
+            try {
+                const cached = localStorage.getItem(SMART_INDEX_CACHE_KEY);
+                if (cached) {
+                    const data = JSON.parse(cached);
+                    const thaiEngPairs = new Map(data.thaiEngPairs.map(([k, v]) => [k, new Set(v)]));
+                    const engThaiPairs = new Map(data.engThaiPairs.map(([k, v]) => [k, new Set(v)]));
+                    const consonantMap = new Map(data.consonantMap.map(([k, v]) => [k, new Set(v)]));
+                    const cooccurrence = new Map(data.cooccurrence);
+                    return { thaiEngPairs, engThaiPairs, consonantMap, cooccurrence };
+                }
+            } catch (e) {
+                console.warn('Failed to load smart index from cache:', e);
+            }
+            return null;
+        }
+
+        // ============= SMART SEMANTIC SEARCH ENGINE =============
+        // Self-learning: builds intelligence from database automatically
+        // No AI API, no internet, free 100%
+
+        const CORE_SYNONYMS = [
+            ['ไม่สบาย', 'ป่วย', 'เจ็บไข้', 'ตัวร้อน', 'มีไข้', 'เป็นไข้', 'ไข้'],
+            ['กิน', 'ดื่ม', 'รับประทาน', 'บริโภค', 'ทาน', 'กระหาย'],
+            ['ตาย', 'เสียชีวิต', 'สิ้นใจ', 'ดับ', 'วายชนม์', 'มรณะ'],
+            ['เจ็บ', 'ปวด', 'เจ็บปวด', 'แสบ', 'เจ็บแปลบ'],
+            ['แก่', 'ชรา', 'สูงอายุ', 'แก่ชรา', 'วัยชรา', 'อายุมาก', 'แก่ตัว', 'แก่เร็ว'],
+            ['ยา', 'เวชภัณฑ์', 'ตัวยา', 'ยารักษา'],
+            ['หมอ', 'แพทย์', 'นายแพทย์', 'คุณหมอ', 'อายุรแพทย์'],
+            ['โรค', 'เชื้อโรค', 'โรคภัย', 'เจ็บป่วย', 'อาการป่วย'],
+            ['เงิน', 'สกุลเงิน', 'เงินตรา', 'ค่าเงิน', 'ธนบัตร'],
+            ['กลัว', 'หวาด', 'หวาดกลัว', 'ตกใจ', 'สะดุ้ง', 'ขนลุก'],
+            ['เหนื่อย', 'อ่อนเพลีย', 'อ่อนล้า', 'เพลีย', 'ล้า'],
+            ['อ้วน', 'น้ำหนักเกิน', 'โรคอ้วน', 'อวบ', 'ท้วม'],
+            ['ร้อน', 'อุณหภูมิสูง', 'ความร้อน', 'ร้อนจัด'],
+            ['หนาว', 'เย็น', 'อุณหภูมิต่ำ', 'หนาวจัด', 'เหน็บหนาว'],
+            ['แรง', 'พลัง', 'กำลัง', 'เรี่ยวแรง', 'พลังงาน'],
+            ['เร็ว', 'ไว', 'รวดเร็ว', 'ฉับไว', 'ว่องไว'],
+            ['ใหญ่', 'มหึมา', 'ยิ่งใหญ่', 'ขนาดใหญ่'],
+            ['เล็ก', 'จิ๋ว', 'เล็กน้อย', 'ขนาดเล็ก'],
+            ['อันตราย', 'เสี่ยง', 'เสี่ยงอันตราย', 'มีอันตราย'],
+            ['ฆ่า', 'สังหาร', 'ฆาตกรรม', 'ปลิดชีพ'],
+            ['ลงทุน', 'เทรด', 'การลงทุน', 'ซื้อขาย'],
+            ['สมอง', 'มันสมอง', 'ระบบประสาท'],
+            ['นอน', 'หลับ', 'นอนหลับ', 'พักผ่อน', 'งีบ'],
+            ['ออกกำลังกาย', 'วิ่ง', 'แอโรบิค', 'แอโรบิก', 'กีฬา', 'ฟิตเนส'],
+            ['อาหาร', 'ของกิน', 'มื้ออาหาร', 'โภชนาการ'],
+            ['อาวุธ', 'ปืน', 'กระสุน', 'ระเบิด'],
+            ['ต่อสู้', 'ชก', 'เตะ', 'ต่อย', 'มวย'],
+            ['ผิวหนัง', 'ผิว', 'หนังกำพร้า', 'ชั้นผิว'],
+            ['ดวงอาทิตย์', 'แสงแดด', 'แดด', 'พลังงานแสง'],
+            ['ทะเล', 'มหาสมุทร', 'น้ำทะเล', 'สมุทร'],
+        ];
+
+        // Transliteration boost: common Thai-English terms that may not appear together in the same data entry
+        // Auto-extraction handles same-entry pairs; this covers cross-entry pairs
+        const TRANSLITERATION_BOOST = new Map([
+            ['บิทคอยน์', ['bitcoin']], ['บิตคอยน์', ['bitcoin']], ['bitcoin', ['บิทคอยน์', 'บิตคอยน์']],
+            ['บล็อกเชน', ['blockchain']], ['บล็อคเชน', ['blockchain']], ['blockchain', ['บล็อกเชน', 'บล็อคเชน']],
+            ['คริปโต', ['crypto', 'cryptocurrency']], ['crypto', ['คริปโต']], ['cryptocurrency', ['คริปโต']],
+            ['อีเธอเรียม', ['ethereum']], ['ethereum', ['อีเธอเรียม']],
+            ['โดปามีน', ['dopamine']], ['dopamine', ['โดปามีน']],
+            ['เซโรโทนิน', ['serotonin']], ['serotonin', ['เซโรโทนิน']],
+            ['อัลไซเมอร์', ['alzheimer']], ['alzheimer', ['อัลไซเมอร์']],
+            ['พาราเซตามอล', ['paracetamol']], ['paracetamol', ['พาราเซตามอล']],
+            ['แอโรบิค', ['aerobic']], ['แอโรบิก', ['aerobic']], ['aerobic', ['แอโรบิค', 'แอโรบิก']],
+            ['ดีเอ็นเอ', ['dna']], ['dna', ['ดีเอ็นเอ']],
+            ['วิตามิน', ['vitamin']], ['vitamin', ['วิตามิน']],
+            ['โปรตีน', ['protein']], ['protein', ['โปรตีน']],
+            ['แคลเซียม', ['calcium']], ['calcium', ['แคลเซียม']],
+            ['ออกซิเจน', ['oxygen']], ['oxygen', ['ออกซิเจน']],
+            ['ไฮโดรเจน', ['hydrogen']], ['hydrogen', ['ไฮโดรเจน']],
+            ['โครโมโซม', ['chromosome']], ['chromosome', ['โครโมโซม']],
+            ['ฟอสฟอรัส', ['phosphorus']], ['phosphorus', ['ฟอสฟอรัส']],
+            ['มะเร็ง', ['cancer']], ['cancer', ['มะเร็ง']],
+            ['เบาหวาน', ['diabetes']], ['diabetes', ['เบาหวาน']],
+            ['อินซูลิน', ['insulin']], ['insulin', ['อินซูลิน']],
+            ['คอเลสเตอรอล', ['cholesterol']], ['cholesterol', ['คอเลสเตอรอล']],
+            ['โยคะ', ['yoga']], ['yoga', ['โยคะ']],
+            ['คาเฟอีน', ['caffeine']], ['caffeine', ['คาเฟอีน']],
+            ['เทโลเมียร์', ['telomere']], ['telomere', ['เทโลเมียร์']],
+        ]);
+
+        let smartIndex = null;
+
+        function getConsonantSkeleton(word) {
+            const SOUND_MAP = {
+                'ก': 'k', 'ข': 'k', 'ฃ': 'k', 'ค': 'k', 'ฅ': 'k', 'ฆ': 'k',
+                'ง': 'g',
+                'จ': 'c', 'ฉ': 'c', 'ช': 'c', 'ฌ': 'c',
+                'ซ': 's', 'ศ': 's', 'ษ': 's', 'ส': 's',
+                'ญ': 'y',
+                'ฎ': 't', 'ฏ': 't', 'ฐ': 't', 'ฑ': 't', 'ฒ': 't',
+                'ณ': 'n', 'น': 'n',
+                'ด': 't', 'ต': 't', 'ถ': 't', 'ท': 't', 'ธ': 't',
+                'บ': 'b', 'ป': 'p', 'ผ': 'p', 'พ': 'p', 'ภ': 'p', 'ฝ': 'f', 'ฟ': 'f',
+                'ม': 'm', 'ย': 'y', 'ร': 'r', 'ล': 'l', 'ว': 'w',
+                'ห': 'h', 'ฬ': 'l', 'อ': 'q', 'ฮ': 'h'
+            };
+
+            // Silence Thai characters followed by garan (์) to align spellings (e.g. บิทคอยน์ -> บิทคอย)
+            const cleanedWord = word.replace(/.[์]/g, '').toLowerCase();
+
+            let skeleton = '';
+            for (const ch of cleanedWord) {
+                if (SOUND_MAP[ch]) {
+                    skeleton += SOUND_MAP[ch];
+                } else if (/[a-zA-Z]/.test(ch)) {
+                    skeleton += ch.toLowerCase();
+                }
+            }
+            return skeleton;
+        }
+
+        // Build Smart Index asynchronously in chunks to prevent UI locking/blocking
+        async function buildSmartIndex(itemsList, forceRebuild = false) {
+            console.time('buildSmartIndex');
+
+            if (!forceRebuild) {
+                const cached = loadSmartIndexFromCache();
+                if (cached) {
+                    smartIndex = cached;
+                    console.log('Smart Index loaded from cache successfully.');
+                    console.timeEnd('buildSmartIndex');
+                    return;
+                }
+            }
+
+            const thaiEngPairs = new Map();
+            const engThaiPairs = new Map();
+            const consonantMap = new Map();
+            const cooccurrence = new Map();
+
+            const addPair = (thai, eng) => {
+                const tl = thai.toLowerCase().trim();
+                const el = eng.toLowerCase().trim();
+                if (tl.length < 2 || el.length < 2) return;
+                if (!thaiEngPairs.has(tl)) thaiEngPairs.set(tl, new Set());
+                thaiEngPairs.get(tl).add(el);
+                if (!engThaiPairs.has(el)) engThaiPairs.set(el, new Set());
+                engThaiPairs.get(el).add(tl);
+            };
+
+            // Safe optimized regexes to extract Thai-English pairs (linear time, no backtracking)
+            const r1 = /([\u0E01-\u0E4F\s]+)\s*[\(（]([A-Za-z0-9\s\-'\.]+)[\)）]/g;
+            const r2 = /([A-Za-z0-9\s\-'\.]+)\s*[\(（]([\u0E01-\u0E4F\s]+)[\)）]/g;
+            const r3 = /([\u0E01-\u0E4F]{2,})\s+([A-Z][a-zA-Z0-9]{2,})/g;
+            const r4 = /([A-Z][a-zA-Z0-9]{2,})\s+([\u0E01-\u0E4F]{2,})/g;
+
+            const chunkSize = 1500;
+            for (let i = 0; i < itemsList.length; i += chunkSize) {
+                const chunk = itemsList.slice(i, i + chunkSize);
+
+                for (const item of chunk) {
+                    const text = item.text;
+
+                    // Pattern Match (Bypassed if text does not contain brackets or uppercase letters)
+                    if (text.includes('(') || text.includes('（')) {
+                        for (const m of text.matchAll(r1)) addPair(m[1], m[2]);
+                        for (const m of text.matchAll(r2)) addPair(m[2], m[1]);
+                    }
+                    if (/[A-Z]/.test(text)) {
+                        for (const m of text.matchAll(r3)) addPair(m[1], m[2]);
+                        for (const m of text.matchAll(r4)) addPair(m[2], m[1]);
+                    }
+
+                    const words = segmentText(text);
+                    const sigWords = words.filter(w => !THAI_STOP_WORDS.has(w) && w.length >= 2);
+
+                    // Index only the segmented words (NO MERGES in database items to prevent massive index)
+                    sigWords.forEach(w => {
+                        if (/[\u0E01-\u0E2E]/.test(w) && w.length >= 4) {
+                            const sk = getConsonantSkeleton(w);
+                            if (sk.length >= 3) {
+                                if (!consonantMap.has(sk)) consonantMap.set(sk, new Set());
+                                consonantMap.get(sk).add(w);
+                            }
+                        }
+                    });
+
+                    // Co-occurrence
+                    const coWords = sigWords.slice(0, 10);
+                    for (let j = 0; j < coWords.length; j++) {
+                        for (let k = j + 1; k < coWords.length; k++) {
+                            const w1 = coWords[j], w2 = coWords[k];
+                            if (w1 === w2) continue;
+                            if (!cooccurrence.has(w1)) cooccurrence.set(w1, new Map());
+                            cooccurrence.get(w1).set(w2, (cooccurrence.get(w1).get(w2) || 0) + 1);
+                            if (!cooccurrence.has(w2)) cooccurrence.set(w2, new Map());
+                            cooccurrence.get(w2).set(w1, (cooccurrence.get(w2).get(w1) || 0) + 1);
                         }
                     }
                 }
-                break; // Stop looking for next indices
+
+                // Yield to the browser main thread to keep UI completely responsive
+                await new Promise(resolve => setTimeout(resolve, 0));
             }
-            const data = await response.json();
-            if (Array.isArray(data)) {
-                data.forEach(item => {
-                    const hasLineVoom = item.url && item.url.includes('linevoom');
-                    bigdataItems.push({
-                        type: hasLineVoom ? 'video' : 'text',
-                        text: item.data,
-                        id: hasLineVoom ? item.url : undefined
-                    });
-                });
+
+            const filteredCo = new Map();
+            for (const [word, relMap] of cooccurrence) {
+                const top = [...relMap.entries()]
+                    .filter(([_, c]) => c >= 3)
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, 5)
+                    .map(([w]) => w);
+                if (top.length > 0) filteredCo.set(word, top);
             }
-            loadedCount++;
-            updateProgress();
-            n++;
-        } catch (e) {
-            console.error(`Error loading bigdata${n}.json:`, e);
-            break;
-        }
-    }
-    
-    // 2. Fetch Reel JS files sequentially
-    n = 1;
-    while (true) {
-        try {
-            const url = isLocal
-                ? `./reel${n}.js?t=${Date.now()}`
-                : `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/reel${n}.js?t=${Date.now()}`;
-            const response = await fetch(url);
-            if (!response.ok) {
-                // If reel1.js returns 404, check reel.js fallback
-                if (n === 1) {
-                    const fallbackUrl = isLocal
-                        ? `./reel.js?t=${Date.now()}`
-                        : `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/reel.js?t=${Date.now()}`;
-                    const fallbackResp = await fetch(fallbackUrl);
-                    if (fallbackResp.ok) {
-                        const fallbackText = await fallbackResp.text();
-                        parseReelJsText(fallbackText, reelItems);
-                    }
-                }
-                break;
-            }
-            const text = await response.text();
-            parseReelJsText(text, reelItems);
-            loadedCount++;
-            updateProgress();
-            n++;
-        } catch (e) {
-            console.error(`Error loading reel${n}.js:`, e);
-            break;
-        }
-    }
-    
-    // Deduplicate combined items
-    const combined = [...bigdataItems, ...reelItems];
-    const uniqueItems = [];
-    const seen = new Set();
-    for (const item of combined) {
-        const key = `${item.type}:${item.id || ''}:${item.text.trim()}`;
-        if (!seen.has(key)) {
-            seen.add(key);
-            uniqueItems.push(item);
-        }
-    }
-    
-    if (force) {
-        const percentEl = document.getElementById('progress-percent');
-        const barFillEl = document.getElementById('progress-bar-fill');
-        if (percentEl) percentEl.textContent = '100%';
-        if (barFillEl) barFillEl.style.width = '100%';
-        await new Promise(resolve => setTimeout(resolve, 350));
-    } else {
-        updateUpdateBarProgress(TOTAL_FILES, TOTAL_FILES);
-    }
 
-    // Compare with current items list to check if there are changes
-    let changed = false;
-    if (items.length !== uniqueItems.length) {
-        changed = true;
-    } else {
-        const oldSignature = items.map(i => i.id || i.text.slice(0, 10)).slice(0, 100).join('|');
-        const newSignature = uniqueItems.map(i => i.id || i.text.slice(0, 10)).slice(0, 100).join('|');
-        if (oldSignature !== newSignature) {
-            changed = true;
-        }
-    }
+            smartIndex = { thaiEngPairs, engThaiPairs, consonantMap, cooccurrence: filteredCo };
+            saveSmartIndexToCache(smartIndex);
 
-    if (changed || force || items.length === 0) {
-        items = uniqueItems;
-        saveToCache(items);
-        buildSmartIndex(items, true);
-        
-        const uniqueVideoCount = items.filter(i => i.type === 'video').length;
-        const uniqueTextCount = items.filter(i => i.type === 'text').length;
-        
-        const updatedLabel = force ? '' : ' (อัปเดตข้อมูลใหม่แล้ว)';
-        searchStatus.innerHTML = `โหลดเสร็จสิ้น${updatedLabel} | มีวิดีโอ <span style="color:#fff;font-weight:600">${uniqueVideoCount.toLocaleString()}</span> รายการ, ข้อความ <span style="color:#fff;font-weight:600">${uniqueTextCount.toLocaleString()}</span> รายการ`;
-        
-        // Re-run search if user is currently searching
-        if (searchInput.value.trim().length > 0) {
-            performSearch(searchInput.value);
-        }
-
-        if (!force) {
-            hideUpdateBar(true);
-        }
-    } else {
-        saveToCache(items);
-        if (!force) {
-            hideUpdateBar(false);
-        }
-    }
-    
-    isFetching = false;
-    searchInput.placeholder = "พิมพ์เพื่อค้นหาข้อมูล..";
-    searchInput.disabled = false;
-    
-    if (force) {
-        searchInput.focus();
-        if (!searchInput.value) {
-            resultsDiv.innerHTML = '';
-        }
-    }
-}
-
-function isCacheFromToday() {
-    const cached = loadFromCache();
-    if (cached && cached.date) {
-        return cached.date === getTodayDate();
-    }
-    return false;
-}
-
-async function syncCacheInBackground(force = false) {
-    if (!force && isCacheFromToday()) {
-        console.log('Background sync skipped: already have today\'s data.');
-        return;
-    }
-    console.log('Starting silent background update check...');
-    await fetchDatabase(false);
-}
-
-function startDailyChecker() {
-    setInterval(() => {
-        if (!isCacheFromToday()) {
-            console.log('New day detected by daily checker, triggering background update...');
-            fetchDatabase(false);
-        }
-    }, DAILY_CHECK_INTERVAL_MS);
-}
-
-function initDatabase() {
-    const cached = loadFromCache();
-    
-    // Check for URL query parameter on load
-    const urlParams = new URLSearchParams(window.location.search);
-    const queryParam = urlParams.get('q');
-    const embedParam = urlParams.get('embed');
-    const isEmbedMode = (embedParam === 'true' || embedParam === '1');
-    
-    if (isEmbedMode) {
-        document.body.classList.add('embed-mode');
-    }
-    
-    if (cached && Array.isArray(cached.items) && cached.items.length > 0) {
-        // Loaded from cache!
-        items = cached.items;
-        buildSmartIndex(items, false);
-        
-        const uniqueVideoCount = items.filter(i => i.type === 'video').length;
-        const uniqueTextCount = items.filter(i => i.type === 'text').length;
-        
-        searchStatus.innerHTML = `โหลดเสร็จสิ้น (จากแคชในเครื่อง) | มีวิดีโอ <span style="color:#fff;font-weight:600">${uniqueVideoCount.toLocaleString()}</span> รายการ, ข้อความ <span style="color:#fff;font-weight:600">${uniqueTextCount.toLocaleString()}</span> รายการ`;
-        
-        searchInput.placeholder = "พิมพ์เพื่อค้นหาข้อมูล..";
-        searchInput.disabled = false;
-        
-        if (queryParam) {
-            wasLoadedWithQuery = true;
-            initialUrlQuery = queryParam.trim();
-            searchInput.value = initialUrlQuery;
-            
-            // Hide hero section when loaded with URL query
-            const heroTitle = document.querySelector('.hero-title');
-            const heroSub = document.querySelector('.hero-subtitle');
-            if (heroTitle) heroTitle.style.display = 'none';
-            if (heroSub) heroSub.style.display = 'none';
-            
-            performSearch(queryParam);
-        } else {
-            searchInput.focus();
-        }
-        
-        // Start daily checker
-        startDailyChecker();
-
-        // If cache is not from today, or if we are in embed mode, trigger background sync
-        if (!isCacheFromToday() || isEmbedMode) {
-            setTimeout(() => {
-                syncCacheInBackground(isEmbedMode);
-            }, isEmbedMode ? 500 : 3000);
-        }
-        
-    } else {
-        // No cache: perform full download
-        if (queryParam) {
-            wasLoadedWithQuery = true;
-            initialUrlQuery = queryParam.trim();
-            searchInput.value = initialUrlQuery;
-            
-            // Hide hero section when loaded with URL query
-            const heroTitle = document.querySelector('.hero-title');
-            const heroSub = document.querySelector('.hero-subtitle');
-            if (heroTitle) heroTitle.style.display = 'none';
-            if (heroSub) heroSub.style.display = 'none';
-        }
-        fetchDatabase(true);
-    }
-}
-
-function isLineVoomVideo(id) {
-    return typeof id === 'string' && id.includes('linevoom');
-}
-
-function getLineVoomPostId(id) {
-    const match = id.match(/post\/(\d+)/);
-    return match ? match[1] : null;
-}
-
-function getLineVoomUrl(id) {
-    if (id.startsWith('http://') || id.startsWith('https://')) return id;
-    return 'https://' + id.replace(/^\/\//, '');
-}
-
-function mountLineVoomEmbed(postId) {
-    const container = document.getElementById('linevoom-embed-container');
-    if (!container) return;
-
-    if (lineVoomResizeHandler) {
-        window.removeEventListener('message', lineVoomResizeHandler);
-        lineVoomResizeHandler = null;
-    }
-
-    const iframeUuid = 'embed_' + (typeof crypto !== 'undefined' && crypto.randomUUID
-        ? crypto.randomUUID()
-        : String(Date.now()));
-    const params = new URLSearchParams({
-        playable: 'true',
-        onlyVideo: 'true',
-        autoPlay: 'true',
-        referer: encodeURIComponent(window.location.origin),
-        fullUrlReferer: encodeURIComponent(window.location.href),
-        iframeUuid
-    });
-    const src = `https://linevoom.line.me/embedded/post/${postId}?${params.toString()}`;
-
-    const iframe = document.createElement('iframe');
-    iframe.src = src;
-    iframe.id = iframeUuid;
-    iframe.setAttribute('frameborder', '0');
-    iframe.setAttribute('scrolling', 'no');
-    iframe.setAttribute('allowfullscreen', 'true');
-    iframe.setAttribute('allow', 'autoplay; encrypted-media');
-    container.innerHTML = '';
-    container.appendChild(iframe);
-
-    lineVoomResizeHandler = (event) => {
-        if (!event.data || event.data.action !== 'resize' || !event.data.params) return;
-        if (event.source !== iframe.contentWindow) return;
-
-        const { height, width } = event.data.params;
-        if (!height || !width) return;
-
-        const containerWidth = container.clientWidth || container.offsetWidth;
-        if (!containerWidth) return;
-
-        const scaledHeight = Math.round((containerWidth / width) * height);
-        container.style.aspectRatio = 'auto';
-        container.style.height = scaledHeight + 'px';
-        iframe.style.height = scaledHeight + 'px';
-    };
-    window.addEventListener('message', lineVoomResizeHandler);
-}
-
-function parseReelJsText(text, arrayToPush) {
-    const matches = text.match(/"([^"]+)"/g);
-    if (matches) {
-        matches.forEach(match => {
-            const cleanStr = match.slice(1, -1); // remove outer quotes
-            const parts = cleanStr.split(',');
-            if (parts.length >= 2) {
-                const id = parts[0].trim();
-                const title = parts.slice(1).join(',').trim();
-                arrayToPush.push({
-                    type: 'video',
-                    id: id,
-                    text: title
-                });
-            }
-        });
-    }
-}
-       // Common Thai stop words
-const THAI_STOP_WORDS = new Set([
-    'และ', 'หรือ', 'แต่', 'ของ', 'ที่', 'ใน', 'มี', 'เป็น', 'จะ', 'ได้', 'ให้', 
-    'กับ', 'โดย', 'ตาม', 'เพื่อ', 'ไป', 'มา', 'นี้', 'นั้น', 'การ', 'ความ', 
-    'ผู้', 'จาก', 'ถึง', 'ด้วย', 'ขึ้น', 'ลง', 'ก็', 'เลย', 'แล้ว', 'อีก', 
-    'ไม่', 'ใช่', 'ใช่ไหม', 'ครับ', 'ค่ะ', 'นะ', 'คะ', 'ครับผม', 'พวก',
-    'ใช้', 'สามารถ', 'ต้อง', 'ผ่าน', 'เปลี่ยน', 'ปรับ', 'ระดับ', 'ชิ้น', 'งาน'
-]);
-
-let thSegmenter = null;
-try {
-    if (typeof Intl !== 'undefined' && Intl.Segmenter) {
-        thSegmenter = new Intl.Segmenter('th', { granularity: 'word' });
-    }
-} catch (e) {
-    console.warn('Intl.Segmenter init failed:', e);
-}
-
-// Segment query into words using native Intl.Segmenter (optimized for performance)
-function segmentText(text) {
-    if (thSegmenter) {
-        try {
-            const result = [];
-            for (const s of thSegmenter.segment(text)) {
-                if (s.isWordLike) {
-                    const clean = s.segment.toLowerCase().trim();
-                    if (clean.length > 0) result.push(clean);
-                }
-            }
-            return result;
-        } catch (e) {
-            console.warn('Intl.Segmenter failed, falling back to regex', e);
-        }
-    }
-    // Fallback split by spaces and common punctuation
-    return text.toLowerCase()
-        .split(/[\s\d\p{P}]+/u)
-        .filter(s => s.length > 0);
-}
-
-// Helper to generate n-grams of adjacent words to capture compound terms and transliterations
-function getMergedTerms(words) {
-    const terms = [...words];
-    for (let i = 0; i < words.length - 1; i++) {
-        terms.push(words[i] + words[i+1]);
-        if (i < words.length - 2) {
-            terms.push(words[i] + words[i+1] + words[i+2]);
-        }
-    }
-    return [...new Set(terms)];
-}
-
-const SMART_INDEX_CACHE_KEY = 'bigdata_smart_index_cache';
-function saveSmartIndexToCache(index) {
-    try {
-        const serialized = {
-            thaiEngPairs: Array.from(index.thaiEngPairs.entries()).map(([k, v]) => [k, Array.from(v)]),
-            engThaiPairs: Array.from(index.engThaiPairs.entries()).map(([k, v]) => [k, Array.from(v)]),
-            consonantMap: Array.from(index.consonantMap.entries()).map(([k, v]) => [k, Array.from(v)]),
-            cooccurrence: Array.from(index.cooccurrence.entries()),
-            timestamp: Date.now()
-        };
-        localStorage.setItem(SMART_INDEX_CACHE_KEY, JSON.stringify(serialized));
-    } catch (e) {
-        console.warn('Failed to save smart index to cache:', e);
-    }
-}
-
-function loadSmartIndexFromCache() {
-    try {
-        const cached = localStorage.getItem(SMART_INDEX_CACHE_KEY);
-        if (cached) {
-            const data = JSON.parse(cached);
-            const thaiEngPairs = new Map(data.thaiEngPairs.map(([k, v]) => [k, new Set(v)]));
-            const engThaiPairs = new Map(data.engThaiPairs.map(([k, v]) => [k, new Set(v)]));
-            const consonantMap = new Map(data.consonantMap.map(([k, v]) => [k, new Set(v)]));
-            const cooccurrence = new Map(data.cooccurrence);
-            return { thaiEngPairs, engThaiPairs, consonantMap, cooccurrence };
-        }
-    } catch (e) {
-        console.warn('Failed to load smart index from cache:', e);
-    }
-    return null;
-}
-
-// ============= SMART SEMANTIC SEARCH ENGINE =============
-// Self-learning: builds intelligence from database automatically
-// No AI API, no internet, free 100%
-
-const CORE_SYNONYMS = [
-    ['ไม่สบาย', 'ป่วย', 'เจ็บไข้', 'ตัวร้อน', 'มีไข้', 'เป็นไข้', 'ไข้'],
-    ['กิน', 'ดื่ม', 'รับประทาน', 'บริโภค', 'ทาน', 'กระหาย'],
-    ['ตาย', 'เสียชีวิต', 'สิ้นใจ', 'ดับ', 'วายชนม์', 'มรณะ'],
-    ['เจ็บ', 'ปวด', 'เจ็บปวด', 'แสบ', 'เจ็บแปลบ'],
-    ['แก่', 'ชรา', 'สูงอายุ', 'แก่ชรา', 'วัยชรา', 'อายุมาก', 'แก่ตัว', 'แก่เร็ว'],
-    ['ยา', 'เวชภัณฑ์', 'ตัวยา', 'ยารักษา'],
-    ['หมอ', 'แพทย์', 'นายแพทย์', 'คุณหมอ', 'อายุรแพทย์'],
-    ['โรค', 'เชื้อโรค', 'โรคภัย', 'เจ็บป่วย', 'อาการป่วย'],
-    ['เงิน', 'สกุลเงิน', 'เงินตรา', 'ค่าเงิน', 'ธนบัตร'],
-    ['กลัว', 'หวาด', 'หวาดกลัว', 'ตกใจ', 'สะดุ้ง', 'ขนลุก'],
-    ['เหนื่อย', 'อ่อนเพลีย', 'อ่อนล้า', 'เพลีย', 'ล้า'],
-    ['อ้วน', 'น้ำหนักเกิน', 'โรคอ้วน', 'อวบ', 'ท้วม'],
-    ['ร้อน', 'อุณหภูมิสูง', 'ความร้อน', 'ร้อนจัด'],
-    ['หนาว', 'เย็น', 'อุณหภูมิต่ำ', 'หนาวจัด', 'เหน็บหนาว'],
-    ['แรง', 'พลัง', 'กำลัง', 'เรี่ยวแรง', 'พลังงาน'],
-    ['เร็ว', 'ไว', 'รวดเร็ว', 'ฉับไว', 'ว่องไว'],
-    ['ใหญ่', 'มหึมา', 'ยิ่งใหญ่', 'ขนาดใหญ่'],
-    ['เล็ก', 'จิ๋ว', 'เล็กน้อย', 'ขนาดเล็ก'],
-    ['อันตราย', 'เสี่ยง', 'เสี่ยงอันตราย', 'มีอันตราย'],
-    ['ฆ่า', 'สังหาร', 'ฆาตกรรม', 'ปลิดชีพ'],
-    ['ลงทุน', 'เทรด', 'การลงทุน', 'ซื้อขาย'],
-    ['สมอง', 'มันสมอง', 'ระบบประสาท'],
-    ['นอน', 'หลับ', 'นอนหลับ', 'พักผ่อน', 'งีบ'],
-    ['ออกกำลังกาย', 'วิ่ง', 'แอโรบิค', 'แอโรบิก', 'กีฬา', 'ฟิตเนส'],
-    ['อาหาร', 'ของกิน', 'มื้ออาหาร', 'โภชนาการ'],
-    ['อาวุธ', 'ปืน', 'กระสุน', 'ระเบิด'],
-    ['ต่อสู้', 'ชก', 'เตะ', 'ต่อย', 'มวย'],
-    ['ผิวหนัง', 'ผิว', 'หนังกำพร้า', 'ชั้นผิว'],
-    ['ดวงอาทิตย์', 'แสงแดด', 'แดด', 'พลังงานแสง'],
-    ['ทะเล', 'มหาสมุทร', 'น้ำทะเล', 'สมุทร'],
-];
-
-// Transliteration boost: common Thai-English terms that may not appear together in the same data entry
-// Auto-extraction handles same-entry pairs; this covers cross-entry pairs
-const TRANSLITERATION_BOOST = new Map([
-    ['บิทคอยน์', ['bitcoin']], ['บิตคอยน์', ['bitcoin']], ['bitcoin', ['บิทคอยน์', 'บิตคอยน์']],
-    ['บล็อกเชน', ['blockchain']], ['บล็อคเชน', ['blockchain']], ['blockchain', ['บล็อกเชน', 'บล็อคเชน']],
-    ['คริปโต', ['crypto', 'cryptocurrency']], ['crypto', ['คริปโต']], ['cryptocurrency', ['คริปโต']],
-    ['อีเธอเรียม', ['ethereum']], ['ethereum', ['อีเธอเรียม']],
-    ['โดปามีน', ['dopamine']], ['dopamine', ['โดปามีน']],
-    ['เซโรโทนิน', ['serotonin']], ['serotonin', ['เซโรโทนิน']],
-    ['อัลไซเมอร์', ['alzheimer']], ['alzheimer', ['อัลไซเมอร์']],
-    ['พาราเซตามอล', ['paracetamol']], ['paracetamol', ['พาราเซตามอล']],
-    ['แอโรบิค', ['aerobic']], ['แอโรบิก', ['aerobic']], ['aerobic', ['แอโรบิค', 'แอโรบิก']],
-    ['ดีเอ็นเอ', ['dna']], ['dna', ['ดีเอ็นเอ']],
-    ['วิตามิน', ['vitamin']], ['vitamin', ['วิตามิน']],
-    ['โปรตีน', ['protein']], ['protein', ['โปรตีน']],
-    ['แคลเซียม', ['calcium']], ['calcium', ['แคลเซียม']],
-    ['ออกซิเจน', ['oxygen']], ['oxygen', ['ออกซิเจน']],
-    ['ไฮโดรเจน', ['hydrogen']], ['hydrogen', ['ไฮโดรเจน']],
-    ['โครโมโซม', ['chromosome']], ['chromosome', ['โครโมโซม']],
-    ['ฟอสฟอรัส', ['phosphorus']], ['phosphorus', ['ฟอสฟอรัส']],
-    ['มะเร็ง', ['cancer']], ['cancer', ['มะเร็ง']],
-    ['เบาหวาน', ['diabetes']], ['diabetes', ['เบาหวาน']],
-    ['อินซูลิน', ['insulin']], ['insulin', ['อินซูลิน']],
-    ['คอเลสเตอรอล', ['cholesterol']], ['cholesterol', ['คอเลสเตอรอล']],
-    ['โยคะ', ['yoga']], ['yoga', ['โยคะ']],
-    ['คาเฟอีน', ['caffeine']], ['caffeine', ['คาเฟอีน']],
-    ['เทโลเมียร์', ['telomere']], ['telomere', ['เทโลเมียร์']],
-]);
-
-let smartIndex = null;
-
-function getConsonantSkeleton(word) {
-    const SOUND_MAP = {
-        'ก':'k','ข':'k','ฃ':'k','ค':'k','ฅ':'k','ฆ':'k',
-        'ง':'g',
-        'จ':'c','ฉ':'c','ช':'c','ฌ':'c',
-        'ซ':'s','ศ':'s','ษ':'s','ส':'s',
-        'ญ':'y',
-        'ฎ':'t','ฏ':'t','ฐ':'t','ฑ':'t','ฒ':'t',
-        'ณ':'n','น':'n',
-        'ด':'t','ต':'t','ถ':'t','ท':'t','ธ':'t',
-        'บ':'b','ป':'p','ผ':'p','พ':'p','ภ':'p','ฝ':'f','ฟ':'f',
-        'ม':'m','ย':'y','ร':'r','ล':'l','ว':'w',
-        'ห':'h','ฬ':'l','อ':'q','ฮ':'h'
-    };
-    
-    // Silence Thai characters followed by garan (์) to align spellings (e.g. บิทคอยน์ -> บิทคอย)
-    const cleanedWord = word.replace(/.[์]/g, '').toLowerCase();
-    
-    let skeleton = '';
-    for (const ch of cleanedWord) {
-        if (SOUND_MAP[ch]) {
-            skeleton += SOUND_MAP[ch];
-        } else if (/[a-zA-Z]/.test(ch)) {
-            skeleton += ch.toLowerCase();
-        }
-    }
-    return skeleton;
-}
-
-// Build Smart Index asynchronously in chunks to prevent UI locking/blocking
-async function buildSmartIndex(itemsList, forceRebuild = false) {
-    console.time('buildSmartIndex');
-    
-    if (!forceRebuild) {
-        const cached = loadSmartIndexFromCache();
-        if (cached) {
-            smartIndex = cached;
-            console.log('Smart Index loaded from cache successfully.');
             console.timeEnd('buildSmartIndex');
-            return;
+            console.log(`Smart Index built: ${thaiEngPairs.size} pairs, ${consonantMap.size} skeletons, ${filteredCo.size} co-occurrence`);
+
+            // Re-run search if query is currently active
+            if (searchInput.value.trim().length > 0) {
+                performSearch(searchInput.value);
+            }
         }
-    }
 
-    const thaiEngPairs = new Map();
-    const engThaiPairs = new Map();
-    const consonantMap = new Map();
-    const cooccurrence = new Map();
+        function expandQuerySmart(queryWords, rawQuery) {
+            if (!smartIndex) return { original: queryWords, expanded: [], map: {} };
 
-    const addPair = (thai, eng) => {
-        const tl = thai.toLowerCase().trim();
-        const el = eng.toLowerCase().trim();
-        if (tl.length < 2 || el.length < 2) return;
-        if (!thaiEngPairs.has(tl)) thaiEngPairs.set(tl, new Set());
-        thaiEngPairs.get(tl).add(el);
-        if (!engThaiPairs.has(el)) engThaiPairs.set(el, new Set());
-        engThaiPairs.get(el).add(tl);
-    };
+            const expanded = new Set();
+            const map = {};
+            const rawLower = rawQuery ? rawQuery.toLowerCase().trim() : '';
 
-    // Safe optimized regexes to extract Thai-English pairs (linear time, no backtracking)
-    const r1 = /([\u0E01-\u0E4F\s]+)\s*[\(（]([A-Za-z0-9\s\-'\.]+)[\)）]/g;
-    const r2 = /([A-Za-z0-9\s\-'\.]+)\s*[\(（]([\u0E01-\u0E4F\s]+)[\)）]/g;
-    const r3 = /([\u0E01-\u0E4F]{2,})\s+([A-Z][a-zA-Z0-9]{2,})/g;
-    const r4 = /([A-Z][a-zA-Z0-9]{2,})\s+([\u0E01-\u0E4F]{2,})/g;
+            // Generate merged terms from queryWords (only for user query lookup)
+            const queryTerms = getMergedTerms(queryWords);
 
-    const chunkSize = 1500;
-    for (let i = 0; i < itemsList.length; i += chunkSize) {
-        const chunk = itemsList.slice(i, i + chunkSize);
-        
-        for (const item of chunk) {
-            const text = item.text;
-
-            // Pattern Match (Bypassed if text does not contain brackets or uppercase letters)
-            if (text.includes('(') || text.includes('（')) {
-                for (const m of text.matchAll(r1)) addPair(m[1], m[2]);
-                for (const m of text.matchAll(r2)) addPair(m[2], m[1]);
-            }
-            if (/[A-Z]/.test(text)) {
-                for (const m of text.matchAll(r3)) addPair(m[1], m[2]);
-                for (const m of text.matchAll(r4)) addPair(m[2], m[1]);
-            }
-
-            const words = segmentText(text);
-            const sigWords = words.filter(w => !THAI_STOP_WORDS.has(w) && w.length >= 2);
-
-            // Index only the segmented words (NO MERGES in database items to prevent massive index)
-            sigWords.forEach(w => {
-                if (/[\u0E01-\u0E2E]/.test(w) && w.length >= 4) {
-                    const sk = getConsonantSkeleton(w);
-                    if (sk.length >= 3) {
-                        if (!consonantMap.has(sk)) consonantMap.set(sk, new Set());
-                        consonantMap.get(sk).add(w);
+            // 1. Direct Transliteration Lookup (using merged terms)
+            for (const term of queryTerms) {
+                if (TRANSLITERATION_BOOST.has(term)) {
+                    for (const trans of TRANSLITERATION_BOOST.get(term)) {
+                        if (!queryWords.includes(trans) && !expanded.has(trans)) {
+                            expanded.add(trans);
+                            map[trans] = { source: 'thai-eng', from: term, label: `${term} → ${trans}` };
+                        }
                     }
                 }
-            });
-
-            // Co-occurrence
-            const coWords = sigWords.slice(0, 10);
-            for (let j = 0; j < coWords.length; j++) {
-                for (let k = j + 1; k < coWords.length; k++) {
-                    const w1 = coWords[j], w2 = coWords[k];
-                    if (w1 === w2) continue;
-                    if (!cooccurrence.has(w1)) cooccurrence.set(w1, new Map());
-                    cooccurrence.get(w1).set(w2, (cooccurrence.get(w1).get(w2) || 0) + 1);
-                    if (!cooccurrence.has(w2)) cooccurrence.set(w2, new Map());
-                    cooccurrence.get(w2).set(w1, (cooccurrence.get(w2).get(w1) || 0) + 1);
-                }
             }
-        }
-        
-        // Yield to the browser main thread to keep UI completely responsive
-        await new Promise(resolve => setTimeout(resolve, 0));
-    }
 
-    const filteredCo = new Map();
-    for (const [word, relMap] of cooccurrence) {
-        const top = [...relMap.entries()]
-            .filter(([_, c]) => c >= 3)
-            .sort((a, b) => b[1] - a[1])
-            .slice(0, 5)
-            .map(([w]) => w);
-        if (top.length > 0) filteredCo.set(word, top);
-    }
-
-    smartIndex = { thaiEngPairs, engThaiPairs, consonantMap, cooccurrence: filteredCo };
-    saveSmartIndexToCache(smartIndex);
-    
-    console.timeEnd('buildSmartIndex');
-    console.log(`Smart Index built: ${thaiEngPairs.size} pairs, ${consonantMap.size} skeletons, ${filteredCo.size} co-occurrence`);
-    
-    // Re-run search if query is currently active
-    if (searchInput.value.trim().length > 0) {
-        performSearch(searchInput.value);
-    }
-}
-
-function expandQuerySmart(queryWords, rawQuery) {
-    if (!smartIndex) return { original: queryWords, expanded: [], map: {} };
-
-    const expanded = new Set();
-    const map = {};
-    const rawLower = rawQuery ? rawQuery.toLowerCase().trim() : '';
-
-    // Generate merged terms from queryWords (only for user query lookup)
-    const queryTerms = getMergedTerms(queryWords);
-
-    // 1. Direct Transliteration Lookup (using merged terms)
-    for (const term of queryTerms) {
-        if (TRANSLITERATION_BOOST.has(term)) {
-            for (const trans of TRANSLITERATION_BOOST.get(term)) {
-                if (!queryWords.includes(trans) && !expanded.has(trans)) {
-                    expanded.add(trans);
-                    map[trans] = { source: 'thai-eng', from: term, label: `${term} → ${trans}` };
-                }
-            }
-        }
-    }
-
-    // 2. Core Synonym Group Lookup (using merged terms)
-    for (const term of queryTerms) {
-        for (const group of CORE_SYNONYMS) {
-            if (group.some(s => s === term)) {
-                for (const syn of group) {
-                    if (syn !== term && !queryWords.includes(syn) && !expanded.has(syn)) {
-                        expanded.add(syn);
-                        map[syn] = { source: 'synonym', from: term, label: `${term} ≈ ${syn}` };
+            // 2. Core Synonym Group Lookup (using merged terms)
+            for (const term of queryTerms) {
+                for (const group of CORE_SYNONYMS) {
+                    if (group.some(s => s === term)) {
+                        for (const syn of group) {
+                            if (syn !== term && !queryWords.includes(syn) && !expanded.has(syn)) {
+                                expanded.add(syn);
+                                map[syn] = { source: 'synonym', from: term, label: `${term} ≈ ${syn}` };
+                            }
+                        }
+                        break;
                     }
                 }
-                break;
             }
-        }
-    }
 
-    // 3. Consonant Skeleton Group Lookup & Transitive Transliterations (using merged terms)
-    for (const term of queryTerms) {
-        if (/[\u0E01-\u0E2E]/.test(term) && term.length >= 3) {
-            const sk = getConsonantSkeleton(term);
-            if (sk.length >= 2 && smartIndex.consonantMap.has(sk)) {
-                for (const similar of smartIndex.consonantMap.get(sk)) {
-                    if (similar !== term && !queryWords.includes(similar) && !expanded.has(similar) && Math.abs(similar.length - term.length) <= 3) {
-                        expanded.add(similar);
-                        map[similar] = { source: 'consonant', from: term, label: `${term} ≈ ${similar}` };
-                        
-                        // TRANSITIVE TRANSLITERATION (e.g. บิทคอย -> similarity match บิทคอยน์ -> transliteration bitcoin)
-                        if (TRANSLITERATION_BOOST.has(similar)) {
-                            for (const trans of TRANSLITERATION_BOOST.get(similar)) {
-                                if (!queryWords.includes(trans) && !expanded.has(trans)) {
-                                    expanded.add(trans);
-                                    map[trans] = { source: 'thai-eng', from: term, label: `${term} → ${trans}` };
+            // 3. Consonant Skeleton Group Lookup & Transitive Transliterations (using merged terms)
+            for (const term of queryTerms) {
+                if (/[\u0E01-\u0E2E]/.test(term) && term.length >= 3) {
+                    const sk = getConsonantSkeleton(term);
+                    if (sk.length >= 2 && smartIndex.consonantMap.has(sk)) {
+                        for (const similar of smartIndex.consonantMap.get(sk)) {
+                            if (similar !== term && !queryWords.includes(similar) && !expanded.has(similar) && Math.abs(similar.length - term.length) <= 3) {
+                                expanded.add(similar);
+                                map[similar] = { source: 'consonant', from: term, label: `${term} ≈ ${similar}` };
+
+                                // TRANSITIVE TRANSLITERATION (e.g. บิทคอย -> similarity match บิทคอยน์ -> transliteration bitcoin)
+                                if (TRANSLITERATION_BOOST.has(similar)) {
+                                    for (const trans of TRANSLITERATION_BOOST.get(similar)) {
+                                        if (!queryWords.includes(trans) && !expanded.has(trans)) {
+                                            expanded.add(trans);
+                                            map[trans] = { source: 'thai-eng', from: term, label: `${term} → ${trans}` };
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
-        }
-    }
 
-    // 4. Co-occurrence Group Lookup (using individual words to prevent noise)
-    for (const word of queryWords) {
-        if (THAI_STOP_WORDS.has(word) || word.length < 2) continue;
-        const wl = word.toLowerCase();
-        if (smartIndex.cooccurrence.has(wl)) {
-            const related = smartIndex.cooccurrence.get(wl);
-            for (const rw of related.slice(0, 3)) {
-                if (!queryWords.includes(rw) && !expanded.has(rw)) {
-                    expanded.add(rw);
-                    map[rw] = { source: 'cooccurrence', from: word, label: `${word} ↔ ${rw}` };
+            // 4. Co-occurrence Group Lookup (using individual words to prevent noise)
+            for (const word of queryWords) {
+                if (THAI_STOP_WORDS.has(word) || word.length < 2) continue;
+                const wl = word.toLowerCase();
+                if (smartIndex.cooccurrence.has(wl)) {
+                    const related = smartIndex.cooccurrence.get(wl);
+                    for (const rw of related.slice(0, 3)) {
+                        if (!queryWords.includes(rw) && !expanded.has(rw)) {
+                            expanded.add(rw);
+                            map[rw] = { source: 'cooccurrence', from: word, label: `${word} ↔ ${rw}` };
+                        }
+                    }
                 }
             }
-        }
-    }
 
-    // 5. Check rawQuery against TRANSLITERATION_BOOST directly as fallback
-    if (rawLower.length >= 2 && TRANSLITERATION_BOOST.has(rawLower)) {
-        for (const trans of TRANSLITERATION_BOOST.get(rawLower)) {
-            if (!expanded.has(trans)) {
-                expanded.add(trans);
-                map[trans] = { source: 'thai-eng', from: rawLower, label: `${rawQuery.trim()} → ${trans}` };
-            }
-        }
-    }
-
-    return { original: queryWords, expanded: [...expanded], map };
-}
-
-// Calculate relevance score between query words and database item text
-function calculateScore(itemText, queryWords, rawQuery, expandedInfo) {
-    const textLower = itemText.toLowerCase();
-    let score = 0;
-    let matchCount = 0;
-    let matchedWords = [];
-
-    // 1. Exact substring matching (huge priority)
-    if (textLower.includes(rawQuery.toLowerCase())) {
-        score += 2000;
-        if (textLower === rawQuery.toLowerCase()) {
-            score += 3000;
-        }
-    }
-
-    // 2. Score based on each word in query
-    queryWords.forEach((word, index) => {
-        const pos = textLower.indexOf(word);
-        if (pos !== -1) {
-            matchCount++;
-            matchedWords.push(word);
-            
-            // Stop-words get extremely low weight
-            let weight = 1.0;
-            if (THAI_STOP_WORDS.has(word) || word.length < 2) {
-                weight = 0.05;
+            // 5. Check rawQuery against TRANSLITERATION_BOOST directly as fallback
+            if (rawLower.length >= 2 && TRANSLITERATION_BOOST.has(rawLower)) {
+                for (const trans of TRANSLITERATION_BOOST.get(rawLower)) {
+                    if (!expanded.has(trans)) {
+                        expanded.add(trans);
+                        map[trans] = { source: 'thai-eng', from: rawLower, label: `${rawQuery.trim()} → ${trans}` };
+                    }
+                }
             }
 
-            // Base word match points
-            score += weight * 1000;
+            return { original: queryWords, expanded: [...expanded], map };
+        }
 
-            // First word matched gets additional weight
-            if (index === 0) {
-                score += weight * 150;
+        // Calculate relevance score between query words and database item text
+        function calculateScore(itemText, queryWords, rawQuery, expandedInfo) {
+            const textLower = itemText.toLowerCase();
+            let score = 0;
+            let matchCount = 0;
+            let matchedWords = [];
+
+            // 1. Exact substring matching (huge priority)
+            if (textLower.includes(rawQuery.toLowerCase())) {
+                score += 2000;
+                if (textLower === rawQuery.toLowerCase()) {
+                    score += 3000;
+                }
             }
 
-            // Match closer to the beginning of the text is better
-            score += (weight * 100 / (pos + 1));
-        }
-    });
+            // 2. Score based on each word in query
+            queryWords.forEach((word, index) => {
+                const pos = textLower.indexOf(word);
+                if (pos !== -1) {
+                    matchCount++;
+                    matchedWords.push(word);
 
-    // 3. Sequential order bonus
-    if (matchedWords.length > 1) {
-        let lastPos = -1;
-        let inOrderCount = 0;
-        let isSequential = true;
-        
-        for (const word of matchedWords) {
-            const currentPos = textLower.indexOf(word);
-            if (currentPos > lastPos) {
-                inOrderCount++;
+                    // Stop-words get extremely low weight
+                    let weight = 1.0;
+                    if (THAI_STOP_WORDS.has(word) || word.length < 2) {
+                        weight = 0.05;
+                    }
+
+                    // Base word match points
+                    score += weight * 1000;
+
+                    // First word matched gets additional weight
+                    if (index === 0) {
+                        score += weight * 150;
+                    }
+
+                    // Match closer to the beginning of the text is better
+                    score += (weight * 100 / (pos + 1));
+                }
+            });
+
+            // 3. Sequential order bonus
+            if (matchedWords.length > 1) {
+                let lastPos = -1;
+                let inOrderCount = 0;
+                let isSequential = true;
+
+                for (const word of matchedWords) {
+                    const currentPos = textLower.indexOf(word);
+                    if (currentPos > lastPos) {
+                        inOrderCount++;
+                    } else {
+                        isSequential = false;
+                    }
+                    lastPos = currentPos;
+                }
+
+                if (inOrderCount === matchedWords.length) {
+                    score += 300;
+                }
+                if (isSequential) {
+                    score += 200;
+                }
+            }
+
+            // 4. Density bonus (prefer shorter matches for the same number of words matched)
+            if (matchCount > 0) {
+                score += (200 * matchCount / (itemText.length + 1));
+            }
+
+            // 5. Smart Semantic Expansion matching
+            let semanticMatchedWords = [];
+            if (expandedInfo && expandedInfo.expanded.length > 0) {
+                for (const expWord of expandedInfo.expanded) {
+                    const expLower = expWord.toLowerCase();
+                    const pos = textLower.indexOf(expLower);
+                    if (pos !== -1) {
+                        semanticMatchedWords.push(expWord);
+                        const info = expandedInfo.map[expWord];
+                        let weight = 0.4;
+                        if (info) {
+                            if (info.source === 'thai-eng') weight = 0.6;
+                            else if (info.source === 'synonym') weight = 0.5;
+                            else if (info.source === 'consonant') weight = 0.55;
+                            else if (info.source === 'cooccurrence') weight = 0.35;
+                        }
+                        score += weight * 500;
+                    }
+                }
+            }
+
+            return {
+                score,
+                matchCount,
+                matchedWords,
+                semanticMatchedWords
+            };
+        }
+
+        function is100PercentMatch(itemText, query) {
+            if (!itemText || !query) return false;
+            const normalize = (str) => {
+                return str.trim().toLowerCase()
+                    .replace(/['"`‘’“”]/g, '')
+                    .replace(/\s+/g, '');
+            };
+            return normalize(itemText) === normalize(query);
+        }
+
+        function performSearch(query) {
+            const q = query.trim();
+            if (!q) {
+                resultsDiv.innerHTML = '';
+                document.getElementById('smart-expansion-info').style.display = 'none';
+
+                const videoCount = items.filter(i => i.type === 'video').length;
+                const textCount = items.filter(i => i.type === 'text').length;
+                searchStatus.innerHTML = `โหลดเสร็จสิ้น | มีวิดีโอ <span style="color:#fff;font-weight:600">${videoCount.toLocaleString()}</span> รายการ, ข้อความ <span style="color:#fff;font-weight:600">${textCount.toLocaleString()}</span> รายการ`;
+
+                if (wasLoadedWithQuery) {
+                    const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+                    window.history.replaceState({ path: cleanUrl }, '', cleanUrl);
+                }
+                return;
+            }
+
+            // Segment query words
+            const queryWords = segmentText(q);
+            if (queryWords.length === 0) {
+                resultsDiv.innerHTML = '';
+                return;
+            }
+
+            // Smart Semantic Expansion
+            const expandedInfo = expandQuerySmart(queryWords, q);
+
+            // Show expansion pills
+            const expansionInfoEl = document.getElementById('smart-expansion-info');
+            const hasQ = new URLSearchParams(window.location.search).has('q');
+            if (expandedInfo.expanded.length > 0 && !hasQ) {
+                const pills = expandedInfo.expanded.slice(0, 8).map(w => {
+                    const info = expandedInfo.map[w];
+                    const icon = info.source === 'thai-eng' ? '🔤' : info.source === 'synonym' ? '🔗' : info.source === 'consonant' ? '✏️' : '🧠';
+                    return `<span class="smart-badge">${icon} ${info.label}</span>`;
+                }).join('');
+                const moreCount = expandedInfo.expanded.length > 8 ? ` <span class="smart-label">+${expandedInfo.expanded.length - 8} อื่นๆ</span>` : '';
+                expansionInfoEl.innerHTML = `<span class="smart-label">🧠 Smart Search:</span>${pills}${moreCount}`;
+                expansionInfoEl.style.display = 'flex';
             } else {
-                isSequential = false;
+                expansionInfoEl.style.display = 'none';
             }
-            lastPos = currentPos;
-        }
-        
-        if (inOrderCount === matchedWords.length) {
-            score += 300; 
-        }
-        if (isSequential) {
-            score += 200; 
-        }
-    }
 
-    // 4. Density bonus (prefer shorter matches for the same number of words matched)
-    if (matchCount > 0) {
-        score += (200 * matchCount / (itemText.length + 1));
-    }
+            // Check if the query has any content words
+            const contentWords = queryWords.filter(w => !THAI_STOP_WORDS.has(w) && w.length >= 2);
+            const hasContentWords = contentWords.length > 0;
 
-    // 5. Smart Semantic Expansion matching
-    let semanticMatchedWords = [];
-    if (expandedInfo && expandedInfo.expanded.length > 0) {
-        for (const expWord of expandedInfo.expanded) {
-            const expLower = expWord.toLowerCase();
-            const pos = textLower.indexOf(expLower);
-            if (pos !== -1) {
-                semanticMatchedWords.push(expWord);
-                const info = expandedInfo.map[expWord];
-                let weight = 0.4;
-                if (info) {
-                    if (info.source === 'thai-eng') weight = 0.6;
-                    else if (info.source === 'synonym') weight = 0.5;
-                    else if (info.source === 'consonant') weight = 0.55;
-                    else if (info.source === 'cooccurrence') weight = 0.35;
+            let filtered = items;
+            if (currentFilter !== 'all') {
+                filtered = items.filter(item => item.type === currentFilter);
+            }
+
+            const results = [];
+            for (const item of filtered) {
+                const scoreInfo = calculateScore(item.text, queryWords, q, expandedInfo);
+
+                if (scoreInfo.score > 0) {
+                    // If searched via URL and matches initial URL query, exclude 100% matches
+                    if (wasLoadedWithQuery && initialUrlQuery && is100PercentMatch(item.text, initialUrlQuery) && is100PercentMatch(item.text, q)) {
+                        continue;
+                    }
+                    // Noise reduction: 
+                    // If the search query has content words, the document must match at least one content word or have semantic matches
+                    if (hasContentWords) {
+                        const hasMatchingContentWord = scoreInfo.matchedWords.some(w => contentWords.includes(w));
+                        const hasSemanticMatch = scoreInfo.semanticMatchedWords && scoreInfo.semanticMatchedWords.length > 0;
+                        if (!hasMatchingContentWord && !hasSemanticMatch) continue;
+                    }
+
+                    const uniqueMatchedWords = [...new Set(scoreInfo.matchedWords || [])];
+                    const contentQueryWords = [...new Set(queryWords.filter(w => !THAI_STOP_WORDS.has(w) && w.length >= 2))];
+                    const contentMatchedWords = uniqueMatchedWords.filter(w => !THAI_STOP_WORDS.has(w) && w.length >= 2);
+
+                    const totalCount = contentQueryWords.length > 0 ? contentQueryWords.length : [...new Set(queryWords)].length;
+                    const matchedCount = contentQueryWords.length > 0 ? contentMatchedWords.length : uniqueMatchedWords.length;
+                    const semanticBonus = (scoreInfo.semanticMatchedWords && scoreInfo.semanticMatchedWords.length > 0) ? 0.3 : 0;
+                    const ratio = totalCount > 0 ? Math.min(1, (matchedCount / totalCount) + semanticBonus) : 0;
+
+                    // If loaded with URL query, filter strictly by word match accuracy (without semantic bonus)
+                    const wordMatchRatio = totalCount > 0 ? (matchedCount / totalCount) : 0;
+                    if (wasLoadedWithQuery && wordMatchRatio < 0.45) continue;
+
+                    // Otherwise, apply normal ratio filter (including semantic bonus) for normal searches
+                    if (!wasLoadedWithQuery && ratio < 0.15) continue;
+
+                    results.push({
+                        ...item,
+                        score: scoreInfo.score,
+                        matchedWords: scoreInfo.matchedWords,
+                        semanticMatchedWords: scoreInfo.semanticMatchedWords || [],
+                        ratio: ratio,
+                        totalCount: totalCount,
+                        matchedCount: matchedCount
+                    });
                 }
-                score += weight * 500;
             }
-        }
-    }
 
-    return {
-        score,
-        matchCount,
-        matchedWords,
-        semanticMatchedWords
-    };
-}
+            // Sort descending by score
+            results.sort((a, b) => b.score - a.score);
 
-function is100PercentMatch(itemText, query) {
-    if (!itemText || !query) return false;
-    const normalize = (str) => {
-        return str.trim().toLowerCase()
-            .replace(/['"`‘’“”]/g, '')
-            .replace(/\s+/g, '');
-    };
-    return normalize(itemText) === normalize(query);
-}
+            const baseUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+            const searchUrl = baseUrl + '?q=' + encodeURIComponent(q);
+            const embedUrl = baseUrl + '?q=' + encodeURIComponent(q) + '&embed=true';
 
-function performSearch(query) {
-    const q = query.trim();
-    if (!q) {
-        resultsDiv.innerHTML = '';
-        document.getElementById('smart-expansion-info').style.display = 'none';
-        
-        const videoCount = items.filter(i => i.type === 'video').length;
-        const textCount = items.filter(i => i.type === 'text').length;
-        searchStatus.innerHTML = `โหลดเสร็จสิ้น | มีวิดีโอ <span style="color:#fff;font-weight:600">${videoCount.toLocaleString()}</span> รายการ, ข้อความ <span style="color:#fff;font-weight:600">${textCount.toLocaleString()}</span> รายการ`;
-        
-        if (wasLoadedWithQuery) {
-            const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
-            window.history.replaceState({ path: cleanUrl }, '', cleanUrl);
-        }
-        return;
-    }
-    
-    // Segment query words
-    const queryWords = segmentText(q);
-    if (queryWords.length === 0) {
-        resultsDiv.innerHTML = '';
-        return;
-    }
-    
-    // Smart Semantic Expansion
-    const expandedInfo = expandQuerySmart(queryWords, q);
-    
-    // Show expansion pills
-    const expansionInfoEl = document.getElementById('smart-expansion-info');
-    const hasQ = new URLSearchParams(window.location.search).has('q');
-    if (expandedInfo.expanded.length > 0 && !hasQ) {
-        const pills = expandedInfo.expanded.slice(0, 8).map(w => {
-            const info = expandedInfo.map[w];
-            const icon = info.source === 'thai-eng' ? '🔤' : info.source === 'synonym' ? '🔗' : info.source === 'consonant' ? '✏️' : '🧠';
-            return `<span class="smart-badge">${icon} ${info.label}</span>`;
-        }).join('');
-        const moreCount = expandedInfo.expanded.length > 8 ? ` <span class="smart-label">+${expandedInfo.expanded.length - 8} อื่นๆ</span>` : '';
-        expansionInfoEl.innerHTML = `<span class="smart-label">🧠 Smart Search:</span>${pills}${moreCount}`;
-        expansionInfoEl.style.display = 'flex';
-    } else {
-        expansionInfoEl.style.display = 'none';
-    }
-    
-    // Check if the query has any content words
-    const contentWords = queryWords.filter(w => !THAI_STOP_WORDS.has(w) && w.length >= 2);
-    const hasContentWords = contentWords.length > 0;
-    
-    let filtered = items;
-    if (currentFilter !== 'all') {
-        filtered = items.filter(item => item.type === currentFilter);
-    }
-    
-    const results = [];
-    for (const item of filtered) {
-        const scoreInfo = calculateScore(item.text, queryWords, q, expandedInfo);
-        
-        if (scoreInfo.score > 0) {
-            // If searched via URL and matches initial URL query, exclude 100% matches
-            if (wasLoadedWithQuery && initialUrlQuery && is100PercentMatch(item.text, initialUrlQuery) && is100PercentMatch(item.text, q)) {
-                continue;
+            const embedParam = new URLSearchParams(window.location.search).get('embed');
+            const isEmbedMode = (embedParam === 'true' || embedParam === '1');
+
+            if (wasLoadedWithQuery) {
+                const finalUrl = isEmbedMode ? embedUrl : searchUrl;
+                window.history.replaceState({ path: finalUrl }, '', finalUrl);
             }
-            // Noise reduction: 
-            // If the search query has content words, the document must match at least one content word or have semantic matches
-            if (hasContentWords) {
-                const hasMatchingContentWord = scoreInfo.matchedWords.some(w => contentWords.includes(w));
-                const hasSemanticMatch = scoreInfo.semanticMatchedWords && scoreInfo.semanticMatchedWords.length > 0;
-                if (!hasMatchingContentWord && !hasSemanticMatch) continue;
-            }
-            
-            const uniqueMatchedWords = [...new Set(scoreInfo.matchedWords || [])];
-            const contentQueryWords = [...new Set(queryWords.filter(w => !THAI_STOP_WORDS.has(w) && w.length >= 2))];
-            const contentMatchedWords = uniqueMatchedWords.filter(w => !THAI_STOP_WORDS.has(w) && w.length >= 2);
-            
-            const totalCount = contentQueryWords.length > 0 ? contentQueryWords.length : [...new Set(queryWords)].length;
-            const matchedCount = contentQueryWords.length > 0 ? contentMatchedWords.length : uniqueMatchedWords.length;
-            const semanticBonus = (scoreInfo.semanticMatchedWords && scoreInfo.semanticMatchedWords.length > 0) ? 0.3 : 0;
-            const ratio = totalCount > 0 ? Math.min(1, (matchedCount / totalCount) + semanticBonus) : 0;
-            
-            // If loaded with URL query, filter strictly by word match accuracy (without semantic bonus)
-            const wordMatchRatio = totalCount > 0 ? (matchedCount / totalCount) : 0;
-            if (wasLoadedWithQuery && wordMatchRatio < 0.45) continue;
-            
-            // Otherwise, apply normal ratio filter (including semantic bonus) for normal searches
-            if (!wasLoadedWithQuery && ratio < 0.15) continue;
-            
-            results.push({
-                ...item,
-                score: scoreInfo.score,
-                matchedWords: scoreInfo.matchedWords,
-                semanticMatchedWords: scoreInfo.semanticMatchedWords || [],
-                ratio: ratio,
-                totalCount: totalCount,
-                matchedCount: matchedCount
-            });
+
+            searchStatus.innerHTML = `พบข้อมูลเชื่อมโยง <span style="color:#58a6ff;font-weight:600">${results.length.toLocaleString()}</span> รายการ จากฐานข้อมูลทั้งหมด ${items.length.toLocaleString()} รายการ`;
+
+            renderResults(results.slice(0, 50), queryWords);
         }
-    }
-    
-    // Sort descending by score
-    results.sort((a, b) => b.score - a.score);
-    
-    const baseUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
-    const searchUrl = baseUrl + '?q=' + encodeURIComponent(q);
-    const embedUrl = baseUrl + '?q=' + encodeURIComponent(q) + '&embed=true';
 
-    const embedParam = new URLSearchParams(window.location.search).get('embed');
-    const isEmbedMode = (embedParam === 'true' || embedParam === '1');
+        function renderResults(results, queryWords) {
+            if (results.length === 0) {
+                resultsDiv.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:80px 0;">ไม่พบข้อมูลที่ตรงกับเงื่อนไขการค้นหาของคุณ</div>';
+                return;
+            }
 
-    if (wasLoadedWithQuery) {
-        const finalUrl = isEmbedMode ? embedUrl : searchUrl;
-        window.history.replaceState({ path: finalUrl }, '', finalUrl);
-    }
-    
-    searchStatus.innerHTML = `พบข้อมูลเชื่อมโยง <span style="color:#58a6ff;font-weight:600">${results.length.toLocaleString()}</span> รายการ จากฐานข้อมูลทั้งหมด ${items.length.toLocaleString()} รายการ`;
-    
-    renderResults(results.slice(0, 50), queryWords); 
-}
+            // Group items: Top Matches must have ratio >= 45% (0.45)
+            const topMatches = results.filter(r => r.ratio >= 0.45).slice(0, 3);
+            const relevantResults = results.filter(r => !topMatches.includes(r));
 
-function renderResults(results, queryWords) {
-    if (results.length === 0) {
-        resultsDiv.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:80px 0;">ไม่พบข้อมูลที่ตรงกับเงื่อนไขการค้นหาของคุณ</div>';
-        return;
-    }
+            const grouped = {
+                'Top Matches': topMatches,
+                'Relevant Results': relevantResults
+            };
 
-    // Group items: Top Matches must have ratio >= 45% (0.45)
-    const topMatches = results.filter(r => r.ratio >= 0.45).slice(0, 3);
-    const relevantResults = results.filter(r => !topMatches.includes(r));
+            let html = '';
+            for (const [groupName, groupItems] of Object.entries(grouped)) {
+                if (groupItems.length === 0) continue;
+                html += `<div class="result-group-label">${groupName}</div>`;
 
-    const grouped = {
-        'Top Matches': topMatches,
-        'Relevant Results': relevantResults
-    };
-    
-    let html = '';
-    for (const [groupName, groupItems] of Object.entries(grouped)) {
-        if (groupItems.length === 0) continue;
-        html += `<div class="result-group-label">${groupName}</div>`;
-        
-        groupItems.forEach(item => {
-            const isLineVoom = item.type === 'video' && isLineVoomVideo(item.id);
-            // Apply highlighting for all matched query words
-            let highlightedText = item.text;
-            
-            // Apply semantic highlights first (purple) — from expanded words
-            const uniqueSemanticWords = [...new Set(item.semanticMatchedWords || [])];
-            uniqueSemanticWords.sort((a, b) => b.length - a.length);
-            uniqueSemanticWords.forEach(kw => {
-                if (kw.length >= 2) {
-                    const regex = new RegExp(`(${escapeRegExp(kw)})(?![^<>]*>)`, 'gi');
-                    highlightedText = highlightedText.replace(regex, '<span class="highlight-semantic" title="คำเชื่อมโยง">$1</span>');
-                }
-            });
-            
-            // Apply direct highlights (gold) — from original query words
-            const uniqueMatchedWords = [...new Set(item.matchedWords || [])];
-            uniqueMatchedWords.sort((a, b) => b.length - a.length);
-            uniqueMatchedWords.forEach(kw => {
-                if (kw.length >= 2 || !THAI_STOP_WORDS.has(kw)) {
-                    const regex = new RegExp(`(${escapeRegExp(kw)})(?![^<>]*>)`, 'gi');
-                    highlightedText = highlightedText.replace(regex, '<span class="highlight">$1</span>');
-                }
-            });
-            
-            let iconHtml = '<div class="card-icon">📄</div>';
-            let typeBadge = '<span class="card-badge">Research & Info</span>';
-            
-            if (item.type === 'video') {
-                const isShorts = !isLineVoom && !item.id.includes('?start=');
-                if (isLineVoom) {
-                    iconHtml = `<div class="card-icon line-icon">LINE</div>`;
-                    typeBadge = '<span class="linevoom-badge">LINE Voom</span>';
-                } else {
-                    iconHtml = `<div class="card-icon yt-icon">
+                groupItems.forEach(item => {
+                    const isLineVoom = item.type === 'video' && isLineVoomVideo(item.id);
+                    // Apply highlighting for all matched query words
+                    let highlightedText = item.text;
+
+                    // Apply semantic highlights first (purple) — from expanded words
+                    const uniqueSemanticWords = [...new Set(item.semanticMatchedWords || [])];
+                    uniqueSemanticWords.sort((a, b) => b.length - a.length);
+                    uniqueSemanticWords.forEach(kw => {
+                        if (kw.length >= 2) {
+                            const regex = new RegExp(`(${escapeRegExp(kw)})(?![^<>]*>)`, 'gi');
+                            highlightedText = highlightedText.replace(regex, '<span class="highlight-semantic" title="คำเชื่อมโยง">$1</span>');
+                        }
+                    });
+
+                    // Apply direct highlights (gold) — from original query words
+                    const uniqueMatchedWords = [...new Set(item.matchedWords || [])];
+                    uniqueMatchedWords.sort((a, b) => b.length - a.length);
+                    uniqueMatchedWords.forEach(kw => {
+                        if (kw.length >= 2 || !THAI_STOP_WORDS.has(kw)) {
+                            const regex = new RegExp(`(${escapeRegExp(kw)})(?![^<>]*>)`, 'gi');
+                            highlightedText = highlightedText.replace(regex, '<span class="highlight">$1</span>');
+                        }
+                    });
+
+                    let iconHtml = '<div class="card-icon">📄</div>';
+                    let typeBadge = '<span class="card-badge">Research & Info</span>';
+
+                    if (item.type === 'video') {
+                        const isShorts = !isLineVoom && !item.id.includes('?start=');
+                        if (isLineVoom) {
+                            iconHtml = `<div class="card-icon line-icon">LINE</div>`;
+                            typeBadge = '<span class="linevoom-badge">LINE Voom</span>';
+                        } else {
+                            iconHtml = `<div class="card-icon yt-icon">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 4-8 4z"/></svg>
                     </div>`;
-                    typeBadge = isShorts ? '<span class="shorts-badge">SHORTS</span>' : '<span class="card-badge">YouTube</span>';
-                }
-            }
-            
-            const totalCount = item.totalCount;
-            const matchedCount = item.matchedCount;
-            
-            const relevanceBadge = `<span class="card-badge" style="background: rgba(88, 166, 255, 0.1); color: var(--accent); border: 1px solid rgba(88, 166, 255, 0.2); font-weight: 500;">ตรง ${matchedCount}/${totalCount} คำ (คะแนน ${Math.round(item.score)})</span>`;
-            
-            const metaHtml = item.type === 'video' ? `<span>ID: ${item.id}</span>` : '';
-            
-            const isTopMatch = groupName === 'Top Matches';
-            const cardClass = isTopMatch ? 'result-card high-relevance' : 'result-card';
-            
-            const cardMeta = wasLoadedWithQuery ? '' : `
+                            typeBadge = isShorts ? '<span class="shorts-badge">SHORTS</span>' : '<span class="card-badge">YouTube</span>';
+                        }
+                    }
+
+                    const totalCount = item.totalCount;
+                    const matchedCount = item.matchedCount;
+
+                    const relevanceBadge = `<span class="card-badge" style="background: rgba(88, 166, 255, 0.1); color: var(--accent); border: 1px solid rgba(88, 166, 255, 0.2); font-weight: 500;">ตรง ${matchedCount}/${totalCount} คำ (คะแนน ${Math.round(item.score)})</span>`;
+
+                    const metaHtml = item.type === 'video' ? `<span>ID: ${item.id}</span>` : '';
+
+                    const isTopMatch = groupName === 'Top Matches';
+                    const cardClass = isTopMatch ? 'result-card high-relevance' : 'result-card';
+
+                    const cardMeta = wasLoadedWithQuery ? '' : `
                     <div class="card-meta">
                         ${typeBadge}
                         ${relevanceBadge}
                         ${metaHtml}
                     </div>`;
-            
-            let lineVoomEmbedHtml = '';
-            let cardExtraClass = '';
-            if (isLineVoom) {
-                const lineVoomPostId = getLineVoomPostId(item.id);
-                if (lineVoomPostId) {
-                    cardExtraClass = ' linevoom-card';
-                    lineVoomEmbedHtml = `
-                    <div class="linevoom-embed-inline">
-                        <blockquote class="line_timeline_embedded_post" data-baseurl="https://linevoom.line.me" data-postid="${lineVoomPostId}" data-view-type="B" data-playable data-auto-play style="min-width: 260px; max-width: 464px"></blockquote>
-                    </div>`;
-                }
-            }
 
-            if (lineVoomEmbedHtml) {
-                html += `
+                    let lineVoomEmbedHtml = '';
+                    let cardExtraClass = '';
+                    if (isLineVoom) {
+                        const lineVoomPostId = getLineVoomPostId(item.id);
+                        if (lineVoomPostId) {
+                            cardExtraClass = ' linevoom-card';
+                            lineVoomEmbedHtml = `
+                    <div class="linevoom-embed-inline">
+                        <blockquote class="line_timeline_embedded_post" data-baseurl="https://linevoom.line.me" data-postid="${lineVoomPostId}" data-writerid="_dd9JDo889wfojzv17U8LwAKX2-hN4oDNIStQBfQ" data-embeddedtime="1782658691883" data-view-type="B" data-with-text data-playable data-auto-play style="width: 100%; min-width: 260px; max-width: 100%"></blockquote>
+                    </div>`;
+                        }
+                    }
+
+                    if (lineVoomEmbedHtml) {
+                        html += `
                 <div class="${cardClass}${cardExtraClass}" data-text="${encodeURIComponent(item.text)}" data-id="${item.id || ''}" data-type="${item.type}">
-                    <div class="card-main-info">
-                        ${iconHtml}
-                        <div class="card-content">
-                            <div class="card-text">${highlightedText}</div>
-                            ${cardMeta}
-                        </div>
-                    </div>
                     ${lineVoomEmbedHtml}
                 </div>`;
-            } else {
-                html += `
+                    } else {
+                        html += `
                 <div class="${cardClass}" data-text="${encodeURIComponent(item.text)}" data-id="${item.id || ''}" data-type="${item.type}">
                     ${iconHtml}
                     <div class="card-content">
@@ -1992,199 +2084,204 @@ function renderResults(results, queryWords) {
                         ${cardMeta}
                     </div>
                 </div>`;
-            }
-        });
-    }
-    
-    resultsDiv.innerHTML = html;
-
-    // Prevent click propagation for LINE VOOM inline embeds
-    document.querySelectorAll('.linevoom-embed-inline').forEach(embed => {
-        embed.addEventListener('click', (e) => {
-            e.stopPropagation();
-        });
-    });
-
-    // Dynamically load/execute the LINE VOOM SDK to render new blockquotes
-    const inlineEmbeds = document.querySelectorAll('.line_timeline_embedded_post');
-    if (inlineEmbeds.length > 0) {
-        const oldScript = document.getElementById('linevoom-sdk-script');
-        if (oldScript) {
-            oldScript.remove();
-        }
-        const script = document.createElement('script');
-        script.id = 'linevoom-sdk-script';
-        script.src = 'https://linevoom.line.me/sdk/timelineJsSdk.min.js';
-        script.defer = true;
-        document.body.appendChild(script);
-    }
-    
-    // Attach event listeners to results
-    document.querySelectorAll('.result-card').forEach(el => {
-        const textData = decodeURIComponent(el.dataset.text);
-        const videoId = el.dataset.id;
-        const itemType = el.dataset.type;
-        
-        // Click to copy logic
-        el.addEventListener('click', (e) => {
-            if (itemType === 'video' && videoId) {
-                e.stopPropagation();
-                
-                if (closeVideoTimeout) {
-                    clearTimeout(closeVideoTimeout);
-                    closeVideoTimeout = null;
-                }
-                
-                const isLineVoom = isLineVoomVideo(videoId);
-                const isShorts = !isLineVoom && !videoId.includes('?start=');
-                const videoIdParts = videoId.split('?');
-                const embedId = videoIdParts[0];
-                const lineVoomPostId = isLineVoom ? getLineVoomPostId(videoId) : null;
-                
-                // Copy video info + URL to clipboard
-                const videoUrl = isLineVoom
-                    ? getLineVoomUrl(videoId)
-                    : (isShorts ? `https://youtube.com/shorts/${videoId}` : `https://www.youtube.com/watch?v=${videoId}`);
-                const clipboardText = `${textData}\n${videoUrl}`;
-                
-                navigator.clipboard.writeText(clipboardText).then(() => {
-                    const hasQ = new URLSearchParams(window.location.search).has('q');
-                    if (!hasQ) {
-                        copyPopup.classList.add('show');
-                        el.style.borderColor = 'var(--success)';
-                        setTimeout(() => {
-                            copyPopup.classList.remove('show');
-                            el.style.borderColor = 'var(--border)';
-                        }, 2000);
                     }
                 });
-                
-                // Check if URL has query param "q"
-                const hasQ = new URLSearchParams(window.location.search).has('q');
-                
-                // Add aspect ratio and positioning classes
-                videoFrame.className = 'popup-frame active';
-                if (hasQ) {
-                    videoFrame.classList.add('centered');
-                } else {
-                    videoFrame.classList.add('bottom-right');
+            }
+
+            resultsDiv.innerHTML = html;
+
+            // Clicks on linevoom-embed-inline can bubble up to result-card to toggle expansion
+
+            // Dynamically load/execute the LINE VOOM SDK to render new blockquotes
+            const inlineEmbeds = document.querySelectorAll('.line_timeline_embedded_post');
+            if (inlineEmbeds.length > 0) {
+                const oldScript = document.getElementById('linevoom-sdk-script');
+                if (oldScript) {
+                    oldScript.remove();
                 }
-                
-                if (isLineVoom) {
-                    videoFrame.classList.add('linevoom', 'standard');
-                } else if (isShorts) {
-                    videoFrame.classList.add('shorts');
-                } else {
-                    videoFrame.classList.add('standard');
-                }
-                
-                if (isLineVoom && lineVoomPostId) {
-                    videoFrame.innerHTML = `
-                        <div id="close-video-frame">×</div>
-                        <div id="linevoom-embed-container"></div>`;
-                    mountLineVoomEmbed(lineVoomPostId);
-                } else {
-                    videoFrame.innerHTML = `
-                        <div id="close-video-frame">×</div>
-                        <div id="yt-player-container"></div>`;
-                    
-                    const playerVars = {
-                        'autoplay': 1,
-                        'modestbranding': 1,
-                        'rel': 0,
-                        'enablejsapi': 1
-                    };
-                    if (videoIdParts.length > 1) {
-                        const searchParams = new URLSearchParams(videoIdParts[1]);
-                        for (const [key, value] of searchParams.entries()) {
-                            playerVars[key] = value;
+                const script = document.createElement('script');
+                script.id = 'linevoom-sdk-script';
+                script.src = 'https://linevoom.line.me/sdk/timelineJsSdk.min.js';
+                script.defer = true;
+                document.body.appendChild(script);
+            }
+
+            // Attach event listeners to results
+            document.querySelectorAll('.result-card').forEach(el => {
+                const textData = decodeURIComponent(el.dataset.text);
+                const videoId = el.dataset.id;
+                const itemType = el.dataset.type;
+
+                // Click to copy logic
+                el.addEventListener('click', (e) => {
+                    if (itemType === 'video' && videoId) {
+                        const isLineVoom = isLineVoomVideo(videoId);
+                        if (isLineVoom) {
+                            el.classList.toggle('expanded');
+                            // Trigger window resize event to let the iframe contents adjust to the new size
+                            setTimeout(() => {
+                                window.dispatchEvent(new Event('resize'));
+                            }, 350);
+                            return;
                         }
-                    }
-                    
-                    if (window.YT && window.YT.Player) {
-                        new window.YT.Player('yt-player-container', {
-                            videoId: embedId,
-                            playerVars: playerVars,
-                            events: {
-                                'onStateChange': (event) => {
-                                    if (event.data === 0) { // 0 = YT.PlayerState.ENDED
-                                        closeVideo();
-                                    }
-                                }
+                        6
+                        e.stopPropagation();
+
+                        if (closeVideoTimeout) {
+                            clearTimeout(closeVideoTimeout);
+                            closeVideoTimeout = null;
+                        }
+
+                        const isShorts = !isLineVoom && !videoId.includes('?start=');
+                        const videoIdParts = videoId.split('?');
+                        const embedId = videoIdParts[0];
+                        const lineVoomPostId = isLineVoom ? getLineVoomPostId(videoId) : null;
+
+                        // Copy video info + URL to clipboard
+                        const videoUrl = isLineVoom
+                            ? getLineVoomUrl(videoId)
+                            : (isShorts ? `https://youtube.com/shorts/${videoId}` : `https://www.youtube.com/watch?v=${videoId}`);
+                        const clipboardText = `${textData}\n${videoUrl}`;
+
+                        navigator.clipboard.writeText(clipboardText).then(() => {
+                            const hasQ = new URLSearchParams(window.location.search).has('q');
+                            if (!hasQ) {
+                                copyPopup.classList.add('show');
+                                el.style.borderColor = 'var(--success)';
+                                setTimeout(() => {
+                                    copyPopup.classList.remove('show');
+                                    el.style.borderColor = 'var(--border)';
+                                }, 2000);
                             }
                         });
-                    } else {
-                        // Fallback to standard iframe if YT API is not ready
-                        const params = videoIdParts.length > 1 ? `&${videoIdParts[1]}` : '';
-                        const embedUrl = `https://www.youtube.com/embed/${embedId}?autoplay=1&modestbranding=1&rel=0${params}`;
-                        document.getElementById('yt-player-container').innerHTML = `
+
+                        // Check if URL has query param "q"
+                        const hasQ = new URLSearchParams(window.location.search).has('q');
+
+                        // Add aspect ratio and positioning classes
+                        videoFrame.className = 'popup-frame active';
+                        if (hasQ) {
+                            videoFrame.classList.add('centered');
+                        } else {
+                            videoFrame.classList.add('bottom-right');
+                        }
+
+                        if (isLineVoom) {
+                            videoFrame.classList.add('linevoom', 'standard');
+                        } else if (isShorts) {
+                            videoFrame.classList.add('shorts');
+                        } else {
+                            videoFrame.classList.add('standard');
+                        }
+
+                        if (isLineVoom && lineVoomPostId) {
+                            videoFrame.innerHTML = `
+                        <div id="close-video-frame">×</div>
+                        <div id="linevoom-embed-container"></div>`;
+                            mountLineVoomEmbed(lineVoomPostId);
+                        } else {
+                            videoFrame.innerHTML = `
+                        <div id="close-video-frame">×</div>
+                        <div id="yt-player-container"></div>`;
+
+                            const playerVars = {
+                                'autoplay': 1,
+                                'modestbranding': 1,
+                                'rel': 0,
+                                'enablejsapi': 1
+                            };
+                            if (videoIdParts.length > 1) {
+                                const searchParams = new URLSearchParams(videoIdParts[1]);
+                                for (const [key, value] of searchParams.entries()) {
+                                    playerVars[key] = value;
+                                }
+                            }
+
+                            if (window.YT && window.YT.Player) {
+                                new window.YT.Player('yt-player-container', {
+                                    videoId: embedId,
+                                    playerVars: playerVars,
+                                    events: {
+                                        'onStateChange': (event) => {
+                                            if (event.data === 0) { // 0 = YT.PlayerState.ENDED
+                                                closeVideo();
+                                            }
+                                        }
+                                    }
+                                });
+                            } else {
+                                // Fallback to standard iframe if YT API is not ready
+                                const params = videoIdParts.length > 1 ? `&${videoIdParts[1]}` : '';
+                                const embedUrl = `https://www.youtube.com/embed/${embedId}?autoplay=1&modestbranding=1&rel=0${params}`;
+                                document.getElementById('yt-player-container').innerHTML = `
                             <iframe src="${embedUrl}" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+                            }
+                        }
+
+                        document.getElementById('close-video-frame').addEventListener('click', (ev) => {
+                            ev.stopPropagation();
+                            closeVideo();
+                        });
+                    } else {
+                        closeVideo();
+                        navigator.clipboard.writeText(textData).then(() => {
+                            const hasQ = new URLSearchParams(window.location.search).has('q');
+                            if (!hasQ) {
+                                copyPopup.classList.add('show');
+                                el.style.borderColor = 'var(--success)';
+                                setTimeout(() => {
+                                    copyPopup.classList.remove('show');
+                                    el.style.borderColor = 'var(--border)';
+                                }, 2000);
+                            }
+                        });
                     }
-                }
-                
-                document.getElementById('close-video-frame').addEventListener('click', (ev) => {
-                    ev.stopPropagation();
-                    closeVideo();
                 });
-            } else {
+            });
+        }
+
+        function escapeRegExp(string) {
+            return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        }
+
+        // Filter tab click handlers
+        document.querySelectorAll('.filter-tabs .tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.filter-tabs .tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                currentFilter = tab.getAttribute('data-filter');
+                performSearch(searchInput.value);
+            });
+        });
+
+        // Search input listener with debounce
+        searchInput.addEventListener('input', () => {
+            clearTimeout(searchTimer);
+            searchTimer = setTimeout(() => {
+                wasLoadedWithQuery = false;
+                performSearch(searchInput.value);
+            }, 200);
+        });
+
+
+
+        // Reload button click
+        reloadBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            closeVideo();
+            fetchDatabase(true);
+        });
+
+        // Close video popup when clicking outside the frame
+        document.addEventListener('click', (e) => {
+            if (videoFrame.classList.contains('active') && !videoFrame.contains(e.target)) {
                 closeVideo();
-                navigator.clipboard.writeText(textData).then(() => {
-                    const hasQ = new URLSearchParams(window.location.search).has('q');
-                    if (!hasQ) {
-                        copyPopup.classList.add('show');
-                        el.style.borderColor = 'var(--success)';
-                        setTimeout(() => {
-                            copyPopup.classList.remove('show');
-                            el.style.borderColor = 'var(--border)';
-                        }, 2000);
-                    }
-                });
             }
         });
-    });
-}
 
-function escapeRegExp(string) {
-    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
-
-// Filter tab click handlers
-document.querySelectorAll('.filter-tabs .tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-        document.querySelectorAll('.filter-tabs .tab').forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        currentFilter = tab.getAttribute('data-filter');
-        performSearch(searchInput.value);
-    });
-});
-
-// Search input listener with debounce
-searchInput.addEventListener('input', () => {
-    clearTimeout(searchTimer);
-    searchTimer = setTimeout(() => {
-        wasLoadedWithQuery = false;
-        performSearch(searchInput.value);
-    }, 200);
-});
-
-
-
-// Reload button click
-reloadBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    closeVideo();
-    fetchDatabase(true);
-});
-
-// Close video popup when clicking outside the frame
-document.addEventListener('click', (e) => {
-    if (videoFrame.classList.contains('active') && !videoFrame.contains(e.target)) {
-        closeVideo();
-    }
-});
-
-// Load database on startup
-initDatabase();
-</script>
+        // Load database on startup
+        initDatabase();
+    </script>
 </body>
+
 </html>
