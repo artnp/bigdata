@@ -406,7 +406,7 @@
         }
 
         .smart-expansion-info {
-            display: flex;
+            display: none !important;
             flex-wrap: wrap;
             gap: 6px;
             margin-bottom: 15px;
@@ -1889,21 +1889,9 @@
             // Smart Semantic Expansion
             const expandedInfo = expandQuerySmart(queryWords, q);
 
-            // Show expansion pills
+            // Show expansion pills (Hidden as requested)
             const expansionInfoEl = document.getElementById('smart-expansion-info');
-            const hasQ = new URLSearchParams(window.location.search).has('q');
-            if (expandedInfo.expanded.length > 0 && !hasQ) {
-                const pills = expandedInfo.expanded.slice(0, 8).map(w => {
-                    const info = expandedInfo.map[w];
-                    const icon = info.source === 'thai-eng' ? '🔤' : info.source === 'synonym' ? '🔗' : info.source === 'consonant' ? '✏️' : '🧠';
-                    return `<span class="smart-badge">${icon} ${info.label}</span>`;
-                }).join('');
-                const moreCount = expandedInfo.expanded.length > 8 ? ` <span class="smart-label">+${expandedInfo.expanded.length - 8} อื่นๆ</span>` : '';
-                expansionInfoEl.innerHTML = `<span class="smart-label">🧠 Smart Search:</span>${pills}${moreCount}`;
-                expansionInfoEl.style.display = 'flex';
-            } else {
-                expansionInfoEl.style.display = 'none';
-            }
+            expansionInfoEl.style.display = 'none';
 
             // Check if the query has any content words
             const contentWords = queryWords.filter(w => !THAI_STOP_WORDS.has(w) && w.length >= 2);
