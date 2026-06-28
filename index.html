@@ -681,6 +681,31 @@ body.embed-mode #search-status {
     }
 }
 
+/* Inline LINE Voom Card layout */
+.result-card.linevoom-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 12px 16px;
+}
+.result-card.linevoom-card .card-main-info {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex: 1 1 300px;
+}
+.result-card.linevoom-card .linevoom-embed-inline {
+    flex: 0 1 464px;
+    min-width: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
 @media (max-width: 480px) {
     .result-card {
         padding: 6px 12px;
@@ -914,22 +939,29 @@ async function fetchDatabase(force = true) {
     
     // 1. Fetch JSON files sequentially
     let n = 1;
+    const isLocal = window.location.protocol === 'file:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
     while (true) {
         try {
-            const url = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/bigdata${n}.json?t=${Date.now()}`;
+            const url = isLocal
+                ? `./bigdata${n}.json?t=${Date.now()}`
+                : `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/bigdata${n}.json?t=${Date.now()}`;
             const response = await fetch(url);
             if (!response.ok) {
                 // If bigdata1.json returns 404, we check bigdata.json as a fallback
                 if (n === 1) {
-                    const fallbackUrl = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/bigdata.json?t=${Date.now()}`;
+                    const fallbackUrl = isLocal
+                        ? `./bigdata.json?t=${Date.now()}`
+                        : `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/bigdata.json?t=${Date.now()}`;
                     const fallbackResp = await fetch(fallbackUrl);
                     if (fallbackResp.ok) {
                         const fallbackData = await fallbackResp.json();
                         if (Array.isArray(fallbackData)) {
                             fallbackData.forEach(item => {
+                                const hasLineVoom = item.url && item.url.includes('linevoom');
                                 bigdataItems.push({
-                                    type: 'text',
-                                    text: item.data
+                                    type: hasLineVoom ? 'video' : 'text',
+                                    text: item.data,
+                                    id: hasLineVoom ? item.url : undefined
                                 });
                             });
                         }
@@ -940,9 +972,11 @@ async function fetchDatabase(force = true) {
             const data = await response.json();
             if (Array.isArray(data)) {
                 data.forEach(item => {
+                    const hasLineVoom = item.url && item.url.includes('linevoom');
                     bigdataItems.push({
-                        type: 'text',
-                        text: item.data
+                        type: hasLineVoom ? 'video' : 'text',
+                        text: item.data,
+                        id: hasLineVoom ? item.url : undefined
                     });
                 });
             }
@@ -959,12 +993,16 @@ async function fetchDatabase(force = true) {
     n = 1;
     while (true) {
         try {
-            const url = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/reel${n}.js?t=${Date.now()}`;
+            const url = isLocal
+                ? `./reel${n}.js?t=${Date.now()}`
+                : `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/reel${n}.js?t=${Date.now()}`;
             const response = await fetch(url);
             if (!response.ok) {
                 // If reel1.js returns 404, check reel.js fallback
                 if (n === 1) {
-                    const fallbackUrl = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/reel.js?t=${Date.now()}`;
+                    const fallbackUrl = isLocal
+                        ? `./reel.js?t=${Date.now()}`
+                        : `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/reel.js?t=${Date.now()}`;
                     const fallbackResp = await fetch(fallbackUrl);
                     if (fallbackResp.ok) {
                         const fallbackText = await fallbackResp.text();
@@ -1858,6 +1896,7 @@ function renderResults(results, queryWords) {
         html += `<div class="result-group-label">${groupName}</div>`;
         
         groupItems.forEach(item => {
+            const isLineVoom = item.type === 'video' && isLineVoomVideo(item.id);
             // Apply highlighting for all matched query words
             let highlightedText = item.text;
             
@@ -1885,7 +1924,6 @@ function renderResults(results, queryWords) {
             let typeBadge = '<span class="card-badge">Research & Info</span>';
             
             if (item.type === 'video') {
-                const isLineVoom = isLineVoomVideo(item.id);
                 const isShorts = !isLineVoom && !item.id.includes('?start=');
                 if (isLineVoom) {
                     iconHtml = `<div class="card-icon line-icon">LINE</div>`;
@@ -1915,18 +1953,66 @@ function renderResults(results, queryWords) {
                         ${metaHtml}
                     </div>`;
             
-            html += `
-            <div class="${cardClass}" data-text="${encodeURIComponent(item.text)}" data-id="${item.id || ''}" data-type="${item.type}">
-                ${iconHtml}
-                <div class="card-content">
-                    <div class="card-text">${highlightedText}</div>
-                    ${cardMeta}
-                </div>
-            </div>`;
+            let lineVoomEmbedHtml = '';
+            let cardExtraClass = '';
+            if (isLineVoom) {
+                const lineVoomPostId = getLineVoomPostId(item.id);
+                if (lineVoomPostId) {
+                    cardExtraClass = ' linevoom-card';
+                    lineVoomEmbedHtml = `
+                    <div class="linevoom-embed-inline">
+                        <blockquote class="line_timeline_embedded_post" data-baseurl="https://linevoom.line.me" data-postid="${lineVoomPostId}" data-view-type="B" data-playable data-auto-play style="min-width: 260px; max-width: 464px"></blockquote>
+                    </div>`;
+                }
+            }
+
+            if (lineVoomEmbedHtml) {
+                html += `
+                <div class="${cardClass}${cardExtraClass}" data-text="${encodeURIComponent(item.text)}" data-id="${item.id || ''}" data-type="${item.type}">
+                    <div class="card-main-info">
+                        ${iconHtml}
+                        <div class="card-content">
+                            <div class="card-text">${highlightedText}</div>
+                            ${cardMeta}
+                        </div>
+                    </div>
+                    ${lineVoomEmbedHtml}
+                </div>`;
+            } else {
+                html += `
+                <div class="${cardClass}" data-text="${encodeURIComponent(item.text)}" data-id="${item.id || ''}" data-type="${item.type}">
+                    ${iconHtml}
+                    <div class="card-content">
+                        <div class="card-text">${highlightedText}</div>
+                        ${cardMeta}
+                    </div>
+                </div>`;
+            }
         });
     }
     
     resultsDiv.innerHTML = html;
+
+    // Prevent click propagation for LINE VOOM inline embeds
+    document.querySelectorAll('.linevoom-embed-inline').forEach(embed => {
+        embed.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    });
+
+    // Dynamically load/execute the LINE VOOM SDK to render new blockquotes
+    const inlineEmbeds = document.querySelectorAll('.line_timeline_embedded_post');
+    if (inlineEmbeds.length > 0) {
+        const oldScript = document.getElementById('linevoom-sdk-script');
+        if (oldScript) {
+            oldScript.remove();
+        }
+        const script = document.createElement('script');
+        script.id = 'linevoom-sdk-script';
+        script.src = 'https://linevoom.line.me/sdk/timelineJsSdk.min.js';
+        script.defer = true;
+        document.body.appendChild(script);
+    }
     
     // Attach event listeners to results
     document.querySelectorAll('.result-card').forEach(el => {
