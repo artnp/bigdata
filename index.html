@@ -683,27 +683,32 @@ body.embed-mode #search-status {
 
 /* Inline LINE Voom Card layout */
 .result-card.linevoom-card {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 16px;
-    padding: 12px 16px;
+    display: grid;
+    grid-template-columns: 1fr 464px;
+    gap: 24px;
+    align-items: start;
+    padding: 20px;
 }
 .result-card.linevoom-card .card-main-info {
     display: flex;
     gap: 12px;
-    align-items: center;
-    flex: 1 1 300px;
+    align-items: flex-start;
 }
 .result-card.linevoom-card .linevoom-embed-inline {
-    flex: 0 1 464px;
-    min-width: 260px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 8px;
     overflow: hidden;
+    width: 100%;
+}
+
+@media (max-width: 800px) {
+    .result-card.linevoom-card {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 16px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -1102,12 +1107,12 @@ function isCacheFromToday() {
     return false;
 }
 
-async function syncCacheInBackground() {
-    if (isCacheFromToday()) {
+async function syncCacheInBackground(force = false) {
+    if (!force && isCacheFromToday()) {
         console.log('Background sync skipped: already have today\'s data.');
         return;
     }
-    console.log('Starting silent background update check (new day detected)...');
+    console.log('Starting silent background update check...');
     await fetchDatabase(false);
 }
 
@@ -1165,11 +1170,11 @@ function initDatabase() {
         // Start daily checker
         startDailyChecker();
 
-        // If cache is not from today, trigger background sync after a short delay
-        if (!isCacheFromToday()) {
+        // If cache is not from today, or if we are in embed mode, trigger background sync
+        if (!isCacheFromToday() || isEmbedMode) {
             setTimeout(() => {
-                syncCacheInBackground();
-            }, 3000);
+                syncCacheInBackground(isEmbedMode);
+            }, isEmbedMode ? 500 : 3000);
         }
         
     } else {
