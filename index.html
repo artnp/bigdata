@@ -117,10 +117,97 @@
 
         /* Main layout */
         #main-content {
-            max-width: 900px;
+            max-width: 1220px;
             margin: 50px auto 100px auto;
             padding: 0 20px;
+            display: flex;
+            gap: 24px;
+            align-items: flex-start;
+        }
+
+        #main-area {
+            flex: 1;
+            min-width: 0;
+            max-width: 900px;
             text-align: center;
+        }
+
+        #sidebar {
+            width: 280px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 90px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .sidebar-panel {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px;
+        }
+
+        .sidebar-panel-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .sidebar-item {
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(48,54,61,0.4);
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .sidebar-item:last-child {
+            border-bottom: none;
+        }
+
+        .sidebar-item:hover {
+            padding-left: 4px;
+        }
+
+        .sidebar-item-text {
+            font-size: 0.72rem;
+            line-height: 1.4;
+            color: var(--text);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            font-weight: 400;
+        }
+
+        .sidebar-item-id {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .sidebar-empty {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            padding: 8px 0;
+        }
+
+        @media (max-width: 1024px) {
+            #sidebar {
+                display: none;
+            }
+            #main-content {
+                max-width: 900px;
+            }
         }
 
         .hero-title {
@@ -276,6 +363,238 @@
             box-shadow: 0 6px 20px rgba(248, 81, 73, 0.2) !important;
         }
 
+        /* ===== Immersive Newspaper Layout ===== */
+        .newspaper-section {
+            background: linear-gradient(180deg, rgba(88,166,255,0.04) 0%, transparent 100%);
+            border: 1px solid rgba(88,166,255,0.12);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .newspaper-section::before {
+            content: "FEATURED";
+            position: absolute;
+            top: -10px;
+            left: 24px;
+            background: var(--accent);
+            color: #fff;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            padding: 2px 14px;
+            border-radius: 10px;
+            text-shadow: none;
+        }
+
+        .newspaper-hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            align-items: start;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .newspaper-hero:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .newspaper-hero.full {
+            grid-template-columns: 1fr;
+        }
+
+        .newspaper-content {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .newspaper-headline {
+            font-size: 1.15rem;
+            font-weight: 700;
+            line-height: 1.4;
+            letter-spacing: -0.2px;
+            color: #f0f6fc;
+            font-family: 'Outfit', 'Sarabun', sans-serif;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .newspaper-excerpt {
+            font-size: 0.82rem;
+            line-height: 1.6;
+            color: var(--text);
+            font-weight: 300;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            font-family: 'Sarabun', 'Outfit', serif;
+        }
+
+        .newspaper-excerpt.expanded {
+            -webkit-line-clamp: unset;
+        }
+
+        .newspaper-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+            flex-wrap: wrap;
+        }
+
+        .newspaper-embed {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #000;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .newspaper-card .newspaper-embed {
+            border-radius: 0;
+        }
+
+        .newspaper-embed iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+        .newspaper-embed .embed-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            gap: 8px;
+            transition: background 0.3s;
+        }
+
+        .newspaper-embed .embed-placeholder:hover {
+            background: linear-gradient(135deg, #1f1f3a, #1a2744);
+        }
+
+        .newspaper-embed .embed-placeholder svg {
+            width: 40px;
+            height: 40px;
+            opacity: 0.6;
+        }
+
+        .newspaper-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .newspaper-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .newspaper-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+        }
+
+        .newspaper-card .newspaper-embed {
+            border-radius: 0;
+            aspect-ratio: 16 / 9;
+        }
+
+        .newspaper-card-body {
+            padding: 14px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex: 1;
+        }
+
+        .newspaper-card-title {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: #f0f6fc;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .newspaper-card-text {
+            font-size: 0.75rem;
+            color: var(--text);
+            line-height: 1.5;
+            font-weight: 300;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .newspaper-card-footer {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: auto;
+            padding-top: 6px;
+        }
+
+        .newspaper-badge {
+            padding: 2px 10px;
+            border-radius: 10px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            background: rgba(88,166,255,0.1);
+            border: 1px solid rgba(88,166,255,0.2);
+            color: var(--accent);
+        }
+
+        .newspaper-badge.hot {
+            background: rgba(248,81,73,0.12);
+            border-color: rgba(248,81,73,0.25);
+            color: #f85149;
+        }
+
+        @media (max-width: 768px) {
+            .newspaper-hero {
+                grid-template-columns: 1fr;
+            }
+            .newspaper-grid {
+                grid-template-columns: 1fr;
+            }
+            .newspaper-headline {
+                font-size: 1.25rem;
+            }
+            .newspaper-section {
+                padding: 16px;
+            }
+        }
 
         .card-icon {
             width: 40px;
@@ -341,7 +660,7 @@
 
         #linevoom-embed-container {
             width: 100%;
-            aspect-ratio: 16 / 9;
+            height: 100%;
             border-radius: 8px;
             background: #000;
             overflow: hidden;
@@ -357,7 +676,7 @@
 
         #yt-player-container {
             width: 100%;
-            aspect-ratio: 16 / 9;
+            height: 100%;
         }
 
         #yt-player-container iframe {
@@ -370,7 +689,7 @@
         }
 
         .popup-frame.linevoom.centered {
-            max-width: 560px;
+            max-width: 1200px;
         }
 
         .shorts-badge {
@@ -506,10 +825,10 @@
             transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: fixed;
             z-index: 998;
-            background: var(--card);
+            background: #000;
             border-radius: 12px;
-            padding: 6px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+            padding: 4px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
             border: 1px solid var(--border);
             opacity: 0;
             pointer-events: none;
@@ -517,22 +836,33 @@
         }
 
         .popup-frame.centered {
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.9);
-            width: 95%;
-            max-width: 560px;
-            max-height: 90%;
+            top: 5vh;
+            left: 5vw;
+            transform: scale(0.9);
+            width: 90vw;
+            max-width: 1200px;
+            height: 90vh;
+            max-height: 800px;
         }
 
         .popup-frame.centered.active {
             opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
+            transform: scale(1);
             pointer-events: auto;
         }
 
         .popup-frame.centered.shorts {
-            max-width: 300px;
+            width: auto;
+            max-width: 400px;
+            height: auto;
+            max-height: 90vh;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+        }
+
+        .popup-frame.centered.shorts.active {
+            transform: translate(-50%, -50%) scale(1);
         }
 
         .popup-frame.bottom-right {
@@ -560,16 +890,7 @@
             border-radius: 8px;
             display: block;
             width: 100%;
-            height: auto;
-        }
-
-        .popup-frame.standard iframe {
-            aspect-ratio: 16 / 9;
-        }
-
-        .popup-frame.shorts iframe {
-            aspect-ratio: 9 / 16;
-            max-height: 75vh;
+            height: 100%;
         }
 
         #close-video-frame {
@@ -842,25 +1163,38 @@
     </header>
 
     <main id="main-content">
-        <div class="hero-title">Intelligent Data Search</div>
-        <div class="hero-subtitle">Fast client-side keyword search across your entire GitHub database</div>
+        <div id="main-area">
+            <div class="hero-title">Intelligent Data Search</div>
+            <div class="hero-subtitle">Fast client-side keyword search across your entire GitHub database</div>
 
-        <div id="search-container">
-            <input type="text" id="search-input" placeholder="พิมพ์เพื่อค้นหาข้อมูล.." autocomplete="off">
+            <div id="search-container">
+                <input type="text" id="search-input" placeholder="พิมพ์เพื่อค้นหาข้อมูล.." autocomplete="off">
+            </div>
+
+
+            <div class="filter-tabs">
+                <button class="tab active" data-filter="all">All Items</button>
+                <button class="tab" data-filter="video">Videos</button>
+                <button class="tab" data-filter="text">Research & Info</button>
+            </div>
+
+            <div id="search-status">กำลังดาวน์โหลดข้อมูลเริ่มต้นจาก GitHub...</div>
+
+            <div id="smart-expansion-info" class="smart-expansion-info" style="display:none;"></div>
+
+            <div id="results"></div>
         </div>
 
-
-        <div class="filter-tabs">
-            <button class="tab active" data-filter="all">All Items</button>
-            <button class="tab" data-filter="video">Videos</button>
-            <button class="tab" data-filter="text">Research & Info</button>
-        </div>
-
-        <div id="search-status">กำลังดาวน์โหลดข้อมูลเริ่มต้นจาก GitHub...</div>
-
-        <div id="smart-expansion-info" class="smart-expansion-info" style="display:none;"></div>
-
-        <div id="results"></div>
+        <aside id="sidebar">
+            <div class="sidebar-panel" id="panel-bigdata">
+                <div class="sidebar-panel-title">📊 BigData ล่าสุด</div>
+                <div id="sidebar-bigdata-list"></div>
+            </div>
+            <div class="sidebar-panel" id="panel-reel">
+                <div class="sidebar-panel-title">🎬 Reel ล่าสุด</div>
+                <div id="sidebar-reel-list"></div>
+            </div>
+        </aside>
     </main>
 
     <div id="copy-popup">คัดลอกลงคลิปบอร์ดแล้ว! ✅</div>
@@ -903,6 +1237,9 @@
         let isFetching = false;
         let wasLoadedWithQuery = false;
         let initialUrlQuery = null;
+        let _isLazyLoading = false;
+        let _lazySearchQuery = '';
+        let _lazyLoadedCount = 0;
 
         const CACHE_KEY = 'bigdata_search_cache';
         const DAILY_CHECK_INTERVAL_MS = 60 * 60 * 1000; // Check every hour if day changed
@@ -1005,7 +1342,7 @@
         // force = true means show UI progress, force load
         // force = false means silent background update
         async function fetchDatabase(force = true) {
-            if (isFetching) return;
+            if (isFetching || _isLazyLoading) return;
             isFetching = true;
 
             if (force) {
@@ -1065,7 +1402,8 @@
                                         bigdataItems.push({
                                             type: hasLineVoom ? 'video' : 'text',
                                             text: item.data,
-                                            id: hasLineVoom ? item.url : undefined
+                                            id: hasLineVoom ? item.url : undefined,
+                                            src: 'bigdata'
                                         });
                                     });
                                 }
@@ -1080,7 +1418,8 @@
                             bigdataItems.push({
                                 type: hasLineVoom ? 'video' : 'text',
                                 text: item.data,
-                                id: hasLineVoom ? item.url : undefined
+                                id: hasLineVoom ? item.url : undefined,
+                                src: 'bigdata'
                             });
                         });
                     }
@@ -1126,6 +1465,10 @@
                 }
             }
 
+            // Save source-separated for sidebar
+            window._lastBigdataItems = bigdataItems.slice(-5);
+            window._lastReelItems = reelItems.slice(-5);
+
             // Deduplicate combined items
             const combined = [...bigdataItems, ...reelItems];
             const uniqueItems = [];
@@ -1162,8 +1505,11 @@
 
             if (changed || force || items.length === 0) {
                 items = uniqueItems;
+                window._lastBigdataItems = bigdataItems.slice(-5);
+                window._lastReelItems = reelItems.slice(-5);
                 saveToCache(items);
                 buildSmartIndex(items, true);
+                populateSidebar();
 
                 const uniqueVideoCount = items.filter(i => i.type === 'video').length;
                 const uniqueTextCount = items.filter(i => i.type === 'text').length;
@@ -1181,6 +1527,7 @@
                 }
             } else {
                 saveToCache(items);
+                populateSidebar();
                 if (!force) {
                     hideUpdateBar(false);
                 }
@@ -1241,6 +1588,16 @@
                 // Loaded from cache!
                 items = cached.items;
                 buildSmartIndex(items, false);
+                window._lastBigdataItems = items.filter(i => i.src === 'bigdata').slice(-5);
+                window._lastReelItems = items.filter(i => i.src === 'reel').slice(-5);
+                // If no src field (old cache), just show latest items in both panels
+                if (window._lastBigdataItems.length === 0) {
+                    window._lastBigdataItems = items.filter(i => i.type === 'text').slice(-5);
+                }
+                if (window._lastReelItems.length === 0) {
+                    window._lastReelItems = items.filter(i => i.type === 'video').slice(-5);
+                }
+                populateSidebar();
 
                 const uniqueVideoCount = items.filter(i => i.type === 'video').length;
                 const uniqueTextCount = items.filter(i => i.type === 'text').length;
@@ -1277,19 +1634,23 @@
                 }
 
             } else {
-                // No cache: perform full download
+                // No cache: show empty state, lazy load on demand
+                searchStatus.innerHTML = `🔄 พิมพ์คำค้นหาเพื่อโหลดข้อมูล`;
+                searchInput.placeholder = "พิมพ์เพื่อค้นหาข้อมูล..";
+                searchInput.disabled = false;
+
                 if (queryParam) {
                     wasLoadedWithQuery = true;
                     initialUrlQuery = queryParam.trim();
                     searchInput.value = initialUrlQuery;
 
-                    // Hide hero section when loaded with URL query
                     const heroTitle = document.querySelector('.hero-title');
                     const heroSub = document.querySelector('.hero-subtitle');
                     if (heroTitle) heroTitle.style.display = 'none';
                     if (heroSub) heroSub.style.display = 'none';
+                } else {
+                    searchInput.focus();
                 }
-                fetchDatabase(true);
             }
         }
 
@@ -1357,6 +1718,57 @@
             window.addEventListener('message', lineVoomResizeHandler);
         }
 
+        function populateSidebar() {
+            const bigdataEl = document.getElementById('sidebar-bigdata-list');
+            const reelEl = document.getElementById('sidebar-reel-list');
+            if (!bigdataEl || !reelEl) return;
+
+            let bigdataSrc = window._lastBigdataItems;
+            if (!bigdataSrc || bigdataSrc.length === 0) {
+                bigdataSrc = items.filter(i => i.src === 'bigdata').slice(-5);
+            }
+            if (!bigdataSrc || bigdataSrc.length === 0) {
+                bigdataSrc = items.filter(i => i.type === 'text').slice(-5);
+            }
+
+            let reelSrc = window._lastReelItems;
+            if (!reelSrc || reelSrc.length === 0) {
+                reelSrc = items.filter(i => i.src === 'reel').slice(-5);
+            }
+            if (!reelSrc || reelSrc.length === 0) {
+                reelSrc = items.filter(i => i.type === 'video').slice(-5);
+            }
+
+            const renderList = (el, list) => {
+                if (!list || list.length === 0) {
+                    el.innerHTML = `<div class="sidebar-empty">ไม่มีข้อมูล</div>`;
+                    return;
+                }
+                el.innerHTML = list.slice(-5).reverse().map((item, idx) => {
+                    const text = item.text.length > 60 ? item.text.slice(0, 60) + '…' : item.text;
+                    const idStr = item.id ? `<div class="sidebar-item-id">${item.id}</div>` : '';
+                    const snippet = item.text.slice(0, 40).replace(/['"]/g, ' ').trim();
+                    return `<div class="sidebar-item" data-search="${encodeURIComponent(snippet)}">
+                        <div class="sidebar-item-text">${text}</div>
+                        ${idStr}
+                    </div>`;
+                }).join('');
+                el.querySelectorAll('.sidebar-item').forEach(elItem => {
+                    elItem.addEventListener('click', () => {
+                        const q = decodeURIComponent(elItem.dataset.search);
+                        if (q) {
+                            searchInput.value = q;
+                            wasLoadedWithQuery = false;
+                            performSearch(q);
+                        }
+                    });
+                });
+            };
+
+            renderList(bigdataEl, bigdataSrc);
+            renderList(reelEl, reelSrc);
+        }
+
         function parseReelJsText(text, arrayToPush) {
             const matches = text.match(/"([^"]+)"/g);
             if (matches) {
@@ -1369,7 +1781,8 @@
                         arrayToPush.push({
                             type: 'video',
                             id: id,
-                            text: title
+                            text: title,
+                            src: 'reel'
                         });
                     }
                 });
@@ -1862,8 +2275,146 @@
             return normalize(itemText) === normalize(query);
         }
 
+        async function lazyLoadData(query) {
+            if (_isLazyLoading) return;
+            _isLazyLoading = true;
+            _lazySearchQuery = query;
+            _lazyLoadedCount = 0;
+
+            const bigdataItems = [];
+            const reelItems = [];
+            const isLocal = window.location.protocol === 'file:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+            const processBatch = () => {
+                const combined = [...bigdataItems, ...reelItems];
+                const existingKeys = new Set(items.map(i => `${i.type}:${i.id || ''}:${i.text.trim()}`));
+                let newCount = 0;
+                for (const item of combined) {
+                    const key = `${item.type}:${item.id || ''}:${item.text.trim()}`;
+                    if (!existingKeys.has(key)) {
+                        items.push(item);
+                        existingKeys.add(key);
+                        newCount++;
+                    }
+                }
+                if (newCount > 0) {
+                    buildSmartIndex(items, true);
+                    saveToCache(items);
+                    populateSidebar();
+                    if (_lazySearchQuery) {
+                        performSearch(_lazySearchQuery);
+                    }
+                }
+                const total = items.length;
+                searchStatus.innerHTML = `🔄 โหลดข้อมูล... ${total.toLocaleString()} รายการ`;
+            };
+
+            // 1. Fetch JSON files
+            let n = 1;
+            while (true) {
+                try {
+                    const url = isLocal
+                        ? `./bigdata${n}.json?t=${Date.now()}`
+                        : `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/bigdata${n}.json?t=${Date.now()}`;
+                    const response = await fetch(url);
+                    if (!response.ok) {
+                        if (n === 1) {
+                            const fallbackUrl = isLocal
+                                ? `./bigdata.json?t=${Date.now()}`
+                                : `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/bigdata.json?t=${Date.now()}`;
+                            const fb = await fetch(fallbackUrl);
+                            if (fb.ok) {
+                                const data = await fb.json();
+                                if (Array.isArray(data)) {
+                                    data.forEach(item => {
+                                        const hasLineVoom = item.url && item.url.includes('linevoom');
+                                        bigdataItems.push({ type: hasLineVoom ? 'video' : 'text', text: item.data, id: hasLineVoom ? item.url : undefined, src: 'bigdata' });
+                                    });
+                                    processBatch();
+                                }
+                            }
+                        }
+                        break;
+                    }
+                    const data = await response.json();
+                    if (Array.isArray(data)) {
+                        data.forEach(item => {
+                            const hasLineVoom = item.url && item.url.includes('linevoom');
+                            bigdataItems.push({ type: hasLineVoom ? 'video' : 'text', text: item.data, id: hasLineVoom ? item.url : undefined, src: 'bigdata' });
+                        });
+                        processBatch();
+                    }
+                    _lazyLoadedCount++;
+                    n++;
+                } catch (e) {
+                    break;
+                }
+            }
+
+            // 2. Fetch Reel JS files
+            n = 1;
+            while (true) {
+                try {
+                    const url = isLocal
+                        ? `./reel${n}.js?t=${Date.now()}`
+                        : `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/reel${n}.js?t=${Date.now()}`;
+                    const response = await fetch(url);
+                    if (!response.ok) {
+                        if (n === 1) {
+                            const fallbackUrl = isLocal
+                                ? `./reel.js?t=${Date.now()}`
+                                : `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/reel.js?t=${Date.now()}`;
+                            const fb = await fetch(fallbackUrl);
+                            if (fb.ok) {
+                                const text = await fb.text();
+                                parseReelJsText(text, reelItems);
+                                processBatch();
+                            }
+                        }
+                        break;
+                    }
+                    const text = await response.text();
+                    parseReelJsText(text, reelItems);
+                    processBatch();
+                    _lazyLoadedCount++;
+                    n++;
+                } catch (e) {
+                    break;
+                }
+            }
+
+            _isLazyLoading = false;
+            window._lastBigdataItems = bigdataItems.slice(-5);
+            window._lastReelItems = reelItems.slice(-5);
+            populateSidebar();
+            const videoCount = items.filter(i => i.type === 'video').length;
+            const textCount = items.filter(i => i.type === 'text').length;
+            searchStatus.innerHTML = `โหลดเสร็จสิ้น | มีวิดีโอ <span style="color:#fff;font-weight:600">${videoCount.toLocaleString()}</span> รายการ, ข้อความ <span style="color:#fff;font-weight:600">${textCount.toLocaleString()}</span> รายการ`;
+            const finalQuery = _lazySearchQuery;
+            _lazySearchQuery = '';
+            if (finalQuery && searchInput.value.trim() === finalQuery) {
+                performSearch(finalQuery);
+            } else if (searchInput.value.trim()) {
+                performSearch(searchInput.value);
+            }
+        }
+
         function performSearch(query) {
             const q = query.trim();
+
+            // Lazy load if no data yet
+            if (items.length === 0 && q) {
+                searchStatus.innerHTML = `🔄 กำลังโหลดข้อมูลสำหรับ "${q}"...`;
+                resultsDiv.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:60px 0;">⏳ กำลังโหลดฐานข้อมูล โปรดรอสักครู่...</div>';
+                lazyLoadData(q);
+                return;
+            }
+            // If still lazy loading, update the pending query
+            if (_isLazyLoading && q) {
+                _lazySearchQuery = q;
+                return;
+            }
+
             if (!q) {
                 resultsDiv.innerHTML = '';
                 document.getElementById('smart-expansion-info').style.display = 'none';
@@ -1983,97 +2534,199 @@
             };
 
             let html = '';
+
             for (const [groupName, groupItems] of Object.entries(grouped)) {
                 if (groupItems.length === 0) continue;
-                html += `<div class="result-group-label">${groupName}</div>`;
 
-                groupItems.forEach(item => {
-                    const isLineVoom = item.type === 'video' && isLineVoomVideo(item.id);
-                    // Apply highlighting for all matched query words
-                    let highlightedText = item.text;
+                if (groupName === 'Top Matches') {
+                    html += `<div class="newspaper-section">`;
 
-                    // Apply semantic highlights first (purple) — from expanded words
-                    const uniqueSemanticWords = [...new Set(item.semanticMatchedWords || [])];
-                    uniqueSemanticWords.sort((a, b) => b.length - a.length);
-                    uniqueSemanticWords.forEach(kw => {
-                        if (kw.length >= 2) {
-                            const regex = new RegExp(`(${escapeRegExp(kw)})(?![^<>]*>)`, 'gi');
-                            highlightedText = highlightedText.replace(regex, '<span class="highlight-semantic" title="คำเชื่อมโยง">$1</span>');
+                    const highlightText = (text, words, cls) => {
+                        if (!text) return text;
+                        const unique = [...new Set(words || [])].sort((a, b) => b.length - a.length);
+                        let result = text;
+                        unique.forEach(kw => {
+                            if (kw.length >= 2) {
+                                const regex = new RegExp(`(${escapeRegExp(kw)})`, 'gi');
+                                result = result.replace(regex, `<span class="${cls}">$1</span>`);
+                            }
+                        });
+                        return result;
+                    };
+
+                    const buildEmbedHtml = (item) => {
+                        const isLineVoom = item.type === 'video' && isLineVoomVideo(item.id);
+                        if (item.type === 'video' && item.id) {
+                            if (isLineVoom) {
+                                const postId = getLineVoomPostId(item.id);
+                                return postId ? `<blockquote class="line_timeline_embedded_post" data-baseurl="https://linevoom.line.me" data-postid="${postId}" data-writerid="_dd9JDo889wfojzv17U8LwAKX2-hN4oDNIStQBfQ" data-embeddedtime="1782658691883" data-view-type="B" data-with-text data-playable data-auto-play style="width: 100%; min-width: 260px; max-width: 100%"></blockquote>` : '';
+                            } else {
+                                const parts = item.id.split('?');
+                                const vId = parts[0];
+                                const extraParams = parts.length > 1 ? `&${parts[1]}` : '';
+                                return `<iframe src="https://www.youtube.com/embed/${vId}?autoplay=0&modestbranding=1&rel=0${extraParams}" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>`;
+                            }
                         }
-                    });
+                        return '';
+                    };
 
-                    // Apply direct highlights (gold) — from original query words
-                    const uniqueMatchedWords = [...new Set(item.matchedWords || [])];
-                    uniqueMatchedWords.sort((a, b) => b.length - a.length);
-                    uniqueMatchedWords.forEach(kw => {
-                        if (kw.length >= 2 || !THAI_STOP_WORDS.has(kw)) {
-                            const regex = new RegExp(`(${escapeRegExp(kw)})(?![^<>]*>)`, 'gi');
-                            highlightedText = highlightedText.replace(regex, '<span class="highlight">$1</span>');
-                        }
-                    });
-
-                    let iconHtml = '<div class="card-icon">📄</div>';
-                    let typeBadge = '<span class="card-badge">Research & Info</span>';
-
-                    if (item.type === 'video') {
-                        const isShorts = !isLineVoom && !item.id.includes('?start=');
-                        if (isLineVoom) {
-                            iconHtml = `<div class="card-icon line-icon">LINE</div>`;
-                            typeBadge = '<span class="linevoom-badge">LINE Voom</span>';
+                    const buildCardData = (item) => {
+                        const text = item.text;
+                        let headline = text, excerpt = '';
+                        const sepMatch = text.match(/^(.+?)[—–\-:!?。\n]/);
+                        if (sepMatch && sepMatch[1].length < 80) {
+                            headline = sepMatch[1].trim();
+                            excerpt = text.slice(sepMatch[0].length).trim();
                         } else {
-                            iconHtml = `<div class="card-icon yt-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 4-8 4z"/></svg>
-                    </div>`;
-                            typeBadge = isShorts ? '<span class="shorts-badge">SHORTS</span>' : '<span class="card-badge">YouTube</span>';
+                            const words = text.split(/\s+/);
+                            headline = words.slice(0, Math.min(10, words.length)).join(' ');
+                            excerpt = words.slice(10).join(' ');
                         }
+                        const hlWords = [...new Set([...(item.matchedWords || []), ...(item.semanticMatchedWords || [])])];
+                        const pct = Math.round(item.ratio * 100);
+                        // Variable aspect: higher match = wider embed
+                        let embedAr;
+                        if (pct >= 90) embedAr = '16/9';
+                        else if (pct >= 70) embedAr = '4/3';
+                        else if (pct >= 50) embedAr = '1/1';
+                        else embedAr = '3/4';
+                        return {
+                            headline: highlightText(headline, hlWords, 'highlight'),
+                            excerpt: highlightText(excerpt, hlWords, 'highlight-semantic'),
+                            isLineVoom: item.type === 'video' && isLineVoomVideo(item.id),
+                            embedHtml: buildEmbedHtml(item),
+                            embedAr,
+                            pct,
+                            typeLabel: item.type === 'video' ? (isLineVoomVideo(item.id) ? 'LINE Voom' : 'YouTube') : 'Article',
+                            id: item.id || ''
+                        };
+                    };
+
+                    // Hero item
+                    const hero = groupItems[0];
+                    const hd = buildCardData(hero);
+                    const heroClass = hd.embedHtml ? '' : ' full';
+                    html += `<div class="newspaper-hero${heroClass}">`;
+                    if (hd.embedHtml) {
+                        html += `<div class="newspaper-embed" style="aspect-ratio:${hd.embedAr}" data-id="${encodeURIComponent(hero.id || '')}" data-type="${hero.type}" data-text="${encodeURIComponent(hero.text)}">${hd.embedHtml}</div>`;
+                    }
+                    html += `<div class="newspaper-content">
+                        <div class="newspaper-headline">${hd.headline}</div>
+                        ${hd.excerpt ? `<div class="newspaper-excerpt">${hd.excerpt}</div>` : ''}
+                        <div class="newspaper-meta">
+                            <span class="newspaper-badge ${hd.pct >= 80 ? 'hot' : ''}">Match ${hd.pct}%</span>
+                            <span>${hd.typeLabel}</span>
+                            ${hd.id ? `<span>${hd.id}</span>` : ''}
+                        </div>
+                    </div></div>`;
+
+                    // Grid items (2nd, 3rd)
+                    const gridItems = groupItems.slice(1);
+                    if (gridItems.length > 0) {
+                        html += `<div class="newspaper-grid">`;
+                        gridItems.forEach(item => {
+                            const gd = buildCardData(item);
+                            html += `<div class="newspaper-card" data-id="${encodeURIComponent(item.id || '')}" data-type="${item.type}" data-text="${encodeURIComponent(item.text)}">
+                                ${gd.embedHtml ? `<div class="newspaper-embed" style="aspect-ratio:${gd.embedAr}">${gd.embedHtml}</div>` : ''}
+                                <div class="newspaper-card-body">
+                                    <div class="newspaper-card-title">${gd.headline}</div>
+                                    ${gd.excerpt ? `<div class="newspaper-card-text">${gd.excerpt}</div>` : ''}
+                                    <div class="newspaper-card-footer">
+                                        <span class="newspaper-badge ${gd.pct >= 80 ? 'hot' : ''}">Match ${gd.pct}%</span>
+                                        <span>${gd.typeLabel}</span>
+                                    </div>
+                                </div>
+                            </div>`;
+                        });
+                        html += `</div>`;
                     }
 
-                    const totalCount = item.totalCount;
-                    const matchedCount = item.matchedCount;
+                    html += `</div>`;
 
-                    const relevanceBadge = `<span class="card-badge" style="background: rgba(88, 166, 255, 0.1); color: var(--accent); border: 1px solid rgba(88, 166, 255, 0.2); font-weight: 500;">ตรง ${matchedCount}/${totalCount} คำ (คะแนน ${Math.round(item.score)})</span>`;
+                } else {
+                    html += `<div class="result-group-label">${groupName}</div>`;
 
-                    const metaHtml = item.type === 'video' ? `<span>ID: ${item.id}</span>` : '';
+                    groupItems.forEach(item => {
+                        const isLineVoom = item.type === 'video' && isLineVoomVideo(item.id);
+                        let highlightedText = item.text;
 
-                    const isTopMatch = groupName === 'Top Matches';
-                    const cardClass = isTopMatch ? 'result-card high-relevance' : 'result-card';
+                        const uniqueSemanticWords = [...new Set(item.semanticMatchedWords || [])];
+                        uniqueSemanticWords.sort((a, b) => b.length - a.length);
+                        uniqueSemanticWords.forEach(kw => {
+                            if (kw.length >= 2) {
+                                const regex = new RegExp(`(${escapeRegExp(kw)})(?![^<>]*>)`, 'gi');
+                                highlightedText = highlightedText.replace(regex, '<span class="highlight-semantic" title="คำเชื่อมโยง">$1</span>');
+                            }
+                        });
 
-                    const cardMeta = wasLoadedWithQuery ? '' : `
-                    <div class="card-meta">
-                        ${typeBadge}
-                        ${relevanceBadge}
-                        ${metaHtml}
+                        const uniqueMatchedWords = [...new Set(item.matchedWords || [])];
+                        uniqueMatchedWords.sort((a, b) => b.length - a.length);
+                        uniqueMatchedWords.forEach(kw => {
+                            if (kw.length >= 2 || !THAI_STOP_WORDS.has(kw)) {
+                                const regex = new RegExp(`(${escapeRegExp(kw)})(?![^<>]*>)`, 'gi');
+                                highlightedText = highlightedText.replace(regex, '<span class="highlight">$1</span>');
+                            }
+                        });
+
+                        let iconHtml = '<div class="card-icon">📄</div>';
+                        let typeBadge = '<span class="card-badge">Research & Info</span>';
+
+                        if (item.type === 'video') {
+                            const isShorts = !isLineVoom && !item.id.includes('?start=');
+                            if (isLineVoom) {
+                                iconHtml = `<div class="card-icon line-icon">LINE</div>`;
+                                typeBadge = '<span class="linevoom-badge">LINE Voom</span>';
+                            } else {
+                                iconHtml = `<div class="card-icon yt-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 4-8 4z"/></svg>
+                        </div>`;
+                                typeBadge = isShorts ? '<span class="shorts-badge">SHORTS</span>' : '<span class="card-badge">YouTube</span>';
+                            }
+                        }
+
+                        const totalCount = item.totalCount;
+                        const matchedCount = item.matchedCount;
+
+                        const metaHtml = item.type === 'video' ? `<span>ID: ${item.id}</span>` : '';
+
+                        const cardClass = 'result-card';
+
+                        const cardMeta = wasLoadedWithQuery ? '' : `
+                        <div class="card-meta">
+                            ${typeBadge}
+                            ${metaHtml}
+                        </div>`;
+
+                        let lineVoomEmbedHtml = '';
+                        let cardExtraClass = '';
+                        if (isLineVoom) {
+                            const lineVoomPostId = getLineVoomPostId(item.id);
+                            if (lineVoomPostId) {
+                                cardExtraClass = ' linevoom-card';
+                                lineVoomEmbedHtml = `
+                        <div class="linevoom-embed-inline">
+                            <blockquote class="line_timeline_embedded_post" data-baseurl="https://linevoom.line.me" data-postid="${lineVoomPostId}" data-writerid="_dd9JDo889wfojzv17U8LwAKX2-hN4oDNIStQBfQ" data-embeddedtime="1782658691883" data-view-type="B" data-with-text data-playable data-auto-play style="width: 100%; min-width: 260px; max-width: 100%"></blockquote>
+                        </div>`;
+                            }
+                        }
+
+                        if (lineVoomEmbedHtml) {
+                            html += `
+                    <div class="${cardClass}${cardExtraClass}" data-text="${encodeURIComponent(item.text)}" data-id="${item.id || ''}" data-type="${item.type}">
+                        ${lineVoomEmbedHtml}
                     </div>`;
-
-                    let lineVoomEmbedHtml = '';
-                    let cardExtraClass = '';
-                    if (isLineVoom) {
-                        const lineVoomPostId = getLineVoomPostId(item.id);
-                        if (lineVoomPostId) {
-                            cardExtraClass = ' linevoom-card';
-                            lineVoomEmbedHtml = `
-                    <div class="linevoom-embed-inline">
-                        <blockquote class="line_timeline_embedded_post" data-baseurl="https://linevoom.line.me" data-postid="${lineVoomPostId}" data-writerid="_dd9JDo889wfojzv17U8LwAKX2-hN4oDNIStQBfQ" data-embeddedtime="1782658691883" data-view-type="B" data-with-text data-playable data-auto-play style="width: 100%; min-width: 260px; max-width: 100%"></blockquote>
+                        } else {
+                            html += `
+                    <div class="${cardClass}" data-text="${encodeURIComponent(item.text)}" data-id="${item.id || ''}" data-type="${item.type}">
+                        ${iconHtml}
+                        <div class="card-content">
+                            <div class="card-text">${highlightedText}</div>
+                            ${cardMeta}
+                        </div>
                     </div>`;
                         }
-                    }
-
-                    if (lineVoomEmbedHtml) {
-                        html += `
-                <div class="${cardClass}${cardExtraClass}" data-text="${encodeURIComponent(item.text)}" data-id="${item.id || ''}" data-type="${item.type}">
-                    ${lineVoomEmbedHtml}
-                </div>`;
-                    } else {
-                        html += `
-                <div class="${cardClass}" data-text="${encodeURIComponent(item.text)}" data-id="${item.id || ''}" data-type="${item.type}">
-                    ${iconHtml}
-                    <div class="card-content">
-                        <div class="card-text">${highlightedText}</div>
-                        ${cardMeta}
-                    </div>
-                </div>`;
-                    }
-                });
+                    });
+                }
             }
 
             resultsDiv.innerHTML = html;
@@ -2094,6 +2747,101 @@
                 document.body.appendChild(script);
             }
 
+            // Newspaper embed click: open video popup
+            document.querySelectorAll('.newspaper-embed').forEach(el => {
+                const idRaw = el.dataset.id;
+                const type = el.dataset.type;
+                const text = el.dataset.text ? decodeURIComponent(el.dataset.text) : '';
+                if (type === 'video' && idRaw) {
+                    el.style.cursor = 'pointer';
+                    el.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const videoId = decodeURIComponent(idRaw);
+                        const itemText = text;
+                        const isLineVoom = isLineVoomVideo(videoId);
+
+                        if (closeVideoTimeout) {
+                            clearTimeout(closeVideoTimeout);
+                            closeVideoTimeout = null;
+                        }
+
+                        const isShorts = !isLineVoom && !videoId.includes('?start=');
+                        const videoIdParts = videoId.split('?');
+                        const embedId = videoIdParts[0];
+                        const lineVoomPostId = isLineVoom ? getLineVoomPostId(videoId) : null;
+
+                        const videoUrl = isLineVoom
+                            ? getLineVoomUrl(videoId)
+                            : (isShorts ? `https://youtube.com/shorts/${videoId}` : `https://www.youtube.com/watch?v=${videoId}`);
+
+                        navigator.clipboard.writeText(`${itemText}\n${videoUrl}`).then(() => {
+                            copyPopup.classList.add('show');
+                            setTimeout(() => copyPopup.classList.remove('show'), 2000);
+                        });
+
+                        videoFrame.className = 'popup-frame active';
+                        videoFrame.classList.add('centered');
+
+                        if (isLineVoom) {
+                            videoFrame.classList.add('linevoom', 'standard');
+                        } else if (isShorts) {
+                            videoFrame.classList.add('shorts');
+                        } else {
+                            videoFrame.classList.add('standard');
+                        }
+
+                        if (isLineVoom && lineVoomPostId) {
+                            videoFrame.innerHTML = `
+                            <div id="close-video-frame">×</div>
+                            <div id="linevoom-embed-container"></div>`;
+                            mountLineVoomEmbed(lineVoomPostId);
+                        } else {
+                            videoFrame.innerHTML = `
+                            <div id="close-video-frame">×</div>
+                            <div id="yt-player-container"></div>`;
+
+                            const playerVars = { 'autoplay': 1, 'modestbranding': 1, 'rel': 0, 'enablejsapi': 1 };
+                            if (videoIdParts.length > 1) {
+                                const searchParams = new URLSearchParams(videoIdParts[1]);
+                                for (const [key, value] of searchParams.entries()) {
+                                    playerVars[key] = value;
+                                }
+                            }
+
+                            if (window.YT && window.YT.Player) {
+                                new window.YT.Player('yt-player-container', {
+                                    videoId: embedId,
+                                    playerVars: playerVars,
+                                    events: { 'onStateChange': (event) => { if (event.data === 0) closeVideo(); } }
+                                });
+                            } else {
+                                const params = videoIdParts.length > 1 ? `&${videoIdParts[1]}` : '';
+                                const embedUrl = `https://www.youtube.com/embed/${embedId}?autoplay=1&modestbranding=1&rel=0${params}`;
+                                document.getElementById('yt-player-container').innerHTML = `<iframe src="${embedUrl}" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+                            }
+                        }
+
+                        document.getElementById('close-video-frame').addEventListener('click', (ev) => {
+                            ev.stopPropagation();
+                            closeVideo();
+                        });
+                    });
+                }
+            });
+
+            // Newspaper card click: copy text
+            document.querySelectorAll('.newspaper-card').forEach(el => {
+                el.addEventListener('click', (e) => {
+                    if (e.target.closest('.newspaper-embed')) return;
+                    const text = el.dataset.text ? decodeURIComponent(el.dataset.text) : '';
+                    if (!text) return;
+                    navigator.clipboard.writeText(text).then(() => {
+                        copyPopup.classList.add('show');
+                        setTimeout(() => copyPopup.classList.remove('show'), 2000);
+                    });
+                });
+            });
+
             // Attach event listeners to results
             document.querySelectorAll('.result-card').forEach(el => {
                 const textData = decodeURIComponent(el.dataset.text);
@@ -2112,7 +2860,6 @@
                             }, 350);
                             return;
                         }
-                        6
                         e.stopPropagation();
 
                         if (closeVideoTimeout) {
