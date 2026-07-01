@@ -34,7 +34,6 @@
             font-family: 'Outfit', 'Sarabun', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background: var(--bg);
             color: var(--text);
-            overflow-x: hidden;
             line-height: 1.6;
         }
 
@@ -118,7 +117,7 @@
         /* Main layout */
         #main-content {
             max-width: 1220px;
-            margin: 50px auto 100px auto;
+            margin: 0 auto 100px auto;
             padding: 0 20px;
             display: flex;
             gap: 24px;
@@ -228,10 +227,21 @@
         }
 
         /* Search Area */
+        #pre-main {
+            max-width: 1220px;
+            margin: 40px auto 0 auto;
+            padding: 0 20px;
+            text-align: center;
+        }
         #search-container {
-            width: 100%;
-            position: relative;
-            margin-bottom: 25px;
+            max-width: 1220px;
+            margin: 0 auto 25px auto;
+            padding: 8px 20px;
+            position: sticky;
+            top: 72px;
+            z-index: 10;
+            background: var(--bg);
+            box-sizing: border-box;
         }
 
         #search-input {
@@ -1109,6 +1119,10 @@
                 margin-top: 30px;
             }
 
+            #pre-main {
+                margin-top: 20px;
+            }
+
             /* Center the bottom-right popup on mobile so it doesn't overflow screen */
             .popup-frame.bottom-right {
                 top: 50% !important;
@@ -1204,16 +1218,17 @@
         </button>
     </header>
 
+    <div id="pre-main">
+        <div class="hero-title">Intelligent Data Search</div>
+        <div class="hero-subtitle">Fast client-side keyword search across your entire GitHub database</div>
+    </div>
+
+    <div id="search-container">
+        <input type="text" id="search-input" placeholder="พิมพ์เพื่อค้นหาข้อมูล.." autocomplete="off">
+    </div>
+
     <main id="main-content">
         <div id="main-area">
-            <div class="hero-title">Intelligent Data Search</div>
-            <div class="hero-subtitle">Fast client-side keyword search across your entire GitHub database</div>
-
-            <div id="search-container">
-                <input type="text" id="search-input" placeholder="พิมพ์เพื่อค้นหาข้อมูล.." autocomplete="off">
-            </div>
-
-
             <div class="filter-tabs">
                 <button class="tab active" data-filter="all">All Items</button>
                 <button class="tab" data-filter="video">Videos</button>
@@ -2779,7 +2794,7 @@
                     const hero = groupItems[0];
                     const hd = buildCardData(hero);
                     const heroClass = hd.embedHtml ? '' : ' full';
-                    html += `<div class="newspaper-hero${heroClass}">`;
+                    html += `<div class="newspaper-hero${heroClass}" data-id="${encodeURIComponent(hero.id || '')}" data-type="${hero.type}" data-text="${encodeURIComponent(hero.text)}">`;
                     if (hd.embedHtml) {
                         html += `<div class="newspaper-embed" style="aspect-ratio:${hd.embedAr}" data-id="${encodeURIComponent(hero.id || '')}" data-type="${hero.type}" data-text="${encodeURIComponent(hero.text)}">${hd.embedHtml}</div>`;
                     }
@@ -3048,6 +3063,29 @@
                 });
             });
 
+            // Newspaper hero click: copy text
+            document.querySelectorAll('.newspaper-hero').forEach(el => {
+                el.addEventListener('click', (e) => {
+                    if (e.target.closest('.newspaper-embed') || e.target.closest('.edit-link')) return;
+                    const text = el.dataset.text ? decodeURIComponent(el.dataset.text) : '';
+                    if (!text) return;
+                    const videoId = el.dataset.id ? decodeURIComponent(el.dataset.id) : '';
+                    const itemType = el.dataset.type;
+                    let clipboardText = text;
+                    if (itemType === 'video' && videoId) {
+                        const isLineVoom = isLineVoomVideo(videoId);
+                        const videoUrl = isLineVoom
+                            ? getLineVoomUrl(videoId)
+                            : (videoId.includes('?start=') ? `https://www.youtube.com/watch?v=${videoId}` : `https://youtube.com/shorts/${videoId}`);
+                        clipboardText = `${text} ${videoUrl}`;
+                    }
+                    navigator.clipboard.writeText(clipboardText).then(() => {
+                        copyPopup.classList.add('show');
+                        setTimeout(() => copyPopup.classList.remove('show'), 2000);
+                    });
+                });
+            });
+
             // Newspaper excerpt click: expand/collapse full text
             document.querySelectorAll('.newspaper-excerpt').forEach(el => {
                 el.addEventListener('click', (e) => {
@@ -3077,33 +3115,16 @@
                         const isLineVoom = isLineVoomVideo(videoId);
                         if (isLineVoom) {
                             el.classList.toggle('expanded');
-                            // Trigger window resize event to let the iframe contents adjust to the new size
                             setTimeout(() => {
                                 window.dispatchEvent(new Event('resize'));
                             }, 350);
                             return;
                         }
-                        e.stopPropagation();
-
-                        closeVideo();
-                        pauseAllYouTubeEmbeds();
-
-                        if (closeVideoTimeout) {
-                            clearTimeout(closeVideoTimeout);
-                            closeVideoTimeout = null;
-                        }
-
                         const isShorts = !isLineVoom && !videoId.includes('?start=');
-                        const videoIdParts = videoId.split('?');
-                        const embedId = videoIdParts[0];
-                        const lineVoomPostId = isLineVoom ? getLineVoomPostId(videoId) : null;
-
-                        // Copy video info + URL to clipboard
                         const videoUrl = isLineVoom
                             ? getLineVoomUrl(videoId)
                             : (isShorts ? `https://youtube.com/shorts/${videoId}` : `https://www.youtube.com/watch?v=${videoId}`);
                         const clipboardText = `${textData} ${videoUrl}`;
-
                         navigator.clipboard.writeText(clipboardText).then(() => {
                             const hasQ = new URLSearchParams(window.location.search).has('q');
                             if (!hasQ) {
@@ -3114,75 +3135,6 @@
                                     el.style.borderColor = 'var(--border)';
                                 }, 2000);
                             }
-                        });
-
-                        // Check if URL has query param "q"
-                        const hasQ = new URLSearchParams(window.location.search).has('q');
-
-                        // Add aspect ratio and positioning classes
-                        videoFrame.className = 'popup-frame active';
-                        if (hasQ) {
-                            videoFrame.classList.add('centered');
-                        } else {
-                            videoFrame.classList.add('bottom-right');
-                        }
-
-                        if (isLineVoom) {
-                            videoFrame.classList.add('linevoom', 'standard');
-                        } else if (isShorts) {
-                            videoFrame.classList.add('shorts');
-                        } else {
-                            videoFrame.classList.add('standard');
-                        }
-
-                        if (isLineVoom && lineVoomPostId) {
-                            videoFrame.innerHTML = `
-                        <div id="close-video-frame">×</div>
-                        <div id="linevoom-embed-container"></div>`;
-                            mountLineVoomEmbed(lineVoomPostId);
-                        } else {
-                            videoFrame.innerHTML = `
-                        <div id="close-video-frame">×</div>
-                        <div id="yt-player-container"></div>`;
-
-                            const playerVars = {
-                                'autoplay': 1,
-                                'controls': 0,
-                                'modestbranding': 1,
-                                'rel': 0,
-                                'enablejsapi': 1
-                            };
-                            if (videoIdParts.length > 1) {
-                                const searchParams = new URLSearchParams(videoIdParts[1]);
-                                for (const [key, value] of searchParams.entries()) {
-                                    playerVars[key] = value;
-                                }
-                            }
-
-                            if (window.YT && window.YT.Player) {
-                                currentPlayer = new window.YT.Player('yt-player-container', {
-                                    videoId: embedId,
-                                    playerVars: playerVars,
-                                    events: {
-                                        'onStateChange': (event) => {
-                                            if (event.data === 0) { // 0 = YT.PlayerState.ENDED
-                                                closeVideo();
-                                            }
-                                        }
-                                    }
-                                });
-                            } else {
-                                // Fallback to standard iframe if YT API is not ready
-                                const params = videoIdParts.length > 1 ? `&${videoIdParts[1]}` : '';
-                                const embedUrl = `https://www.youtube.com/embed/${embedId}?autoplay=1&controls=0&modestbranding=1&rel=0${params}`;
-                                document.getElementById('yt-player-container').innerHTML = `
-                            <iframe src="${embedUrl}" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
-                            }
-                        }
-
-                        document.getElementById('close-video-frame').addEventListener('click', (ev) => {
-                            ev.stopPropagation();
-                            closeVideo();
                         });
                     } else {
                         closeVideo();
