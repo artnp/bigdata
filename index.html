@@ -1298,15 +1298,33 @@
         let _lazySearchQuery = '';
         let _lazyLoadedCount = 0;
 
+        const DB_NAME = 'bigdata_search_db';
+        const DB_VERSION = 1;
         const CACHE_KEY = 'bigdata_search_cache';
-        const CACHE_VERSION = 2; // Increment to invalidate old caches
-        const DAILY_CHECK_INTERVAL_MS = 60 * 60 * 1000; // Check every hour if day changed
+        const CACHE_VERSION = 3;
+        const DAILY_CHECK_INTERVAL_MS = 60 * 60 * 1000;
 
         function getTodayDate() {
-            return new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+            return new Date().toISOString().slice(0, 10);
         }
 
-        function saveToCache(itemsList) {
+        let _db = null;
+        function openDB() {
+            return new Promise((resolve, reject) => {
+                if (_db) return resolve(_db);
+                const req = indexedDB.open(DB_NAME, DB_VERSION);
+                req.onupgradeneeded = (e) => {
+                    const db = e.target.result;
+                    if (!db.objectStoreNames.contains('cache')) {
+                        db.createObjectStore('cache', { keyPath: 'key' });
+                    }
+                };
+                req.onsuccess = (e) => { _db = e.target.result; resolve(_db); };
+                req.onerror = (e) => { reject(e.target.error); };
+            });
+        }
+
+        async function saveToCache(itemsList) {
             try {
                 const cacheData = {
                     version: CACHE_VERSION,
@@ -1314,25 +1332,64 @@
                     date: getTodayDate(),
                     items: itemsList
                 };
-                localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
+                // Try localStorage first (faster for small data)
+                const str = JSON.stringify(cacheData);
+                try {
+                    localStorage.setItem(CACHE_KEY, str);
+                    return;
+                } catch (_) {
+                    // localStorage full, fallback to IndexedDB
+                }
+                const db = await openDB();
+                const tx = db.transaction('cache', 'readwrite');
+                tx.objectStore('cache').put({ key: CACHE_KEY, value: str });
+                await new Promise((resolve, reject) => {
+                    tx.oncomplete = resolve;
+                    tx.onerror = (e) => reject(e.target.error);
+                });
             } catch (e) {
-                console.warn('Failed to save to localStorage cache:', e);
+                console.warn('Failed to save cache:', e);
             }
         }
 
-        function loadFromCache() {
+        async function loadFromCache() {
             try {
-                const cached = localStorage.getItem(CACHE_KEY);
-                if (cached) {
-                    const data = JSON.parse(cached);
+                let str = null;
+                try {
+                    str = localStorage.getItem(CACHE_KEY);
+                } catch (_) {}
+                if (!str) {
+                    try {
+                        const db = await openDB();
+                        const tx = db.transaction('cache', 'readonly');
+                        const store = tx.objectStore('cache');
+                        const result = await new Promise((resolve, reject) => {
+                            const req = store.get(CACHE_KEY);
+                            req.onsuccess = () => resolve(req.result);
+                            req.onerror = (e) => reject(e.target.error);
+                        });
+                        if (result) str = result.value;
+                    } catch (_) {}
+                }
+                if (str) {
+                    const data = JSON.parse(str);
                     if (data.version !== CACHE_VERSION) {
-                        localStorage.removeItem(CACHE_KEY);
+                        try { localStorage.removeItem(CACHE_KEY); } catch (_) {}
+                        try {
+                            const db = await openDB();
+                            const tx = db.transaction('cache', 'readwrite');
+                            tx.objectStore('cache').delete(CACHE_KEY);
+                            await new Promise((resolve, reject) => {
+                                tx.oncomplete = resolve;
+                                tx.onerror = (e) => reject(e.target.error);
+                            });
+                        } catch (_) {}
                         return null;
                     }
                     return data;
                 }
             } catch (e) {
-                console.warn('Failed to load from localStorage cache:', e);
+                console.warn('Failed to load cache:', e);
             }
             return null;
         }
@@ -1602,8 +1659,8 @@
                 items = uniqueItems;
                 window._lastBigdataItems = bigdataItems.slice(-5);
                 window._lastReelItems = reelItems.slice(-5);
-                saveToCache(items);
-                buildSmartIndex(items, true);
+                await saveToCache(items);
+                await buildSmartIndex(items, true);
                 populateSidebar();
 
                 const uniqueVideoCount = items.filter(i => i.type === 'video').length;
@@ -1640,8 +1697,8 @@
             }
         }
 
-        function isCacheFromToday() {
-            const cached = loadFromCache();
+        async function isCacheFromToday() {
+            const cached = await loadFromCache();
             if (cached && cached.date) {
                 return cached.date === getTodayDate();
             }
@@ -1649,7 +1706,7 @@
         }
 
         async function syncCacheInBackground(force = false) {
-            if (!force && isCacheFromToday()) {
+            if (!force && await isCacheFromToday()) {
                 console.log('Background sync skipped: already have today\'s data.');
                 return;
             }
@@ -1658,16 +1715,16 @@
         }
 
         function startDailyChecker() {
-            setInterval(() => {
-                if (!isCacheFromToday()) {
+            setInterval(async () => {
+                if (!await isCacheFromToday()) {
                     console.log('New day detected by daily checker, triggering background update...');
                     fetchDatabase(false);
                 }
             }, DAILY_CHECK_INTERVAL_MS);
         }
 
-        function initDatabase() {
-            const cached = loadFromCache();
+        async function initDatabase() {
+            const cached = await loadFromCache();
 
             // Check for URL query parameter on load
             const urlParams = new URLSearchParams(window.location.search);
@@ -1722,7 +1779,7 @@
                 startDailyChecker();
 
                 // If cache is not from today, or if we are in embed mode, trigger background sync
-                if (!isCacheFromToday() || isEmbedMode) {
+                if (!await isCacheFromToday() || isEmbedMode) {
                     setTimeout(() => {
                         syncCacheInBackground(isEmbedMode);
                     }, isEmbedMode ? 500 : 3000);
@@ -1960,7 +2017,7 @@
         }
 
         const SMART_INDEX_CACHE_KEY = 'bigdata_smart_index_cache';
-        function saveSmartIndexToCache(index) {
+        async function saveSmartIndexToCache(index) {
             try {
                 const serialized = {
                     thaiEngPairs: Array.from(index.thaiEngPairs.entries()).map(([k, v]) => [k, Array.from(v)]),
@@ -1969,17 +2026,44 @@
                     cooccurrence: Array.from(index.cooccurrence.entries()),
                     timestamp: Date.now()
                 };
-                localStorage.setItem(SMART_INDEX_CACHE_KEY, JSON.stringify(serialized));
+                const str = JSON.stringify(serialized);
+                try {
+                    localStorage.setItem(SMART_INDEX_CACHE_KEY, str);
+                    return;
+                } catch (_) {}
+                const db = await openDB();
+                const tx = db.transaction('cache', 'readwrite');
+                tx.objectStore('cache').put({ key: SMART_INDEX_CACHE_KEY, value: str });
+                await new Promise((resolve, reject) => {
+                    tx.oncomplete = resolve;
+                    tx.onerror = (e) => reject(e.target.error);
+                });
             } catch (e) {
                 console.warn('Failed to save smart index to cache:', e);
             }
         }
 
-        function loadSmartIndexFromCache() {
+        async function loadSmartIndexFromCache() {
             try {
-                const cached = localStorage.getItem(SMART_INDEX_CACHE_KEY);
-                if (cached) {
-                    const data = JSON.parse(cached);
+                let str = null;
+                try {
+                    str = localStorage.getItem(SMART_INDEX_CACHE_KEY);
+                } catch (_) {}
+                if (!str) {
+                    try {
+                        const db = await openDB();
+                        const tx = db.transaction('cache', 'readonly');
+                        const store = tx.objectStore('cache');
+                        const result = await new Promise((resolve, reject) => {
+                            const req = store.get(SMART_INDEX_CACHE_KEY);
+                            req.onsuccess = () => resolve(req.result);
+                            req.onerror = (e) => reject(e.target.error);
+                        });
+                        if (result) str = result.value;
+                    } catch (_) {}
+                }
+                if (str) {
+                    const data = JSON.parse(str);
                     const thaiEngPairs = new Map(data.thaiEngPairs.map(([k, v]) => [k, new Set(v)]));
                     const engThaiPairs = new Map(data.engThaiPairs.map(([k, v]) => [k, new Set(v)]));
                     const consonantMap = new Map(data.consonantMap.map(([k, v]) => [k, new Set(v)]));
@@ -2094,7 +2178,7 @@
             console.time('buildSmartIndex');
 
             if (!forceRebuild) {
-                const cached = loadSmartIndexFromCache();
+                const cached = await loadSmartIndexFromCache();
                 if (cached) {
                     smartIndex = cached;
                     console.log('Smart Index loaded from cache successfully.');
@@ -2184,7 +2268,7 @@
             }
 
             smartIndex = { thaiEngPairs, engThaiPairs, consonantMap, cooccurrence: filteredCo };
-            saveSmartIndexToCache(smartIndex);
+            await saveSmartIndexToCache(smartIndex);
 
             console.timeEnd('buildSmartIndex');
             console.log(`Smart Index built: ${thaiEngPairs.size} pairs, ${consonantMap.size} skeletons, ${filteredCo.size} co-occurrence`);
@@ -3194,7 +3278,7 @@
         });
 
         // Load database on startup
-        initDatabase();
+        initDatabase().catch(e => console.error('initDatabase error:', e));
     </script>
 </body>
 
