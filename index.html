@@ -363,6 +363,31 @@
             box-shadow: 0 6px 20px rgba(248, 81, 73, 0.2) !important;
         }
 
+                .result-card.has-video {
+            flex-direction: column;
+            align-items: stretch;
+            padding: 0;
+            gap: 0;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .result-card.has-video .result-card-embed {
+            width: 100%;
+            background: #000;
+        }
+
+        .result-card.has-video .result-card-embed iframe {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border: none;
+            display: block;
+        }
+
+        .result-card.has-video .card-content {
+            padding: 10px 14px;
+        }
+
         /* ===== Immersive Newspaper Layout ===== */
         .newspaper-section {
             background: linear-gradient(180deg, rgba(88,166,255,0.04) 0%, transparent 100%);
@@ -390,12 +415,13 @@
 
         .newspaper-hero {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr;
             gap: 16px;
             align-items: start;
             margin-bottom: 16px;
             padding-bottom: 16px;
             border-bottom: 1px solid var(--border);
+            position: relative;
         }
 
         .newspaper-hero:last-child {
@@ -444,13 +470,7 @@
         }
 
         .newspaper-meta {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-top: 4px;
-            flex-wrap: wrap;
+            display: none;
         }
 
         .newspaper-embed {
@@ -512,6 +532,7 @@
             display: flex;
             flex-direction: column;
             cursor: pointer;
+            position: relative;
         }
 
         .newspaper-card:hover {
@@ -556,15 +577,28 @@
         }
 
         .newspaper-card-footer {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            margin-top: auto;
-            padding-top: 6px;
+            display: none;
         }
 
+        .edit-link {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            font-size: 1rem;
+            opacity: 0.5;
+            background: rgba(0,0,0,0.5);
+            border-radius: 4px;
+            padding: 2px 6px;
+            z-index: 2;
+            line-height: 1;
+            color: var(--accent);
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+        .edit-link:hover {
+            opacity: 1;
+            color: #58a6ff;
+        }
         .newspaper-badge {
             padding: 2px 10px;
             border-radius: 10px;
@@ -1024,6 +1058,14 @@
             border-radius: 6px !important;
         }
 
+        body.embed-mode .result-card.has-video {
+            padding: 0 !important;
+            gap: 0 !important;
+        }
+        body.embed-mode .result-card.has-video .card-content {
+            padding: 6px 10px !important;
+        }
+
         body.embed-mode .card-icon {
             width: 30px !important;
             height: 30px !important;
@@ -1242,6 +1284,7 @@
         let _lazyLoadedCount = 0;
 
         const CACHE_KEY = 'bigdata_search_cache';
+        const CACHE_VERSION = 2; // Increment to invalidate old caches
         const DAILY_CHECK_INTERVAL_MS = 60 * 60 * 1000; // Check every hour if day changed
 
         function getTodayDate() {
@@ -1251,6 +1294,7 @@
         function saveToCache(itemsList) {
             try {
                 const cacheData = {
+                    version: CACHE_VERSION,
                     timestamp: Date.now(),
                     date: getTodayDate(),
                     items: itemsList
@@ -1265,7 +1309,12 @@
             try {
                 const cached = localStorage.getItem(CACHE_KEY);
                 if (cached) {
-                    return JSON.parse(cached);
+                    const data = JSON.parse(cached);
+                    if (data.version !== CACHE_VERSION) {
+                        localStorage.removeItem(CACHE_KEY);
+                        return null;
+                    }
+                    return data;
                 }
             } catch (e) {
                 console.warn('Failed to load from localStorage cache:', e);
@@ -1315,8 +1364,25 @@
 
         let closeVideoTimeout = null;
         let lineVoomResizeHandler = null;
+        let currentPlayer = null;
+
+        function pauseAllYouTubeEmbeds() {
+            document.querySelectorAll('iframe[src*="youtube.com/embed"]').forEach(iframe => {
+                try { iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*'); } catch(e) {}
+            });
+            document.querySelectorAll('.newspaper-embed iframe, .result-card-embed iframe, #yt-player-container iframe').forEach(iframe => {
+                try { iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*'); } catch(e) {}
+            });
+            if (currentPlayer) {
+                try { currentPlayer.pauseVideo(); } catch(e) {}
+            }
+        }
 
         function closeVideo() {
+            if (currentPlayer) {
+                try { currentPlayer.pauseVideo(); currentPlayer.destroy(); } catch(e) {}
+                currentPlayer = null;
+            }
             if (lineVoomResizeHandler) {
                 window.removeEventListener('message', lineVoomResizeHandler);
                 lineVoomResizeHandler = null;
@@ -1395,15 +1461,22 @@
                                 : `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/bigdata.json?t=${Date.now()}`;
                             const fallbackResp = await fetch(fallbackUrl);
                             if (fallbackResp.ok) {
-                                const fallbackData = await fallbackResp.json();
+                                const rawText = await fallbackResp.text();
+                                const fallbackData = JSON.parse(rawText);
                                 if (Array.isArray(fallbackData)) {
+                                    let pos = 0;
                                     fallbackData.forEach(item => {
                                         const hasLineVoom = item.url && item.url.includes('linevoom');
+                                        const dataKey = rawText.indexOf('"data"', pos);
+                                        const lineNum = dataKey !== -1 ? rawText.substring(0, dataKey).split('\n').length : 1;
+                                        if (dataKey !== -1) pos = dataKey + 6;
                                         bigdataItems.push({
                                             type: hasLineVoom ? 'video' : 'text',
                                             text: item.data,
                                             id: hasLineVoom ? item.url : undefined,
-                                            src: 'bigdata'
+                                            src: 'bigdata',
+                                            fileNum: 0,
+                                            lineNum: lineNum
                                         });
                                     });
                                 }
@@ -1411,15 +1484,22 @@
                         }
                         break; // Stop looking for next indices
                     }
-                    const data = await response.json();
+                    const rawText = await response.text();
+                    const data = JSON.parse(rawText);
                     if (Array.isArray(data)) {
+                        let pos = 0;
                         data.forEach(item => {
                             const hasLineVoom = item.url && item.url.includes('linevoom');
+                            const dataKey = rawText.indexOf('"data"', pos);
+                            const lineNum = dataKey !== -1 ? rawText.substring(0, dataKey).split('\n').length : 1;
+                            if (dataKey !== -1) pos = dataKey + 6;
                             bigdataItems.push({
                                 type: hasLineVoom ? 'video' : 'text',
                                 text: item.data,
                                 id: hasLineVoom ? item.url : undefined,
-                                src: 'bigdata'
+                                src: 'bigdata',
+                                fileNum: n,
+                                lineNum: lineNum
                             });
                         });
                     }
@@ -1449,13 +1529,13 @@
                             const fallbackResp = await fetch(fallbackUrl);
                             if (fallbackResp.ok) {
                                 const fallbackText = await fallbackResp.text();
-                                parseReelJsText(fallbackText, reelItems);
+                                parseReelJsText(fallbackText, reelItems, 0);
                             }
                         }
                         break;
                     }
                     const text = await response.text();
-                    parseReelJsText(text, reelItems);
+                    parseReelJsText(text, reelItems, n);
                     loadedCount++;
                     updateProgress();
                     n++;
@@ -1769,10 +1849,32 @@
             renderList(reelEl, reelSrc);
         }
 
-        function parseReelJsText(text, arrayToPush) {
+        function getEditUrl(item) {
+            if (item.fileNum === undefined) return null;
+            const fileNum = item.fileNum || 0;
+            const base = `https://github.com/${GITHUB_USER}/${GITHUB_REPO}/edit/${GITHUB_BRANCH}/`;
+            if (item.src === 'reel') {
+                const fileName = fileNum > 0 ? `reel${fileNum}.js` : 'reel.js';
+                return item.lineNum ? `${base}${fileName}#L${item.lineNum}` : `${base}${fileName}`;
+            }
+            const fileName = fileNum > 0 ? `bigdata${fileNum}.json` : 'bigdata.json';
+            return item.lineNum ? `${base}${fileName}#L${item.lineNum}` : `${base}${fileName}`;
+        }
+
+        function findLineNumber(rawText, searchStr, startPos) {
+            const pos = rawText.indexOf(searchStr, startPos || 0);
+            if (pos === -1) return 1;
+            return rawText.substring(0, pos).split('\n').length;
+        }
+
+        function parseReelJsText(text, arrayToPush, fileNum) {
             const matches = text.match(/"([^"]+)"/g);
             if (matches) {
+                let lastPos = 0;
                 matches.forEach(match => {
+                    const matchPos = text.indexOf(match, lastPos);
+                    const lineNum = matchPos !== -1 ? text.substring(0, matchPos).split('\n').length : 1;
+                    lastPos = matchPos + match.length;
                     const cleanStr = match.slice(1, -1); // remove outer quotes
                     const parts = cleanStr.split(',');
                     if (parts.length >= 2) {
@@ -1782,7 +1884,9 @@
                             type: 'video',
                             id: id,
                             text: title,
-                            src: 'reel'
+                            src: 'reel',
+                            fileNum: fileNum || 0,
+                            lineNum: lineNum
                         });
                     }
                 });
@@ -2166,6 +2270,39 @@
             return { original: queryWords, expanded: [...expanded], map };
         }
 
+        // Thai phonetic normalization for typo tolerance
+        const THAI_PHONETIC_MAP = {
+            'ก':'ก','ข':'ก','ฃ':'ก','ค':'ก','ฅ':'ก','ฆ':'ก',
+            'ง':'ง',
+            'จ':'จ','ฉ':'จ','ช':'จ','ซ':'จ','ฌ':'จ',
+            'ญ':'ย','ย':'ย',
+            'ฎ':'ด','ฏ':'ด','ฐ':'ด','ฑ':'ด','ฒ':'ด','ถ':'ด','ท':'ด','ธ':'ด','ด':'ด','ต':'ต',
+            'ณ':'น','น':'น',
+            'บ':'บ','ป':'บ','ผ':'พ','พ':'พ','ภ':'พ','ฝ':'ฟ','ฟ':'ฟ',
+            'ม':'ม',
+            'ร':'ร','ล':'ร','ฬ':'ร',
+            'ว':'ว',
+            'ศ':'ซ','ษ':'ซ','ส':'ซ',
+            'ห':'ห','ฮ':'ฮ',
+            'อ':'อ','อ':'อ'
+        };
+
+        function thaiNormalize(text) {
+            return text.toLowerCase().split('').map(ch => THAI_PHONETIC_MAP[ch] || ch).join('');
+        }
+
+        function levenshtein(a, b) {
+            const m = a.length, n = b.length;
+            const dp = Array.from({length: m + 1}, (_, i) => [i]);
+            for (let j = 1; j <= n; j++) dp[0][j] = j;
+            for (let i = 1; i <= m; i++) {
+                for (let j = 1; j <= n; j++) {
+                    dp[i][j] = a[i-1] === b[j-1] ? dp[i-1][j-1] : 1 + Math.min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]);
+                }
+            }
+            return dp[m][n];
+        }
+
         // Calculate relevance score between query words and database item text
         function calculateScore(itemText, queryWords, rawQuery, expandedInfo) {
             const textLower = itemText.toLowerCase();
@@ -2257,6 +2394,31 @@
                 }
             }
 
+            // 6. Thai phonetic fuzzy matching for typo tolerance
+            if (score < 100 && rawQuery && /[\u0E00-\u0E7F]/.test(rawQuery)) {
+                const normItem = thaiNormalize(itemText);
+                const normQuery = thaiNormalize(rawQuery);
+                if (normItem.includes(normQuery)) {
+                    score += 800;
+                    matchCount = Math.max(matchCount, 1);
+                }
+                for (const origW of queryWords) {
+                    if (origW.length < 2 || matchedWords.includes(origW)) continue;
+                    const normW = thaiNormalize(origW);
+                    const iWords = normItem.split(/\s+/);
+                    for (const iw of iWords) {
+                        if (iw.length < 2) continue;
+                        const dist = levenshtein(normW, iw);
+                        if (dist <= Math.min(2, Math.floor(normW.length * 0.4))) {
+                            matchedWords.push(origW);
+                            matchCount++;
+                            score += 600 * (1 - dist / Math.max(normW.length, iw.length));
+                            break;
+                        }
+                    }
+                }
+            }
+
             return {
                 score,
                 matchCount,
@@ -2324,11 +2486,16 @@
                                 : `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/bigdata.json?t=${Date.now()}`;
                             const fb = await fetch(fallbackUrl);
                             if (fb.ok) {
-                                const data = await fb.json();
+                                const rawText = await fb.text();
+                                const data = JSON.parse(rawText);
                                 if (Array.isArray(data)) {
+                                    let pos = 0;
                                     data.forEach(item => {
                                         const hasLineVoom = item.url && item.url.includes('linevoom');
-                                        bigdataItems.push({ type: hasLineVoom ? 'video' : 'text', text: item.data, id: hasLineVoom ? item.url : undefined, src: 'bigdata' });
+                                        const dataKey = rawText.indexOf('"data"', pos);
+                                        const lineNum = dataKey !== -1 ? rawText.substring(0, dataKey).split('\n').length : 1;
+                                        if (dataKey !== -1) pos = dataKey + 6;
+                                        bigdataItems.push({ type: hasLineVoom ? 'video' : 'text', text: item.data, id: hasLineVoom ? item.url : undefined, src: 'bigdata', fileNum: 0, lineNum: lineNum });
                                     });
                                     processBatch();
                                 }
@@ -2336,11 +2503,16 @@
                         }
                         break;
                     }
-                    const data = await response.json();
+                    const rawText = await response.text();
+                    const data = JSON.parse(rawText);
                     if (Array.isArray(data)) {
+                        let pos = 0;
                         data.forEach(item => {
                             const hasLineVoom = item.url && item.url.includes('linevoom');
-                            bigdataItems.push({ type: hasLineVoom ? 'video' : 'text', text: item.data, id: hasLineVoom ? item.url : undefined, src: 'bigdata' });
+                            const dataKey = rawText.indexOf('"data"', pos);
+                            const lineNum = dataKey !== -1 ? rawText.substring(0, dataKey).split('\n').length : 1;
+                            if (dataKey !== -1) pos = dataKey + 6;
+                            bigdataItems.push({ type: hasLineVoom ? 'video' : 'text', text: item.data, id: hasLineVoom ? item.url : undefined, src: 'bigdata', fileNum: n, lineNum: lineNum });
                         });
                         processBatch();
                     }
@@ -2367,14 +2539,14 @@
                             const fb = await fetch(fallbackUrl);
                             if (fb.ok) {
                                 const text = await fb.text();
-                                parseReelJsText(text, reelItems);
+                                parseReelJsText(text, reelItems, 0);
                                 processBatch();
                             }
                         }
                         break;
                     }
                     const text = await response.text();
-                    parseReelJsText(text, reelItems);
+                    parseReelJsText(text, reelItems, n);
                     processBatch();
                     _lazyLoadedCount++;
                     n++;
@@ -2564,7 +2736,7 @@
                                 const parts = item.id.split('?');
                                 const vId = parts[0];
                                 const extraParams = parts.length > 1 ? `&${parts[1]}` : '';
-                                return `<iframe src="https://www.youtube.com/embed/${vId}?autoplay=0&modestbranding=1&rel=0${extraParams}" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>`;
+                                return `<iframe src="https://www.youtube.com/embed/${vId}?autoplay=0&controls=0&modestbranding=1&rel=0${extraParams}" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>`;
                             }
                         }
                         return '';
@@ -2598,7 +2770,8 @@
                             embedAr,
                             pct,
                             typeLabel: item.type === 'video' ? (isLineVoomVideo(item.id) ? 'LINE Voom' : 'YouTube') : 'Article',
-                            id: item.id || ''
+                            id: item.id || '',
+                            editUrl: getEditUrl(item)
                         };
                     };
 
@@ -2618,7 +2791,9 @@
                             <span>${hd.typeLabel}</span>
                             ${hd.id ? `<span>${hd.id}</span>` : ''}
                         </div>
-                    </div></div>`;
+                    </div>
+                    ${hd.editUrl ? `<a href="${hd.editUrl}" target="_blank" class="edit-link" title="Edit on GitHub">⚙️</a>` : ''}
+                </div>`;
 
                     // Grid items (2nd, 3rd)
                     const gridItems = groupItems.slice(1);
@@ -2626,10 +2801,11 @@
                         html += `<div class="newspaper-grid">`;
                         gridItems.forEach(item => {
                             const gd = buildCardData(item);
+                            const editHtml = gd.editUrl ? `<a href="${gd.editUrl}" target="_blank" class="edit-link" title="Edit on GitHub">⚙️</a>` : '';
                             html += `<div class="newspaper-card" data-id="${encodeURIComponent(item.id || '')}" data-type="${item.type}" data-text="${encodeURIComponent(item.text)}">
                                 ${gd.embedHtml ? `<div class="newspaper-embed" style="aspect-ratio:${gd.embedAr}">${gd.embedHtml}</div>` : ''}
                                 <div class="newspaper-card-body">
-                                    <div class="newspaper-card-title">${gd.headline}</div>
+                                    <div class="newspaper-card-title">${gd.headline}${editHtml}</div>
                                     ${gd.excerpt ? `<div class="newspaper-card-text">${gd.excerpt}</div>` : ''}
                                     <div class="newspaper-card-footer">
                                         <span class="newspaper-badge ${gd.pct >= 80 ? 'hot' : ''}">Match ${gd.pct}%</span>
@@ -2688,6 +2864,7 @@
                         const matchedCount = item.matchedCount;
 
                         const metaHtml = item.type === 'video' ? `<span>ID: ${item.id}</span>` : '';
+                        const editUrl = getEditUrl(item);
 
                         const cardClass = 'result-card';
 
@@ -2710,17 +2887,33 @@
                             }
                         }
 
+                        const editLinkHtml = editUrl ? `<a href="${editUrl}" target="_blank" class="edit-link result-edit" title="Edit on GitHub">⚙️</a>` : '';
                         if (lineVoomEmbedHtml) {
                             html += `
                     <div class="${cardClass}${cardExtraClass}" data-text="${encodeURIComponent(item.text)}" data-id="${item.id || ''}" data-type="${item.type}">
                         ${lineVoomEmbedHtml}
+                        ${editLinkHtml}
+                    </div>`;
+                        } else if (item.type === 'video' && item.id && !isLineVoom) {
+                            const vParts = item.id.split('?');
+                            const vId = vParts[0];
+                            const extraParams = vParts.length > 1 ? `&${vParts[1]}` : '';
+                            html += `
+                    <div class="${cardClass} has-video" data-text="${encodeURIComponent(item.text)}" data-id="${item.id || ''}" data-type="${item.type}">
+                        <div class="result-card-embed">
+                            <iframe src="https://www.youtube.com/embed/${vId}?autoplay=0&controls=0&modestbranding=1&rel=0${extraParams}" allow="encrypted-media" allowfullscreen loading="lazy"></iframe>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-text">${highlightedText}${editLinkHtml}</div>
+                            ${cardMeta}
+                        </div>
                     </div>`;
                         } else {
                             html += `
                     <div class="${cardClass}" data-text="${encodeURIComponent(item.text)}" data-id="${item.id || ''}" data-type="${item.type}">
                         ${iconHtml}
                         <div class="card-content">
-                            <div class="card-text">${highlightedText}</div>
+                            <div class="card-text">${highlightedText}${editLinkHtml}</div>
                             ${cardMeta}
                         </div>
                     </div>`;
@@ -2760,6 +2953,9 @@
                         const itemText = text;
                         const isLineVoom = isLineVoomVideo(videoId);
 
+                        closeVideo();
+                        pauseAllYouTubeEmbeds();
+
                         if (closeVideoTimeout) {
                             clearTimeout(closeVideoTimeout);
                             closeVideoTimeout = null;
@@ -2774,7 +2970,7 @@
                             ? getLineVoomUrl(videoId)
                             : (isShorts ? `https://youtube.com/shorts/${videoId}` : `https://www.youtube.com/watch?v=${videoId}`);
 
-                        navigator.clipboard.writeText(`${itemText}\n${videoUrl}`).then(() => {
+                        navigator.clipboard.writeText(`${itemText} ${videoUrl}`).then(() => {
                             copyPopup.classList.add('show');
                             setTimeout(() => copyPopup.classList.remove('show'), 2000);
                         });
@@ -2800,7 +2996,7 @@
                             <div id="close-video-frame">×</div>
                             <div id="yt-player-container"></div>`;
 
-                            const playerVars = { 'autoplay': 1, 'modestbranding': 1, 'rel': 0, 'enablejsapi': 1 };
+                            const playerVars = { 'autoplay': 1, 'controls': 0, 'modestbranding': 1, 'rel': 0, 'enablejsapi': 1 };
                             if (videoIdParts.length > 1) {
                                 const searchParams = new URLSearchParams(videoIdParts[1]);
                                 for (const [key, value] of searchParams.entries()) {
@@ -2809,14 +3005,14 @@
                             }
 
                             if (window.YT && window.YT.Player) {
-                                new window.YT.Player('yt-player-container', {
+                                currentPlayer = new window.YT.Player('yt-player-container', {
                                     videoId: embedId,
                                     playerVars: playerVars,
                                     events: { 'onStateChange': (event) => { if (event.data === 0) closeVideo(); } }
                                 });
                             } else {
                                 const params = videoIdParts.length > 1 ? `&${videoIdParts[1]}` : '';
-                                const embedUrl = `https://www.youtube.com/embed/${embedId}?autoplay=1&modestbranding=1&rel=0${params}`;
+                                const embedUrl = `https://www.youtube.com/embed/${embedId}?autoplay=1&controls=0&modestbranding=1&rel=0${params}`;
                                 document.getElementById('yt-player-container').innerHTML = `<iframe src="${embedUrl}" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
                             }
                         }
@@ -2835,10 +3031,36 @@
                     if (e.target.closest('.newspaper-embed')) return;
                     const text = el.dataset.text ? decodeURIComponent(el.dataset.text) : '';
                     if (!text) return;
-                    navigator.clipboard.writeText(text).then(() => {
+                    const videoId = el.dataset.id ? decodeURIComponent(el.dataset.id) : '';
+                    const itemType = el.dataset.type;
+                    let clipboardText = text;
+                    if (itemType === 'video' && videoId) {
+                        const isLineVoom = isLineVoomVideo(videoId);
+                        const videoUrl = isLineVoom
+                            ? getLineVoomUrl(videoId)
+                            : (videoId.includes('?start=') ? `https://www.youtube.com/watch?v=${videoId}` : `https://youtube.com/shorts/${videoId}`);
+                        clipboardText = `${text} ${videoUrl}`;
+                    }
+                    navigator.clipboard.writeText(clipboardText).then(() => {
                         copyPopup.classList.add('show');
                         setTimeout(() => copyPopup.classList.remove('show'), 2000);
                     });
+                });
+            });
+
+            // Newspaper excerpt click: expand/collapse full text
+            document.querySelectorAll('.newspaper-excerpt').forEach(el => {
+                el.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    el.classList.toggle('expanded');
+                });
+            });
+
+            // Inline embed click: pause popup and other embeds
+            document.querySelectorAll('.newspaper-embed, .result-card-embed').forEach(el => {
+                el.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    pauseAllYouTubeEmbeds();
                 });
             });
 
@@ -2850,6 +3072,7 @@
 
                 // Click to copy logic
                 el.addEventListener('click', (e) => {
+                    if (e.target.closest('.result-card-embed')) return;
                     if (itemType === 'video' && videoId) {
                         const isLineVoom = isLineVoomVideo(videoId);
                         if (isLineVoom) {
@@ -2861,6 +3084,9 @@
                             return;
                         }
                         e.stopPropagation();
+
+                        closeVideo();
+                        pauseAllYouTubeEmbeds();
 
                         if (closeVideoTimeout) {
                             clearTimeout(closeVideoTimeout);
@@ -2876,7 +3102,7 @@
                         const videoUrl = isLineVoom
                             ? getLineVoomUrl(videoId)
                             : (isShorts ? `https://youtube.com/shorts/${videoId}` : `https://www.youtube.com/watch?v=${videoId}`);
-                        const clipboardText = `${textData}\n${videoUrl}`;
+                        const clipboardText = `${textData} ${videoUrl}`;
 
                         navigator.clipboard.writeText(clipboardText).then(() => {
                             const hasQ = new URLSearchParams(window.location.search).has('q');
@@ -2921,6 +3147,7 @@
 
                             const playerVars = {
                                 'autoplay': 1,
+                                'controls': 0,
                                 'modestbranding': 1,
                                 'rel': 0,
                                 'enablejsapi': 1
@@ -2933,7 +3160,7 @@
                             }
 
                             if (window.YT && window.YT.Player) {
-                                new window.YT.Player('yt-player-container', {
+                                currentPlayer = new window.YT.Player('yt-player-container', {
                                     videoId: embedId,
                                     playerVars: playerVars,
                                     events: {
@@ -2947,7 +3174,7 @@
                             } else {
                                 // Fallback to standard iframe if YT API is not ready
                                 const params = videoIdParts.length > 1 ? `&${videoIdParts[1]}` : '';
-                                const embedUrl = `https://www.youtube.com/embed/${embedId}?autoplay=1&modestbranding=1&rel=0${params}`;
+                                const embedUrl = `https://www.youtube.com/embed/${embedId}?autoplay=1&controls=0&modestbranding=1&rel=0${params}`;
                                 document.getElementById('yt-player-container').innerHTML = `
                             <iframe src="${embedUrl}" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
                             }
