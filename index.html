@@ -745,110 +745,166 @@
             font-weight: bold;
         }
 
-        /* ── Comment card style (YouTube-like) ── */
-        .comment-icon {
-            width: 40px;
-            height: 40px;
+        /* ── Comment Card — Premium YouTube-style ── */
+        .result-card.comment-card {
+            display: flex;
+            flex-direction: row;
+            gap: 14px;
+            align-items: flex-start;
+            background: linear-gradient(135deg, rgba(22,27,34,0.95), rgba(22,27,34,0.8));
+            border: 1px solid rgba(48, 54, 61, 0.4);
+            border-left: 3px solid rgba(88, 166, 255, 0.3);
+            border-radius: 12px;
+            padding: 18px 20px 16px 20px;
+            transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            backdrop-filter: blur(4px);
+        }
+
+        .result-card.comment-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(88,166,255,0.03), transparent);
+            pointer-events: none;
+        }
+
+        .result-card.comment-card:hover {
+            border-color: rgba(88, 166, 255, 0.25);
+            border-left-color: rgba(88, 166, 255, 0.7);
+            box-shadow: 0 6px 24px rgba(88,166,255,0.06), 0 2px 8px rgba(0,0,0,0.3);
+            transform: translateY(-2px);
+            background: rgba(26, 32, 40, 0.95);
+        }
+
+        /* Avatar */
+        .comment-avatar {
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #0288d1, #0277bd);
+            background: linear-gradient(135deg, #1f6feb, #58a6ff);
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
+            margin-top: 2px;
+            font-size: 16px;
             color: #fff;
             font-weight: 700;
-            font-size: 1rem;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        .comment-badge {
-            background: rgba(88, 166, 255, 0.15);
-            color: #58a6ff;
-            font-size: 0.68rem;
-            padding: 3px 10px;
-            border-radius: 4px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .result-card.comment-card {
-            /* YouTube-like comment box layout */
-            display: flex;
-            flex-direction: row;
-            gap: 12px;
-            align-items: flex-start;
-            border: 1px solid rgba(48, 54, 61, 0.6);
-            border-radius: 8px;
-            background: rgba(33, 38, 45, 0.5);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-            padding: 12px 14px;
-            transition: all 0.2s ease;
+            user-select: none;
+            box-shadow: 0 2px 8px rgba(31,111,235,0.25);
             position: relative;
+            z-index: 1;
         }
 
-        .result-card.comment-card:hover {
-            background: rgba(33, 38, 45, 0.7);
-            border-color: rgba(88, 166, 255, 0.4);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-            transform: translateY(-1px);
+        .comment-avatar::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(88,166,255,0.3), transparent);
+            z-index: -1;
         }
 
+        /* Content wrapper */
         .result-card.comment-card .card-content {
             flex: 1;
             min-width: 0;
             display: flex;
             flex-direction: column;
+            gap: 6px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Username header */
+        .comment-header {
+            display: flex;
+            align-items: center;
             gap: 8px;
         }
 
-        /* Comment header (username + timestamp) */
-        .result-card.comment-card .card-content::before {
-            content: '@commenter · 2 นาทีที่ผ่านมา';
-            display: block;
-            font-size: 0.8rem;
+        .comment-username {
+            font-size: 0.82rem;
             font-weight: 600;
-            color: var(--text);
-            margin-bottom: 4px;
-            opacity: 0.9;
+            color: #e6edf3;
+            letter-spacing: 0.2px;
         }
 
+        .comment-dot {
+            font-size: 0.6rem;
+            color: #484f58;
+        }
+
+        .comment-time {
+            font-size: 0.7rem;
+            color: #8b949e;
+        }
+
+        /* Comment text */
         .result-card.comment-card .card-text {
-            color: var(--text);
+            color: #d2d8e0;
             font-size: 0.92rem;
-            line-height: 1.5;
+            line-height: 1.7;
             font-weight: 400;
             word-break: break-word;
+            padding: 0 36px 0 6px;
+            position: relative;
+        }
+
+        /* Double Quote — opening */
+        .comment-quote-mark {
+            position: absolute;
+            top: -6px;
+            left: 10px;
+            font-size: 40px;
+            line-height: 1;
+            color: rgba(88, 166, 255, 0.1);
+            font-family: Georgia, 'Times New Roman', serif;
+            font-weight: 900;
+            pointer-events: none;
+            user-select: none;
+            z-index: 0;
+        }
+
+        /* Double Quote — closing (rotated) */
+        .comment-quote-close {
+            position: absolute;
+            bottom: -6px;
+            right: 6px;
+            font-size: 30px;
+            line-height: 1;
+            color: rgba(88, 166, 255, 0.07);
+            font-family: Georgia, 'Times New Roman', serif;
+            font-weight: 900;
+            pointer-events: none;
+            user-select: none;
+            transform: rotate(180deg);
+            z-index: 0;
+        }
+
+        /* Badge */
+        .comment-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid rgba(88, 166, 255, 0.2);
+            color: var(--accent);
         }
 
         .result-card.comment-card .card-meta {
             display: flex;
             align-items: center;
-            gap: 16px;
-            margin-top: 6px;
-            padding-top: 8px;
-            border-top: 1px solid rgba(48, 54, 61, 0.5);
-        }
-
-        /* Comment action buttons (like/dislike/reply) */
-        .result-card.comment-card .card-meta::before {
-            content: '';
-            flex: 1;
-        }
-
-        .result-card.comment-card .card-meta::after {
-            content: '👍 0   👎   💬 ตอบกลับ';
-            font-size: 0.8rem;
+            gap: 12px;
+            font-size: 0.75rem;
             color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .result-card.comment-card .card-meta:hover::after {
-            color: var(--text);
         }
 
         .highlight {
@@ -3120,7 +3176,22 @@
                         </div>
                     </div>`;
                         } else {
-                            html += `
+                            const isComment = item.src === 'comment';
+                            if (isComment) {
+                                html += `
+                    <div class="${cardClass}${commentCardClass}" data-text="${encodeURIComponent(item.text)}" data-id="${item.id || ''}" data-type="${item.type}">
+                        <div class="comment-quote-mark">&#10077;</div>
+                        <div class="comment-avatar">ค</div>
+                        <div class="card-content">
+                            <div class="comment-header">
+                                <span class="comment-username">ความคิดเห็น</span>
+                            </div>
+                            <div class="card-text">${highlightedText}${editLinkHtml}</div>
+                        </div>
+                        <div class="comment-quote-close">&#10077;</div>
+                    </div>`;
+                            } else {
+                                html += `
                     <div class="${cardClass}${commentCardClass}" data-text="${encodeURIComponent(item.text)}" data-id="${item.id || ''}" data-type="${item.type}">
                         ${iconHtml}
                         <div class="card-content">
@@ -3128,6 +3199,7 @@
                             ${cardMeta}
                         </div>
                     </div>`;
+                            }
                         }
                     });
                 }
