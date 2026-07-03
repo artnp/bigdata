@@ -3044,22 +3044,36 @@
                     // Hero item
                     const hero = groupItems[0];
                     const hd = buildCardData(hero);
-                    const heroClass = hd.embedHtml ? '' : ' full';
-                    html += `<div class="newspaper-hero${heroClass}" data-id="${encodeURIComponent(hero.id || '')}" data-type="${hero.type}" data-text="${encodeURIComponent(hero.text)}">`;
-                    if (hd.embedHtml) {
-                        html += `<div class="newspaper-embed" style="aspect-ratio:${hd.embedAr}" data-id="${encodeURIComponent(hero.id || '')}" data-type="${hero.type}" data-text="${encodeURIComponent(hero.text)}">${hd.embedHtml}</div>`;
-                    }
-                    html += `<div class="newspaper-content">
-                        <div class="newspaper-headline">${hd.headline}</div>
-                        ${hd.excerpt ? `<div class="newspaper-excerpt">${hd.excerpt}</div>` : ''}
-                        <div class="newspaper-meta">
-                            <span class="newspaper-badge ${hd.pct >= 80 ? 'hot' : ''}">Match ${hd.pct}%</span>
-                            <span>${hd.typeLabel}</span>
-                            ${hd.id ? `<span>${hd.id}</span>` : ''}
+                    const heroIsComment = hero.src === 'comment';
+                    if (heroIsComment) {
+                        const heroText = hero.text;
+                        html += `<div class="result-card comment-card" data-text="${encodeURIComponent(heroText)}" data-id="${hero.id || ''}" data-type="${hero.type}">
+                            <div class="comment-quote-mark">&#10077;</div>
+                            <div class="comment-avatar">ค</div>
+                            <div class="card-content">
+                                <div class="comment-header"><span class="comment-username">ความคิดเห็น</span></div>
+                                <div class="card-text">${heroText}</div>
+                            </div>
+                            <div class="comment-quote-close">&#10077;</div>
+                        </div>`;
+                    } else {
+                        const heroClass = hd.embedHtml ? '' : ' full';
+                        html += `<div class="newspaper-hero${heroClass}" data-id="${encodeURIComponent(hero.id || '')}" data-type="${hero.type}" data-text="${encodeURIComponent(hero.text)}">`;
+                        if (hd.embedHtml) {
+                            html += `<div class="newspaper-embed" style="aspect-ratio:${hd.embedAr}" data-id="${encodeURIComponent(hero.id || '')}" data-type="${hero.type}" data-text="${encodeURIComponent(hero.text)}">${hd.embedHtml}</div>`;
+                        }
+                        html += `<div class="newspaper-content">
+                            <div class="newspaper-headline">${hd.headline}</div>
+                            ${hd.excerpt ? `<div class="newspaper-excerpt">${hd.excerpt}</div>` : ''}
+                            <div class="newspaper-meta">
+                                <span class="newspaper-badge ${hd.pct >= 80 ? 'hot' : ''}">Match ${hd.pct}%</span>
+                                <span>${hd.typeLabel}</span>
+                                ${hd.id ? `<span>${hd.id}</span>` : ''}
+                            </div>
                         </div>
-                    </div>
-                    ${hd.editUrl ? `<a href="${hd.editUrl}" target="_blank" class="edit-link" title="Edit on GitHub">⚙️</a>` : ''}
-                </div>`;
+                        ${hd.editUrl ? `<a href="${hd.editUrl}" target="_blank" class="edit-link" title="Edit on GitHub">⚙️</a>` : ''}
+                    </div>`;
+                    }
 
                     // Grid items (2nd, 3rd)
                     const gridItems = groupItems.slice(1);
@@ -3068,17 +3082,30 @@
                         gridItems.forEach(item => {
                             const gd = buildCardData(item);
                             const editHtml = gd.editUrl ? `<a href="${gd.editUrl}" target="_blank" class="edit-link" title="Edit on GitHub">⚙️</a>` : '';
-                            html += `<div class="newspaper-card" data-id="${encodeURIComponent(item.id || '')}" data-type="${item.type}" data-text="${encodeURIComponent(item.text)}">
-                                ${gd.embedHtml ? `<div class="newspaper-embed" style="aspect-ratio:${gd.embedAr}">${gd.embedHtml}</div>` : ''}
-                                <div class="newspaper-card-body">
-                                    <div class="newspaper-card-title">${gd.headline}${editHtml}</div>
-                                    ${gd.excerpt ? `<div class="newspaper-card-text">${gd.excerpt}</div>` : ''}
-                                    <div class="newspaper-card-footer">
-                                        <span class="newspaper-badge ${gd.pct >= 80 ? 'hot' : ''}">Match ${gd.pct}%</span>
-                                        <span>${gd.typeLabel}</span>
+                            const isCommentGrid = item.src === 'comment';
+                            if (isCommentGrid) {
+                                html += `<div class="result-card comment-card" data-text="${encodeURIComponent(item.text)}" data-id="${item.id || ''}" data-type="${item.type}">
+                                    <div class="comment-quote-mark">&#10077;</div>
+                                    <div class="comment-avatar">ค</div>
+                                    <div class="card-content">
+                                        <div class="comment-header"><span class="comment-username">ความคิดเห็น</span></div>
+                                        <div class="card-text">${item.text}${editHtml}</div>
                                     </div>
-                                </div>
-                            </div>`;
+                                    <div class="comment-quote-close">&#10077;</div>
+                                </div>`;
+                            } else {
+                                html += `<div class="newspaper-card" data-id="${encodeURIComponent(item.id || '')}" data-type="${item.type}" data-text="${encodeURIComponent(item.text)}">
+                                    ${gd.embedHtml ? `<div class="newspaper-embed" style="aspect-ratio:${gd.embedAr}">${gd.embedHtml}</div>` : ''}
+                                    <div class="newspaper-card-body">
+                                        <div class="newspaper-card-title">${gd.headline}${editHtml}</div>
+                                        ${gd.excerpt ? `<div class="newspaper-card-text">${gd.excerpt}</div>` : ''}
+                                        <div class="newspaper-card-footer">
+                                            <span class="newspaper-badge ${gd.pct >= 80 ? 'hot' : ''}">Match ${gd.pct}%</span>
+                                            <span>${gd.typeLabel}</span>
+                                        </div>
+                                    </div>
+                                </div>`;
+                            }
                         });
                         html += `</div>`;
                     }
