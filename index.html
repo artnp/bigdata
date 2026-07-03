@@ -1824,7 +1824,11 @@
 
             if (changed || force || items.length === 0) {
                 items = uniqueItems;
-                window._lastBigdataItems = bigdataItems.slice(-5);
+                // Sidebar: show comment items + latest bigdata items
+                const commentItems = bigdataItems.filter(i => i.src === 'comment');
+                const padCount = Math.max(0, 5 - commentItems.length);
+                const latestBigdata = bigdataItems.filter(i => i.src !== 'comment').slice(-padCount);
+                window._lastBigdataItems = [...commentItems, ...latestBigdata];
                 window._lastReelItems = reelItems.slice(-5);
                 await saveToCache(items);
                 await buildSmartIndex(items, true);
@@ -1907,7 +1911,7 @@
                 // Loaded from cache!
                 items = cached.items;
                 buildSmartIndex(items, false);
-                window._lastBigdataItems = items.filter(i => i.src === 'bigdata').slice(-5);
+                window._lastBigdataItems = items.filter(i => i.src === 'bigdata' || i.src === 'comment').slice(-5);
                 window._lastReelItems = items.filter(i => i.src === 'reel').slice(-5);
                 // If no src field (old cache), just show latest items in both panels
                 if (window._lastBigdataItems.length === 0) {
