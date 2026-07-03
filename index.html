@@ -745,6 +745,52 @@
             font-weight: bold;
         }
 
+        /* ── Comment card style ── */
+        .comment-icon {
+            color: #a8c7fa;
+            background: rgba(26, 115, 232, 0.12);
+            border: 1px solid rgba(26, 115, 232, 0.25);
+        }
+
+        .comment-badge {
+            background: rgba(26, 115, 232, 0.15);
+            color: #a8c7fa;
+            font-size: 0.65rem;
+            padding: 1px 7px;
+            border-radius: 3px;
+            font-weight: 600;
+            border: 1px solid rgba(26, 115, 232, 0.3);
+        }
+
+        .result-card.comment-card {
+            border-left: 3px solid rgba(26, 115, 232, 0.55);
+            background: linear-gradient(135deg,
+                rgba(26, 115, 232, 0.06) 0%,
+                rgba(15, 15, 25, 0.95) 100%
+            );
+            position: relative;
+        }
+
+        .result-card.comment-card::after {
+            content: '\201C';
+            position: absolute;
+            top: 6px;
+            right: 12px;
+            font-size: 2.8rem;
+            line-height: 1;
+            color: rgba(168, 199, 250, 0.12);
+            font-family: Georgia, serif;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .result-card.comment-card .card-text {
+            color: #d0e4ff;
+            font-style: italic;
+            font-size: 0.97rem;
+            line-height: 1.6;
+        }
+
         .highlight {
             background: rgba(255, 215, 0, 0.18);
             color: #ffd700;
@@ -1546,7 +1592,7 @@
                                             type: hasLineVoom ? 'video' : 'text',
                                             text: item.data ?? item.comment,
                                             id: hasLineVoom ? item.url : undefined,
-                                            src: 'bigdata',
+                                            src: item.comment !== undefined ? 'comment' : 'bigdata',
                                             fileNum: 0,
                                             lineNum: lineNum
                                         });
@@ -1569,7 +1615,7 @@
                                 type: hasLineVoom ? 'video' : 'text',
                                 text: item.data ?? item.comment,
                                 id: hasLineVoom ? item.url : undefined,
-                                src: 'bigdata',
+                                src: item.comment !== undefined ? 'comment' : 'bigdata',
                                 fileNum: n,
                                 lineNum: lineNum
                             });
@@ -2594,7 +2640,7 @@
                                         const dataKey = rawText.indexOf('"data"', pos);
                                         const lineNum = dataKey !== -1 ? rawText.substring(0, dataKey).split('\n').length : 1;
                                         if (dataKey !== -1) pos = dataKey + 6;
-                                        bigdataItems.push({ type: hasLineVoom ? 'video' : 'text', text: item.data ?? item.comment, id: hasLineVoom ? item.url : undefined, src: 'bigdata', fileNum: 0, lineNum: lineNum });
+                                        bigdataItems.push({ type: hasLineVoom ? 'video' : 'text', text: item.data ?? item.comment, id: hasLineVoom ? item.url : undefined, src: item.comment !== undefined ? 'comment' : 'bigdata', fileNum: 0, lineNum: lineNum });
                                     });
                                     processBatch();
                                 }
@@ -2611,7 +2657,7 @@
                             const dataKey = rawText.indexOf('"data"', pos);
                             const lineNum = dataKey !== -1 ? rawText.substring(0, dataKey).split('\n').length : 1;
                             if (dataKey !== -1) pos = dataKey + 6;
-                            bigdataItems.push({ type: hasLineVoom ? 'video' : 'text', text: item.data ?? item.comment, id: hasLineVoom ? item.url : undefined, src: 'bigdata', fileNum: n, lineNum: lineNum });
+                            bigdataItems.push({ type: hasLineVoom ? 'video' : 'text', text: item.data ?? item.comment, id: hasLineVoom ? item.url : undefined, src: item.comment !== undefined ? 'comment' : 'bigdata', fileNum: n, lineNum: lineNum });
                         });
                         processBatch();
                     }
@@ -2946,7 +2992,12 @@
                         let iconHtml = '<div class="card-icon">📄</div>';
                         let typeBadge = '<span class="card-badge">Research & Info</span>';
 
-                        if (item.type === 'video') {
+                        if (item.src === 'comment') {
+                            iconHtml = `<div class="card-icon comment-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="opacity:0.9"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
+                            </div>`;
+                            typeBadge = '<span class="comment-badge">💬 Comment</span>';
+                        } else if (item.type === 'video') {
                             const isShorts = !isLineVoom && !item.id.includes('?start=');
                             if (isLineVoom) {
                                 iconHtml = `<div class="card-icon line-icon">LINE</div>`;
@@ -2966,6 +3017,7 @@
                         const editUrl = getEditUrl(item);
 
                         const cardClass = 'result-card';
+                        const commentCardClass = item.src === 'comment' ? ' comment-card' : '';
 
                         const cardMeta = wasLoadedWithQuery ? '' : `
                         <div class="card-meta">
@@ -3009,7 +3061,7 @@
                     </div>`;
                         } else {
                             html += `
-                    <div class="${cardClass}" data-text="${encodeURIComponent(item.text)}" data-id="${item.id || ''}" data-type="${item.type}">
+                    <div class="${cardClass}${commentCardClass}" data-text="${encodeURIComponent(item.text)}" data-id="${item.id || ''}" data-type="${item.type}">
                         ${iconHtml}
                         <div class="card-content">
                             <div class="card-text">${highlightedText}${editLinkHtml}</div>
