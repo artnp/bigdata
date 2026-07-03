@@ -1696,7 +1696,8 @@
                             const fallbackResp = await fetch(fallbackUrl);
                             if (fallbackResp.ok) {
                                 const rawText = await fallbackResp.text();
-                                const fallbackData = JSON.parse(rawText);
+                                const fixedText = rawText.replace(/,(\s*[\]}])/g, '$1');
+                                const fallbackData = JSON.parse(fixedText);
                                 if (Array.isArray(fallbackData)) {
                                     let pos = 0;
                                     fallbackData.forEach(item => {
@@ -1719,7 +1720,8 @@
                         break; // Stop looking for next indices
                     }
                     const rawText = await response.text();
-                    const data = JSON.parse(rawText);
+                    const fixedText = rawText.replace(/,(\s*[\]}])/g, '$1');
+                    const data = JSON.parse(fixedText);
                     if (Array.isArray(data)) {
                         let pos = 0;
                         data.forEach(item => {
@@ -1741,8 +1743,11 @@
                     updateProgress();
                     n++;
                 } catch (e) {
-                    console.error(`Error loading bigdata${n}.json:`, e);
-                    break;
+                    console.warn(`Skipping bigdata${n}.json:`, e.message);
+                    loadedCount++;
+                    updateProgress();
+                    n++;
+                    continue;
                 }
             }
 
