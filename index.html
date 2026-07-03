@@ -384,7 +384,38 @@
 
         .result-card.has-video .result-card-embed {
             width: 100%;
-            background: #000;
+            background: var(--card);
+        }
+
+        .result-card.has-video .result-card-embed img {
+            width: 100%;
+            height: auto; /* เห็นรูปเต็มทุกส่วน ไม่ตัด */
+            display: block;
+        }
+
+        /* Image card layout: รูปซ้าย ข้อความขวา */
+        .result-card.has-image {
+            flex-direction: row !important;
+            align-items: flex-start;
+            padding: 10px !important;
+            gap: 12px !important;
+        }
+
+        .result-card.has-image .result-card-embed {
+            width: 200px;
+            flex-shrink: 0;
+        }
+
+        .result-card.has-image .result-card-embed img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 6px;
+        }
+
+        .result-card.has-image .card-content {
+            flex: 1;
+            padding: 0 !important;
         }
 
         .result-card.has-video .result-card-embed iframe {
@@ -425,7 +456,7 @@
 
         .newspaper-hero {
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: 1fr 1fr; /* รูปซ้าย ข้อความขวา */
             gap: 16px;
             align-items: start;
             margin-bottom: 16px;
@@ -434,14 +465,13 @@
             position: relative;
         }
 
-        .newspaper-hero:last-child {
-            margin-bottom: 0;
-            padding-bottom: 0;
-            border-bottom: none;
+        .newspaper-hero.full {
+            grid-template-columns: 1fr; /* ถ้าไม่มีรูปให้ใช้เต็มแถว */
         }
 
-        .newspaper-hero.full {
-            grid-template-columns: 1fr;
+        /* เมื่อเป็นรูปภาพ ให้รูปอยู่ซ้ายขนาดพอดี */
+        .newspaper-hero .newspaper-embed {
+            width: 100%;
         }
 
         .newspaper-content {
@@ -487,9 +517,16 @@
             width: 100%;
             border-radius: 12px;
             overflow: hidden;
-            background: #000;
+            background: var(--card);
             position: relative;
             cursor: pointer;
+        }
+
+        .newspaper-embed img {
+            width: 100%;
+            height: auto; /* เห็นรูปเต็มทุกส่วน ไม่ตัด */
+            display: block;
+            border-radius: 8px;
         }
 
         .newspaper-card .newspaper-embed {
@@ -553,7 +590,12 @@
 
         .newspaper-card .newspaper-embed {
             border-radius: 0;
-            aspect-ratio: 16 / 9;
+        }
+
+        .newspaper-card .newspaper-embed img {
+            width: 100%;
+            height: auto; /* เห็นรูปเต็มทุกส่วน ไม่ตัด */
+            display: block;
         }
 
         .newspaper-card-body {
@@ -627,7 +669,7 @@
 
         @media (max-width: 768px) {
             .newspaper-hero {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr; /* มือถือ: รูปบน ข้อความล่าง */
             }
             .newspaper-grid {
                 grid-template-columns: 1fr;
@@ -637,6 +679,12 @@
             }
             .newspaper-section {
                 padding: 16px;
+            }
+            .result-card.has-image {
+                flex-direction: column !important; /* มือถือ: รูปบน ข้อความล่าง */
+            }
+            .result-card.has-image .result-card-embed {
+                width: 100%;
             }
         }
 
@@ -1394,6 +1442,7 @@
             <div class="filter-tabs">
                 <button class="tab active" data-filter="all">All Items</button>
                 <button class="tab" data-filter="video">Videos</button>
+                <button class="tab" data-filter="image">Images</button>
                 <button class="tab" data-filter="text">Research & Info</button>
             </div>
 
@@ -1463,8 +1512,8 @@
         const DB_NAME = 'bigdata_search_db';
         const DB_VERSION = 1;
         const CACHE_KEY = 'bigdata_search_cache';
-        const CACHE_VERSION = 5;
-        const DAILY_CHECK_INTERVAL_MS = 60 * 60 * 1000;
+        const CACHE_VERSION = 6; // เพิ่ม version เพื่อ reset cache
+        const DAILY_CHECK_INTERVAL_MS = 24 * 60 * 60 * 1000; // เช็คทุก 24 ชั่วโมง แทนที่จะเป็น 1 ชั่วโมง
 
         function getTodayDate() {
             return new Date().toISOString().slice(0, 10);
@@ -1496,21 +1545,27 @@
                 };
                 // Try localStorage first (faster for small data)
                 const str = JSON.stringify(cacheData);
+                console.log(`Saving ${itemsList.length} items to cache (${Math.round(str.length/1024)}KB)`);
                 try {
                     localStorage.setItem(CACHE_KEY, str);
+                    console.log('Cache saved to localStorage successfully');
                     return;
-                } catch (_) {
+                } catch (e) {
+                    console.warn('localStorage full, trying IndexedDB:', e.message);
                     // localStorage full, fallback to IndexedDB
                 }
                 const db = await openDB();
                 const tx = db.transaction('cache', 'readwrite');
                 tx.objectStore('cache').put({ key: CACHE_KEY, value: str });
                 await new Promise((resolve, reject) => {
-                    tx.oncomplete = resolve;
+                    tx.oncomplete = () => {
+                        console.log('Cache saved to IndexedDB successfully');
+                        resolve();
+                    };
                     tx.onerror = (e) => reject(e.target.error);
                 });
             } catch (e) {
-                console.warn('Failed to save cache:', e);
+                console.error('Failed to save cache:', e);
             }
         }
 
@@ -1519,6 +1574,7 @@
                 let str = null;
                 try {
                     str = localStorage.getItem(CACHE_KEY);
+                    if (str) console.log('Cache found in localStorage');
                 } catch (_) {}
                 if (!str) {
                     try {
@@ -1530,12 +1586,16 @@
                             req.onsuccess = () => resolve(req.result);
                             req.onerror = (e) => reject(e.target.error);
                         });
-                        if (result) str = result.value;
+                        if (result) {
+                            str = result.value;
+                            console.log('Cache found in IndexedDB');
+                        }
                     } catch (_) {}
                 }
                 if (str) {
                     const data = JSON.parse(str);
                     if (data.version !== CACHE_VERSION) {
+                        console.log(`Cache version mismatch: ${data.version} vs ${CACHE_VERSION}, clearing...`);
                         try { localStorage.removeItem(CACHE_KEY); } catch (_) {}
                         try {
                             const db = await openDB();
@@ -1548,10 +1608,14 @@
                         } catch (_) {}
                         return null;
                     }
+                    const ageHours = (Date.now() - data.timestamp) / (1000 * 60 * 60);
+                    console.log(`Cache loaded: ${data.items?.length || 0} items, ${ageHours.toFixed(1)} hours old`);
                     return data;
+                } else {
+                    console.log('No cache found');
                 }
             } catch (e) {
-                console.warn('Failed to load cache:', e);
+                console.error('Failed to load cache:', e);
             }
             return null;
         }
@@ -1839,10 +1903,11 @@
                 populateSidebar();
 
                 const uniqueVideoCount = items.filter(i => i.type === 'video').length;
+                const uniqueImageCount = items.filter(i => i.type === 'image').length;
                 const uniqueTextCount = items.filter(i => i.type === 'text').length;
 
                 const updatedLabel = force ? '' : ' (อัปเดตข้อมูลใหม่แล้ว)';
-                searchStatus.innerHTML = `โหลดเสร็จสิ้น${updatedLabel} | มีวิดีโอ <span style="color:#fff;font-weight:600">${uniqueVideoCount.toLocaleString()}</span> รายการ, ข้อความ <span style="color:#fff;font-weight:600">${uniqueTextCount.toLocaleString()}</span> รายการ`;
+                searchStatus.innerHTML = `โหลดเสร็จสิ้น${updatedLabel} | มีวิดีโอ <span style="color:#fff;font-weight:600">${uniqueVideoCount.toLocaleString()}</span> รายการ, รูปภาพ <span style="color:#fff;font-weight:600">${uniqueImageCount.toLocaleString()}</span> รายการ, ข้อความ <span style="color:#fff;font-weight:600">${uniqueTextCount.toLocaleString()}</span> รายการ`;
 
                 // Re-run search if user is currently searching
                 if (searchInput.value.trim().length > 0) {
@@ -1874,15 +1939,17 @@
 
         async function isCacheFromToday() {
             const cached = await loadFromCache();
-            if (cached && cached.date) {
-                return cached.date === getTodayDate();
+            if (cached && cached.timestamp) {
+                // ให้ cache อยู่ได้ 7 วัน แทนที่จะเช็คทุกวัน
+                const sevenDaysAgo = Date.now() - (7 * 24 * 60 * 60 * 1000);
+                return cached.timestamp > sevenDaysAgo;
             }
             return false;
         }
 
         async function syncCacheInBackground(force = false) {
             if (!force && await isCacheFromToday()) {
-                console.log('Background sync skipped: already have today\'s data.');
+                console.log('Background sync skipped: cache is still fresh (< 7 days old).');
                 return;
             }
             console.log('Starting silent background update check...');
@@ -1892,7 +1959,7 @@
         function startDailyChecker() {
             setInterval(async () => {
                 if (!await isCacheFromToday()) {
-                    console.log('New day detected by daily checker, triggering background update...');
+                    console.log('Cache is older than 7 days, triggering background update...');
                     fetchDatabase(false);
                 }
             }, DAILY_CHECK_INTERVAL_MS);
@@ -1927,9 +1994,10 @@
                 populateSidebar();
 
                 const uniqueVideoCount = items.filter(i => i.type === 'video').length;
+                const uniqueImageCount = items.filter(i => i.type === 'image').length;
                 const uniqueTextCount = items.filter(i => i.type === 'text').length;
 
-                searchStatus.innerHTML = `โหลดเสร็จสิ้น (จากแคชในเครื่อง) | มีวิดีโอ <span style="color:#fff;font-weight:600">${uniqueVideoCount.toLocaleString()}</span> รายการ, ข้อความ <span style="color:#fff;font-weight:600">${uniqueTextCount.toLocaleString()}</span> รายการ`;
+                searchStatus.innerHTML = `โหลดเสร็จสิ้น (จากแคชในเครื่อง) | มีวิดีโอ <span style="color:#fff;font-weight:600">${uniqueVideoCount.toLocaleString()}</span> รายการ, รูปภาพ <span style="color:#fff;font-weight:600">${uniqueImageCount.toLocaleString()}</span> รายการ, ข้อความ <span style="color:#fff;font-weight:600">${uniqueTextCount.toLocaleString()}</span> รายการ`;
 
                 searchInput.placeholder = "พิมพ์เพื่อค้นหาข้อมูล..";
                 searchInput.disabled = false;
@@ -1953,11 +2021,11 @@
                 // Start daily checker
                 startDailyChecker();
 
-                // If cache is not from today, or if we are in embed mode, trigger background sync
+                // If cache is older than 7 days, or if we are in embed mode, trigger background sync
                 if (!await isCacheFromToday() || isEmbedMode) {
                     setTimeout(() => {
                         syncCacheInBackground(isEmbedMode);
-                    }, isEmbedMode ? 500 : 3000);
+                    }, isEmbedMode ? 500 : 10000); // รอ 10 วินาทีก่อนเช็คพื้นหลัง
                 }
 
             } else {
@@ -2767,10 +2835,19 @@
                                     let pos = 0;
                                     data.forEach(item => {
                                         const hasLineVoom = item.url && item.url.includes('linevoom');
+                                        const hasImage = item.url && !hasLineVoom && (item.url.includes('.jpg') || item.url.includes('.png') || item.url.includes('.gif') || item.url.includes('.jpeg') || item.url.includes('.webp'));
                                         const dataKey = rawText.indexOf('"data"', pos);
                                         const lineNum = dataKey !== -1 ? rawText.substring(0, dataKey).split('\n').length : 1;
                                         if (dataKey !== -1) pos = dataKey + 6;
-                                        bigdataItems.push({ type: hasLineVoom ? 'video' : 'text', text: item.data ?? item.comment, id: hasLineVoom ? item.url : undefined, src: item.comment !== undefined ? 'comment' : 'bigdata', fileNum: 0, lineNum: lineNum });
+                                        bigdataItems.push({ 
+                                            type: hasLineVoom ? 'video' : hasImage ? 'image' : 'text', 
+                                            text: item.data ?? item.comment, 
+                                            id: hasLineVoom ? item.url : undefined, 
+                                            imageUrl: hasImage ? item.url : undefined,
+                                            src: item.comment !== undefined ? 'comment' : 'bigdata', 
+                                            fileNum: 0, 
+                                            lineNum: lineNum 
+                                        });
                                     });
                                     processBatch();
                                 }
@@ -2785,10 +2862,19 @@
                         let pos = 0;
                         data.forEach(item => {
                             const hasLineVoom = item.url && item.url.includes('linevoom');
+                            const hasImage = item.url && !hasLineVoom && (item.url.includes('.jpg') || item.url.includes('.png') || item.url.includes('.gif') || item.url.includes('.jpeg') || item.url.includes('.webp'));
                             const dataKey = rawText.indexOf('"data"', pos);
                             const lineNum = dataKey !== -1 ? rawText.substring(0, dataKey).split('\n').length : 1;
                             if (dataKey !== -1) pos = dataKey + 6;
-                            bigdataItems.push({ type: hasLineVoom ? 'video' : 'text', text: item.data ?? item.comment, id: hasLineVoom ? item.url : undefined, src: item.comment !== undefined ? 'comment' : 'bigdata', fileNum: n, lineNum: lineNum });
+                            bigdataItems.push({ 
+                                type: hasLineVoom ? 'video' : hasImage ? 'image' : 'text', 
+                                text: item.data ?? item.comment, 
+                                id: hasLineVoom ? item.url : undefined, 
+                                imageUrl: hasImage ? item.url : undefined,
+                                src: item.comment !== undefined ? 'comment' : 'bigdata', 
+                                fileNum: n, 
+                                lineNum: lineNum 
+                            });
                         });
                         processBatch();
                     }
@@ -2871,8 +2957,9 @@
                 document.getElementById('smart-expansion-info').style.display = 'none';
 
                 const videoCount = items.filter(i => i.type === 'video').length;
+                const imageCount = items.filter(i => i.type === 'image').length;
                 const textCount = items.filter(i => i.type === 'text').length;
-                searchStatus.innerHTML = `โหลดเสร็จสิ้น | มีวิดีโอ <span style="color:#fff;font-weight:600">${videoCount.toLocaleString()}</span> รายการ, ข้อความ <span style="color:#fff;font-weight:600">${textCount.toLocaleString()}</span> รายการ`;
+                searchStatus.innerHTML = `โหลดเสร็จสิ้น | มีวิดีโอ <span style="color:#fff;font-weight:600">${videoCount.toLocaleString()}</span> รายการ, รูปภาพ <span style="color:#fff;font-weight:600">${imageCount.toLocaleString()}</span> รายการ, ข้อความ <span style="color:#fff;font-weight:600">${textCount.toLocaleString()}</span> รายการ`;
 
                 if (wasLoadedWithQuery) {
                     const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
@@ -3038,10 +3125,10 @@
                         }
                         const hlWords = [...new Set([...(item.matchedWords || []), ...(item.semanticMatchedWords || [])])];
                         const pct = Math.round(item.ratio * 100);
-                        // Variable aspect: higher match = wider embed
+                        // Variable aspect: กระชับสำหรับรูปภาพ
                         let embedAr;
                         if (item.type === 'image') {
-                            embedAr = '16/9'; // Default aspect for images
+                            embedAr = 'auto'; // ปล่อยให้เป็นไปตามสัดส่วนจริง
                         } else if (pct >= 90) embedAr = '16/9';
                         else if (pct >= 70) embedAr = '4/3';
                         else if (pct >= 50) embedAr = '1/1';
@@ -3080,7 +3167,8 @@
                         const heroClass = hd.embedHtml ? '' : ' full';
                         html += `<div class="newspaper-hero${heroClass}" data-id="${encodeURIComponent(hero.id || '')}" data-type="${hero.type}" data-text="${encodeURIComponent(hero.text)}">`;
                         if (hd.embedHtml) {
-                            html += `<div class="newspaper-embed" style="aspect-ratio:${hd.embedAr}" data-id="${encodeURIComponent(hero.id || '')}" data-type="${hero.type}" data-text="${encodeURIComponent(hero.text)}">${hd.embedHtml}</div>`;
+                            const aspectStyle = hd.isImage ? '' : `style="aspect-ratio:${hd.embedAr}"`;
+                            html += `<div class="newspaper-embed" ${aspectStyle} data-id="${encodeURIComponent(hero.id || '')}" data-type="${hero.type}" data-text="${encodeURIComponent(hero.text)}">${hd.embedHtml}</div>`;
                         }
                         html += `<div class="newspaper-content">
                             <div class="newspaper-headline">${hd.headline}</div>
@@ -3115,7 +3203,7 @@
                                 </div>`;
                             } else {
                                 html += `<div class="newspaper-card" data-id="${encodeURIComponent(item.id || '')}" data-type="${item.type}" data-text="${encodeURIComponent(item.text)}">
-                                    ${gd.embedHtml ? `<div class="newspaper-embed" style="aspect-ratio:${gd.embedAr}">${gd.embedHtml}</div>` : ''}
+                                    ${gd.embedHtml ? `<div class="newspaper-embed" ${gd.isImage ? '' : `style="aspect-ratio:${gd.embedAr}"`}>${gd.embedHtml}</div>` : ''}
                                     <div class="newspaper-card-body">
                                         <div class="newspaper-card-title">${gd.headline}${editHtml}</div>
                                         ${gd.excerpt ? `<div class="newspaper-card-text">${gd.excerpt}</div>` : ''}
@@ -3234,9 +3322,9 @@
                     </div>`;
                         } else if (item.type === 'image' && item.imageUrl) {
                             html += `
-                    <div class="${cardClass} has-video" data-text="${encodeURIComponent(item.text)}" data-id="${item.imageUrl || ''}" data-type="${item.type}">
-                        <div class="result-card-embed" style="background:#000;">
-                            <img src="${item.imageUrl}" alt="Screenshot" style="width:100%;height:100%;object-fit:contain;display:block;" loading="lazy" />
+                    <div class="${cardClass} has-image" data-text="${encodeURIComponent(item.text)}" data-id="${item.imageUrl || ''}" data-type="${item.type}">
+                        <div class="result-card-embed">
+                            <img src="${item.imageUrl}" alt="Screenshot" style="width:100%;height:auto;display:block;border-radius:6px;" loading="lazy" />
                         </div>
                         <div class="card-content">
                             <div class="card-text">${highlightedText}${editLinkHtml}</div>
