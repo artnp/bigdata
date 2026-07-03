@@ -1702,13 +1702,15 @@
                                     let pos = 0;
                                     fallbackData.forEach(item => {
                                         const hasLineVoom = item.url && item.url.includes('linevoom');
+                                        const hasImage = item.url && !hasLineVoom && (item.url.includes('.jpg') || item.url.includes('.png') || item.url.includes('.gif') || item.url.includes('.jpeg') || item.url.includes('.webp'));
                                         const dataKey = rawText.indexOf('"data"', pos);
                                         const lineNum = dataKey !== -1 ? rawText.substring(0, dataKey).split('\n').length : 1;
                                         if (dataKey !== -1) pos = dataKey + 6;
                                         bigdataItems.push({
-                                            type: hasLineVoom ? 'video' : 'text',
+                                            type: hasLineVoom ? 'video' : hasImage ? 'image' : 'text',
                                             text: item.data ?? item.comment,
                                             id: hasLineVoom ? item.url : undefined,
+                                            imageUrl: hasImage ? item.url : undefined,
                                             src: item.comment !== undefined ? 'comment' : 'bigdata',
                                             fileNum: 0,
                                             lineNum: lineNum
@@ -1726,13 +1728,15 @@
                         let pos = 0;
                         data.forEach(item => {
                             const hasLineVoom = item.url && item.url.includes('linevoom');
+                            const hasImage = item.url && !hasLineVoom && (item.url.includes('.jpg') || item.url.includes('.png') || item.url.includes('.gif') || item.url.includes('.jpeg') || item.url.includes('.webp'));
                             const dataKey = rawText.indexOf('"data"', pos);
                             const lineNum = dataKey !== -1 ? rawText.substring(0, dataKey).split('\n').length : 1;
                             if (dataKey !== -1) pos = dataKey + 6;
                             bigdataItems.push({
-                                type: hasLineVoom ? 'video' : 'text',
+                                type: hasLineVoom ? 'video' : hasImage ? 'image' : 'text',
                                 text: item.data ?? item.comment,
                                 id: hasLineVoom ? item.url : undefined,
+                                imageUrl: hasImage ? item.url : undefined,
                                 src: item.comment !== undefined ? 'comment' : 'bigdata',
                                 fileNum: n,
                                 lineNum: lineNum
@@ -3003,6 +3007,9 @@
 
                     const buildEmbedHtml = (item) => {
                         const isLineVoom = item.type === 'video' && isLineVoomVideo(item.id);
+                        if (item.type === 'image' && item.imageUrl) {
+                            return `<img src="${item.imageUrl}" alt="Screenshot" style="width:100%;height:auto;display:block;border-radius:8px;" loading="lazy" />`;
+                        }
                         if (item.type === 'video' && item.id) {
                             if (isLineVoom) {
                                 const postId = getLineVoomPostId(item.id);
@@ -3033,7 +3040,9 @@
                         const pct = Math.round(item.ratio * 100);
                         // Variable aspect: higher match = wider embed
                         let embedAr;
-                        if (pct >= 90) embedAr = '16/9';
+                        if (item.type === 'image') {
+                            embedAr = '16/9'; // Default aspect for images
+                        } else if (pct >= 90) embedAr = '16/9';
                         else if (pct >= 70) embedAr = '4/3';
                         else if (pct >= 50) embedAr = '1/1';
                         else embedAr = '3/4';
@@ -3041,11 +3050,13 @@
                             headline: highlightText(headline, hlWords, 'highlight'),
                             excerpt: highlightText(excerpt, hlWords, 'highlight-semantic'),
                             isLineVoom: item.type === 'video' && isLineVoomVideo(item.id),
+                            isImage: item.type === 'image',
                             embedHtml: buildEmbedHtml(item),
                             embedAr,
                             pct,
-                            typeLabel: item.type === 'video' ? (isLineVoomVideo(item.id) ? 'LINE Voom' : 'YouTube') : 'Article',
+                            typeLabel: item.type === 'video' ? (isLineVoomVideo(item.id) ? 'LINE Voom' : 'YouTube') : item.type === 'image' ? 'Book Screenshot' : 'Article',
                             id: item.id || '',
+                            imageUrl: item.imageUrl || '',
                             editUrl: getEditUrl(item)
                         };
                     };
@@ -3154,6 +3165,11 @@
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="opacity:0.9"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
                             </div>`;
                             typeBadge = '<span class="comment-badge">💬 Comment</span>';
+                        } else if (item.type === 'image') {
+                            iconHtml = `<div class="card-icon" style="background:rgba(88,166,255,0.1);">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--accent)" style="opacity:0.9"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                            </div>`;
+                            typeBadge = '<span class="card-badge" style="background:rgba(88,166,255,0.1);color:var(--accent);">📚 Book</span>';
                         } else if (item.type === 'video') {
                             const isShorts = !isLineVoom && !item.id.includes('?start=');
                             if (isLineVoom) {
@@ -3216,6 +3232,17 @@
                             ${cardMeta}
                         </div>
                     </div>`;
+                        } else if (item.type === 'image' && item.imageUrl) {
+                            html += `
+                    <div class="${cardClass} has-video" data-text="${encodeURIComponent(item.text)}" data-id="${item.imageUrl || ''}" data-type="${item.type}">
+                        <div class="result-card-embed" style="background:#000;">
+                            <img src="${item.imageUrl}" alt="Screenshot" style="width:100%;height:100%;object-fit:contain;display:block;" loading="lazy" />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-text">${highlightedText}${editLinkHtml}</div>
+                            ${cardMeta}
+                        </div>
+                    </div>`;
                         } else {
                             const isComment = item.src === 'comment';
                             if (isComment) {
@@ -3264,12 +3291,44 @@
                 document.body.appendChild(script);
             }
 
-            // Newspaper embed click: open video popup
+            // Newspaper embed click: open video/image popup
             document.querySelectorAll('.newspaper-embed').forEach(el => {
                 const idRaw = el.dataset.id;
                 const type = el.dataset.type;
                 const text = el.dataset.text ? decodeURIComponent(el.dataset.text) : '';
-                if (type === 'video' && idRaw) {
+                
+                if (type === 'image') {
+                    el.style.cursor = 'pointer';
+                    el.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        closeVideo();
+                        pauseAllYouTubeEmbeds();
+
+                        if (closeVideoTimeout) {
+                            clearTimeout(closeVideoTimeout);
+                            closeVideoTimeout = null;
+                        }
+
+                        const imageUrl = el.querySelector('img')?.src || '';
+                        if (!imageUrl) return;
+
+                        navigator.clipboard.writeText(`${text} ${imageUrl}`).then(() => {
+                            copyPopup.classList.add('show');
+                            setTimeout(() => copyPopup.classList.remove('show'), 2000);
+                        });
+
+                        videoFrame.className = 'popup-frame active centered';
+                        videoFrame.style.background = '#000';
+                        videoFrame.innerHTML = `
+                            <div id="close-video-frame">×</div>
+                            <img src="${imageUrl}" style="width:100%;height:100%;object-fit:contain;display:block;border-radius:8px;" />`;
+
+                        document.getElementById('close-video-frame').addEventListener('click', (ev) => {
+                            ev.stopPropagation();
+                            closeVideo();
+                        });
+                    });
+                } else if (type === 'video' && idRaw) {
                     el.style.cursor = 'pointer';
                     el.addEventListener('click', (e) => {
                         e.stopPropagation();
