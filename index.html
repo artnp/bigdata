@@ -1544,7 +1544,7 @@
                                         if (dataKey !== -1) pos = dataKey + 6;
                                         bigdataItems.push({
                                             type: hasLineVoom ? 'video' : 'text',
-                                            text: item.data,
+                                            text: item.data ?? item.comment,
                                             id: hasLineVoom ? item.url : undefined,
                                             src: 'bigdata',
                                             fileNum: 0,
@@ -1567,7 +1567,7 @@
                             if (dataKey !== -1) pos = dataKey + 6;
                             bigdataItems.push({
                                 type: hasLineVoom ? 'video' : 'text',
-                                text: item.data,
+                                text: item.data ?? item.comment,
                                 id: hasLineVoom ? item.url : undefined,
                                 src: 'bigdata',
                                 fileNum: n,
@@ -2594,7 +2594,7 @@
                                         const dataKey = rawText.indexOf('"data"', pos);
                                         const lineNum = dataKey !== -1 ? rawText.substring(0, dataKey).split('\n').length : 1;
                                         if (dataKey !== -1) pos = dataKey + 6;
-                                        bigdataItems.push({ type: hasLineVoom ? 'video' : 'text', text: item.data, id: hasLineVoom ? item.url : undefined, src: 'bigdata', fileNum: 0, lineNum: lineNum });
+                                        bigdataItems.push({ type: hasLineVoom ? 'video' : 'text', text: item.data ?? item.comment, id: hasLineVoom ? item.url : undefined, src: 'bigdata', fileNum: 0, lineNum: lineNum });
                                     });
                                     processBatch();
                                 }
@@ -2611,7 +2611,7 @@
                             const dataKey = rawText.indexOf('"data"', pos);
                             const lineNum = dataKey !== -1 ? rawText.substring(0, dataKey).split('\n').length : 1;
                             if (dataKey !== -1) pos = dataKey + 6;
-                            bigdataItems.push({ type: hasLineVoom ? 'video' : 'text', text: item.data, id: hasLineVoom ? item.url : undefined, src: 'bigdata', fileNum: n, lineNum: lineNum });
+                            bigdataItems.push({ type: hasLineVoom ? 'video' : 'text', text: item.data ?? item.comment, id: hasLineVoom ? item.url : undefined, src: 'bigdata', fileNum: n, lineNum: lineNum });
                         });
                         processBatch();
                     }
