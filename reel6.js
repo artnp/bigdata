@@ -1444,4 +1444,5 @@ const videoIds = [
 "CKYLBFDQnkc?start=96,ในการแถลงข่าวก่อนชกกับ James Vick ซึ่งตอนนั้นกำลังมาแรง Vick ได้เรียก Gaethje ว่า 'Homer Simpson แห่งวงการ MMA' เพื่อสื่อว่าเขาเป็นนักสู้ที่ไม่มี IQ มวย เอาแต่เดินรับหมัดและใช้ความอึดเข้าสู้",
 "itIZSxrTTck?start=8,โครงสร้างของ BNB ประกอบด้วยบล็อกเชน 3 ส่วนหลัก ได้แก่ BNB Smart Chain, opBNB (ที่เป็น Layer 2) และ Greenfield (บล็อกเชนสำหรับการจัดเก็บข้อมูลแบบกระจายศูนย์)",
 "ubmXGCWmPnc,เทคนิคที่ Justin Gaethje ใช้จัดการ Ilia Topuria และที่ Topuria ใช้จัดการ Charles Oliveira คือเทคนิคเดียวกัน",
+"ydCCTS6rrpc?start=1534,โครงการบน Solana มักประสบปัญหาการถูกแฮ็ก เช่น Drift Protocol, Wormhole, และ Slope wallet เนื่องจากโครงสร้างที่ซับซ้อนและการเก็บข้อมูลบางส่วนไว้นอกเชน",
 ];
