@@ -1512,7 +1512,15 @@
         const DB_NAME = 'bigdata_search_db';
         const DB_VERSION = 1;
         const CACHE_KEY = 'bigdata_search_cache';
-        const CACHE_VERSION = 6; // เพิ่ม version เพื่อ reset cache
+        const CACHE_VERSION = 7; // เพิ่ม version เพื่อ reset cache
+
+        // Normalize image URL: ensure it's absolute with protocol to prevent relative-path doubling
+        function normalizeImageUrl(url) {
+            if (!url) return url;
+            if (url.startsWith('http://') || url.startsWith('https://')) return url;
+            if (url.startsWith('//')) return 'https:' + url;
+            return 'https://' + url;
+        }
         const DAILY_CHECK_INTERVAL_MS = 24 * 60 * 60 * 1000; // เช็คทุก 24 ชั่วโมง แทนที่จะเป็น 1 ชั่วโมง
 
         function getTodayDate() {
@@ -1774,7 +1782,7 @@
                                             type: hasLineVoom ? 'video' : hasImage ? 'image' : 'text',
                                             text: item.data ?? item.comment,
                                             id: hasLineVoom ? item.url : undefined,
-                                            imageUrl: hasImage ? item.url : undefined,
+                                            imageUrl: hasImage ? normalizeImageUrl(item.url) : undefined,
                                             src: item.comment !== undefined ? 'comment' : 'bigdata',
                                             fileNum: 0,
                                             lineNum: lineNum
@@ -1800,7 +1808,7 @@
                                 type: hasLineVoom ? 'video' : hasImage ? 'image' : 'text',
                                 text: item.data ?? item.comment,
                                 id: hasLineVoom ? item.url : undefined,
-                                imageUrl: hasImage ? item.url : undefined,
+                                imageUrl: hasImage ? normalizeImageUrl(item.url) : undefined,
                                 src: item.comment !== undefined ? 'comment' : 'bigdata',
                                 fileNum: n,
                                 lineNum: lineNum
@@ -2843,7 +2851,7 @@
                                             type: hasLineVoom ? 'video' : hasImage ? 'image' : 'text', 
                                             text: item.data ?? item.comment, 
                                             id: hasLineVoom ? item.url : undefined, 
-                                            imageUrl: hasImage ? item.url : undefined,
+                                            imageUrl: hasImage ? normalizeImageUrl(item.url) : undefined,
                                             src: item.comment !== undefined ? 'comment' : 'bigdata', 
                                             fileNum: 0, 
                                             lineNum: lineNum 
@@ -2870,7 +2878,7 @@
                                 type: hasLineVoom ? 'video' : hasImage ? 'image' : 'text', 
                                 text: item.data ?? item.comment, 
                                 id: hasLineVoom ? item.url : undefined, 
-                                imageUrl: hasImage ? item.url : undefined,
+                                imageUrl: hasImage ? normalizeImageUrl(item.url) : undefined,
                                 src: item.comment !== undefined ? 'comment' : 'bigdata', 
                                 fileNum: n, 
                                 lineNum: lineNum 
@@ -3397,7 +3405,7 @@
                             closeVideoTimeout = null;
                         }
 
-                        const imageUrl = el.querySelector('img')?.src || '';
+                        const imageUrl = normalizeImageUrl(el.querySelector('img')?.src || '');
                         if (!imageUrl) return;
 
                         navigator.clipboard.writeText(`${text} ${imageUrl}`).then(() => {
