@@ -1448,7 +1448,6 @@
         <aside id="sidebar">
             <div class="sidebar-panel" id="panel-bigdata">
                 <div class="sidebar-panel-title">📖 หนังสือล่าสุด</div>
-                <div id="sidebar-image-count" style="font-size:0.7rem;color:var(--text-muted);padding:0 0 8px 0;border-bottom:1px solid var(--border);margin-bottom:6px;">📷 รูปภาพ 0 รายการ</div>
                 <div id="sidebar-bigdata-list"></div>
             </div>
             <div class="sidebar-panel" id="panel-reel">
@@ -2134,13 +2133,6 @@
             }
             if (!reelSrc || reelSrc.length === 0) {
                 reelSrc = items.filter(i => i.type === 'video').slice(-5);
-            }
-
-            // Update image count in bigdata panel
-            const imageCountEl = document.getElementById('sidebar-image-count');
-            if (imageCountEl) {
-                const totalImages = items.filter(i => i.type === 'image').length;
-                imageCountEl.textContent = `📷 รูปภาพ ${totalImages.toLocaleString()} รายการ`;
             }
 
             const renderList = (el, list) => {
