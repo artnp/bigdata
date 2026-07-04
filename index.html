@@ -456,7 +456,7 @@
 
         .newspaper-hero {
             display: grid;
-            grid-template-columns: 1fr 1fr; /* รูปซ้าย ข้อความขวา */
+            grid-template-columns: 1fr; /* embed กว้างเต็ม */
             gap: 16px;
             align-items: start;
             margin-bottom: 16px;
@@ -465,11 +465,6 @@
             position: relative;
         }
 
-        .newspaper-hero.full {
-            grid-template-columns: 1fr; /* ถ้าไม่มีรูปให้ใช้เต็มแถว */
-        }
-
-        /* เมื่อเป็นรูปภาพ ให้รูปอยู่ซ้ายขนาดพอดี */
         .newspaper-hero .newspaper-embed {
             width: 100%;
         }
@@ -668,9 +663,6 @@
         }
 
         @media (max-width: 768px) {
-            .newspaper-hero {
-                grid-template-columns: 1fr; /* มือถือ: รูปบน ข้อความล่าง */
-            }
             .newspaper-grid {
                 grid-template-columns: 1fr;
             }
@@ -1456,6 +1448,7 @@
         <aside id="sidebar">
             <div class="sidebar-panel" id="panel-bigdata">
                 <div class="sidebar-panel-title">📖 หนังสือล่าสุด</div>
+                <div id="sidebar-image-count" style="font-size:0.7rem;color:var(--text-muted);padding:0 0 8px 0;border-bottom:1px solid var(--border);margin-bottom:6px;">📷 รูปภาพ 0 รายการ</div>
                 <div id="sidebar-bigdata-list"></div>
             </div>
             <div class="sidebar-panel" id="panel-reel">
@@ -2037,9 +2030,9 @@
                 }
 
             } else {
-                // No cache: show empty state, lazy load on demand
-                searchStatus.innerHTML = `🔄 พิมพ์คำค้นหาเพื่อโหลดข้อมูล`;
-                searchInput.placeholder = "พิมพ์เพื่อค้นหาข้อมูล..";
+                // No cache: auto-download immediately
+                searchStatus.innerHTML = `🔄 กำลังดาวน์โหลดฐานข้อมูลครั้งแรก...`;
+                searchInput.placeholder = "กำลังโหลดข้อมูล..";
                 searchInput.disabled = false;
 
                 if (queryParam) {
@@ -2051,9 +2044,10 @@
                     const heroSub = document.querySelector('.hero-subtitle');
                     if (heroTitle) heroTitle.style.display = 'none';
                     if (heroSub) heroSub.style.display = 'none';
-                } else {
-                    searchInput.focus();
                 }
+
+                // Auto-download database without blocking UI
+                setTimeout(() => fetchDatabase(true), 100);
             }
         }
 
@@ -2140,6 +2134,13 @@
             }
             if (!reelSrc || reelSrc.length === 0) {
                 reelSrc = items.filter(i => i.type === 'video').slice(-5);
+            }
+
+            // Update image count in bigdata panel
+            const imageCountEl = document.getElementById('sidebar-image-count');
+            if (imageCountEl) {
+                const totalImages = items.filter(i => i.type === 'image').length;
+                imageCountEl.textContent = `📷 รูปภาพ ${totalImages.toLocaleString()} รายการ`;
             }
 
             const renderList = (el, list) => {
@@ -3172,8 +3173,7 @@
                             <div class="comment-quote-close">&#10077;</div>
                         </div>`;
                     } else {
-                        const heroClass = hd.embedHtml ? '' : ' full';
-                        html += `<div class="newspaper-hero${heroClass}" data-id="${encodeURIComponent(hero.id || '')}" data-type="${hero.type}" data-text="${encodeURIComponent(hero.text)}">`;
+                        html += `<div class="newspaper-hero" data-id="${encodeURIComponent(hero.id || '')}" data-type="${hero.type}" data-text="${encodeURIComponent(hero.text)}">`;
                         if (hd.embedHtml) {
                             const aspectStyle = hd.isImage ? '' : `style="aspect-ratio:${hd.embedAr}"`;
                             html += `<div class="newspaper-embed" ${aspectStyle} data-id="${encodeURIComponent(hero.id || '')}" data-type="${hero.type}" data-text="${encodeURIComponent(hero.text)}">${hd.embedHtml}</div>`;
