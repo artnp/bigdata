@@ -1599,7 +1599,7 @@
         const GITHUB_USER = 'artnp';
         const GITHUB_REPO = 'bigdata';
         const GITHUB_BRANCH = 'main';
-        const TOTAL_FILES = 14; // Update this count if files are added/removed (8 bigdata + 6 reel)
+        const TOTAL_FILES = 14; // Update this count if files are added/removed (14 bigdata files)
 
         const searchInput = document.getElementById('search-input');
         const resultsDiv = document.getElementById('results');
@@ -1828,41 +1828,72 @@
             if (isFetching || _isLazyLoading) return;
             isFetching = true;
 
+            // Determine if we have cached items and can do incremental load
+            const bigdataFileNums = items
+                .filter(i => (i.src === 'bigdata' || i.src === 'comment') && typeof i.fileNum === 'number')
+                .map(i => i.fileNum);
+            const maxBigdataNum = bigdataFileNums.length > 0 ? Math.max(...bigdataFileNums) : 0;
+
+            const isIncremental = items.length > 0 && maxBigdataNum > 0;
+
             if (force) {
                 searchInput.disabled = true;
                 searchInput.placeholder = "พิมพ์เพื่อค้นหาข้อมูล..";
                 searchStatus.innerHTML = `
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                <span>กำลังดาวน์โหลดฐานข้อมูล...</span>
+                <span>${isIncremental ? 'กำลังอัปเดตข้อมูลใหม่...' : 'กำลังดาวน์โหลดฐานข้อมูล...'}</span>
                 <span style="color:#58a6ff;font-weight:600" id="progress-percent">0%</span>
             </div>
             <div class="progress-container">
                 <div class="progress-bar" id="progress-bar-fill"></div>
             </div>
         `;
-                showSkeleton(5);
+                if (!isIncremental) {
+                    showSkeleton(5);
+                }
             } else {
-                showUpdateBar('กำลังตรวจสอบอัปเดต...');
+                showUpdateBar(isIncremental ? 'กำลังตรวจสอบและดาวน์โหลดข้อมูลใหม่...' : 'กำลังตรวจสอบอัปเดต...');
             }
 
-            const bigdataItems = [];
-            const reelItems = [];
+            // Keep items before the last checked file
+            const keptBigdata = isIncremental
+                ? items.filter(i => (i.src === 'bigdata' || i.src === 'comment') && typeof i.fileNum === 'number' && i.fileNum < maxBigdataNum)
+                : [];
+
+            const newBigdataItems = [];
             let loadedCount = 0;
 
-            const updateProgress = () => {
+            // For progress calculation
+            const expectedFilesToFetch = isIncremental ? 1 : TOTAL_FILES;
+
+            const updateProgress = (customPercent = null) => {
                 if (force) {
-                    const percent = Math.min(99, Math.round((loadedCount / TOTAL_FILES) * 100));
+                    let percent;
+                    if (customPercent !== null) {
+                        percent = customPercent;
+                    } else if (isIncremental) {
+                        percent = Math.min(95, Math.round((loadedCount / expectedFilesToFetch) * 90));
+                    } else {
+                        percent = Math.min(99, Math.round((loadedCount / TOTAL_FILES) * 100));
+                    }
                     const percentEl = document.getElementById('progress-percent');
                     const barFillEl = document.getElementById('progress-bar-fill');
                     if (percentEl) percentEl.textContent = `${percent}%`;
                     if (barFillEl) barFillEl.style.width = `${percent}%`;
                 } else {
-                    updateUpdateBarProgress(loadedCount, TOTAL_FILES);
+                    if (isIncremental) {
+                        updateUpdateBarProgress(loadedCount, expectedFilesToFetch);
+                    } else {
+                        updateUpdateBarProgress(loadedCount, TOTAL_FILES);
+                    }
                 }
             };
 
+            // Set initial progress
+            updateProgress(isIncremental ? 15 : 0);
+
             // 1. Fetch JSON files sequentially
-            let n = 1;
+            let n = maxBigdataNum > 0 ? maxBigdataNum : 1;
             while (true) {
                 try {
                     let response;
@@ -1900,7 +1931,7 @@
                                         const dataKey = rawText.indexOf('"data"', pos);
                                         const lineNum = dataKey !== -1 ? rawText.substring(0, dataKey).split('\n').length : 1;
                                         if (dataKey !== -1) pos = dataKey + 6;
-                                        bigdataItems.push({
+                                        newBigdataItems.push({
                                             type: isVideo ? 'video' : hasImage ? 'image' : 'text',
                                             text: item.data ?? item.comment,
                                             id: isVideo ? item.url : undefined,
@@ -1928,7 +1959,7 @@
                             const dataKey = rawText.indexOf('"data"', pos);
                             const lineNum = dataKey !== -1 ? rawText.substring(0, dataKey).split('\n').length : 1;
                             if (dataKey !== -1) pos = dataKey + 6;
-                            bigdataItems.push({
+                            newBigdataItems.push({
                                 type: isVideo ? 'video' : hasImage ? 'image' : 'text',
                                 text: item.data ?? item.comment,
                                 id: isVideo ? item.url : undefined,
@@ -1951,54 +1982,15 @@
                 }
             }
 
-            // 2. Fetch Reel JS files sequentially
-            n = 1;
-            while (true) {
-                try {
-                    let response;
-                    try {
-                        response = await fetch(`./reel${n}.js?t=${Date.now()}`);
-                    } catch (localErr) {
-                        console.warn(`Local fetch failed for reel${n}.js:`, localErr.message);
-                    }
-                    if (!response || !response.ok) {
-                        const fallbackUrl = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/reel${n}.js?t=${Date.now()}`;
-                        response = await fetch(fallbackUrl);
-                    }
-                    if (!response.ok) {
-                        // If reel1.js returns 404, check reel.js fallback
-                        if (n === 1) {
-                            let fallbackResp;
-                            try {
-                                fallbackResp = await fetch(`./reel.js?t=${Date.now()}`);
-                            } catch (_) {}
-                            if (!fallbackResp || !fallbackResp.ok) {
-                                const fallbackUrl = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/reel.js?t=${Date.now()}`;
-                                fallbackResp = await fetch(fallbackUrl);
-                            }
-                            if (fallbackResp.ok) {
-                                const fallbackText = await fallbackResp.text();
-                                parseReelJsText(fallbackText, reelItems, 0);
-                            }
-                        }
-                        break;
-                    }
-                    const text = await response.text();
-                    parseReelJsText(text, reelItems, n);
-                    loadedCount++;
-                    updateProgress();
-                    n++;
-                } catch (e) {
-                    console.error(`Error loading reel${n}.js:`, e);
-                    break;
-                }
+            if (isIncremental) {
+                updateProgress(90);
             }
 
             // Save combined latest for sidebar
-            window._latestItems = [...bigdataItems.slice(-5), ...reelItems.slice(-5)];
+            window._latestItems = (newBigdataItems.length > 0 ? newBigdataItems : keptBigdata).slice(-5);
 
             // Deduplicate combined items
-            const combined = [...bigdataItems, ...reelItems];
+            const combined = [...keptBigdata, ...newBigdataItems];
             const uniqueItems = [];
             const seen = new Set();
             for (const item of combined) {
@@ -2016,7 +2008,7 @@
                 if (barFillEl) barFillEl.style.width = '100%';
                 await new Promise(resolve => setTimeout(resolve, 350));
             } else {
-                updateUpdateBarProgress(TOTAL_FILES, TOTAL_FILES);
+                updateUpdateBarProgress(expectedFilesToFetch, expectedFilesToFetch);
             }
 
             // Compare with current items list to check if there are changes
@@ -2046,13 +2038,11 @@
 
             if (changed || force || items.length === 0) {
                 items = uniqueItems;
-                // Sidebar: show comment items + latest bigdata items and latest reel items
-                const commentItems = bigdataItems.filter(i => i.src === 'comment');
+                // Sidebar: show comment items + latest bigdata items
+                const commentItems = items.filter(i => i.src === 'comment');
                 const padCount = Math.max(0, 5 - commentItems.length);
-                const latestBigdata = bigdataItems.filter(i => i.src !== 'comment').slice(-padCount);
-                const lastBigdata = [...commentItems, ...latestBigdata].slice(-5);
-                const lastReel = reelItems.slice(-5);
-                window._latestItems = [...lastBigdata, ...lastReel];
+                const latestBigdata = items.filter(i => i.src === 'bigdata').slice(-padCount);
+                window._latestItems = [...commentItems, ...latestBigdata].slice(-5);
                 await saveToCache(items);
                 await buildSmartIndex(items, true);
                 populateSidebar();
@@ -2076,7 +2066,12 @@
                 saveToCache(items);
                 populateSidebar();
                 if (!force) {
-                    hideUpdateBar(false);
+                    // Show up-to-date message for a brief moment instead of hiding instantly
+                    updateBarText.textContent = 'ข้อมูลเป็นปัจจุบันแล้ว';
+                    if (updateBarFill) updateBarFill.style.width = '100%';
+                    setTimeout(() => {
+                        hideUpdateBar(false);
+                    }, 1000);
                 }
             }
 
@@ -2137,9 +2132,7 @@
                 // Loaded from cache!
                 items = cached.items;
                 buildSmartIndex(items, false);
-                const cachedBigdata = items.filter(i => i.src === 'bigdata' || i.src === 'comment').slice(-5);
-                const cachedReel = items.filter(i => i.src === 'reel').slice(-5);
-                window._latestItems = [...cachedBigdata, ...cachedReel];
+                window._latestItems = items.filter(i => i.src === 'bigdata' || i.src === 'comment').slice(-5);
                 if (window._latestItems.length === 0) {
                     const fallbackTexts = items.filter(i => i.type === 'text').slice(-5);
                     const fallbackVideos = items.filter(i => i.type === 'video').slice(-5);
@@ -2175,12 +2168,10 @@
                 // Start daily checker
                 startDailyChecker();
 
-                // If cache is older than 7 days, or if we are in embed mode, trigger background sync
-                if (!await isCacheFromToday() || isEmbedMode) {
-                    setTimeout(() => {
-                        syncCacheInBackground(isEmbedMode);
-                    }, isEmbedMode ? 500 : 10000); // รอ 10 วินาทีก่อนเช็คพื้นหลัง
-                }
+                // Always check and pull updates in the background on page load
+                setTimeout(() => {
+                    syncCacheInBackground(true);
+                }, 1500);
 
             } else {
                 // No cache: auto-download immediately
@@ -2284,9 +2275,7 @@
 
             let latestSrc = window._latestItems;
             if (!latestSrc || latestSrc.length === 0) {
-                const lastBigdata = items.filter(i => i.src === 'bigdata' || i.src === 'comment').slice(-5);
-                const lastReel = items.filter(i => i.src === 'reel').slice(-5);
-                latestSrc = [...lastBigdata, ...lastReel];
+                latestSrc = items.filter(i => i.src === 'bigdata' || i.src === 'comment').slice(-5);
             }
             if (!latestSrc || latestSrc.length === 0) {
                 latestSrc = items.slice(-10);
@@ -2912,11 +2901,10 @@
             _lazyLoadedCount = 0;
 
             const bigdataItems = [];
-            const reelItems = [];
             const isLocal = window.location.protocol === 'file:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
             const processBatch = () => {
-                const combined = [...bigdataItems, ...reelItems];
+                const combined = bigdataItems;
                 const existingKeys = new Set(items.map(i => `${i.type}:${i.id || ''}:${i.text.trim()}`));
                 let newCount = 0;
                 for (const item of combined) {
@@ -3020,8 +3008,7 @@
 
             _isLazyLoading = false;
             const lastBigdata = bigdataItems.slice(-5);
-            const lastReel = items.filter(i => i.src === 'reel' || i.type === 'video').slice(-5);
-            window._latestItems = [...lastBigdata, ...lastReel];
+            window._latestItems = lastBigdata;
             populateSidebar();
             const videoCount = items.filter(i => i.type === 'video').length;
             const textCount = items.filter(i => i.type === 'text').length;
