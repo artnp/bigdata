@@ -2064,6 +2064,16 @@
             return 'https://' + id.replace(/^\/\//, '');
         }
 
+        function isMp4Video(id) {
+            return typeof id === 'string' && (id.includes('.mp4') || id.includes('catbox.moe'));
+        }
+
+        function getMp4Url(id) {
+            if (!id) return '';
+            if (id.startsWith('http://') || id.startsWith('https://')) return id;
+            return 'https://' + id.replace(/^\/\//, '');
+        }
+
         function mountLineVoomEmbed(postId) {
             const container = document.getElementById('linevoom-embed-container');
             if (!container) return;
@@ -2129,9 +2139,6 @@
 
             let reelSrc = window._lastReelItems;
             if (!reelSrc || reelSrc.length === 0) {
-                reelSrc = items.filter(i => i.src === 'reel').slice(-5);
-            }
-            if (!reelSrc || reelSrc.length === 0) {
                 reelSrc = items.filter(i => i.type === 'video').slice(-5);
             }
 
@@ -2169,10 +2176,6 @@
             if (item.fileNum === undefined) return null;
             const fileNum = item.fileNum || 0;
             const base = `https://github.com/${GITHUB_USER}/${GITHUB_REPO}/edit/${GITHUB_BRANCH}/`;
-            if (item.src === 'reel') {
-                const fileName = fileNum > 0 ? `reel${fileNum}.js` : 'reel.js';
-                return item.lineNum ? `${base}${fileName}#L${item.lineNum}` : `${base}${fileName}`;
-            }
             const fileName = fileNum > 0 ? `bigdata${fileNum}.json` : 'bigdata.json';
             return item.lineNum ? `${base}${fileName}#L${item.lineNum}` : `${base}${fileName}`;
         }
@@ -2181,32 +2184,6 @@
             const pos = rawText.indexOf(searchStr, startPos || 0);
             if (pos === -1) return 1;
             return rawText.substring(0, pos).split('\n').length;
-        }
-
-        function parseReelJsText(text, arrayToPush, fileNum) {
-            const matches = text.match(/"([^"]+)"/g);
-            if (matches) {
-                let lastPos = 0;
-                matches.forEach(match => {
-                    const matchPos = text.indexOf(match, lastPos);
-                    const lineNum = matchPos !== -1 ? text.substring(0, matchPos).split('\n').length : 1;
-                    lastPos = matchPos + match.length;
-                    const cleanStr = match.slice(1, -1); // remove outer quotes
-                    const parts = cleanStr.split(',');
-                    if (parts.length >= 2) {
-                        const id = parts[0].trim();
-                        const title = parts.slice(1).join(',').trim();
-                        arrayToPush.push({
-                            type: 'video',
-                            id: id,
-                            text: title,
-                            src: 'reel',
-                            fileNum: fileNum || 0,
-                            lineNum: lineNum
-                        });
-                    }
-                });
-            }
         }
         // Common Thai stop words
         const THAI_STOP_WORDS = new Set([
@@ -2836,14 +2813,16 @@
                                     let pos = 0;
                                     data.forEach(item => {
                                         const hasLineVoom = item.url && item.url.includes('linevoom');
-                                        const hasImage = item.url && !hasLineVoom && (item.url.includes('.jpg') || item.url.includes('.png') || item.url.includes('.gif') || item.url.includes('.jpeg') || item.url.includes('.webp'));
+                                        const hasMp4 = item.url && isMp4Video(item.url);
+                                        const hasImage = item.url && !hasLineVoom && !hasMp4 && (item.url.includes('.jpg') || item.url.includes('.png') || item.url.includes('.gif') || item.url.includes('.jpeg') || item.url.includes('.webp'));
+                                        const isVideo = hasLineVoom || hasMp4 || (item.url && !hasImage);
                                         const dataKey = rawText.indexOf('"data"', pos);
                                         const lineNum = dataKey !== -1 ? rawText.substring(0, dataKey).split('\n').length : 1;
                                         if (dataKey !== -1) pos = dataKey + 6;
                                         bigdataItems.push({ 
-                                            type: hasLineVoom ? 'video' : hasImage ? 'image' : 'text', 
+                                            type: isVideo ? 'video' : hasImage ? 'image' : 'text', 
                                             text: item.data ?? item.comment, 
-                                            id: hasLineVoom ? item.url : undefined, 
+                                            id: isVideo ? item.url : undefined, 
                                             imageUrl: hasImage ? normalizeImageUrl(item.url) : undefined,
                                             src: item.comment !== undefined ? 'comment' : 'bigdata', 
                                             fileNum: 0, 
@@ -2863,14 +2842,16 @@
                         let pos = 0;
                         data.forEach(item => {
                             const hasLineVoom = item.url && item.url.includes('linevoom');
-                            const hasImage = item.url && !hasLineVoom && (item.url.includes('.jpg') || item.url.includes('.png') || item.url.includes('.gif') || item.url.includes('.jpeg') || item.url.includes('.webp'));
+                            const hasMp4 = item.url && isMp4Video(item.url);
+                            const hasImage = item.url && !hasLineVoom && !hasMp4 && (item.url.includes('.jpg') || item.url.includes('.png') || item.url.includes('.gif') || item.url.includes('.jpeg') || item.url.includes('.webp'));
+                            const isVideo = hasLineVoom || hasMp4 || (item.url && !hasImage);
                             const dataKey = rawText.indexOf('"data"', pos);
                             const lineNum = dataKey !== -1 ? rawText.substring(0, dataKey).split('\n').length : 1;
                             if (dataKey !== -1) pos = dataKey + 6;
                             bigdataItems.push({ 
-                                type: hasLineVoom ? 'video' : hasImage ? 'image' : 'text', 
+                                type: isVideo ? 'video' : hasImage ? 'image' : 'text', 
                                 text: item.data ?? item.comment, 
-                                id: hasLineVoom ? item.url : undefined, 
+                                id: isVideo ? item.url : undefined, 
                                 imageUrl: hasImage ? normalizeImageUrl(item.url) : undefined,
                                 src: item.comment !== undefined ? 'comment' : 'bigdata', 
                                 fileNum: n, 
@@ -2889,41 +2870,8 @@
                 }
             }
 
-            // 2. Fetch Reel JS files
-            n = 1;
-            while (true) {
-                try {
-                    const url = isLocal
-                        ? `./reel${n}.js?t=${Date.now()}`
-                        : `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/reel${n}.js?t=${Date.now()}`;
-                    const response = await fetch(url);
-                    if (!response.ok) {
-                        if (n === 1) {
-                            const fallbackUrl = isLocal
-                                ? `./reel.js?t=${Date.now()}`
-                                : `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/reel.js?t=${Date.now()}`;
-                            const fb = await fetch(fallbackUrl);
-                            if (fb.ok) {
-                                const text = await fb.text();
-                                parseReelJsText(text, reelItems, 0);
-                                processBatch();
-                            }
-                        }
-                        break;
-                    }
-                    const text = await response.text();
-                    parseReelJsText(text, reelItems, n);
-                    processBatch();
-                    _lazyLoadedCount++;
-                    n++;
-                } catch (e) {
-                    break;
-                }
-            }
-
             _isLazyLoading = false;
             window._lastBigdataItems = bigdataItems.slice(-5);
-            window._lastReelItems = reelItems.slice(-5);
             populateSidebar();
             const videoCount = items.filter(i => i.type === 'video').length;
             const textCount = items.filter(i => i.type === 'text').length;
@@ -3095,6 +3043,7 @@
 
                     const buildEmbedHtml = (item) => {
                         const isLineVoom = item.type === 'video' && isLineVoomVideo(item.id);
+                        const isMp4 = item.type === 'video' && isMp4Video(item.id);
                         if (item.type === 'image' && item.imageUrl) {
                             return `<img src="${item.imageUrl}" alt="Screenshot" style="width:100%;height:auto;display:block;border-radius:8px;" loading="lazy" />`;
                         }
@@ -3102,6 +3051,9 @@
                             if (isLineVoom) {
                                 const postId = getLineVoomPostId(item.id);
                                 return postId ? `<blockquote class="line_timeline_embedded_post" data-baseurl="https://linevoom.line.me" data-postid="${postId}" data-writerid="_dd9JDo889wfojzv17U8LwAKX2-hN4oDNIStQBfQ" data-embeddedtime="1782658691883" data-view-type="B" data-with-text data-playable data-auto-play style="width: 100%; min-width: 260px; max-width: 100%"></blockquote>` : '';
+                            } else if (isMp4) {
+                                const mp4Url = getMp4Url(item.id);
+                                return `<video src="${mp4Url}" controls playsinline style="width:100%;max-height:450px;border-radius:8px;display:block;background:#000;" loading="lazy"></video>`;
                             } else {
                                 const parts = item.id.split('?');
                                 const vId = parts[0];
@@ -3306,6 +3258,18 @@
                         ${lineVoomEmbedHtml}
                         ${editLinkHtml}
                     </div>`;
+                        } else if (item.type === 'video' && item.id && isMp4Video(item.id)) {
+                            const mp4Url = getMp4Url(item.id);
+                            html += `
+                    <div class="${cardClass} has-video" data-text="${encodeURIComponent(item.text)}" data-id="${item.id || ''}" data-type="${item.type}">
+                        <div class="result-card-embed">
+                            <video src="${mp4Url}" controls playsinline style="width:100%;max-height:360px;display:block;background:#000;border-radius:6px;"></video>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-text">${highlightedText}${editLinkHtml}</div>
+                            ${cardMeta}
+                        </div>
+                    </div>`;
                         } else if (item.type === 'video' && item.id && !isLineVoom) {
                             const vParts = item.id.split('?');
                             const vId = vParts[0];
@@ -3423,6 +3387,7 @@
                         const videoId = decodeURIComponent(idRaw);
                         const itemText = text;
                         const isLineVoom = isLineVoomVideo(videoId);
+                        const isMp4 = isMp4Video(videoId);
 
                         closeVideo();
                         pauseAllYouTubeEmbeds();
@@ -3432,13 +3397,15 @@
                             closeVideoTimeout = null;
                         }
 
-                        const isShorts = !isLineVoom && !videoId.includes('?start=');
+                        const isShorts = !isLineVoom && !isMp4 && !videoId.includes('?start=');
                         const videoIdParts = videoId.split('?');
                         const embedId = videoIdParts[0];
                         const lineVoomPostId = isLineVoom ? getLineVoomPostId(videoId) : null;
 
                         const videoUrl = isLineVoom
                             ? getLineVoomUrl(videoId)
+                            : isMp4
+                            ? getMp4Url(videoId)
                             : (isShorts ? `https://youtube.com/shorts/${videoId}` : `https://www.youtube.com/watch?v=${videoId}`);
 
                         navigator.clipboard.writeText(`${itemText} ${videoUrl}`).then(() => {
@@ -3462,6 +3429,12 @@
                             <div id="close-video-frame">×</div>
                             <div id="linevoom-embed-container"></div>`;
                             mountLineVoomEmbed(lineVoomPostId);
+                        } else if (isMp4) {
+                            const mp4Url = getMp4Url(videoId);
+                            videoFrame.style.background = '#000';
+                            videoFrame.innerHTML = `
+                            <div id="close-video-frame">×</div>
+                            <video src="${mp4Url}" controls autoplay style="width:100%;max-height:80vh;display:block;border-radius:8px;margin:0 auto;"></video>`;
                         } else {
                             videoFrame.innerHTML = `
                             <div id="close-video-frame">×</div>
