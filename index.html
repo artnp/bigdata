@@ -1863,20 +1863,29 @@
 
             // 1. Fetch JSON files sequentially
             let n = 1;
-            const isLocal = window.location.protocol === 'file:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
             while (true) {
                 try {
-                    const url = isLocal
-                        ? `./bigdata${n}.json?t=${Date.now()}`
-                        : `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/bigdata${n}.json?t=${Date.now()}`;
-                    const response = await fetch(url);
+                    let response;
+                    try {
+                        response = await fetch(`./bigdata${n}.json?t=${Date.now()}`);
+                    } catch (localErr) {
+                        console.warn(`Local fetch failed for bigdata${n}.json:`, localErr.message);
+                    }
+                    if (!response || !response.ok) {
+                        const fallbackUrl = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/bigdata${n}.json?t=${Date.now()}`;
+                        response = await fetch(fallbackUrl);
+                    }
                     if (!response.ok) {
                         // If bigdata1.json returns 404, we check bigdata.json as a fallback
                         if (n === 1) {
-                            const fallbackUrl = isLocal
-                                ? `./bigdata.json?t=${Date.now()}`
-                                : `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/bigdata.json?t=${Date.now()}`;
-                            const fallbackResp = await fetch(fallbackUrl);
+                            let fallbackResp;
+                            try {
+                                fallbackResp = await fetch(`./bigdata.json?t=${Date.now()}`);
+                            } catch (_) {}
+                            if (!fallbackResp || !fallbackResp.ok) {
+                                const fallbackUrl = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/bigdata.json?t=${Date.now()}`;
+                                fallbackResp = await fetch(fallbackUrl);
+                            }
                             if (fallbackResp.ok) {
                                 const rawText = await fallbackResp.text();
                                 const fixedText = rawText.replace(/,(\s*[\]}])/g, '$1');
@@ -1946,17 +1955,27 @@
             n = 1;
             while (true) {
                 try {
-                    const url = isLocal
-                        ? `./reel${n}.js?t=${Date.now()}`
-                        : `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/reel${n}.js?t=${Date.now()}`;
-                    const response = await fetch(url);
+                    let response;
+                    try {
+                        response = await fetch(`./reel${n}.js?t=${Date.now()}`);
+                    } catch (localErr) {
+                        console.warn(`Local fetch failed for reel${n}.js:`, localErr.message);
+                    }
+                    if (!response || !response.ok) {
+                        const fallbackUrl = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/reel${n}.js?t=${Date.now()}`;
+                        response = await fetch(fallbackUrl);
+                    }
                     if (!response.ok) {
                         // If reel1.js returns 404, check reel.js fallback
                         if (n === 1) {
-                            const fallbackUrl = isLocal
-                                ? `./reel.js?t=${Date.now()}`
-                                : `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/reel.js?t=${Date.now()}`;
-                            const fallbackResp = await fetch(fallbackUrl);
+                            let fallbackResp;
+                            try {
+                                fallbackResp = await fetch(`./reel.js?t=${Date.now()}`);
+                            } catch (_) {}
+                            if (!fallbackResp || !fallbackResp.ok) {
+                                const fallbackUrl = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/reel.js?t=${Date.now()}`;
+                                fallbackResp = await fetch(fallbackUrl);
+                            }
                             if (fallbackResp.ok) {
                                 const fallbackText = await fallbackResp.text();
                                 parseReelJsText(fallbackText, reelItems, 0);
@@ -2010,6 +2029,19 @@
                 if (oldSignature !== newSignature) {
                     changed = true;
                 }
+            }
+
+            // Safety guard: if new download yielded 0 items, but we already have items loaded from cache, do NOT overwrite cache with empty data
+            if (uniqueItems.length === 0 && items.length > 0) {
+                console.warn('Fetched 0 items, keeping existing cached items to prevent data loss.');
+                searchStatus.innerHTML = `⚠️ ดึงข้อมูลล้มเหลว (แสดงข้อมูลล่าสุดจากแคช)`;
+                isFetching = false;
+                searchInput.placeholder = "พิมพ์เพื่อค้นหาข้อมูล..";
+                searchInput.disabled = false;
+                if (!force) {
+                    hideUpdateBar(false);
+                }
+                return;
             }
 
             if (changed || force || items.length === 0) {
