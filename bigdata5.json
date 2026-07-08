@@ -78,5 +78,6 @@
   {"data":"การปรับระดับความสูง (Leveling, Leveling Instrument): การใช้เครื่องมือวัดระดับเพื่อกำหนดค่าความสูงจากจุดอ้างอิงและคำนวณระยะไปยังฐานรากหรือก้นหลุมขุด","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783515076448.jpg"},
   {"data":"หมุดกำหนดระดับ (Grade stake, Grade stake): การตอกหมุดเพื่อใช้เป็นจุดอ้างอิงความสูงที่แม่นยำสำหรับส่วนบนของฐานรากตามระยะที่กำหนดไว้","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783515098875.jpg"},
   {"data":"การตั้งระดับเครื่องมือ (Instrument Setup, Surveying Level): เริ่มต้นโดยตั้งเครื่องมือวัดระดับภายนอกหลุมขุดและยิงเส้นระดับอ้างอิงให้สูงกว่าระดับมาตรฐาน (Bench mark) ที่กำหนดไว้","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783515218202.jpg"},
-  {"data":"การทำเครื่องหมายบนหลักปัก (Stake Marking, Grade Stake): กำหนดตำแหน่งระดับบนหลักปักโดยคำนวณจากความลึกที่ต้องการของฐานรากบวกกับค่าความต่างระดับที่วัดได้จากเครื่องมือ","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783515241120.jpg"}
+  {"data":"การทำเครื่องหมายบนหลักปัก (Stake Marking, Grade Stake): กำหนดตำแหน่งระดับบนหลักปักโดยคำนวณจากความลึกที่ต้องการของฐานรากบวกกับค่าความต่างระดับที่วัดได้จากเครื่องมือ","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783515241120.jpg"},
+  {"data":"การติดตั้งแผ่นไม้แนวระดับ (Batter Board, Layout Board): ยึดแผ่นไม้แนวนอนเข้ากับหลักปักให้ตรงกับตำแหน่งที่ทำเครื่องหมายไว้ โดยควรใช้สกรูยึดเพื่อป้องกันการเคลื่อนที่และตรวจสอบให้แน่ใจว่าแผ่นไม้มีความได้ระดับสมบูรณ์","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783515252084.jpg"}
 ]
