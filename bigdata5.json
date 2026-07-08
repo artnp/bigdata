@@ -32,5 +32,6 @@
   {"data":"การแยกกักตัว (Quarantine, Isolation, Separation): มาตรการกักกันผู้ติดเชื้อหรือผู้ที่สัมผัสใกล้ชิดเป็นเวลา 7 ถึง 21 วัน เพื่อหยุดวงจรการแพร่เชื้อแม้ว่าจะยังไม่แสดงอาการ","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783502428037.jpg"},
   {"data":"ระบบระบายความร้อน (Cooling system, Heat dissipation): การป้องกันแคโทดร้อนเกินไปทำได้โดยการใช้น้ำเย็นไหลผ่านต่อเนื่องและการแช่หลอดรังสีเอกซ์ไว้ในอ่างน้ำมัน","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783502817494.jpg"},
   {"data":"อุปกรณ์รังสีเอกซ์ (X-ray apparatus, Imaging device): เครื่องมือทั้งหมดต้องหุ้มด้วยปลอกตะกั่วหนาเพื่อป้องกันรังสีรั่วไหล โดยเว้นช่องเล็กๆ ไว้ให้รังสีพุ่งออกไปทางขั้วแอโนดที่เอียงทำมุมเท่านั้น","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783502829449.jpg"},
-  {"data":"หลอดรังสีเอกซ์ (X-ray tube, Vacuum tube): เป็นหลอดแก้วควอตซ์ทนความร้อนสูงภายในเป็นสุญญากาศ ประกอบด้วยแคโทดที่ให้กำเนิดอิเล็กตรอนและแอโนดที่ทำจากโลหะนำความร้อนได้ดี","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783502844097.jpg"}
+  {"data":"หลอดรังสีเอกซ์ (X-ray tube, Vacuum tube): เป็นหลอดแก้วควอตซ์ทนความร้อนสูงภายในเป็นสุญญากาศ ประกอบด้วยแคโทดที่ให้กำเนิดอิเล็กตรอนและแอโนดที่ทำจากโลหะนำความร้อนได้ดี","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783502844097.jpg"},
+  {"data":"การกำเนิดรังสีเอกซ์ (X-ray emission, Energy conversion): รังสีเอกซ์เกิดขึ้นเมื่ออิเล็กตรอนจากแคโทดพุ่งชนแผ่นโลหะหนักที่ติดอยู่บนแอโนดแล้วเกิดการสูญเสียพลังงานจนแผ่ออกมาเป็นรังสี","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783502860268.jpg"}
 ]
