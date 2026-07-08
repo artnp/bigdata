@@ -216,5 +216,6 @@
   {"data":"ค่าคงที่สปริง (Spring constant, k, Stiffness constant): ค่าที่บ่งบอกถึงความแข็งของสปริงซึ่งขึ้นอยู่กับปัจจัยด้านวัสดุ ความหนา และเส้นผ่านศูนย์กลางของขดสปริง โดยมีหน่วยวัดเป็นนิวตันต่อเมตร (N/m)","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783544596108.jpg"},
   {"data":"ดินสีน้ำตาล (Brown soils): ดินที่เหมาะสมสำหรับการผลิตไวน์แบบสปาร์กลิงและไวน์โต๊ะทั่วไป","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783544654012.jpg"},
   {"data":"ดินพอดโซลิก (Podzolic soils): ดินสีเทาเถ้าที่เหมาะสำหรับทำไวน์โต๊ะชนิดเบา","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783544666519.jpg"},
-  {"data":"ดินฮิวมัสคาร์บอเนต (Humus-carbonate soils): ดินชั้นตื้นที่เกิดเหนือหินปูน เหมาะสำหรับไวน์สปาร์กลิงคุณภาพสูง วอดก้า บรั่นดี และอาร์มายัก","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783544701657.jpg"}
+  {"data":"ดินฮิวมัสคาร์บอเนต (Humus-carbonate soils): ดินชั้นตื้นที่เกิดเหนือหินปูน เหมาะสำหรับไวน์สปาร์กลิงคุณภาพสูง วอดก้า บรั่นดี และอาร์มายัก","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783544701657.jpg"},
+  {"data":"ดินทราย (Sandy soils): ดินที่ช่วยให้เถาองุ่นสะสมน้ำตาลได้มาก ทำให้ไวน์มีกลิ่นหอมละเอียดอ่อนและผสมได้ง่าย","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783544716922.jpg"}
 ]
