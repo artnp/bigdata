@@ -525,5 +525,6 @@
   {"data":"เวกเตอร์ (Vectors): เครื่องมือทางฟิสิกส์ที่ใช้แสดงขนาดและทิศทางของแรง เพื่อทำความเข้าใจผลกระทบของแรงหลายแรงที่มีต่อการเคลื่อนที่ของวัตถุ","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783734185359.jpg"},
   {"data":"ขนาด (Magnitude): ปริมาณของแรงซึ่งแสดงแทนด้วยความยาวของลูกศรในรูปแบบเวกเตอร์","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783734197179.jpg"},
   {"data":"ทิศทาง (Direction): แนวทางที่แรงกระทำต่อวัตถุ ซึ่งระบุด้วยทิศทางของหัวลูกศรในรูปแบบเวกเตอร์","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783734205051.jpg"},
-  {"data":"แอฟริกาใต้ (South Africa, RSA): ประเทศที่มีความหลากหลายทางวัฒนธรรมและเป็นหนึ่งในเศรษฐกิจที่ใหญ่ที่สุดในแอฟริกา โดยมีเมืองหลวง 3 แห่งคือ พริทอเรีย เคปทาวน์ และบลูมฟอนเทีน","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783734301577.jpg"}
+  {"data":"แอฟริกาใต้ (South Africa, RSA): ประเทศที่มีความหลากหลายทางวัฒนธรรมและเป็นหนึ่งในเศรษฐกิจที่ใหญ่ที่สุดในแอฟริกา โดยมีเมืองหลวง 3 แห่งคือ พริทอเรีย เคปทาวน์ และบลูมฟอนเทีน","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783734301577.jpg"},
+  {"data":"แรงกระทำต่อโครงสร้างอาคาร (Building Loads, Load): แรงที่โครงสร้างต้องรองรับ ประกอบด้วยน้ำหนักวัสดุก่อสร้าง (Dead Load), น้ำหนักผู้ใช้งานและสิ่งของ (Live Load), น้ำหนักหิมะบนหลังคา (Snow Load), แรงลม (Wind Load), และแรงแผ่นดินไหว (Seismic Load)","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783790436874.jpg"}
 ]
