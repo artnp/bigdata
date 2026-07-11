@@ -521,5 +521,6 @@
   {"data":"แรงสปริง (Spring force, Restoring force): คือแรงที่เกิดขึ้นเมื่อวัสดุมีความยืดหยุ่นถูกยืดหรือบีบอัด โดยสปริงจะพยายามกลับสู่ความยาวปกติเมื่อเอาแรงภายนอกออก","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783734128647.jpg"},
   {"data":"กฎของฮุก (Hooke's law, F=kx): สูตรทางฟิสิกส์ที่อธิบายความสัมพันธ์ระหว่างแรงที่กระทำ (F) กับการเปลี่ยนแปลงความยาว (x) โดยมีค่าคงตัวสปริง (k) เป็นตัวกำหนด","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783734137123.jpg"},
   {"data":"ค่าคงตัวสปริง (Spring constant, k, Stiffness): คือตัวแปรที่บ่งบอกความแข็งของสปริง ขึ้นอยู่กับชนิดวัสดุ ความหนา และขนาดของขดลวด วัดหน่วยเป็นนิวตันต่อเมตร (N/m)","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783734146095.jpg"},
-  {"data":"กราฟแรงและระยะยืด (Force-extension graph, Linear relationship): กราฟแสดงความสัมพันธ์ระหว่างแรงและระยะยืดที่เป็นเส้นตรงผ่านจุดกำเนิด หากยังไม่เกินขีดจำกัดความยืดหยุ่น โดยความชันของกราฟคือค่าคงตัวสปริง","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783734155684.jpg"}
+  {"data":"กราฟแรงและระยะยืด (Force-extension graph, Linear relationship): กราฟแสดงความสัมพันธ์ระหว่างแรงและระยะยืดที่เป็นเส้นตรงผ่านจุดกำเนิด หากยังไม่เกินขีดจำกัดความยืดหยุ่น โดยความชันของกราฟคือค่าคงตัวสปริง","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783734155684.jpg"},
+  {"data":"เวกเตอร์ (Vectors): เครื่องมือทางฟิสิกส์ที่ใช้แสดงขนาดและทิศทางของแรง เพื่อทำความเข้าใจผลกระทบของแรงหลายแรงที่มีต่อการเคลื่อนที่ของวัตถุ","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783734185359.jpg"}
 ]
