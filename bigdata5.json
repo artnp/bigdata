@@ -586,5 +586,6 @@
   {"data":"พื้นไม้กระดาน (Plank Floors): ตารางการเลือกใช้แผ่นไม้ลิ้นราง (Tongue-and-Groove) สำหรับพื้นและหลังคา โดยเน้นที่ขีดจำกัดความเค้น (Fiber stress) และการแอ่นตัว (Deflection)","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783848731056.jpg"},
   {"data":"คานไม้ประสาน (Glulam Beams, Glued Laminated Timber): ข้อมูลขนาดคานที่รองรับ I-Joist (IJC) สำหรับงานพื้น โดยระบุขนาดความกว้างและช่วงกว้างที่เหมาะสมต่อการใช้งาน","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783848739034.jpg"},
   {"data":"รายละเอียดการติดตั้งคาน (Floor Framing Details): รูปแบบการติดตั้งคานไม้ประสานเข้ากับผนัง ก่ออิฐ และการรองรับด้วยเสาเหล็กหรือเสาไม้เพื่อความมั่นคงของโครงสร้าง","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783848876351.jpg"},
-  {"data":"การรองรับคานและตง (Beam Support): วิธีการติดตั้งตงพื้น (Floor Joists) เข้ากับคานไม้ประสานโดยใช้ที่แขวนโลหะ (Metal hangers) หรือการติดตั้งแบบฝังเรียบ","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783848890984.jpg"}
+  {"data":"การรองรับคานและตง (Beam Support): วิธีการติดตั้งตงพื้น (Floor Joists) เข้ากับคานไม้ประสานโดยใช้ที่แขวนโลหะ (Metal hangers) หรือการติดตั้งแบบฝังเรียบ","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783848890984.jpg"},
+  {"data":"การย้อมสีผ้า (Fabric Dyeing, Material preparation, Dye extraction): นำพืชส่วนต่างๆ มาแช่น้ำแล้วต้มเพื่อสกัดสี โดยต้องเตรียมผ้าด้วยการต้มในสารละลายโซดาและสบู่ก่อนย้อม และใช้สารช่วยติดสีจากธรรมชาติหรือเกลือโลหะเพื่อความคงทน"}
 ]
