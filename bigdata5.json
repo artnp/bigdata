@@ -665,5 +665,6 @@
   {"data":"เหล็กเส้นเสริมแรง (Rebar, Reinforcing bar): ทำหน้าที่เป็นโครงสร้างภายในเพื่อรองรับแรงดึงและแรงดัดในองค์ประกอบต่างๆ ของอาคาร","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783962879648.jpg"},
   {"data":"คอนกรีต (Concrete, Concrete): เกิดจากการผสมซีเมนต์ ทราย กรวด และน้ำ โดยมีปูนซีเมนต์ปอร์ตแลนด์เป็นพื้นฐานเพื่อเพิ่มความทนทานต่อสภาพอากาศ","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783962891329.jpg"},
   {"data":"ปูนซีเมนต์ปอร์ตแลนด์ (Portland cement, Portland cement): ผลิตจากการผสมคลิงเกอร์และยิปซัม ซึ่งคลิงเกอร์เกิดจากการเผาส่วนผสมของหินปูนและดินเหนียวที่อุณหภูมิสูง","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783962901016.jpg"},
-  {"data":"แบบหล่อ (Formwork, Mold): เป็นแม่พิมพ์ชั่วคราวหรือถาวรที่ใช้ในการหล่อคอนกรีตเพื่อให้เกิดรูปทรงที่ต้องการตามขนาดที่กำหนด","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783962925398.jpg"}
+  {"data":"แบบหล่อ (Formwork, Mold): เป็นแม่พิมพ์ชั่วคราวหรือถาวรที่ใช้ในการหล่อคอนกรีตเพื่อให้เกิดรูปทรงที่ต้องการตามขนาดที่กำหนด","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783962925398.jpg"},
+  {"data":"ฐานราก (Foundation, Footing): คือโครงสร้างรองรับน้ำหนักที่ทำหน้าที่กระจายน้ำหนักของอาคารลงสู่พื้นดิน โดยแบ่งเป็นฐานรากตื้นสำหรับอาคารต่ำและฐานรากเสาเข็มสำหรับอาคารสูง","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783962937363.jpg"}
 ]
