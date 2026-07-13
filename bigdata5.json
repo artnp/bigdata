@@ -675,5 +675,6 @@
   {"data":"แรงปฏิกิริยาตั้งฉาก (Normal Reaction Force): แรงที่พื้นผิวแข็งกระทำต่อวัตถุที่วางอยู่บนพื้น เพื่อต้านทานน้ำหนักของวัตถุนั้น","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783963265108.jpg"},
   {"data":"กฎของฮุค (Hooke's Law): แรงที่ใช้ในการยืดหรือบีบอัดสปริงจะมีค่าแปรผันตรงกับระยะทางที่สปริงถูกยืดหรือบีบอัดออกไป","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783963272537.jpg"},
   {"data":"การกระจัด (Displacement, s): คือเวกเตอร์ที่วัดตำแหน่งของวัตถุเทียบกับจุดอ้างอิงเริ่มต้น (จุดกำเนิด) ซึ่งอาจมีค่าเป็นลบได้หากวัตถุเคลื่อนที่ย้อนกลับไปยังพื้นที่ติดลบของพิกัด","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783963292922.jpg"},
-  {"data":"ความเร่ง (Acceleration, a): คืออัตราการเปลี่ยนแปลงความเร็วของวัตถุ ซึ่งเป็นผลมาจากแรงภายนอกที่กระทำต่อวัตถุที่มีมวล","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783963309164.jpg"}
+  {"data":"ความเร่ง (Acceleration, a): คืออัตราการเปลี่ยนแปลงความเร็วของวัตถุ ซึ่งเป็นผลมาจากแรงภายนอกที่กระทำต่อวัตถุที่มีมวล","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783963309164.jpg"},
+  {"data":"แรงสู่ศูนย์กลาง (Centripetal force, Center-seeking force): แรงที่เป็นเหตุให้วัตถุเคลื่อนที่ในแนววงกลมโดยมีทิศทางพุ่งเข้าหาจุดศูนย์กลางเสมอ ซึ่งต้นกำเนิดของแรงนี้อาจมาจากแรงดึง แรงเสียดทาน แรงยก หรือแรงโน้มถ่วง ขึ้นอยู่กับระบบที่พิจารณา","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783963423533.jpg"}
 ]
