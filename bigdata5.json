@@ -672,5 +672,6 @@
   {"data":"คานปลดเครื่องตัด (Guillotine release lever): กลไกคานเหยียบหรือคานโยกที่ใช้กดส่งแรงไปยังชุดส่งกำลังเพื่อควบคุมการปล่อยใบมีดตัดลงมาด้วยแรงโน้มถ่วง","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783963057317.jpg"},
   {"data":"กฎข้อที่สองของนิวตัน (Newton's Second Law): อธิบายว่าแรงหนึ่งนิวตันคือแรงที่ทำให้มวลหนึ่งกิโลกรัมเปลี่ยนความเร็วไปหนึ่งเมตรต่อวินาทีในทุกหนึ่งวินาที โดยคำนวณจากสูตร F = ma","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783963234676.jpg"},
   {"data":"โมเมนตัม (Momentum, p): คือผลคูณระหว่างมวลกับความเร็วของวัตถุ มีหน่วยเป็นกิโลกรัมเมตรต่อวินาที (kg m/s) โดยเป็นปริมาณที่ขึ้นอยู่กับทั้งขนาดของมวลและความเร็ว","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783963254496.jpg"},
-  {"data":"แรงปฏิกิริยาตั้งฉาก (Normal Reaction Force): แรงที่พื้นผิวแข็งกระทำต่อวัตถุที่วางอยู่บนพื้น เพื่อต้านทานน้ำหนักของวัตถุนั้น","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783963265108.jpg"}
+  {"data":"แรงปฏิกิริยาตั้งฉาก (Normal Reaction Force): แรงที่พื้นผิวแข็งกระทำต่อวัตถุที่วางอยู่บนพื้น เพื่อต้านทานน้ำหนักของวัตถุนั้น","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783963265108.jpg"},
+  {"data":"กฎของฮุค (Hooke's Law): แรงที่ใช้ในการยืดหรือบีบอัดสปริงจะมีค่าแปรผันตรงกับระยะทางที่สปริงถูกยืดหรือบีบอัดออกไป","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783963272537.jpg"}
 ]
