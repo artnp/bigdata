@@ -629,5 +629,6 @@
   {"data":"ลวดเชื่อม (Welding wire, Filler rod): อุปกรณ์ที่ใช้เติมลงในรอยต่อระหว่างการเชื่อมด้วยแก๊ส เพื่อให้รอยเชื่อมมีความเรียบเนียนและแข็งแรงสม่ำเสมอ","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783916627117.jpg"},
   {"data":"การเชื่อมด้วยไฟฟ้า (Electric Welding, Arc welding): กระบวนการเปลี่ยนพลังงานไฟฟ้าเป็นความร้อนโดยการสร้างอาร์กไฟฟ้า เพื่อทำให้โลหะหลอมละลาย","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783916633230.jpg"},
   {"data":"หม้อแปลงไฟฟ้า (Step-down transformer, Voltage transformer): หัวใจหลักของเครื่องเชื่อมไฟฟ้าที่ทำหน้าที่ลดแรงดันและเพิ่มกระแสไฟฟ้าให้สูงขึ้นเพื่อให้เกิดความร้อนเพียงพอต่อการเชื่อม"},
-  {"data":"ลวดเชื่อมไฟฟ้า (Electrode, Welding rod): ขั้วโลหะที่ใช้เป็นสื่อกลางในการสร้างอาร์กไฟฟ้าและหลอมละลายเพื่อเติมลงในรอยเชื่อม","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783916654102.jpg"}
+  {"data":"ลวดเชื่อมไฟฟ้า (Electrode, Welding rod): ขั้วโลหะที่ใช้เป็นสื่อกลางในการสร้างอาร์กไฟฟ้าและหลอมละลายเพื่อเติมลงในรอยเชื่อม","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783916654102.jpg"},
+  {"data":"อาร์กไฟฟ้า (Electric arc, Electrical discharge): ประกายไฟความร้อนสูงที่เกิดจากการไหลของกระแสไฟฟ้าผ่านช่องว่างระหว่างขั้วไฟฟ้ากับชิ้นงาน ซึ่งเป็นแหล่งกำเนิดความร้อนหลักในการเชื่อมโลหะ","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1783916677648.jpg"}
 ]
