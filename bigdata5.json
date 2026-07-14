@@ -834,5 +834,6 @@
   {"data":"การเจียระไน (Grinding, Abrasive shaping): กระบวนการผลิตเลนส์โดยการหมุนแผ่นกระจกและใช้เครื่องมือเจียระไนที่มีรูปร่างโค้งกดลงบนชิ้นงานเพื่อสร้างความโค้งตามต้องการ","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784042573435.jpg"},
   {"data":"วัสดุขัดผิว (Abrasives, Grinding powder): ผงวัสดุแข็ง เช่น ควอตซ์ อะลูมิเนียมออกไซด์ หรือเพชร ผสมน้ำเพื่อขัดผิวแก้วให้เรียบเนียนโดยเริ่มจากอนุภาคหยาบไปถึงละเอียด","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784042590721.jpg"},
   {"data":"เลนส์แบบขั้นบันได (Stepped lens, Fresnel lens): เลนส์ที่มีการเซาะร่องเป็นวงกลมซ้อนกันคล้ายขั้นบันไดเพื่อให้ทำหน้าที่รวมแสงได้เหมือนเลนส์นูนทั่วไปแต่มีน้ำหนักเบากว่ามาก","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784042603595.jpg"},
-  {"data":"เลนส์นูน (Convex lens, Converging lens): เลนส์ที่มีความหนาบริเวณตรงกลางมากกว่าขอบ ทำหน้าที่หักเหรังสีแสงให้เบนเข้าหาแกนกลางและรวมแสงเข้าสู่จุดโฟกัส","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784042617268.jpg"}
+  {"data":"เลนส์นูน (Convex lens, Converging lens): เลนส์ที่มีความหนาบริเวณตรงกลางมากกว่าขอบ ทำหน้าที่หักเหรังสีแสงให้เบนเข้าหาแกนกลางและรวมแสงเข้าสู่จุดโฟกัส","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784042617268.jpg"},
+  {"data":"เลนส์เว้า (Concave lens, Diverging lens): เลนส์ที่มีความบางบริเวณตรงกลางมากกว่าขอบ ทำหน้าที่หักเหรังสีแสงให้กระจายตัวออกจากแกนกลางของเลนส์","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784042630018.jpg"}
 ]
