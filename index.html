@@ -1114,6 +1114,33 @@
             }
         }
 
+        /* Infinite Scroll Sentinel */
+        .scroll-sentinel {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            gap: 8px;
+        }
+        .scroll-sentinel .spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .batch-info {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            padding: 16px;
+        }
+
         /* Progress Bar */
         .progress-container {
             width: 100%;
@@ -1619,6 +1646,15 @@
         let _isLazyLoading = false;
         let _lazySearchQuery = '';
         let _lazyLoadedCount = 0;
+
+        // Infinite scroll state
+        let _pendingResults = [];
+        let _pendingQueryWords = [];
+        let _relevantResults = [];
+        let _renderIndex = 0;
+        const _BATCH_SIZE = 10;
+        let _scrollObserver = null;
+        let _eventDelegationAttached = false;
 
         const DB_NAME = 'bigdata_search_db';
         const DB_VERSION = 1;
@@ -3040,6 +3076,10 @@
 
             if (!q) {
                 resultsDiv.innerHTML = '';
+                _pendingResults = [];
+                _relevantResults = [];
+                _renderIndex = 0;
+                cleanupScrollObserver();
                 document.getElementById('smart-expansion-info').style.display = 'none';
 
                 const videoCount = items.filter(i => i.type === 'video').length;
@@ -3139,7 +3179,396 @@
 
             searchStatus.innerHTML = `พบข้อมูลเชื่อมโยง <span style="color:#58a6ff;font-weight:600">${results.length.toLocaleString()}</span> รายการ จากฐานข้อมูลทั้งหมด ${items.length.toLocaleString()} รายการ`;
 
-            renderResults(results.slice(0, 50), queryWords);
+            _pendingResults = results;
+            _pendingQueryWords = queryWords;
+            renderNextBatch(true);
+        }
+
+        // === Infinite Scroll Functions ===
+
+        function cleanupScrollObserver() {
+            if (_scrollObserver) {
+                _scrollObserver.disconnect();
+                _scrollObserver = null;
+            }
+            const old = document.getElementById('scroll-sentinel');
+            if (old) old.remove();
+        }
+
+        function reloadLineVoomSdk() {
+            const inlineEmbeds = document.querySelectorAll('.line_timeline_embedded_post');
+            if (inlineEmbeds.length > 0) {
+                const oldScript = document.getElementById('linevoom-sdk-script');
+                if (oldScript) oldScript.remove();
+                const script = document.createElement('script');
+                script.id = 'linevoom-sdk-script';
+                script.src = 'https://linevoom.line.me/sdk/timelineJsSdk.min.js';
+                script.defer = true;
+                document.body.appendChild(script);
+            }
+        }
+
+        function setupEventDelegation() {
+            if (_eventDelegationAttached) return;
+            _eventDelegationAttached = true;
+
+            resultsDiv.addEventListener('click', (e) => {
+                const editLink = e.target.closest('.edit-link');
+                if (editLink) return;
+
+                const excerpt = e.target.closest('.newspaper-excerpt');
+                if (excerpt) {
+                    e.stopPropagation();
+                    excerpt.classList.toggle('expanded');
+                    return;
+                }
+
+                const embed = e.target.closest('.newspaper-embed');
+                if (embed) {
+                    e.stopPropagation();
+                    const type = embed.dataset.type;
+                    const text = embed.dataset.text ? decodeURIComponent(embed.dataset.text) : '';
+                    if (type === 'image') {
+                        closeVideo();
+                        pauseAllYouTubeEmbeds();
+                        if (closeVideoTimeout) {
+                            clearTimeout(closeVideoTimeout);
+                            closeVideoTimeout = null;
+                        }
+                        const imageUrl = normalizeImageUrl(embed.querySelector('img')?.src || '');
+                        if (!imageUrl) return;
+                        navigator.clipboard.writeText(`${text} ${imageUrl}`).then(() => {
+                            copyPopup.classList.add('show');
+                            setTimeout(() => copyPopup.classList.remove('show'), 2000);
+                        });
+                        videoFrame.className = 'popup-frame active centered';
+                        videoFrame.style.background = '#000';
+                        videoFrame.innerHTML = `<div id="close-video-frame">×</div><img src="${imageUrl}" style="width:100%;height:100%;object-fit:contain;display:block;border-radius:8px;" />`;
+                        document.getElementById('close-video-frame').addEventListener('click', (ev) => {
+                            ev.stopPropagation();
+                            closeVideo();
+                        });
+                    } else {
+                        pauseAllYouTubeEmbeds();
+                    }
+                    return;
+                }
+
+                const cardEmbed = e.target.closest('.result-card-embed');
+                if (cardEmbed) {
+                    e.stopPropagation();
+                    pauseAllYouTubeEmbeds();
+                    return;
+                }
+
+                const hero = e.target.closest('.newspaper-hero');
+                if (hero) {
+                    if (e.target.closest('.newspaper-embed') || e.target.closest('.edit-link')) return;
+                    const text = hero.dataset.text ? decodeURIComponent(hero.dataset.text) : '';
+                    if (!text) return;
+                    const videoId = hero.dataset.id ? decodeURIComponent(hero.dataset.id) : '';
+                    const itemType = hero.dataset.type;
+                    let clipboardText = text;
+                    if (itemType === 'video' && videoId) {
+                        const isLineVoom = isLineVoomVideo(videoId);
+                        const videoUrl = isLineVoom
+                            ? getLineVoomUrl(videoId)
+                            : (videoId.includes('?start=') ? `https://www.youtube.com/watch?v=${videoId}` : `https://youtube.com/shorts/${videoId}`);
+                        clipboardText = `${text} ${videoUrl}`;
+                    }
+                    navigator.clipboard.writeText(clipboardText).then(() => {
+                        copyPopup.classList.add('show');
+                        setTimeout(() => copyPopup.classList.remove('show'), 2000);
+                    });
+                    return;
+                }
+
+                const newspaperCard = e.target.closest('.newspaper-card');
+                if (newspaperCard) {
+                    if (e.target.closest('.newspaper-embed')) return;
+                    const text = newspaperCard.dataset.text ? decodeURIComponent(newspaperCard.dataset.text) : '';
+                    if (!text) return;
+                    const videoId = newspaperCard.dataset.id ? decodeURIComponent(newspaperCard.dataset.id) : '';
+                    const itemType = newspaperCard.dataset.type;
+                    let clipboardText = text;
+                    if (itemType === 'video' && videoId) {
+                        const isLineVoom = isLineVoomVideo(videoId);
+                        const videoUrl = isLineVoom
+                            ? getLineVoomUrl(videoId)
+                            : (videoId.includes('?start=') ? `https://www.youtube.com/watch?v=${videoId}` : `https://youtube.com/shorts/${videoId}`);
+                        clipboardText = `${text} ${videoUrl}`;
+                    }
+                    navigator.clipboard.writeText(clipboardText).then(() => {
+                        copyPopup.classList.add('show');
+                        setTimeout(() => copyPopup.classList.remove('show'), 2000);
+                    });
+                    return;
+                }
+
+                const resultCard = e.target.closest('.result-card');
+                if (resultCard) {
+                    const textData = decodeURIComponent(resultCard.dataset.text);
+                    const videoId = resultCard.dataset.id;
+                    const itemType = resultCard.dataset.type;
+                    if (itemType === 'video' && videoId) {
+                        const isLineVoom = isLineVoomVideo(videoId);
+                        if (isLineVoom) {
+                            resultCard.classList.toggle('expanded');
+                            setTimeout(() => window.dispatchEvent(new Event('resize')), 350);
+                            return;
+                        }
+                        const isShorts = !videoId.includes('?start=');
+                        const videoUrl = isLineVoom
+                            ? getLineVoomUrl(videoId)
+                            : (isShorts ? `https://youtube.com/shorts/${videoId}` : `https://www.youtube.com/watch?v=${videoId}`);
+                        navigator.clipboard.writeText(`${textData} ${videoUrl}`).then(() => {
+                            const hasQ = new URLSearchParams(window.location.search).has('q');
+                            if (!hasQ) {
+                                copyPopup.classList.add('show');
+                                resultCard.style.borderColor = 'var(--success)';
+                                setTimeout(() => {
+                                    copyPopup.classList.remove('show');
+                                    resultCard.style.borderColor = 'var(--border)';
+                                }, 2000);
+                            }
+                        });
+                    } else {
+                        closeVideo();
+                        navigator.clipboard.writeText(textData).then(() => {
+                            const hasQ = new URLSearchParams(window.location.search).has('q');
+                            if (!hasQ) {
+                                copyPopup.classList.add('show');
+                                resultCard.style.borderColor = 'var(--success)';
+                                setTimeout(() => {
+                                    copyPopup.classList.remove('show');
+                                    resultCard.style.borderColor = 'var(--border)';
+                                }, 2000);
+                            }
+                        });
+                    }
+                    return;
+                }
+            });
+        }
+
+        function buildRelevantCardHtml(item, queryWords) {
+            const isLineVoom = item.type === 'video' && isLineVoomVideo(item.id);
+            let highlightedText = item.text;
+
+            const uniqueSemanticWords = [...new Set(item.semanticMatchedWords || [])];
+            uniqueSemanticWords.sort((a, b) => b.length - a.length);
+            uniqueSemanticWords.forEach(kw => {
+                if (kw.length >= 2) {
+                    const regex = new RegExp(`(${escapeRegExp(kw)})(?![^<>]*>)`, 'gi');
+                    highlightedText = highlightedText.replace(regex, '<span class="highlight-semantic" title="คำเชื่อมโยง">$1</span>');
+                }
+            });
+
+            const uniqueMatchedWords = [...new Set(item.matchedWords || [])];
+            uniqueMatchedWords.sort((a, b) => b.length - a.length);
+            uniqueMatchedWords.forEach(kw => {
+                if (kw.length >= 2 || !THAI_STOP_WORDS.has(kw)) {
+                    const regex = new RegExp(`(${escapeRegExp(kw)})(?![^<>]*>)`, 'gi');
+                    highlightedText = highlightedText.replace(regex, '<span class="highlight">$1</span>');
+                }
+            });
+
+            let iconHtml = '<div class="card-icon">\ud83d\udcc4</div>';
+            let typeBadge = '<span class="card-badge">Research & Info</span>';
+
+            if (item.src === 'comment') {
+                iconHtml = `<div class="card-icon comment-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="opacity:0.9"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
+                </div>`;
+                typeBadge = '<span class="comment-badge">\ud83d\udcac Comment</span>';
+            } else if (item.type === 'image') {
+                iconHtml = `<div class="card-icon" style="background:rgba(88,166,255,0.1);">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--accent)" style="opacity:0.9"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                </div>`;
+                typeBadge = '<span class="card-badge" style="background:rgba(88,166,255,0.1);color:var(--accent);">\ud83d\udcda Book</span>';
+            } else if (item.type === 'video') {
+                const isShorts = !isLineVoom && !item.id.includes('?start=');
+                if (isLineVoom) {
+                    iconHtml = `<div class="card-icon line-icon">LINE</div>`;
+                    typeBadge = '<span class="linevoom-badge">LINE Voom</span>';
+                } else {
+                    iconHtml = `<div class="card-icon yt-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 4-8 4z"/></svg>
+                    </div>`;
+                    typeBadge = isShorts ? '<span class="shorts-badge">SHORTS</span>' : '<span class="card-badge">YouTube</span>';
+                }
+            }
+
+            const metaHtml = item.type === 'video' ? `<span>ID: ${item.id}</span>` : '';
+            const editUrl = getEditUrl(item);
+            const editLinkHtml = editUrl ? `<a href="${editUrl}" target="_blank" class="edit-link result-edit" title="Edit on GitHub">\u2699\ufe0f</a>` : '';
+            const cardClass = 'result-card';
+            const commentCardClass = item.src === 'comment' ? ' comment-card' : '';
+            const cardExtraClass = isLineVoom ? ' linevoom-card' : '';
+
+            const cardMeta = wasLoadedWithQuery ? '' : `
+            <div class="card-meta">
+                ${typeBadge}
+                ${metaHtml}
+            </div>`;
+
+            let lineVoomEmbedHtml = '';
+            if (isLineVoom) {
+                const lineVoomPostId = getLineVoomPostId(item.id);
+                if (lineVoomPostId) {
+                    lineVoomEmbedHtml = `
+            <div class="linevoom-embed-inline">
+                <blockquote class="line_timeline_embedded_post" data-baseurl="https://linevoom.line.me" data-postid="${lineVoomPostId}" data-writerid="_dd9JDo889wfojzv17U8LwAKX2-hN4oDNIStQBfQ" data-embeddedtime="1782658691883" data-view-type="B" data-with-text data-playable data-auto-play style="width: 100%; min-width: 260px; max-width: 100%"></blockquote>
+            </div>`;
+                }
+            }
+
+            if (lineVoomEmbedHtml) {
+                return `
+            <div class="${cardClass}${cardExtraClass}" data-text="${encodeURIComponent(item.text)}" data-id="${item.id || ''}" data-type="${item.type}">
+                ${lineVoomEmbedHtml}
+                ${editLinkHtml}
+            </div>`;
+            } else if (item.type === 'video' && item.id && isMp4Video(item.id)) {
+                const mp4Url = getMp4Url(item.id);
+                return `
+            <div class="${cardClass} has-video" data-text="${encodeURIComponent(item.text)}" data-id="${item.id || ''}" data-type="${item.type}">
+                <div class="result-card-embed">
+                    <video src="${mp4Url}" controls playsinline style="width:100%;max-height:360px;display:block;background:#000;border-radius:6px;"></video>
+                </div>
+                <div class="card-content">
+                    <div class="card-text">${highlightedText}${editLinkHtml}</div>
+                    ${cardMeta}
+                </div>
+            </div>`;
+            } else if (item.type === 'video' && item.id && !isLineVoom) {
+                const vParts = item.id.split('?');
+                const vId = vParts[0];
+                const extraParams = vParts.length > 1 ? `&${vParts[1]}` : '';
+                return `
+            <div class="${cardClass} has-video" data-text="${encodeURIComponent(item.text)}" data-id="${item.id || ''}" data-type="${item.type}">
+                <div class="result-card-embed">
+                    <iframe src="https://www.youtube.com/embed/${vId}?autoplay=0&controls=0&modestbranding=1&rel=0${extraParams}" allow="encrypted-media" allowfullscreen loading="lazy"></iframe>
+                </div>
+                <div class="card-content">
+                    <div class="card-text">${highlightedText}${editLinkHtml}</div>
+                    ${cardMeta}
+                </div>
+            </div>`;
+            } else if (item.type === 'image' && item.imageUrl) {
+                return `
+            <div class="${cardClass} has-image" data-text="${encodeURIComponent(item.text)}" data-id="${item.imageUrl || ''}" data-type="${item.type}">
+                <div class="result-card-embed">
+                    <img src="${item.imageUrl}" alt="Screenshot" style="width:100%;height:auto;display:block;border-radius:6px;" loading="lazy" />
+                </div>
+                <div class="card-content">
+                    <div class="card-text">${highlightedText}${editLinkHtml}</div>
+                    ${cardMeta}
+                </div>
+            </div>`;
+            } else {
+                const isComment = item.src === 'comment';
+                if (isComment) {
+                    return `
+            <div class="${cardClass}${commentCardClass}" data-text="${encodeURIComponent(item.text)}" data-id="${item.id || ''}" data-type="${item.type}">
+                <div class="comment-quote-mark">&#10077;</div>
+                <div class="comment-avatar">ค</div>
+                <div class="card-content">
+                    <div class="comment-header">
+                        <span class="comment-username">ความคิดเห็น</span>
+                    </div>
+                    <div class="card-text">${highlightedText}${editLinkHtml}</div>
+                </div>
+                <div class="comment-quote-close">&#10077;</div>
+            </div>`;
+                } else {
+                    return `
+            <div class="${cardClass}${commentCardClass}" data-text="${encodeURIComponent(item.text)}" data-id="${item.id || ''}" data-type="${item.type}">
+                ${iconHtml}
+                <div class="card-content">
+                    <div class="card-text">${highlightedText}${editLinkHtml}</div>
+                    ${cardMeta}
+                </div>
+            </div>`;
+                }
+            }
+        }
+
+        function setupScrollObserver() {
+            cleanupScrollObserver();
+            const sentinel = document.getElementById('scroll-sentinel');
+            if (!sentinel) return;
+            _scrollObserver = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    _scrollObserver.disconnect();
+                    setTimeout(() => renderNextBatch(false), 100);
+                }
+            }, { rootMargin: '300px' });
+            _scrollObserver.observe(sentinel);
+        }
+
+        function renderNextBatch(isInitial = false) {
+            if (isInitial) {
+                _renderIndex = 0;
+                cleanupScrollObserver();
+                setupEventDelegation();
+
+                if (_pendingResults.length === 0) {
+                    resultsDiv.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:80px 0;">ไม่พบข้อมูลที่ตรงกับเงื่อนไขการค้นหาของคุณ</div>';
+                    return;
+                }
+
+                const topMatches = _pendingResults.filter(r => r.ratio >= 0.45).slice(0, 3);
+                _relevantResults = _pendingResults.filter(r => !topMatches.includes(r));
+
+                const initialRelevant = _relevantResults.slice(0, _BATCH_SIZE);
+                const initialResults = [...topMatches, ...initialRelevant];
+                _renderIndex = _BATCH_SIZE;
+
+                renderResults(initialResults, _pendingQueryWords);
+
+                if (_relevantResults.length > _BATCH_SIZE) {
+                    const sentinel = document.createElement('div');
+                    sentinel.id = 'scroll-sentinel';
+                    sentinel.className = 'scroll-sentinel';
+                    sentinel.innerHTML = '<div class="spinner"></div>';
+                    resultsDiv.appendChild(sentinel);
+                    setupScrollObserver();
+                }
+            } else {
+                const batch = _relevantResults.slice(_renderIndex, _renderIndex + _BATCH_SIZE);
+                if (batch.length === 0) {
+                    cleanupScrollObserver();
+                    return;
+                }
+
+                const oldSentinel = document.getElementById('scroll-sentinel');
+                if (oldSentinel) oldSentinel.remove();
+
+                let html = '';
+                batch.forEach(item => {
+                    html += buildRelevantCardHtml(item, _pendingQueryWords);
+                });
+                resultsDiv.insertAdjacentHTML('beforeend', html);
+                _renderIndex += batch.length;
+
+                if (_renderIndex < _relevantResults.length) {
+                    const remaining = _relevantResults.length - _renderIndex;
+                    const sentinel = document.createElement('div');
+                    sentinel.id = 'scroll-sentinel';
+                    sentinel.className = 'scroll-sentinel';
+                    sentinel.innerHTML = `<div class="spinner"></div><div class="batch-info">เหลืออีก ${remaining.toLocaleString()} รายการ</div>`;
+                    resultsDiv.appendChild(sentinel);
+                    setupScrollObserver();
+                } else {
+                    const info = document.createElement('div');
+                    info.className = 'batch-info';
+                    info.textContent = `แสดงผลทั้งหมด ${_pendingResults.length.toLocaleString()} รายการ`;
+                    resultsDiv.appendChild(info);
+                }
+            }
+
+            reloadLineVoomSdk();
         }
 
         function renderResults(results, queryWords) {
@@ -3464,174 +3893,7 @@
 
             resultsDiv.innerHTML = html;
 
-            // Clicks on linevoom-embed-inline can bubble up to result-card to toggle expansion
-
-            // Dynamically load/execute the LINE VOOM SDK to render new blockquotes
-            const inlineEmbeds = document.querySelectorAll('.line_timeline_embedded_post');
-            if (inlineEmbeds.length > 0) {
-                const oldScript = document.getElementById('linevoom-sdk-script');
-                if (oldScript) {
-                    oldScript.remove();
-                }
-                const script = document.createElement('script');
-                script.id = 'linevoom-sdk-script';
-                script.src = 'https://linevoom.line.me/sdk/timelineJsSdk.min.js';
-                script.defer = true;
-                document.body.appendChild(script);
-            }
-
-            // Newspaper embed click: open video/image popup
-            document.querySelectorAll('.newspaper-embed').forEach(el => {
-                const idRaw = el.dataset.id;
-                const type = el.dataset.type;
-                const text = el.dataset.text ? decodeURIComponent(el.dataset.text) : '';
-
-                if (type === 'image') {
-                    el.style.cursor = 'pointer';
-                    el.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        closeVideo();
-                        pauseAllYouTubeEmbeds();
-
-                        if (closeVideoTimeout) {
-                            clearTimeout(closeVideoTimeout);
-                            closeVideoTimeout = null;
-                        }
-
-                        const imageUrl = normalizeImageUrl(el.querySelector('img')?.src || '');
-                        if (!imageUrl) return;
-
-                        navigator.clipboard.writeText(`${text} ${imageUrl}`).then(() => {
-                            copyPopup.classList.add('show');
-                            setTimeout(() => copyPopup.classList.remove('show'), 2000);
-                        });
-
-                        videoFrame.className = 'popup-frame active centered';
-                        videoFrame.style.background = '#000';
-                        videoFrame.innerHTML = `
-                            <div id="close-video-frame">×</div>
-                            <img src="${imageUrl}" style="width:100%;height:100%;object-fit:contain;display:block;border-radius:8px;" />`;
-
-                        document.getElementById('close-video-frame').addEventListener('click', (ev) => {
-                            ev.stopPropagation();
-                            closeVideo();
-                        });
-                    });
-                }
-            });
-
-            // Newspaper card click: copy text
-            document.querySelectorAll('.newspaper-card').forEach(el => {
-                el.addEventListener('click', (e) => {
-                    if (e.target.closest('.newspaper-embed')) return;
-                    const text = el.dataset.text ? decodeURIComponent(el.dataset.text) : '';
-                    if (!text) return;
-                    const videoId = el.dataset.id ? decodeURIComponent(el.dataset.id) : '';
-                    const itemType = el.dataset.type;
-                    let clipboardText = text;
-                    if (itemType === 'video' && videoId) {
-                        const isLineVoom = isLineVoomVideo(videoId);
-                        const videoUrl = isLineVoom
-                            ? getLineVoomUrl(videoId)
-                            : (videoId.includes('?start=') ? `https://www.youtube.com/watch?v=${videoId}` : `https://youtube.com/shorts/${videoId}`);
-                        clipboardText = `${text} ${videoUrl}`;
-                    }
-                    navigator.clipboard.writeText(clipboardText).then(() => {
-                        copyPopup.classList.add('show');
-                        setTimeout(() => copyPopup.classList.remove('show'), 2000);
-                    });
-                });
-            });
-
-            // Newspaper hero click: copy text
-            document.querySelectorAll('.newspaper-hero').forEach(el => {
-                el.addEventListener('click', (e) => {
-                    if (e.target.closest('.newspaper-embed') || e.target.closest('.edit-link')) return;
-                    const text = el.dataset.text ? decodeURIComponent(el.dataset.text) : '';
-                    if (!text) return;
-                    const videoId = el.dataset.id ? decodeURIComponent(el.dataset.id) : '';
-                    const itemType = el.dataset.type;
-                    let clipboardText = text;
-                    if (itemType === 'video' && videoId) {
-                        const isLineVoom = isLineVoomVideo(videoId);
-                        const videoUrl = isLineVoom
-                            ? getLineVoomUrl(videoId)
-                            : (videoId.includes('?start=') ? `https://www.youtube.com/watch?v=${videoId}` : `https://youtube.com/shorts/${videoId}`);
-                        clipboardText = `${text} ${videoUrl}`;
-                    }
-                    navigator.clipboard.writeText(clipboardText).then(() => {
-                        copyPopup.classList.add('show');
-                        setTimeout(() => copyPopup.classList.remove('show'), 2000);
-                    });
-                });
-            });
-
-            // Newspaper excerpt click: expand/collapse full text
-            document.querySelectorAll('.newspaper-excerpt').forEach(el => {
-                el.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    el.classList.toggle('expanded');
-                });
-            });
-
-            // Inline embed click: pause popup and other embeds
-            document.querySelectorAll('.newspaper-embed, .result-card-embed').forEach(el => {
-                el.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    pauseAllYouTubeEmbeds();
-                });
-            });
-
-            // Attach event listeners to results
-            document.querySelectorAll('.result-card').forEach(el => {
-                const textData = decodeURIComponent(el.dataset.text);
-                const videoId = el.dataset.id;
-                const itemType = el.dataset.type;
-
-                // Click to copy logic
-                el.addEventListener('click', (e) => {
-                    if (e.target.closest('.result-card-embed')) return;
-                    if (itemType === 'video' && videoId) {
-                        const isLineVoom = isLineVoomVideo(videoId);
-                        if (isLineVoom) {
-                            el.classList.toggle('expanded');
-                            setTimeout(() => {
-                                window.dispatchEvent(new Event('resize'));
-                            }, 350);
-                            return;
-                        }
-                        const isShorts = !isLineVoom && !videoId.includes('?start=');
-                        const videoUrl = isLineVoom
-                            ? getLineVoomUrl(videoId)
-                            : (isShorts ? `https://youtube.com/shorts/${videoId}` : `https://www.youtube.com/watch?v=${videoId}`);
-                        const clipboardText = `${textData} ${videoUrl}`;
-                        navigator.clipboard.writeText(clipboardText).then(() => {
-                            const hasQ = new URLSearchParams(window.location.search).has('q');
-                            if (!hasQ) {
-                                copyPopup.classList.add('show');
-                                el.style.borderColor = 'var(--success)';
-                                setTimeout(() => {
-                                    copyPopup.classList.remove('show');
-                                    el.style.borderColor = 'var(--border)';
-                                }, 2000);
-                            }
-                        });
-                    } else {
-                        closeVideo();
-                        navigator.clipboard.writeText(textData).then(() => {
-                            const hasQ = new URLSearchParams(window.location.search).has('q');
-                            if (!hasQ) {
-                                copyPopup.classList.add('show');
-                                el.style.borderColor = 'var(--success)';
-                                setTimeout(() => {
-                                    copyPopup.classList.remove('show');
-                                    el.style.borderColor = 'var(--border)';
-                                }, 2000);
-                            }
-                        });
-                    }
-                });
-            });
+            reloadLineVoomSdk();
         }
 
         function escapeRegExp(string) {
