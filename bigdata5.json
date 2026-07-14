@@ -755,5 +755,6 @@
   {"data":"ความจุไฟฟ้า (Capacitance, C): ความสามารถในการกักเก็บประจุไฟฟ้าของตัวเก็บประจุ มีหน่วยวัดเป็นฟารัด (Farad, F) โดยส่วนใหญ่มักใช้หน่วยที่เล็กลงมาอย่างไมโครฟารัด (micro-Farads, μF) เนื่องจากฟารัดเป็นหน่วยที่มีขนาดใหญ่มาก","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784003061192.jpg"},
   {"data":"แรงเคลื่อนไฟฟ้า (Electromotive Force, Emf): ปริมาณพลังงานที่แบตเตอรี่หรือแหล่งกำเนิดไฟฟ้าจ่ายให้กับประจุไฟฟ้าแต่ละคูลอมบ์ที่เคลื่อนที่ผ่านตัวมัน","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784003073778.jpg"},
   {"data":"กฎข้อที่หนึ่งของเคอร์ชอฟฟ์ (Kirchhoff's First Law, Junction Rule, Current Law): กฎที่ระบุว่ากระแสไฟฟ้าทั้งหมดที่ไหลเข้าสู่จุดต่อหรือโหนดใดๆ ในวงจร จะต้องมีค่าเท่ากับกระแสไฟฟ้าที่ไหลออกจากจุดนั้นเสมอ","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784003090807.jpg"},
-  {"data":"กฎข้อที่สองของเคอร์ชอฟฟ์ (Kirchhoff's Second Law, Loop Rule, Voltage Law): กฎที่ระบุว่าผลรวมของแรงดันไฟฟ้าทั้งหมดรอบวงรอบปิดใดๆ ในวงจรไฟฟ้าจะต้องมีค่าเท่ากับศูนย์","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784003098724.jpg"}
+  {"data":"กฎข้อที่สองของเคอร์ชอฟฟ์ (Kirchhoff's Second Law, Loop Rule, Voltage Law): กฎที่ระบุว่าผลรวมของแรงดันไฟฟ้าทั้งหมดรอบวงรอบปิดใดๆ ในวงจรไฟฟ้าจะต้องมีค่าเท่ากับศูนย์","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784003098724.jpg"},
+  {"data":"ความต้านทานไฟฟ้า (Resistance, Electrical Resistance): ตัววัดความยากง่ายในการที่ประจุไฟฟ้าจะไหลผ่านตัวนำหรือวัสดุ มีหน่วยวัดเป็นโอห์ม (Ω)","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784003115641.jpg"}
 ]
