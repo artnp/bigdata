@@ -756,5 +756,6 @@
   {"data":"แรงเคลื่อนไฟฟ้า (Electromotive Force, Emf): ปริมาณพลังงานที่แบตเตอรี่หรือแหล่งกำเนิดไฟฟ้าจ่ายให้กับประจุไฟฟ้าแต่ละคูลอมบ์ที่เคลื่อนที่ผ่านตัวมัน","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784003073778.jpg"},
   {"data":"กฎข้อที่หนึ่งของเคอร์ชอฟฟ์ (Kirchhoff's First Law, Junction Rule, Current Law): กฎที่ระบุว่ากระแสไฟฟ้าทั้งหมดที่ไหลเข้าสู่จุดต่อหรือโหนดใดๆ ในวงจร จะต้องมีค่าเท่ากับกระแสไฟฟ้าที่ไหลออกจากจุดนั้นเสมอ","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784003090807.jpg"},
   {"data":"กฎข้อที่สองของเคอร์ชอฟฟ์ (Kirchhoff's Second Law, Loop Rule, Voltage Law): กฎที่ระบุว่าผลรวมของแรงดันไฟฟ้าทั้งหมดรอบวงรอบปิดใดๆ ในวงจรไฟฟ้าจะต้องมีค่าเท่ากับศูนย์","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784003098724.jpg"},
-  {"data":"ความต้านทานไฟฟ้า (Resistance, Electrical Resistance): ตัววัดความยากง่ายในการที่ประจุไฟฟ้าจะไหลผ่านตัวนำหรือวัสดุ มีหน่วยวัดเป็นโอห์ม (Ω)","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784003115641.jpg"}
+  {"data":"ความต้านทานไฟฟ้า (Resistance, Electrical Resistance): ตัววัดความยากง่ายในการที่ประจุไฟฟ้าจะไหลผ่านตัวนำหรือวัสดุ มีหน่วยวัดเป็นโอห์ม (Ω)","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784003115641.jpg"},
+  {"data":"แรงไม่สัมผัส (Noncontact Force, Action-at-a-distance Force): แรงทางฟิสิกส์ที่เกิดขึ้นและส่งผลกระทบต่อวัตถุได้โดยไม่ต้องมีการสัมผัสทางกายภาพ เช่น แรงโน้มถ่วง แรงไฟฟ้าสถิต และแรงแม่เหล็ก ซึ่งทั้งหมดนี้ต้องการ \"สนาม\" ในการแสดงอิทธิพล","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784003136208.jpg"}
 ]
