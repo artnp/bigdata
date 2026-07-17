@@ -579,6 +579,10 @@
             overflow: hidden;
         }
 
+        .newspaper-headline.expanded {
+            -webkit-line-clamp: unset;
+        }
+
         .newspaper-excerpt {
             font-size: 0.82rem;
             line-height: 1.6;
@@ -2284,6 +2288,14 @@
             return 'https://' + id.replace(/^\/\//, '');
         }
 
+        function getVideoUrl(videoId) {
+            if (!videoId) return '';
+            if (isLineVoomVideo(videoId)) return getLineVoomUrl(videoId);
+            if (isMp4Video(videoId)) return getMp4Url(videoId);
+            if (videoId.includes('?start=')) return 'https://www.youtube.com/watch?v=' + videoId;
+            return 'https://youtube.com/shorts/' + videoId;
+        }
+
         function mountLineVoomEmbed(postId) {
             const container = document.getElementById('linevoom-embed-container');
             if (!container) return;
@@ -3252,6 +3264,13 @@
                     return;
                 }
 
+                const headline = e.target.closest('.newspaper-headline');
+                if (headline) {
+                    headline.classList.toggle('expanded');
+                    const excerptEl = headline.closest('.newspaper-content')?.querySelector('.newspaper-excerpt');
+                    if (excerptEl) excerptEl.classList.toggle('expanded');
+                }
+
                 const embed = e.target.closest('.newspaper-embed');
                 if (embed) {
                     e.stopPropagation();
@@ -3299,10 +3318,7 @@
                     const itemType = hero.dataset.type;
                     let clipboardText = text;
                     if (itemType === 'video' && videoId) {
-                        const isLineVoom = isLineVoomVideo(videoId);
-                        const videoUrl = isLineVoom
-                            ? getLineVoomUrl(videoId)
-                            : (videoId.includes('?start=') ? `https://www.youtube.com/watch?v=${videoId}` : `https://youtube.com/shorts/${videoId}`);
+                        const videoUrl = getVideoUrl(videoId);
                         clipboardText = `${text} ${videoUrl}`;
                     }
                     navigator.clipboard.writeText(clipboardText).then(() => {
@@ -3321,10 +3337,7 @@
                     const itemType = newspaperCard.dataset.type;
                     let clipboardText = text;
                     if (itemType === 'video' && videoId) {
-                        const isLineVoom = isLineVoomVideo(videoId);
-                        const videoUrl = isLineVoom
-                            ? getLineVoomUrl(videoId)
-                            : (videoId.includes('?start=') ? `https://www.youtube.com/watch?v=${videoId}` : `https://youtube.com/shorts/${videoId}`);
+                        const videoUrl = getVideoUrl(videoId);
                         clipboardText = `${text} ${videoUrl}`;
                     }
                     navigator.clipboard.writeText(clipboardText).then(() => {
@@ -3347,9 +3360,7 @@
                             return;
                         }
                         const isShorts = !videoId.includes('?start=');
-                        const videoUrl = isLineVoom
-                            ? getLineVoomUrl(videoId)
-                            : (isShorts ? `https://youtube.com/shorts/${videoId}` : `https://www.youtube.com/watch?v=${videoId}`);
+                        const videoUrl = getVideoUrl(videoId);
                         navigator.clipboard.writeText(`${textData} ${videoUrl}`).then(() => {
                             const hasQ = new URLSearchParams(window.location.search).has('q');
                             if (!hasQ) {
