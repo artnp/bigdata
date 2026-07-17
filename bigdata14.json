@@ -2486,5 +2486,6 @@
   {"data":"หน่วยความจำหลักหรือ (main memory / primary memory) คือหน่วยความจำระยะสั้นที่สำคัญที่สุดสำหรับโปรแกรมเมอร์ ใช้เก็บโปรแกรมและระบบปฏิบัติการ (Operating Sy tem) ที่กำลังทำงานอยู่","url":"files.catbox.moe/p450xt.mp4"},
   {"data":"หน่วยความจำแบบ (RAM - Random Acce Memory) ถูกเรียกว่า 'random acce ' เพราะทุกตำแหน่งในหน่วยความจำสามารถเข้าถึงได้ด้วยความเร็วที่เท่ากัน","url":"files.catbox.moe/16rrqn.mp4"},
   {"data":"ข้อมูลที่เก็บใน RAM จะหายไปทันทีเมื่อไฟฟ้าดับ จึงเรียกหน่วยความจำชนิดนี้ว่า (volatile) หรือหน่วยความจำชั่วคราว","url":"files.catbox.moe/3tu4ak.mp4"},
-  {"data":"เมื่อเรารันโปรแกรม ส่วนหนึ่งของ RAM จะถูกจองไว้เพื่อใช้สำหรับตัวแปรในโปรแกรมนั้นๆ","url":"files.catbox.moe/t9eluu.mp4"}
+  {"data":"เมื่อเรารันโปรแกรม ส่วนหนึ่งของ RAM จะถูกจองไว้เพื่อใช้สำหรับตัวแปรในโปรแกรมนั้นๆ","url":"files.catbox.moe/t9eluu.mp4"},
+  {"data":"หน่วยความจำสำรอง ( econdary memory / torage) เช่น Hard Drive หรือ Solid State Drive (SSD) ใช้สำหรับจัดเก็บข้อมูลระยะยาว เช่น ไฟล์ต่างๆ","url":"files.catbox.moe/qdng9r.mp4"}
 ]
