@@ -2491,5 +2491,6 @@
   {"data":"โปรแกรมเมอร์ต้องตัดสินใจเลือกว่าจะอ่านข้อมูลจาก Storage เข้ามาใน RAM เพื่อประมวลผล หรือจะเขียนข้อมูลจาก RAM กลับออกไปเก็บที่ Storage","url":"files.catbox.moe/ewcbny.mp4"},
   {"data":"(Tertiary memory) หรือ (remote torage) คือหน่วยความจำระยะไกล เช่น คลาวด์ (Cloud torage) ซึ่งสามารถเก็บข้อมูลได้มหาศาลกว่าคอมพิวเตอร์เครื่องเดียว","url":"files.catbox.moe/svzcz8.mp4"},
   {"data":"เครื่องหมาย = ในการเขียนโปรแกรมไม่ใช่เครื่องหมายเท่ากับทางคณิตศาสตร์ แต่เป็น (a ignment operator) ที่สั่งให้นำค่าทางขวาไปใส่ในตัวแปรทางซ้าย","url":"files.catbox.moe/lspdm2.mp4"},
-  {"data":"ประเภทของข้อมูล: ตัวเลขที่มีจุดทศนิยมเรียกว่า (floating point number ) หรือ (float )","url":"files.catbox.moe/wrm41z.mp4"}
+  {"data":"ประเภทของข้อมูล: ตัวเลขที่มีจุดทศนิยมเรียกว่า (floating point number ) หรือ (float )","url":"files.catbox.moe/wrm41z.mp4"},
+  {"data":"ข้อมูลที่เป็นข้อความเรียกว่า ( tring ) เพราะเกิดจากการนำตัวอักษรมาร้อยเรียงกัน ต้องใส่ในเครื่องหมายคำพูด (quotation mark ) เสมอ ทั้ง ' ' หรือ ' '","url":"files.catbox.moe/i3a5hq.mp4"}
 ]
