@@ -2489,5 +2489,6 @@
   {"data":"เมื่อเรารันโปรแกรม ส่วนหนึ่งของ RAM จะถูกจองไว้เพื่อใช้สำหรับตัวแปรในโปรแกรมนั้นๆ","url":"files.catbox.moe/t9eluu.mp4"},
   {"data":"หน่วยความจำสำรอง ( econdary memory / torage) เช่น Hard Drive หรือ Solid State Drive (SSD) ใช้สำหรับจัดเก็บข้อมูลระยะยาว เช่น ไฟล์ต่างๆ","url":"files.catbox.moe/qdng9r.mp4"},
   {"data":"โปรแกรมเมอร์ต้องตัดสินใจเลือกว่าจะอ่านข้อมูลจาก Storage เข้ามาใน RAM เพื่อประมวลผล หรือจะเขียนข้อมูลจาก RAM กลับออกไปเก็บที่ Storage","url":"files.catbox.moe/ewcbny.mp4"},
-  {"data":"(Tertiary memory) หรือ (remote torage) คือหน่วยความจำระยะไกล เช่น คลาวด์ (Cloud torage) ซึ่งสามารถเก็บข้อมูลได้มหาศาลกว่าคอมพิวเตอร์เครื่องเดียว","url":"files.catbox.moe/svzcz8.mp4"}
+  {"data":"(Tertiary memory) หรือ (remote torage) คือหน่วยความจำระยะไกล เช่น คลาวด์ (Cloud torage) ซึ่งสามารถเก็บข้อมูลได้มหาศาลกว่าคอมพิวเตอร์เครื่องเดียว","url":"files.catbox.moe/svzcz8.mp4"},
+  {"data":"เครื่องหมาย = ในการเขียนโปรแกรมไม่ใช่เครื่องหมายเท่ากับทางคณิตศาสตร์ แต่เป็น (a ignment operator) ที่สั่งให้นำค่าทางขวาไปใส่ในตัวแปรทางซ้าย","url":"files.catbox.moe/lspdm2.mp4"}
 ]
