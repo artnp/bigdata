@@ -827,5 +827,6 @@
   {"data":"แกนปีก (Spar, Wing Spar): โครงสร้างหลักภายในปีกที่รับแรงบิดและน้ำหนักทั้งหมดของปีกและลำตัวเครื่องบิน","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784555104341.jpg"},
   {"data":"ขอบหน้าปีก (Leading edge, Wing Leading Edge): ขอบด้านหน้าสุดของปีกที่ปะทะกับกระแสอากาศเป็นส่วนแรก","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784555112139.jpg"},
   {"data":"แผ่นแก้เอียง (Aileron, Roll Control Surface): ขอบส่วนหลังของปีกที่ปรับขึ้นลงได้เพื่อควบคุมการเอียงตัว (Roll) โดยการปรับแผ่นแก้เอียงขวาลงและซ้ายขึ้นจะทำให้เครื่องบินเอียงไปทางซ้าย","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784555126832.jpg"},
-  {"data":"แพนปีกปรับแรงยก (Flaps, Trailing-edge Flaps): แผ่นปรับที่ขอบหลังปีก ช่วยเพิ่มแรงยกพิเศษขณะบินด้วยความเร็วต่ำในช่วงบินขึ้น (Take-off) และลงจอด (Landing) แต่จะสร้างแรงฉุดเพิ่มขึ้นด้วย","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784555142852.jpg"}
+  {"data":"แพนปีกปรับแรงยก (Flaps, Trailing-edge Flaps): แผ่นปรับที่ขอบหลังปีก ช่วยเพิ่มแรงยกพิเศษขณะบินด้วยความเร็วต่ำในช่วงบินขึ้น (Take-off) และลงจอด (Landing) แต่จะสร้างแรงฉุดเพิ่มขึ้นด้วย","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784555142852.jpg"},
+  {"data":"ห้องนักบิน (Cockpit, Pilot Cabin, Flight Deck): พื้นที่สำหรับนักบินที่มีอุปกรณ์ควบคุม เช่น คันบังคับ (Joystick) สำหรับควบคุม Roll และ Pitch รวมถึงแป้นแปด (Pedals) สำหรับควบคุม Rudder","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784555151392.jpg"}
 ]
