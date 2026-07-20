@@ -840,5 +840,6 @@
   {"data":"ท่อไอพ่น (Jet pipe, Jet Nozzle): ท่อระบายแก๊สร้อนจากการเผาไหม้พุ่งออกด้านหลังเพื่อสร้างแรงดันผลักเครื่องบินไปข้างหน้า","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784555262290.jpg"},
   {"data":"วาล์วอากาศ (Air valve, Air Intake Valve): วาล์วทางเข้าสำหรับดึงอากาศเข้าสู่ห้องเผาไหม้เพื่อผสมกับเชื้อเพลิง","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784555275401.jpg"},
   {"data":"วาล์วเชื้อเพลิง (Fuel valve, Fuel Injector Valve): วาล์วควบคุมการจ่ายเชื้อเพลิงเข้าสู่ห้องเผาไหม้ในปริมาณที่เหมาะสม","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784555282346.jpg"},
-  {"data":"หัวเทียน (Spark plug, Ignition Plug): อุปกรณ์สร้างสปาร์กไฟเพื่อจุดระเบิดส่วนผสมระหว่างอากาศและเชื้อเพลิงในห้องเผาไหม้","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784555289887.jpg"}
+  {"data":"หัวเทียน (Spark plug, Ignition Plug): อุปกรณ์สร้างสปาร์กไฟเพื่อจุดระเบิดส่วนผสมระหว่างอากาศและเชื้อเพลิงในห้องเผาไหม้","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784555289887.jpg"},
+  {"data":"ท่อระบายไอเสีย (Exhaust tube, Tailpipe): ท่อทางออกของแก๊สที่เกิดจากการเผาไหม้ ซึ่งความยาวของท่อช่วยสร้างสภาวะสุญญากาศบางส่วนเพื่อดูดอากาศและเชื้อเพลิงชุดใหม่เข้ามาเผาไหม้ต่อเนื่อง","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784555296128.jpg"}
 ]
