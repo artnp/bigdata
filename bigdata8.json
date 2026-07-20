@@ -833,5 +833,6 @@
   {"data":"แพนหางดิ่ง (Rudder, Directional Control Surface, Vertical Rudder): แพนควบคุมการเลี้ยวที่ติดตั้งกับหางดิ่ง (Fin) หากเบนแพนหางดิ่งไปทางขวา จะทำให้หางเครื่องบินเบนไปทางซ้ายและตัวเครื่องบินเลี้ยวไปทางขวา","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784555180948.jpg"},
   {"data":"หางดิ่ง (Fin, Vertical Stabilizer): โครงสร้างแนวตั้งส่วนหางที่ช่วยสร้างความเสถียรในแนวทิศทาง และเป็นที่ติดตั้งแพนหางดิ่ง (Rudder)","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784555194534.jpg"},
   {"data":"แพนทรงตัวระดับ (Stabilizer, Horizontal Stabilizer): โครงสร้างแนวนอนส่วนหางที่ช่วยสร้างความเสถียรในแนวระดับ และเป็นที่ติดตั้งแพนหางระดับ (Elevator)","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784555207119.jpg"},
-  {"data":"ลำตัวเครื่องบิน (Fuselage, Aircraft Body): โครงสร้างหลักตัวลำของเครื่องบินที่เชื่อมต่อส่วนประกอบทั้งหมดเข้าด้วยกัน","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784555218269.jpg"}
+  {"data":"ลำตัวเครื่องบิน (Fuselage, Aircraft Body): โครงสร้างหลักตัวลำของเครื่องบินที่เชื่อมต่อส่วนประกอบทั้งหมดเข้าด้วยกัน","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784555218269.jpg"},
+  {"data":"ส่วนหัวเครื่องบิน (Nose, Aircraft Nose): ส่วนหน้าสุดของลำตัวเครื่องบินที่ออกแบบตามหลักอากาศพลศาสตร์","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784555229590.jpg"}
 ]
