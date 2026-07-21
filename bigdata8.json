@@ -975,5 +975,6 @@
   {"data":"ระหัดน้ำแบบรับน้ำด้านบน (Overhead Water Wheel, Overhead wheel): การติดตั้งระหัดน้ำโดยให้สายน้ำเทลงมาจากด้านบน ซึ่งมีประสิทธิภาพสูงกว่าการจุ่มลงในลำธารเฉยๆ เพราะสามารถดึงพลังงานศักย์จากน้ำตกมาใช้ได้","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784618644915.jpg"},
   {"data":"คันเลื่อนสลับระบบพลังงาน (Lever, Switch Lever): คันโยกสำหรับสลับการส่งกำลังระหว่างกังหันลมและระหัดน้ำไปยังแกนหมุนแนวตั้ง เพื่อให้กระบวนการสีข้าวโพดหรือธัญพืชดำเนินได้อย่างต่อเนื่องแม้ไม่มีลม (หมายเลข 13)","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784618657293.jpg"},
   {"data":"เพลาขับกังหันลม (Windmill Shaft, Windmill shaft): แกนเพลาของกังหันลมที่จะเข้าสลักกับชุดเกียร์เมื่อยกคันเลื่อนขึ้น (หมายเลข 14)","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784618671408.jpg"},
-  {"data":"เพลาขับระหัดน้ำ (Water Wheel Shaft, Water wheel shaft): แกนเพลาของระหัดน้ำที่ใช้ในการปลดหรือสลักการทำงานร่วมกับคันเลื่อน (หมายเลข 15)","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784618680298.jpg"}
+  {"data":"เพลาขับระหัดน้ำ (Water Wheel Shaft, Water wheel shaft): แกนเพลาของระหัดน้ำที่ใช้ในการปลดหรือสลักการทำงานร่วมกับคันเลื่อน (หมายเลข 15)","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784618680298.jpg"},
+  {"data":"เฟืองขับเคลื่อนระหัดน้ำ (Water Wheel Disengaging Gears, Gears 16 and 17): ชุดเฟืองระหัดน้ำที่จะถูกปลดออกจากระบบเมื่อยกคันเลื่อนขึ้นเพื่อใช้พลังงานลมแทน (หมายเลข 16 และ 17)"}
 ]
