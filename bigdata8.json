@@ -970,5 +970,6 @@
   {"data":"แกนหมุนแนวตั้งส่วนกลาง (Central Vertical Shaft, Central vertical shaft): เพลาแนวตั้งตรงกลางที่พาดผ่านโครงสร้างทั้งหมดเพื่อส่งผ่านพลังงานการหมุน (หมายเลข 5)","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784618520772.jpg"},
   {"data":"ชุดเฟืองขับหินโม่ (Gear, Lower Gear): ชุดเกียร์ด้านล่างที่รับแรงส่งหมุนมาจากแกนแนวตั้งเพื่อไปหมุนหินโม่ (หมายเลข 6)","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784618542130.jpg"},
   {"data":"ใบพัดหางกังหัน (Fantail, Fantail): ใบพัดปรับทิศทางที่ติดตั้งบนแพลตฟอร์มหมุน เพื่อช่วยหันป้อมกังหันส่วนบนให้รับลมจากทิศทางต่างๆ ได้ตลอดเวลา (หมายเลข 8)","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784618583509.jpg"},
-  {"data":"ระหัดน้ำ (Water Wheel, Waterwheel): เครื่องกลที่แปลงพลังงานศักย์และพลังงานจลน์ของน้ำให้เป็นงานกล โดยใช้น้ำในการขับเคลื่อนใบพัดของล้อน้ำ (หมายเลข 9)","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784618595865.jpg"}
+  {"data":"ระหัดน้ำ (Water Wheel, Waterwheel): เครื่องกลที่แปลงพลังงานศักย์และพลังงานจลน์ของน้ำให้เป็นงานกล โดยใช้น้ำในการขับเคลื่อนใบพัดของล้อน้ำ (หมายเลข 9)","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784618595865.jpg"},
+  {"data":"มู่เล่ย์รับแรง (Drive Pulley, Second pulley): มู่เล่ย์ตัวที่สองที่รับแรงหมุนผ่านสายพานมาจากมู่เล่ย์ตัวแรกของระหัดน้ำ (หมายเลข 10)","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784618618612.jpg"}
 ]
