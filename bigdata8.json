@@ -968,5 +968,6 @@
   {"data":"ล้อเบรก (Brake Wheel, Large brake wheel): ล้อขนาดใหญ่ที่ติดตั้งบนเพลาเชื่อมต่อกับใบพัด ทำหน้าที่ขับเคลื่อนเฟืองขับส่วนบน (หมายเลข 3)","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784618497645.jpg"},
   {"data":"เฟืองขับ (Pinion, Pinion): เฟืองตัวเล็กที่รับแรงหมุนจากล้อเบรกเพื่อไปขับเคลื่อนแกนหมุนแนวตั้งส่วนกลาง (หมายเลข 4)","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784618511318.jpg"},
   {"data":"แกนหมุนแนวตั้งส่วนกลาง (Central Vertical Shaft, Central vertical shaft): เพลาแนวตั้งตรงกลางที่พาดผ่านโครงสร้างทั้งหมดเพื่อส่งผ่านพลังงานการหมุน (หมายเลข 5)","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784618520772.jpg"},
-  {"data":"ชุดเฟืองขับหินโม่ (Gear, Lower Gear): ชุดเกียร์ด้านล่างที่รับแรงส่งหมุนมาจากแกนแนวตั้งเพื่อไปหมุนหินโม่ (หมายเลข 6)","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784618542130.jpg"}
+  {"data":"ชุดเฟืองขับหินโม่ (Gear, Lower Gear): ชุดเกียร์ด้านล่างที่รับแรงส่งหมุนมาจากแกนแนวตั้งเพื่อไปหมุนหินโม่ (หมายเลข 6)","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784618542130.jpg"},
+  {"data":"ใบพัดหางกังหัน (Fantail, Fantail): ใบพัดปรับทิศทางที่ติดตั้งบนแพลตฟอร์มหมุน เพื่อช่วยหันป้อมกังหันส่วนบนให้รับลมจากทิศทางต่างๆ ได้ตลอดเวลา (หมายเลข 8)","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784618583509.jpg"}
 ]
