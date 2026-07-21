@@ -966,5 +966,6 @@
   {"data":"กังหันลม (Windmill, Wind Mill): เครื่องกลที่แปลงพลังงานจลน์ของลมให้เป็นงานกลผ่านการทำงานตามหลักอากาศพลศาสตร์ของใบกังหัน","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784618463709.jpg"},
   {"data":"ใบกังหัน (Rotor Blade, Rotor blades of the mill): ส่วนของใบพัดกังหันลมที่ถูกลมผลักให้หมุนเพื่อรับพลังงานจากลม (หมายเลข 1)","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784618471582.jpg"},
   {"data":"ล้อเบรก (Brake Wheel, Large brake wheel): ล้อขนาดใหญ่ที่ติดตั้งบนเพลาเชื่อมต่อกับใบพัด ทำหน้าที่ขับเคลื่อนเฟืองขับส่วนบน (หมายเลข 3)","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784618497645.jpg"},
-  {"data":"เฟืองขับ (Pinion, Pinion): เฟืองตัวเล็กที่รับแรงหมุนจากล้อเบรกเพื่อไปขับเคลื่อนแกนหมุนแนวตั้งส่วนกลาง (หมายเลข 4)","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784618511318.jpg"}
+  {"data":"เฟืองขับ (Pinion, Pinion): เฟืองตัวเล็กที่รับแรงหมุนจากล้อเบรกเพื่อไปขับเคลื่อนแกนหมุนแนวตั้งส่วนกลาง (หมายเลข 4)","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784618511318.jpg"},
+  {"data":"แกนหมุนแนวตั้งส่วนกลาง (Central Vertical Shaft, Central vertical shaft): เพลาแนวตั้งตรงกลางที่พาดผ่านโครงสร้างทั้งหมดเพื่อส่งผ่านพลังงานการหมุน (หมายเลข 5)","url":"artnp.github.io/bigdata/pdf_screenshot/screenshot_1784618520772.jpg"}
 ]
