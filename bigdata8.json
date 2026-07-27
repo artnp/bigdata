@@ -1329,5 +1329,6 @@
   {"data":"ลิ้นเร่งอากาศ (Air damper, 14): อุปกรณ์ที่ทำหน้าที่ควบคุมปริมาณส่วนผสมของอากาศและเชื้อเพลิงที่ส่งไปยังเครื่องยนต์","url":"artnp.github.io/bigdata/pdf_screenshot2/screenshot_1785136212322.jpg"},
   {"data":"ลูกสูบ (Piston, 1, D): ชิ้นส่วนภายในกระบอกสูบที่เคลื่อนที่เพื่อเปลี่ยนปริมาตร และส่งผ่านแรงจากการเผาไหม้ไปยังก้านสูบ","url":"artnp.github.io/bigdata/pdf_screenshot2/screenshot_1785136219575.jpg"},
   {"data":"ก้านสูบ (Connecting rod, 2, E): อุปกรณ์ที่รับแรงเคลื่อนจากลูกสูบเพื่อส่งต่อในการหมุนเพลาข้อเหวี่ยง","url":"artnp.github.io/bigdata/pdf_screenshot2/screenshot_1785136228666.jpg"},
-  {"data":"เพลาข้อเหวี่ยง (Crankshaft, 3, F): แกนหมุนหลักที่แปลงการเคลื่อนที่ขึ้นลงของลูกสูบให้เป็นการหมุน โดยมีล้อช่วยแรงช่วยให้การหมุนมีความสม่ำเสมอ","url":"artnp.github.io/bigdata/pdf_screenshot2/screenshot_1785136240752.jpg"}
+  {"data":"เพลาข้อเหวี่ยง (Crankshaft, 3, F): แกนหมุนหลักที่แปลงการเคลื่อนที่ขึ้นลงของลูกสูบให้เป็นการหมุน โดยมีล้อช่วยแรงช่วยให้การหมุนมีความสม่ำเสมอ","url":"artnp.github.io/bigdata/pdf_screenshot2/screenshot_1785136240752.jpg"},
+  {"data":"ล้อช่วยแรง (Flywheel, 4): จานขนาดใหญ่ที่ติดอยู่กับเพลาข้อเหวี่ยงเพื่อให้การหมุนของเพลาข้อเหวี่ยงเป็นไปอย่างราบรื่นและสม่ำเสมอ","url":"artnp.github.io/bigdata/pdf_screenshot2/screenshot_1785136250571.jpg"}
 ]
