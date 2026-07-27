@@ -1332,5 +1332,6 @@
   {"data":"เพลาข้อเหวี่ยง (Crankshaft, 3, F): แกนหมุนหลักที่แปลงการเคลื่อนที่ขึ้นลงของลูกสูบให้เป็นการหมุน โดยมีล้อช่วยแรงช่วยให้การหมุนมีความสม่ำเสมอ","url":"artnp.github.io/bigdata/pdf_screenshot2/screenshot_1785136240752.jpg"},
   {"data":"ล้อช่วยแรง (Flywheel, 4): จานขนาดใหญ่ที่ติดอยู่กับเพลาข้อเหวี่ยงเพื่อให้การหมุนของเพลาข้อเหวี่ยงเป็นไปอย่างราบรื่นและสม่ำเสมอ","url":"artnp.github.io/bigdata/pdf_screenshot2/screenshot_1785136250571.jpg"},
   {"data":"เพลาลูกเบี้ยว (Camshaft, 5): แกนที่ทำหน้าที่ซิงโครไนซ์การทำงานของวาล์วให้สอดคล้องกับการเคลื่อนที่ของลูกสูบ โดยหมุนด้วยความเร็วเป็นครึ่งหนึ่งของเพลาข้อเหวี่ยง","url":"artnp.github.io/bigdata/pdf_screenshot2/screenshot_1785136257324.jpg"},
-  {"data":"วาล์วไอดี (Intake valve, 7, A): ช่องเปิดให้น้ำมันและอากาศชุดใหม่ไหลเข้าสู่กระบอกสูบในจังหวะที่เหมาะสม","url":"artnp.github.io/bigdata/pdf_screenshot2/screenshot_1785136264082.jpg"}
+  {"data":"วาล์วไอดี (Intake valve, 7, A): ช่องเปิดให้น้ำมันและอากาศชุดใหม่ไหลเข้าสู่กระบอกสูบในจังหวะที่เหมาะสม","url":"artnp.github.io/bigdata/pdf_screenshot2/screenshot_1785136264082.jpg"},
+  {"data":"วาล์วไอเสีย (Exhaust valve, 8, B): ช่องเปิดสำหรับขับไล่ไอเสียหรือผลิตภัณฑ์จากการเผาไหม้ออกจากกระบอกสูบ","url":"artnp.github.io/bigdata/pdf_screenshot2/screenshot_1785136271100.jpg"}
 ]
