@@ -995,5 +995,6 @@
   {"data":"ปัญหาของโครงสร้างดังกล่าวคือ แผงตรงกลางมีรูปทรงสี่เหลี่ยมผืนผ้า (rectangular shape) ซึ่งไม่สามารถรักษาความแข็งเกร็ง (rigidity) ไว้ได้เมื่อโดนแรงกด","url":"files.catbox.moe/toekpl.mp4"},
   {"data":"เมื่อใส่แรงกดลงไป รูปทรงสี่เหลี่ยมผืนผ้าจะบิดเบี้ยวกลายเป็นรูปสี่เหลี่ยมด้านขนาน (parallelogram) และไม่สามารถรองรับน้ำหนักใดๆ ได้เลย","url":"files.catbox.moe/mtcph3.mp4"},
   {"data":"วิธีแก้ปัญหาความไม่เสถียร (instability) ของทรัสต์ทำได้โดยการเพิ่มชิ้นส่วนโครงสร้างในแนวทแยง (diagonal) พาดผ่านกลางแผงสี่เหลี่ยมนั้น","url":"files.catbox.moe/xm8fgy.mp4"},
-  {"data":"รูปสามเหลี่ยม (triangle) คือโครงสร้างที่มีความเสถียรในตัวเอง (inherently stable structural configuration) และเป็นแหล่งกำเนิดหลักของความแข็งเกร็งในทรัสต์ (structural rigidity)","url":"files.catbox.moe/c6ox7s.mp4"}
+  {"data":"รูปสามเหลี่ยม (triangle) คือโครงสร้างที่มีความเสถียรในตัวเอง (inherently stable structural configuration) และเป็นแหล่งกำเนิดหลักของความแข็งเกร็งในทรัสต์ (structural rigidity)","url":"files.catbox.moe/c6ox7s.mp4"},
+  {"data":"กุสตาฟ ไอเฟล (Gustav Eiffel) เลือกใช้ทรัสต์เป็นโครงสร้างพื้นฐานของหอไอเฟลด้วย 3 เหตุผลหลัก คือ มีความแข็งแรง แข็งเกร็ง และมีน้ำหนักเบา (strong, stiff, and light)","url":"files.catbox.moe/ajs6nz.mp4"}
 ]
