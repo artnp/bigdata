@@ -1723,5 +1723,6 @@
   {"data":"เล่าถึงประสบการณ์การใช้งาน Avalanche ที่ยุ่งยากจากการแยกสาย P-chain, C-chain, X-chain และให้ผลตอบแทนที่ไม่คุ้มค่า","url":"vRjy3p_porE?start=567"},
   {"data":"วิจารณ์ Chainlink ว่าเป็นเพียงโทเคนไม่ใช่บล็อกเชน และบทบาทของ Oracle จะถูกทดแทนด้วย AI และฟังก์ชัน HTTPS out-calls บน ICP","url":"vRjy3p_porE?start=793"},
   {"data":"พูดถึง Cardano และ Charles Hoskinson โดยมองว่าโครงการกำลังเผชิญแรงกดดันอย่างหนักเนื่องจากตามหลังเทคโนโลยีอื่น","url":"vRjy3p_porE?start=830"},
-  {"data":"เปรียบเทียบ Stellar (XLM) ว่าเป็นเพียงการก๊อปปี้ XRP และมองว่าเหรียญ Sui เป็นเพียงแค่บล็อกเชนประเภท Me-too","url":"vRjy3p_porE?start=971"}
+  {"data":"เปรียบเทียบ Stellar (XLM) ว่าเป็นเพียงการก๊อปปี้ XRP และมองว่าเหรียญ Sui เป็นเพียงแค่บล็อกเชนประเภท Me-too","url":"vRjy3p_porE?start=971"},
+  {"data":"กล่าวถึงเหรียญสาย Privacy อย่าง Zcash และ Monero โดยระบุว่า ICP สามารถทำระบบความเป็นส่วนตัวบน On-Chain ได้ดีกว่า","url":"vRjy3p_porE?start=1007"}
 ]
