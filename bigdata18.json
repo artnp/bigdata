@@ -1291,5 +1291,6 @@
   {"data":"คุณสมบัติเด่นอีกประการคือ การฉายภาพแบบสเตอริโอกราฟิก (stereographic projection) สามารถรักษารูปทรงวงกลมเอาไว้ได้ (preserves circles)","url":"files.catbox.moe/d384sa.mp4"},
   {"data":"เมื่อฉายแสงจากขั้วโลกเหนือผ่านวงกลมบนทรงกลมลงสู่ระนาบ ภาพที่ปรากฏออกมาจะเป็นรูปวงกลมที่แท้จริง (exact circle)","url":"files.catbox.moe/4eg73b.mp4"},
   {"data":"ข้อสังเกตอีกข้อของการฉายภาพแนวดิ่งคือ มันจะฉายรูปทรงวงกลมให้กลายเป็นรูปวงรี (ellipse)","url":"files.catbox.moe/u0w4re.mp4"},
-  {"data":"วงรี (ellipse) แท้จริงแล้วก็คือวงกลมที่ถูกยืดออก (stretched circle) ซึ่งเทียบเท่ากับการตัดขวางของทรงกระบอก (cylinder)","url":"files.catbox.moe/yb18nl.mp4"}
+  {"data":"วงรี (ellipse) แท้จริงแล้วก็คือวงกลมที่ถูกยืดออก (stretched circle) ซึ่งเทียบเท่ากับการตัดขวางของทรงกระบอก (cylinder)","url":"files.catbox.moe/yb18nl.mp4"},
+  {"data":"การจำลองภาพที่มองเห็นด้วยตาข้างเดียวทำได้โดยการจินตนาการให้เส้นตรงทั้งหมดมารวมกันที่จุดเดียว (converging to a single point) แล้วขึงกรอบรูป (picture frame) ไว้ข้างหน้า","url":"files.catbox.moe/n6w5jz.mp4"}
 ]
