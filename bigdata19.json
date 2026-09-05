@@ -79,5 +79,6 @@
   {"data":"หลักการทำงานของ Protective Put คือเมื่อราคาหุ้นตกลง กำไรจาก Put Option จะช่วยหักล้างขาดทุนของหุ้น ทำให้เคสที่เลวร้ายที่สุดจะขาดทุนจำกัดเท่ากับค่าพรีเมียมที่จ่ายไปเท่านั้น","url":"files.catbox.moe/ty9nxp.mp4"},
   {"data":"ทฤษฎี Put-Call Parity ชี้ให้เห็นว่า กราฟผลตอบแทน (payoff) ของ Protective Put จะมีรูปร่างเหมือนกับ Long Call Option เพียวๆ","url":"files.catbox.moe/7o7sri.mp4"},
   {"data":"การเลือก Strike Price ของ Protective Put หากเลือกใกล้ราคาปัจจุบันมาก ค่าประกัน (premium) จะแพง แต่ถ้าเลือกระดับ Strike Price ต่ำลงมา ค่าพรีเมียมจะถูกลง แลกกับการรองรับการขาดทุนได้มากกว่าก่อนที่ประกันจะเริ่มทำงาน","url":"files.catbox.moe/92e1q3.mp4"},
-  {"data":"กลยุทธ์ Covered Call ทำได้โดยการถือหุ้น (Long Stock) พร้อมกับขาย Call Option (Short Call) เหมาะสำหรับใช้นิยมสร้างรายได้เสริม (income generation)","url":"files.catbox.moe/fapvgl.mp4"}
+  {"data":"กลยุทธ์ Covered Call ทำได้โดยการถือหุ้น (Long Stock) พร้อมกับขาย Call Option (Short Call) เหมาะสำหรับใช้นิยมสร้างรายได้เสริม (income generation)","url":"files.catbox.moe/fapvgl.mp4"},
+  {"data":"วิธีทำ Covered Call คือกำหนด Short Call ในจุดที่คิดว่าราคาหุ้นจะขึ้นไปไม่ถึง เพื่อรับเงินค่าพรีเมียมมาทันที หากราคาหุ้นไม่ขึ้นตามคาด สิทธิ์จะไม่ถูกใช้ และเราจะได้รับค่าพรีเมียมเป็นกำไรฟรี","url":"files.catbox.moe/iy679d.mp4"}
 ]
