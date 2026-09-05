@@ -61,5 +61,6 @@
   {"data":"ทริกแก้กระหายน้ำระหว่างเดินเขา: สามารถตัดไม้ของต้นกีวีเบอร์รี่ (Kiwi Berry) เพื่อให้น้ำไหลออกมาดื่มบรรเทาความกระหายได้เหมือนมีความสดชื่นกลางทะเลทราย","url":"files.catbox.moe/jrv5j3.mp4"},
   {"data":"อธิบายความหมายของดัชนีการยิง (shooting index) คือการวางนิ้วชี้ไว้บนโครงปืน (frame) พร้อมมีแรงกดที่เหมาะสม แต่ยังไม่ได้ตัดสินใจที่จะยิงเป้าหมายใดๆ","url":"files.catbox.moe/nxl3fd.mp4"},
   {"data":"[170.55] การใช้ดัชนีการยิงสามารถนำไป","url":"files.catbox.moe/r9iyx7.mp4"},
-  {"data":"ติดตั้ง Node.js (Node JS) เวอร์ชัน LTS ล่าสุดจากเว็บไซต์ nodejs.org เพื่อใช้เป็นเครื่องมือหลักในการพัฒนาแอปพลิเคชัน React ฝ่ายหน้าบ้าน (Front End) ที่จะเชื่อมต่อกับบล็อกเชน (blockchain)","url":"files.catbox.moe/8ipdfh.mp4"}
+  {"data":"ติดตั้ง Node.js (Node JS) เวอร์ชัน LTS ล่าสุดจากเว็บไซต์ nodejs.org เพื่อใช้เป็นเครื่องมือหลักในการพัฒนาแอปพลิเคชัน React ฝ่ายหน้าบ้าน (Front End) ที่จะเชื่อมต่อกับบล็อกเชน (blockchain)","url":"files.catbox.moe/8ipdfh.mp4"},
+  {"data":"สร้าง Server ใหม่ในระบบ Moralis โดยเลือกประเภทเป็น Mainnet Server ตั้งชื่อว่า workshop Server เลือกภูมิภาค (Region) เป็น Singapore และเลือกเปิดใช้งานทุกเชน (Chain) ทั้ง Ethereum และเชนอื่นๆ จากนั้นกด Add Instance 〖juv:393.24-396.84〗","url":"files.catbox.moe/6u3swp.mp4"}
 ]
