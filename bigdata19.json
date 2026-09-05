@@ -76,5 +76,6 @@
   {"data":"สถานะ Long และ Short อยู่ฝั่งตรงข้ามกันเสมอ หากฝั่ง Long ได้กำไร ฝั่ง Short จะขาดทุนในเงื่อนไขที่ตรงกันข้ามกัน เช่น ผู้ซื้อ Call Option (Long Call) จะได้กำไรเมื่อราคาขึ้น แต่ผู้ขาย (Short Call) จะได้ค่าพรีเมียมหากราคาขึ้นไม่ถึงจุดกำหนด","url":"files.catbox.moe/h4elj3.mp4"},
   {"data":"ออปชันพื้นฐานมีทั้งหมด 4 รูปแบบหลัก ได้แก่ Long Call, Short Call, Long Put และ Short Put ซึ่งสามารถเลือก Strike Price แตกต่างกันเพื่อใช้เป็นตัวต่อในการสร้างกลยุทธ์","url":"files.catbox.moe/gdgc6a.mp4"},
   {"data":"คำเตือน: การ Short Put และ Short Call มีความเสี่ยงสูงมากเพราะอาจทำให้ผู้ลงทุนขาดทุนได้แบบไม่จำกัด (unlimited loss)","url":"files.catbox.moe/ljcf6s.mp4"},
-  {"data":"หลักการทำงานของ Protective Put คือเมื่อราคาหุ้นตกลง กำไรจาก Put Option จะช่วยหักล้างขาดทุนของหุ้น ทำให้เคสที่เลวร้ายที่สุดจะขาดทุนจำกัดเท่ากับค่าพรีเมียมที่จ่ายไปเท่านั้น","url":"files.catbox.moe/ty9nxp.mp4"}
+  {"data":"หลักการทำงานของ Protective Put คือเมื่อราคาหุ้นตกลง กำไรจาก Put Option จะช่วยหักล้างขาดทุนของหุ้น ทำให้เคสที่เลวร้ายที่สุดจะขาดทุนจำกัดเท่ากับค่าพรีเมียมที่จ่ายไปเท่านั้น","url":"files.catbox.moe/ty9nxp.mp4"},
+  {"data":"ทฤษฎี Put-Call Parity ชี้ให้เห็นว่า กราฟผลตอบแทน (payoff) ของ Protective Put จะมีรูปร่างเหมือนกับ Long Call Option เพียวๆ","url":"files.catbox.moe/7o7sri.mp4"}
 ]
