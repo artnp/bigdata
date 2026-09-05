@@ -77,5 +77,6 @@
   {"data":"ออปชันพื้นฐานมีทั้งหมด 4 รูปแบบหลัก ได้แก่ Long Call, Short Call, Long Put และ Short Put ซึ่งสามารถเลือก Strike Price แตกต่างกันเพื่อใช้เป็นตัวต่อในการสร้างกลยุทธ์","url":"files.catbox.moe/gdgc6a.mp4"},
   {"data":"คำเตือน: การ Short Put และ Short Call มีความเสี่ยงสูงมากเพราะอาจทำให้ผู้ลงทุนขาดทุนได้แบบไม่จำกัด (unlimited loss)","url":"files.catbox.moe/ljcf6s.mp4"},
   {"data":"หลักการทำงานของ Protective Put คือเมื่อราคาหุ้นตกลง กำไรจาก Put Option จะช่วยหักล้างขาดทุนของหุ้น ทำให้เคสที่เลวร้ายที่สุดจะขาดทุนจำกัดเท่ากับค่าพรีเมียมที่จ่ายไปเท่านั้น","url":"files.catbox.moe/ty9nxp.mp4"},
-  {"data":"ทฤษฎี Put-Call Parity ชี้ให้เห็นว่า กราฟผลตอบแทน (payoff) ของ Protective Put จะมีรูปร่างเหมือนกับ Long Call Option เพียวๆ","url":"files.catbox.moe/7o7sri.mp4"}
+  {"data":"ทฤษฎี Put-Call Parity ชี้ให้เห็นว่า กราฟผลตอบแทน (payoff) ของ Protective Put จะมีรูปร่างเหมือนกับ Long Call Option เพียวๆ","url":"files.catbox.moe/7o7sri.mp4"},
+  {"data":"การเลือก Strike Price ของ Protective Put หากเลือกใกล้ราคาปัจจุบันมาก ค่าประกัน (premium) จะแพง แต่ถ้าเลือกระดับ Strike Price ต่ำลงมา ค่าพรีเมียมจะถูกลง แลกกับการรองรับการขาดทุนได้มากกว่าก่อนที่ประกันจะเริ่มทำงาน","url":"files.catbox.moe/92e1q3.mp4"}
 ]
