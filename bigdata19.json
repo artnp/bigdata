@@ -1602,5 +1602,6 @@
   {"data": "หากเกิดวิกฤตเศรษฐกิจจริง เงินลงทุนจะไหลเข้าสู่ธุรกิจ Real Sector ที่สามารถสร้างรายได้และกระแสเงินสดได้จริงเพื่อความอยู่รอด", "url": "files.catbox.moe/b9zlqm.mp4"},
   {"data": "ทักษะ Control Glass ช่วยให้ Agent ควบคุมโปรแกรม ทดสอบ UI และจับ Performance Trace ได้ผ่าน Chrome DevTools Protocol", "url": "files.catbox.moe/pzv8vl.mp4"},
   {"data": "การจัดทำ Feature Map ช่วยให้ Agent เข้าใจโครงสร้างเมนู ปุ่ม และทางลัดในแอปพลิเคชัน เพื่อเข้าถึงฟีเจอร์ต่างๆ ได้ถูกต้อง", "url": "files.catbox.moe/2s3r5s.mp4"},
-  {"data": "Feature Map ช่วยให้ Agent สามารถระบุและแก้ไขปัญหาจากคำร้องเรียนของผู้ใช้แม้ข้อมูลหรือรูปภาพจะมีความคลุมเครือ", "url": "files.catbox.moe/qjqv7x.mp4"}
+  {"data": "Feature Map ช่วยให้ Agent สามารถระบุและแก้ไขปัญหาจากคำร้องเรียนของผู้ใช้แม้ข้อมูลหรือรูปภาพจะมีความคลุมเครือ", "url": "files.catbox.moe/qjqv7x.mp4"},
+  {"data": "โครงสร้างสถาปัตยกรรมที่ชัดเจนช่วยให้ Agent สามารถเลียนแบบแพตเทิร์นและเขียนโค้ดได้อย่างถูกต้อง", "url": "files.catbox.moe/8rget3.mp4"}
 ]
